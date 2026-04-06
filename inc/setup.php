@@ -82,12 +82,10 @@ function graffit_services_hero_image_url(): string
 }
 
 /**
- * Resource hints for fonts and external scripts.
+ * Resource hints for external scripts.
  */
 function graffit_resource_hints(): void
 {
-    echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
-    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
     echo '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' . "\n";
 }
 add_action('wp_head', 'graffit_resource_hints', 1);
@@ -118,16 +116,9 @@ function graffit_enqueue_assets(): void
     );
 
     wp_enqueue_style(
-        'graffit-fonts',
-        'https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap',
-        [],
-        GRAFFIT_THEME_VERSION
-    );
-
-    wp_enqueue_style(
         'graffit-main',
         get_template_directory_uri() . '/assets/css/main.css',
-        ['graffit-style', 'graffit-fonts'],
+        ['graffit-style'],
         graffit_asset_version('/assets/css/main.css')
     );
 
@@ -173,4 +164,3 @@ function graffit_force_services_route_template(): void
     }
 }
 add_action('template_redirect', 'graffit_force_services_route_template', 0);
-

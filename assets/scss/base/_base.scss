@@ -18,7 +18,7 @@ body {
 body {
   background: var(--color-background);
   color: var(--color-text);
-  font-family: "Onest", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: #{mixins.vw(16px)};
   line-height: 1.4;
 
@@ -39,4 +39,3 @@ html.lenis body {
 .lenis.lenis-stopped {
   overflow: clip;
 }
-
