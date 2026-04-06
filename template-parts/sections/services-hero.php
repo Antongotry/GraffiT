@@ -17,7 +17,15 @@ declare(strict_types=1);
         <div class="services-hero__layout">
             <div class="services-hero__heading">
                 <div class="services-hero__brand-row">
+                    <div class="services-hero__spark" aria-hidden="true">
+                        <span class="services-hero__spark-line services-hero__spark-line--a"></span>
+                        <span class="services-hero__spark-line services-hero__spark-line--b"></span>
+                        <span class="services-hero__spark-line services-hero__spark-line--c"></span>
+                        <span class="services-hero__spark-line services-hero__spark-line--d"></span>
+                    </div>
+
                     <div class="services-hero__brand-copy">
+                        <p class="services-hero__title-glow">Graffit</p>
                         <h1 class="services-hero__title">Graffit – програмні рішення</h1>
                     </div>
                 </div>
@@ -32,7 +40,6 @@ declare(strict_types=1);
         </div>
 
         <article class="services-hero__experience" aria-label="18 років досвіду">
-            <span class="services-hero__experience-glow" aria-hidden="true"></span>
             <p class="services-hero__experience-value">18</p>
             <p class="services-hero__experience-unit">років</p>
             <p class="services-hero__experience-text">досвіду, які перетворюють технології на результат.</p>
