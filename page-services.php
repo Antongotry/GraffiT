@@ -19,6 +19,7 @@ get_header();
     <?php get_template_part('template-parts/sections/services', 'clients'); ?>
     <?php get_template_part('template-parts/sections/services', 'projects'); ?>
     <?php get_template_part('template-parts/sections/services', 'process'); ?>
+    <?php get_template_part('template-parts/sections/services', 'final-cta'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php
