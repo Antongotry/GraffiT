@@ -1,0 +1,43 @@
+@use "sass:map";
+@use "sass:math";
+@use "variables";
+
+$breakpoints: (
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+);
+
+@function vw($value, $base: variables.$design-width-desktop) {
+  @return math.div($value, $base) * 100vw;
+}
+
+@function mvw($value, $base: variables.$design-width-mobile) {
+  @return math.div($value, $base) * 100vw;
+}
+
+@mixin respond-max($breakpoint) {
+  $size: map.get($breakpoints, $breakpoint);
+
+  @if $size {
+    @media (max-width: $size) {
+      @content;
+    }
+  }
+}
+
+@mixin mobile {
+  @media (max-width: variables.$breakpoint-mobile-max) {
+    @content;
+  }
+}
+
+@mixin container {
+  width: min(100% - #{vw(72px)}, #{vw(variables.$container-width)});
+  margin-inline: auto;
+
+  @include mobile {
+    width: min(100% - #{mvw(32px)}, 100%);
+  }
+}
+

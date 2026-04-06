@@ -1,0 +1,19 @@
+/*
+Theme Name: GraffiT
+Theme URI: https://github.com/Antongotry/GraffiT
+Author: GraffiT Team
+Description: Starter theme for the GraffiT website.
+Version: 0.1.0
+Requires at least: 6.5
+Tested up to: 6.6
+Requires PHP: 8.1
+Text Domain: graffit
+*/
+
+html,
+body {
+  background: #000102;
+  color: #ffffff;
+  font-family: "Onest", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+

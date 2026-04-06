@@ -1,0 +1,42 @@
+@use "../abstracts/mixins";
+@use "../abstracts/variables";
+
+:root {
+  --color-background: #{variables.$color-background};
+  --color-surface: #{variables.$color-surface};
+  --color-brand: #{variables.$color-brand};
+  --color-text: #{variables.$color-text};
+  --color-text-muted: #{variables.$color-text-muted};
+}
+
+html,
+body {
+  min-height: 100%;
+  overflow-x: clip;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: "Onest", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: #{mixins.vw(16px)};
+  line-height: 1.4;
+
+  @include mixins.mobile {
+    font-size: #{mixins.mvw(16px)};
+  }
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+

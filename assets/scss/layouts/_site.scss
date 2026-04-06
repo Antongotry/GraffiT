@@ -1,0 +1,47 @@
+@use "../abstracts/mixins";
+
+.site {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+.site-main {
+  min-height: 100vh;
+}
+
+.placeholder-page {
+  min-height: 100vh;
+  padding: #{mixins.vw(180px)} 0 #{mixins.vw(120px)};
+
+  @include mixins.mobile {
+    padding: #{mixins.mvw(140px)} 0 #{mixins.mvw(80px)};
+  }
+}
+
+.placeholder-page__container {
+  @include mixins.container;
+}
+
+.placeholder-page__title {
+  font-size: #{mixins.vw(72px)};
+  font-weight: 600;
+  line-height: 1;
+
+  @include mixins.mobile {
+    font-size: #{mixins.mvw(40px)};
+  }
+}
+
+.placeholder-page__text {
+  margin-top: #{mixins.vw(20px)};
+  max-width: #{mixins.vw(720px)};
+  color: var(--color-text-muted);
+  font-size: #{mixins.vw(20px)};
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(20px)};
+    max-width: 100%;
+    font-size: #{mixins.mvw(18px)};
+  }
+}
+

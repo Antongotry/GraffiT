@@ -1,0 +1,110 @@
+@use "../abstracts/mixins";
+
+.site-header {
+  position: fixed;
+  top: #{mixins.vw(24px)};
+  left: 0;
+  width: 100%;
+  z-index: 50;
+
+  @include mixins.mobile {
+    top: #{mixins.mvw(20px)};
+  }
+}
+
+.site-header__inner {
+  @include mixins.container;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: #{mixins.vw(32px)};
+  padding: #{mixins.vw(16px)} #{mixins.vw(20px)};
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: #{mixins.vw(18px)};
+  background: rgba(0, 1, 2, 0.48);
+  backdrop-filter: blur(20px);
+
+  @include mixins.mobile {
+    gap: #{mixins.mvw(18px)};
+    padding: #{mixins.mvw(14px)} #{mixins.mvw(16px)};
+    border-radius: #{mixins.mvw(16px)};
+  }
+}
+
+.site-header__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: #{mixins.vw(10px)};
+  flex-shrink: 0;
+
+  @include mixins.mobile {
+    gap: #{mixins.mvw(8px)};
+  }
+}
+
+.site-header__logo-mark {
+  width: #{mixins.vw(12px)};
+  height: #{mixins.vw(12px)};
+  border-radius: 999px;
+  background: linear-gradient(180deg, #5db3ff 0%, #0073e6 100%);
+  box-shadow: 0 0 18px rgba(0, 115, 230, 0.65);
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(10px)};
+    height: #{mixins.mvw(10px)};
+  }
+}
+
+.site-header__logo-text {
+  font-size: #{mixins.vw(20px)};
+  font-weight: 600;
+  line-height: 1;
+
+  @include mixins.mobile {
+    font-size: #{mixins.mvw(18px)};
+  }
+}
+
+.site-header__nav {
+  display: inline-flex;
+  align-items: center;
+  gap: #{mixins.vw(28px)};
+
+  @include mixins.mobile {
+    display: none;
+  }
+}
+
+.site-header__nav-link {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: #{mixins.vw(15px)};
+  line-height: 1.2;
+  transition: color 0.2s ease;
+}
+
+.site-header__nav-link:hover,
+.site-header__nav-link.is-active {
+  color: #ffffff;
+}
+
+.site-header__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: #{mixins.vw(44px)};
+  padding: 0 #{mixins.vw(20px)};
+  border-radius: #{mixins.vw(8px)};
+  background: var(--color-brand);
+  color: #ffffff;
+  font-size: #{mixins.vw(14px)};
+  line-height: 1;
+  white-space: nowrap;
+
+  @include mixins.mobile {
+    min-height: #{mixins.mvw(42px)};
+    padding: 0 #{mixins.mvw(14px)};
+    border-radius: #{mixins.mvw(8px)};
+    font-size: #{mixins.mvw(13px)};
+  }
+}
+
