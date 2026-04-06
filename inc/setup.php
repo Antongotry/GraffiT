@@ -90,6 +90,22 @@ function graffit_services_experience_image_url(): string
 }
 
 /**
+ * Services automation card image URL.
+ */
+function graffit_services_automation_image_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/1i2_result.webp';
+}
+
+/**
+ * Services outsourcing card image URL.
+ */
+function graffit_services_outsourcing_image_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2i2_result.webp';
+}
+
+/**
  * Header logo URL.
  */
 function graffit_logo_url(): string
@@ -117,6 +133,8 @@ function graffit_preload_services_hero(): void
 
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_services_hero_image_url()) . '">' . "\n";
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_services_experience_image_url()) . '">' . "\n";
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_services_automation_image_url()) . '">' . "\n";
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_services_outsourcing_image_url()) . '">' . "\n";
 }
 add_action('wp_head', 'graffit_preload_services_hero', 3);
 

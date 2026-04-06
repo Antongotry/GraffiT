@@ -7,7 +7,6 @@
 
 declare(strict_types=1);
 
-$preview_image = graffit_services_hero_image_url();
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
 
 $cards = [
@@ -17,12 +16,12 @@ $cards = [
             'Інтеграція, розробка й впровадження систем будь-якої складності — замість хаосу даних ви отримуєте чітку логіку управління.',
             'GraffIT забезпечує стабільність і масштабованість рішень enterprise-рівня.',
         ],
-        'image_url' => $preview_image,
+        'image_url' => graffit_services_automation_image_url(),
         'image_alt' => 'Команда GraffiT за роботою',
-        'image_position' => '18% 36%',
+        'image_position' => 'center',
         'button_label' => 'Детальніше',
         'button_url' => '#',
-        'highlighted' => true,
+        'highlighted' => false,
         'layout' => 'default',
     ],
     [
@@ -30,9 +29,9 @@ $cards = [
         'copy' => [
             'Сильна команда без витрат на штат: розробники, аналітики, тестувальники, адміністратори. Ми будуємо процеси, які працюють стабільно — із прозорою комунікацією, документацією та підтримкою після запуску.',
         ],
-        'image_url' => $preview_image,
+        'image_url' => graffit_services_outsourcing_image_url(),
         'image_alt' => 'Фахівці GraffiT на зустрічі',
-        'image_position' => '74% 32%',
+        'image_position' => 'center',
         'highlighted' => false,
         'layout' => 'low',
     ],
