@@ -111,6 +111,47 @@
     window.ScrollTrigger.refresh();
   }
 
+  function initClientsScroller() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    document.querySelectorAll('.js-clients-scroller').forEach(function (section) {
+      var viewport = section.querySelector('.services-clients__viewport');
+      var stage = section.querySelector('.js-clients-stage');
+      var track = section.querySelector('.js-clients-track');
+
+      if (!viewport || !stage || !track) {
+        return;
+      }
+
+      window.gsap.to(track, {
+        y: function () {
+          return -(track.scrollHeight - stage.clientHeight);
+        },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: function () {
+            return '+=' + Math.max(track.scrollHeight - stage.clientHeight, 0);
+          },
+          pin: viewport,
+          scrub: 1,
+          invalidateOnRefresh: true
+        }
+      });
+    });
+
+    window.ScrollTrigger.refresh();
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -123,4 +164,5 @@
 
   runInit(initLenis, 'lenis');
   runInit(initBenefitsScroller, 'benefits-scroller');
+  runInit(initClientsScroller, 'clients-scroller');
 })();
