@@ -46,6 +46,7 @@
       }
     });
 
+    window.__graffitLenis = lenis;
     window.requestAnimationFrame(raf);
 
     return lenis;
@@ -111,6 +112,113 @@
     window.ScrollTrigger.refresh();
   }
 
+  function scrollToPosition(top) {
+    var lenis = window.__graffitLenis;
+
+    if (lenis && typeof lenis.scrollTo === 'function') {
+      lenis.scrollTo(top);
+      return;
+    }
+
+    window.scrollTo({
+      top: top,
+      behavior: 'smooth'
+    });
+  }
+
+  function initProjectsScroller() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    document.querySelectorAll('.js-projects-scroller').forEach(function (section) {
+      var viewport = section.querySelector('.services-projects__viewport');
+      var stage = section.querySelector('.js-projects-stage');
+      var track = section.querySelector('.js-projects-track');
+      var prevButton = section.querySelector('.js-projects-prev');
+      var nextButton = section.querySelector('.js-projects-next');
+      var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
+
+      if (!viewport || !stage || !track || cards.length === 0) {
+        return;
+      }
+
+      var currentIndex = 0;
+
+      function getMaxIndex() {
+        return Math.max(cards.length - 1, 0);
+      }
+
+      var tween = window.gsap.to(track, {
+        x: function () {
+          return -(track.scrollWidth - stage.clientWidth);
+        },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: function () {
+            return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
+          },
+          pin: viewport,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          onUpdate: function (self) {
+            currentIndex = Math.round(self.progress * getMaxIndex());
+          }
+        }
+      });
+
+      function updateButtons() {
+        if (prevButton) {
+          prevButton.disabled = currentIndex <= 0;
+        }
+
+        if (nextButton) {
+          nextButton.disabled = currentIndex >= getMaxIndex();
+        }
+      }
+
+      function scrollToIndex(index) {
+        var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
+        var trigger = tween.scrollTrigger;
+
+        if (!trigger) {
+          return;
+        }
+
+        var progress = getMaxIndex() === 0 ? 0 : clampedIndex / getMaxIndex();
+        var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
+
+        currentIndex = clampedIndex;
+        updateButtons();
+        scrollToPosition(targetScroll);
+      }
+
+      updateButtons();
+
+      if (prevButton) {
+        prevButton.addEventListener('click', function () {
+          scrollToIndex(currentIndex - 1);
+        });
+      }
+
+      if (nextButton) {
+        nextButton.addEventListener('click', function () {
+          scrollToIndex(currentIndex + 1);
+        });
+      }
+    });
+
+    window.ScrollTrigger.refresh();
+  }
+
   function initClientsScroller() {
     if (window.innerWidth <= 1024) {
       return;
@@ -165,4 +273,5 @@
   runInit(initLenis, 'lenis');
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initClientsScroller, 'clients-scroller');
+  runInit(initProjectsScroller, 'projects-scroller');
 })();

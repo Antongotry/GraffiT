@@ -1,0 +1,124 @@
+<?php
+/**
+ * Services projects section.
+ *
+ * @package graffit
+ */
+
+declare(strict_types=1);
+
+$logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
+
+$project_cases = [
+    [
+        'title' => 'Мережа піцерій — розробка унікального програмного рішення (каса самообслуговування)',
+        'product' => 'індивідуально розроблена каса самообслуговування (kiosk-рішення)',
+        'results' => [
+            'прискорення процесу оформлення замовлень',
+            'зниження навантаження на персонал у години пік',
+            'покращення клієнтського досвіду',
+            'підвищення операційної ефективності закладів та високий рівень задоволеності замовника',
+        ],
+        'media_class' => 'is-pizzeria',
+    ],
+    [
+        'title' => 'Мережа пекарень — розробка комплексного рішення для автоматизації каси та складу',
+        'product' => 'розроблена система автоматизації касових операцій та складського обліку (Front-office + Back-office)',
+        'results' => [
+            'повна прозорість складського обліку',
+            'скорочення помилок під час інвентаризації',
+            'оптимізація роботи персоналу та зменшення операційних витрат',
+            'підвищення швидкості обслуговування клієнтів та керованості бізнесу',
+        ],
+        'media_class' => 'is-bakery',
+    ],
+    [
+        'title' => 'Ритейл — розробка гнучкої програми лояльності',
+        'product' => 'індивідуально розроблена система лояльності',
+        'results' => [
+            'зростання повторних покупок та середнього чека',
+            'підвищення залученості клієнтів через інтерактивні механіки',
+            'автоматизація маркетингових активностей',
+            'формування довгострокової лояльності аудиторії',
+        ],
+        'media_class' => 'is-loyalty',
+    ],
+    [
+        'title' => 'Роздрібна мережа — розробка системи розпізнавання та обліку співробітників',
+        'product' => 'індивідуально розроблена система розпізнавання та обліку персоналу',
+        'results' => [
+            'повний і прозорий облік робочого часу',
+            'зниження кількості помилок та зловживань',
+            'оптимізація планування змін',
+            'підвищення ефективності управління персоналом',
+        ],
+        'media_class' => 'is-retail-staff',
+    ],
+    [
+        'title' => 'Крупний ритейл — розробка касових рішень',
+        'product' => 'окреме касове рішення для Desktop; окреме касове рішення для Android',
+        'results' => [
+            'стабільна робота програмного забезпечення на 6000+ касах',
+            'висока швидкість проведення касових операцій',
+            'безперебійна робота навіть під піковими навантаженнями',
+            'готовність систем до подальшого масштабування та розвитку мережі',
+        ],
+        'media_class' => 'is-enterprise-retail',
+    ],
+    [
+        'title' => 'Торговельні мережі — розробка системи управління рекламою на екранах (Digital Signage)',
+        'product' => 'індивідуально розроблена система управління рекламним контентом (Digital Signage)',
+        'results' => [
+            'оперативне управління рекламними кампаніями у всій мережі',
+            'зменшення витрат на друковані матеріали',
+            'підвищення ефективності маркетингових активностей',
+            'покращення візуальної комунікації з покупцями у торгових точках',
+        ],
+        'media_class' => 'is-signage',
+    ],
+];
+?>
+<section class="services-projects js-projects-scroller" aria-labelledby="services-projects-title">
+    <div class="services-projects__viewport">
+        <div class="services-projects__container">
+            <div class="services-projects__header">
+                <div class="services-projects__eyebrow">
+                    <img
+                        class="services-projects__eyebrow-icon"
+                        src="<?php echo esc_url($logo_mark_url); ?>"
+                        alt=""
+                        width="28"
+                        height="32"
+                        aria-hidden="true"
+                        loading="lazy"
+                        decoding="async"
+                    >
+                    <p class="services-projects__eyebrow-text">Проєкти</p>
+                </div>
+
+                <div class="services-projects__top-row">
+                    <h2 class="services-projects__title" id="services-projects-title">
+                        Вміємо трансформувати ваші бізнес-запити у зрозумілі та робочі IT-рішення.
+                    </h2>
+
+                    <div class="services-projects__nav">
+                        <button class="services-projects__nav-button services-projects__nav-button--prev js-projects-prev" type="button" aria-label="Попередній кейс">
+                            <span aria-hidden="true">←</span>
+                        </button>
+                        <button class="services-projects__nav-button services-projects__nav-button--next js-projects-next" type="button" aria-label="Наступний кейс">
+                            <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="services-projects__stage js-projects-stage">
+                <div class="services-projects__track js-projects-track">
+                    <?php foreach ($project_cases as $project_case) : ?>
+                        <?php get_template_part('template-parts/components/project-case', 'card', $project_case); ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
