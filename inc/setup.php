@@ -166,9 +166,25 @@ function graffit_enqueue_assets(): void
     );
 
     wp_enqueue_script(
+        'graffit-gsap',
+        'https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js',
+        [],
+        '3.13.0',
+        true
+    );
+
+    wp_enqueue_script(
+        'graffit-scrolltrigger',
+        'https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js',
+        ['graffit-gsap'],
+        '3.13.0',
+        true
+    );
+
+    wp_enqueue_script(
         'graffit-main',
         get_template_directory_uri() . '/assets/js/main.js',
-        ['graffit-lenis'],
+        ['graffit-lenis', 'graffit-gsap', 'graffit-scrolltrigger'],
         graffit_asset_version('/assets/js/main.js'),
         true
     );
