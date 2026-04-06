@@ -13,6 +13,7 @@ get_header();
 <main id="primary" class="site-main site-main--services">
     <?php get_template_part('template-parts/sections/services', 'hero'); ?>
     <?php get_template_part('template-parts/sections/services', 'overview'); ?>
+    <?php get_template_part('template-parts/sections/services', 'inquiry'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php

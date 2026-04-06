@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="522" height="260" viewBox="0 0 522 260" fill="none">
+  <g opacity="0.55" stroke="#FFF" stroke-width="3">
+    <path d="M238 34v36l31 18"/>
+    <path d="M285 97V51l34-20"/>
+    <path d="M302 140v41l40 23"/>
+    <path d="M252 155l-34 20v42"/>
+    <path d="M340 69v78l47 27"/>
+    <path d="M206 108v83l-47 27"/>
+    <path d="M166 92 126 69V34"/>
+    <path d="M356 195v38"/>
+    <path d="M218 217v31"/>
+  </g>
+  <g opacity="0.7" stroke="#FFF" stroke-width="3">
+    <circle cx="320" cy="31" r="8"/>
+    <circle cx="389" cy="175" r="8"/>
+    <circle cx="356" cy="241" r="8"/>
+    <circle cx="218" cy="249" r="8"/>
+    <circle cx="159" cy="218" r="8"/>
+    <circle cx="126" cy="31" r="8"/>
+    <circle cx="201" cy="108" r="8"/>
+    <circle cx="340" cy="146" r="8"/>
+  </g>
+  <g opacity="0.7" fill="none" stroke="#FFF" stroke-width="6">
+    <path d="m269.5 84 26.413 15.25v30.5L269.5 145l-26.413-15.25v-30.5L269.5 84Z"/>
+    <path d="m187.5 23 16.454 9.5v19L187.5 61l-16.454-9.5v-19L187.5 23Z"/>
+    <path d="m226.5 197 26.847 15.5v31L226.5 259l-26.847-15.5v-31L226.5 197Z"/>
+  </g>
+</svg>
