@@ -31,7 +31,7 @@
 
 .services-hero__media {
   position: absolute;
-  inset: #{mixins.vw(286px)} 0 0;
+  inset: #{mixins.vw(215px)} 0 0;
   background-image:
     linear-gradient(180deg, rgba(1, 8, 16, 0) 0%, rgba(1, 8, 16, 0.24) 18%, rgba(0, 1, 2, 0.88) 100%),
     linear-gradient(180deg, rgba(0, 1, 2, 0) 0%, rgba(0, 1, 2, 0.1) 42%, rgba(0, 1, 2, 0.92) 100%),
@@ -42,7 +42,7 @@
   z-index: 0;
 
   @include mixins.mobile {
-    inset: #{mixins.mvw(360px)} 0 0;
+    inset: #{mixins.mvw(260px)} 0 0;
     background-position: center, center, 60% center;
   }
 }
@@ -74,14 +74,14 @@
 .services-hero__heading {
   position: absolute;
   left: 0;
-  top: #{mixins.vw(92px)};
-  width: #{mixins.vw(900px)};
+  top: 0;
+  width: #{mixins.vw(732px)};
 
   @include mixins.mobile {
     position: relative;
     top: auto;
     width: 100%;
-    padding-top: #{mixins.mvw(86px)};
+    padding-top: #{mixins.mvw(48px)};
   }
 }
 
@@ -99,13 +99,13 @@
 .services-hero__spark {
   position: absolute;
   left: #{mixins.vw(-12px)};
-  top: #{mixins.vw(14px)};
+  top: #{mixins.vw(48px)};
   width: #{mixins.vw(127px)};
   height: #{mixins.vw(127px)};
 
   @include mixins.mobile {
     left: 0;
-    top: #{mixins.mvw(8px)};
+    top: #{mixins.mvw(22px)};
     width: #{mixins.mvw(72px)};
     height: #{mixins.mvw(72px)};
   }
@@ -144,35 +144,34 @@
 
 .services-hero__brand-copy {
   position: absolute;
-  left: #{mixins.vw(29px)};
-  top: 0;
+  left: #{mixins.vw(36px)};
+  top: #{mixins.vw(106px)};
   width: #{mixins.vw(684px)};
-  height: #{mixins.vw(168px)};
+  min-height: #{mixins.vw(110px)};
 
   @include mixins.mobile {
-    left: #{mixins.mvw(24px)};
-    width: calc(100% - #{mixins.mvw(24px)});
-    height: #{mixins.mvw(120px)};
+    left: #{mixins.mvw(18px)};
+    top: #{mixins.mvw(72px)};
+    width: calc(100% - #{mixins.mvw(18px)});
+    min-height: #{mixins.mvw(72px)};
   }
 }
 
 .services-hero__title-glow {
   position: absolute;
-  left: #{mixins.vw(36px)};
-  top: #{mixins.vw(52px)};
-  width: #{mixins.vw(220px)};
+  left: 0;
+  top: 0;
+  width: #{mixins.vw(594px)};
   font-size: #{mixins.vw(55.058px)};
   font-weight: 600;
   line-height: 1;
   color: rgba(255, 255, 255, 0.74);
   filter: blur(10px);
-  white-space: nowrap;
+  white-space: pre-wrap;
   pointer-events: none;
 
   @include mixins.mobile {
-    left: #{mixins.mvw(12px)};
-    top: #{mixins.mvw(20px)};
-    width: #{mixins.mvw(116px)};
+    width: #{mixins.mvw(180px)};
     font-size: #{mixins.mvw(26px)};
     filter: blur(8px);
   }
@@ -180,35 +179,38 @@
 
 .services-hero__title {
   position: absolute;
-  left: #{mixins.vw(36px)};
-  top: #{mixins.vw(52px)};
+  left: 0;
+  top: 0;
   width: #{mixins.vw(684px)};
   font-size: #{mixins.vw(55.058px)};
   font-weight: 400;
   line-height: 1;
-  white-space: nowrap;
+  white-space: normal;
 
   @include mixins.mobile {
-    left: #{mixins.mvw(12px)};
-    top: #{mixins.mvw(20px)};
     width: auto;
-    max-width: calc(100% - #{mixins.mvw(12px)});
+    max-width: 100%;
     font-size: #{mixins.mvw(30px)};
     white-space: normal;
   }
 }
 
 .services-hero__subtitle {
-  margin-top: #{mixins.vw(14px)};
-  margin-left: #{mixins.vw(287px)};
-  max-width: #{mixins.vw(840px)};
-  font-size: #{mixins.vw(68px)};
+  position: absolute;
+  left: #{mixins.vw(250px)};
+  top: #{mixins.vw(168px)};
+  width: #{mixins.vw(625px)};
+  margin-top: 0;
+  margin-left: 0;
+  font-size: #{mixins.vw(48.176px)};
   font-weight: 400;
   line-height: 1;
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(12px)};
-    margin-left: 0;
+    position: relative;
+    left: auto;
+    top: auto;
+    margin-top: #{mixins.mvw(22px)};
     max-width: 100%;
     font-size: #{mixins.mvw(28px)};
   }
@@ -217,7 +219,7 @@
 .services-hero__aside {
   position: absolute;
   right: 0;
-  top: #{mixins.vw(98px)};
+  top: #{mixins.vw(106px)};
   width: #{mixins.vw(411px)};
 
   @include mixins.mobile {
@@ -245,7 +247,7 @@
   justify-content: center;
   min-width: #{mixins.vw(231px)};
   min-height: #{mixins.vw(48px)};
-  margin-top: #{mixins.vw(42px)};
+  margin-top: #{mixins.vw(28px)};
   padding: 0 #{mixins.vw(32px)};
   border-radius: #{mixins.vw(8px)};
   background: linear-gradient(180deg, #0073e6 0%, #0073e6 100%);
@@ -265,8 +267,8 @@
 
 .services-hero__experience {
   position: absolute;
-  left: #{mixins.vw(1023px)};
-  top: #{mixins.vw(302px)};
+  left: #{mixins.vw(780px)};
+  top: #{mixins.vw(269px)};
   width: #{mixins.vw(221px)};
   height: #{mixins.vw(246px)};
   display: flex;
