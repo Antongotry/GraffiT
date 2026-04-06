@@ -82,6 +82,14 @@ function graffit_services_hero_image_url(): string
 }
 
 /**
+ * Header logo URL.
+ */
+function graffit_logo_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/logo.svg';
+}
+
+/**
  * Resource hints for external scripts.
  */
 function graffit_resource_hints(): void

@@ -8,12 +8,14 @@
 
 .services-hero {
   position: relative;
-  min-height: #{mixins.vw(780px)};
+  min-height: 100svh;
+  height: 100svh;
   overflow: hidden;
   isolation: isolate;
 
   @include mixins.mobile {
-    min-height: auto;
+    min-height: 100svh;
+    height: auto;
     padding-bottom: #{mixins.mvw(48px)};
   }
 }
@@ -51,11 +53,13 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  min-height: #{mixins.vw(780px)};
+  min-height: 100svh;
+  height: 100%;
   padding: #{mixins.vw(106px)} #{mixins.vw(36px)} #{mixins.vw(64px)};
 
   @include mixins.mobile {
-    min-height: auto;
+    min-height: 100svh;
+    height: auto;
     padding: #{mixins.mvw(132px)} #{mixins.mvw(16px)} 0;
   }
 }
@@ -73,64 +77,11 @@
 }
 
 .services-hero__heading {
-  max-width: #{mixins.vw(875px)};
+  max-width: #{mixins.vw(720px)};
 }
 
 .services-hero__brand-row {
-  display: flex;
-  align-items: flex-start;
-  gap: #{mixins.vw(22px)};
-
-  @include mixins.mobile {
-    gap: #{mixins.mvw(14px)};
-  }
-}
-
-.services-hero__spark {
-  position: relative;
-  width: #{mixins.vw(127px)};
-  height: #{mixins.vw(127px)};
-  flex-shrink: 0;
-  margin-left: #{mixins.vw(-12px)};
-  margin-top: #{mixins.vw(48px)};
-
-  @include mixins.mobile {
-    width: #{mixins.mvw(68px)};
-    height: #{mixins.mvw(68px)};
-    margin-left: 0;
-    margin-top: #{mixins.mvw(12px)};
-  }
-}
-
-.services-hero__spark-line {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: #{mixins.vw(52px)};
-  height: #{mixins.vw(52px)};
-  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.18) 23%, rgba(255, 255, 255, 0) 70%);
-  transform-origin: center;
-
-  @include mixins.mobile {
-    width: #{mixins.mvw(28px)};
-    height: #{mixins.mvw(28px)};
-  }
-}
-
-.services-hero__spark-line--a {
-  transform: translate(-50%, -50%) rotate(-15deg);
-}
-
-.services-hero__spark-line--b {
-  transform: translate(-50%, -50%) rotate(75deg);
-}
-
-.services-hero__spark-line--c {
-  transform: translate(-50%, -50%) rotate(165deg);
-}
-
-.services-hero__spark-line--d {
-  transform: translate(-50%, -50%) rotate(255deg);
+  display: block;
 }
 
 .services-hero__brand-copy {
@@ -144,7 +95,7 @@
 
 .services-hero__ghost {
   position: absolute;
-  inset: #{mixins.vw(2px)} auto auto 0;
+  inset: #{mixins.vw(2px)} auto auto #{mixins.vw(36px)};
   color: rgba(255, 255, 255, 0.7);
   font-size: #{mixins.vw(55.058px)};
   font-weight: 600;
@@ -162,19 +113,21 @@
 .services-hero__title {
   position: relative;
   max-width: #{mixins.vw(672px)};
+  margin-left: #{mixins.vw(36px)};
   font-size: #{mixins.vw(55.058px)};
   font-weight: 600;
   line-height: 1;
 
   @include mixins.mobile {
     max-width: 100%;
+    margin-left: 0;
     font-size: #{mixins.mvw(32px)};
   }
 }
 
 .services-hero__subtitle {
   margin-top: #{mixins.vw(-8px)};
-  margin-left: #{mixins.vw(214px)};
+  margin-left: #{mixins.vw(250px)};
   max-width: #{mixins.vw(625px)};
   font-size: #{mixins.vw(48.176px)};
   font-weight: 400;
@@ -323,4 +276,3 @@
     font-size: #{mixins.mvw(14px)};
   }
 }
-
