@@ -386,9 +386,9 @@
   background: #3f4858;
   overflow: hidden;
   transition:
-    background 220ms ease,
-    box-shadow 220ms ease,
-    transform 220ms ease;
+    background 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
 
   &::after {
     position: absolute;
@@ -399,7 +399,7 @@
     opacity: 0;
     content: "";
     pointer-events: none;
-    transition: opacity 220ms ease;
+    transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   @include mixins.mobile {
@@ -434,11 +434,10 @@
   justify-content: center;
   left: #{mixins.vw(40px)};
   top: #{mixins.vw(40px)};
-  width: #{mixins.vw(140px)};
-  height: #{mixins.vw(140px)};
-  border-radius: #{mixins.vw(6px)};
-  background: #ffffff;
-  overflow: hidden;
+  width: #{mixins.vw(91px)};
+  height: #{mixins.vw(91px)};
+  background: transparent;
+  overflow: visible;
 
   &::after {
     position: absolute;
@@ -458,9 +457,8 @@
     position: relative;
     left: auto;
     top: auto;
-    width: #{mixins.mvw(140px)};
-    height: #{mixins.mvw(140px)};
-    border-radius: #{mixins.mvw(6px)};
+    width: #{mixins.mvw(91px)};
+    height: #{mixins.mvw(91px)};
 
     &::after {
       width: #{mixins.mvw(222px)};
@@ -473,16 +471,16 @@
 .service-card__image {
   position: relative;
   z-index: 1;
-  width: #{mixins.vw(113px)};
-  height: #{mixins.vw(113px)};
+  width: #{mixins.vw(91px)};
+  height: #{mixins.vw(91px)};
   flex: 0 0 auto;
   object-fit: cover;
   object-position: var(--service-card-image-position, center);
   border-radius: #{mixins.vw(4px)};
 
   @include mixins.mobile {
-    width: #{mixins.mvw(113px)};
-    height: #{mixins.mvw(113px)};
+    width: #{mixins.mvw(91px)};
+    height: #{mixins.mvw(91px)};
     border-radius: #{mixins.mvw(4px)};
   }
 }
