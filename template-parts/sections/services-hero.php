@@ -18,7 +18,6 @@ declare(strict_types=1);
             <div class="services-hero__heading">
                 <div class="services-hero__brand-row">
                     <div class="services-hero__brand-copy">
-                        <p class="services-hero__ghost">Graffit</p>
                         <h1 class="services-hero__title">Graffit – програмні рішення</h1>
                     </div>
                 </div>

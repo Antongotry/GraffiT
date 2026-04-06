@@ -93,23 +93,6 @@
   }
 }
 
-.services-hero__ghost {
-  position: absolute;
-  inset: #{mixins.vw(2px)} auto auto #{mixins.vw(36px)};
-  color: rgba(255, 255, 255, 0.7);
-  font-size: #{mixins.vw(55.058px)};
-  font-weight: 600;
-  line-height: 1;
-  filter: blur(10px);
-  pointer-events: none;
-
-  @include mixins.mobile {
-    inset: #{mixins.mvw(1px)} auto auto 0;
-    font-size: #{mixins.mvw(26px)};
-    filter: blur(8px);
-  }
-}
-
 .services-hero__title {
   position: relative;
   max-width: #{mixins.vw(672px)};
