@@ -427,6 +427,11 @@
   }
 }
 
+.service-card:hover .service-card__media::after,
+.service-card:focus-within .service-card__media::after {
+  opacity: 1;
+}
+
 .service-card__media {
   position: absolute;
   display: flex;
@@ -434,8 +439,8 @@
   justify-content: center;
   left: #{mixins.vw(40px)};
   top: #{mixins.vw(40px)};
-  width: #{mixins.vw(91px)};
-  height: #{mixins.vw(91px)};
+  width: #{mixins.vw(140px)};
+  height: #{mixins.vw(140px)};
   background: transparent;
   overflow: visible;
 
@@ -451,14 +456,16 @@
     content: "";
     pointer-events: none;
     z-index: 0;
+    opacity: 0;
+    transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   @include mixins.mobile {
     position: relative;
     left: auto;
     top: auto;
-    width: #{mixins.mvw(91px)};
-    height: #{mixins.mvw(91px)};
+    width: #{mixins.mvw(140px)};
+    height: #{mixins.mvw(140px)};
 
     &::after {
       width: #{mixins.mvw(222px)};
@@ -471,17 +478,17 @@
 .service-card__image {
   position: relative;
   z-index: 1;
-  width: #{mixins.vw(91px)};
-  height: #{mixins.vw(91px)};
+  width: #{mixins.vw(140px)};
+  height: #{mixins.vw(140px)};
   flex: 0 0 auto;
   object-fit: cover;
   object-position: var(--service-card-image-position, center);
-  border-radius: #{mixins.vw(4px)};
+  border-radius: #{mixins.vw(6px)};
 
   @include mixins.mobile {
-    width: #{mixins.mvw(91px)};
-    height: #{mixins.mvw(91px)};
-    border-radius: #{mixins.mvw(4px)};
+    width: #{mixins.mvw(140px)};
+    height: #{mixins.mvw(140px)};
+    border-radius: #{mixins.mvw(6px)};
   }
 }
 
