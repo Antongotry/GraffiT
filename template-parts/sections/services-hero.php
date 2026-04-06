@@ -9,7 +9,10 @@ declare(strict_types=1);
 ?>
 <section
     class="services-hero"
-    style="--services-hero-image: url('<?php echo esc_url(graffit_services_hero_image_url()); ?>');"
+    style="
+        --services-hero-image: url('<?php echo esc_url(graffit_services_hero_image_url()); ?>');
+        --services-experience-image: url('<?php echo esc_url(graffit_services_experience_image_url()); ?>');
+    "
 >
     <div class="services-hero__media" aria-hidden="true"></div>
 

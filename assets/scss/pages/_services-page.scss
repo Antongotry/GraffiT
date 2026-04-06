@@ -208,25 +208,27 @@
 
 .services-hero__experience {
   position: absolute;
-  left: #{mixins.vw(728px)};
-  top: #{mixins.vw(258px)};
-  width: #{mixins.vw(221px)};
-  height: #{mixins.vw(246px)};
+  left: #{mixins.vw(614px)};
+  top: #{mixins.vw(209px)};
+  width: #{mixins.vw(222px)};
+  height: #{mixins.vw(247px)};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding: #{mixins.vw(50px)} #{mixins.vw(24px)} #{mixins.vw(18px)};
-  background: rgba(60, 70, 86, 0.96);
-  clip-path: polygon(50% 0, 100% 18%, 100% 82%, 50% 100%, 0 82%, 0 18%);
+  background-image: var(--services-experience-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   z-index: 2;
 
   @include mixins.mobile {
     position: relative;
     left: auto;
     top: auto;
-    width: #{mixins.mvw(221px)};
-    height: #{mixins.mvw(246px)};
+    width: #{mixins.mvw(222px)};
+    height: #{mixins.mvw(247px)};
     margin: #{mixins.mvw(28px)} auto 0;
     padding: #{mixins.mvw(52px)} #{mixins.mvw(24px)} #{mixins.mvw(22px)};
   }
