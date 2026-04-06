@@ -208,9 +208,9 @@
 
 .services-hero__experience {
   position: absolute;
-  left: #{mixins.vw(614px)};
-  top: #{mixins.vw(209px)};
-  width: #{mixins.vw(222px)};
+  left: #{mixins.vw(728px)};
+  top: #{mixins.vw(258px)};
+  width: #{mixins.vw(230px)};
   height: #{mixins.vw(247px)};
   display: flex;
   flex-direction: column;
@@ -227,7 +227,7 @@
     position: relative;
     left: auto;
     top: auto;
-    width: #{mixins.mvw(222px)};
+    width: #{mixins.mvw(230px)};
     height: #{mixins.mvw(247px)};
     margin: #{mixins.mvw(28px)} auto 0;
     padding: #{mixins.mvw(52px)} #{mixins.mvw(24px)} #{mixins.mvw(22px)};
