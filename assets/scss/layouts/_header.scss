@@ -47,10 +47,8 @@
 .site-header__nav {
   display: inline-flex;
   align-items: center;
-  width: #{mixins.vw(397px)};
   gap: #{mixins.vw(24px)};
   margin-left: auto;
-  justify-content: space-between;
 
   @include mixins.mobile {
     display: none;

@@ -21,7 +21,7 @@
 
 .services-hero__media {
   position: absolute;
-  inset: #{mixins.vw(215px)} 0 0;
+  inset: #{mixins.vw(174px)} 0 0;
   background-image: var(--services-hero-image);
   background-position: center top;
   background-repeat: no-repeat;
@@ -29,7 +29,7 @@
   z-index: 0;
 
   @include mixins.mobile {
-    inset: #{mixins.mvw(260px)} 0 0;
+    inset: #{mixins.mvw(220px)} 0 0;
     background-position: center, center, 60% center;
   }
 }
@@ -61,7 +61,7 @@
 .services-hero__heading {
   position: absolute;
   left: 0;
-  top: 0;
+  top: #{mixins.vw(32px)};
   width: #{mixins.vw(732px)};
 
   @include mixins.mobile {
@@ -86,7 +86,7 @@
 .services-hero__spark {
   position: absolute;
   left: #{mixins.vw(-12px)};
-  top: #{mixins.vw(48px)};
+  top: #{mixins.vw(22px)};
   width: #{mixins.vw(127px)};
   height: #{mixins.vw(127px)};
 
@@ -132,7 +132,7 @@
 .services-hero__brand-copy {
   position: absolute;
   left: #{mixins.vw(36px)};
-  top: #{mixins.vw(106px)};
+  top: #{mixins.vw(54px)};
   width: #{mixins.vw(684px)};
   min-height: #{mixins.vw(110px)};
 
@@ -185,7 +185,7 @@
 .services-hero__subtitle {
   position: absolute;
   left: #{mixins.vw(250px)};
-  top: #{mixins.vw(168px)};
+  top: #{mixins.vw(136px)};
   width: #{mixins.vw(625px)};
   margin-top: 0;
   margin-left: 0;
