@@ -208,15 +208,15 @@
 
 .services-hero__experience {
   position: absolute;
-  left: #{mixins.vw(780px)};
-  top: #{mixins.vw(269px)};
+  left: #{mixins.vw(656px)};
+  top: #{mixins.vw(218px)};
   width: #{mixins.vw(221px)};
   height: #{mixins.vw(246px)};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: #{mixins.vw(54px)} #{mixins.vw(24px)} #{mixins.vw(22px)};
+  padding: #{mixins.vw(50px)} #{mixins.vw(24px)} #{mixins.vw(18px)};
   background: rgba(60, 70, 86, 0.96);
   clip-path: polygon(50% 0, 100% 18%, 100% 82%, 50% 100%, 0 82%, 0 18%);
   z-index: 2;
@@ -240,6 +240,7 @@
 }
 
 .services-hero__experience-value {
+  font-family: "Onest", "Involve", "Segoe UI", sans-serif;
   font-size: #{mixins.vw(45.379px)};
   font-weight: 600;
   line-height: 1.04;
@@ -250,10 +251,11 @@
 }
 
 .services-hero__experience-unit {
-  margin-top: #{mixins.vw(6px)};
+  margin-top: #{mixins.vw(2px)};
   color: var(--color-text-muted);
   font-size: #{mixins.vw(14px)};
   line-height: 1.4;
+  text-align: center;
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(4px)};
@@ -262,7 +264,7 @@
 }
 
 .services-hero__experience-text {
-  margin-top: #{mixins.vw(34px)};
+  margin-top: #{mixins.vw(36px)};
   max-width: #{mixins.vw(174px)};
   text-align: center;
   font-size: #{mixins.vw(14px)};
@@ -270,7 +272,7 @@
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(18px)};
-    max-width: #{mixins.mvw(220px)};
+    max-width: #{mixins.mvw(174px)};
     font-size: #{mixins.mvw(14px)};
   }
 }
