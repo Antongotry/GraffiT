@@ -9,6 +9,11 @@
   min-height: 100vh;
 }
 
+.site-main--blank-front {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
 .placeholder-page {
   min-height: 100vh;
   padding: #{mixins.vw(180px)} 0 #{mixins.vw(120px)};
@@ -44,4 +49,3 @@
     font-size: #{mixins.mvw(18px)};
   }
 }
-
