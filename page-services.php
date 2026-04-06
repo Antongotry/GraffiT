@@ -18,6 +18,7 @@ get_header();
     <?php get_template_part('template-parts/sections/services', 'benefits'); ?>
     <?php get_template_part('template-parts/sections/services', 'clients'); ?>
     <?php get_template_part('template-parts/sections/services', 'projects'); ?>
+    <?php get_template_part('template-parts/sections/services', 'process'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php

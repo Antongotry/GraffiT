@@ -260,6 +260,70 @@
     window.ScrollTrigger.refresh();
   }
 
+  function initProcessTimeline() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    document.querySelectorAll('.js-process-section').forEach(function (section) {
+      var lineFill = section.querySelector('.js-process-line-fill');
+      var steps = Array.prototype.slice.call(section.querySelectorAll('.js-process-step'));
+
+      if (!lineFill || steps.length === 0) {
+        return;
+      }
+
+      function setActiveStep(activeIndex) {
+        steps.forEach(function (step, index) {
+          step.classList.toggle('is-active', index === activeIndex);
+        });
+      }
+
+      setActiveStep(0);
+
+      window.gsap.fromTo(lineFill, {
+        height: lineFill.offsetHeight
+      }, {
+        height: function () {
+          var lastStep = steps[steps.length - 1];
+          var lineRect = lineFill.parentElement.getBoundingClientRect();
+          var lastRect = lastStep.getBoundingClientRect();
+          return lastRect.top - lineRect.top + lastRect.height * 0.52;
+        },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 62%',
+          end: 'bottom 72%',
+          scrub: 1,
+          invalidateOnRefresh: true
+        }
+      });
+
+      steps.forEach(function (step, index) {
+        window.ScrollTrigger.create({
+          trigger: step,
+          start: 'top 42%',
+          end: 'bottom 42%',
+          onEnter: function () {
+            setActiveStep(index);
+          },
+          onEnterBack: function () {
+            setActiveStep(index);
+          }
+        });
+      });
+    });
+
+    window.ScrollTrigger.refresh();
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -274,4 +338,5 @@
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initClientsScroller, 'clients-scroller');
   runInit(initProjectsScroller, 'projects-scroller');
+  runInit(initProcessTimeline, 'process-timeline');
 })();
