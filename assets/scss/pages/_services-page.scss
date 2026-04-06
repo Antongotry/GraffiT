@@ -278,3 +278,280 @@
     font-size: #{mixins.mvw(14px)};
   }
 }
+
+.services-overview {
+  position: relative;
+  margin-top: #{mixins.vw(195px)};
+  padding-bottom: #{mixins.vw(140px)};
+  overflow: clip;
+
+  &::before {
+    position: absolute;
+    inset: #{mixins.vw(-120px)} #{mixins.vw(-220px)} auto auto;
+    width: #{mixins.vw(520px)};
+    height: #{mixins.vw(520px)};
+    background: radial-gradient(circle, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0) 74%);
+    filter: blur(40px);
+    content: "";
+    pointer-events: none;
+  }
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(96px)};
+    padding-bottom: #{mixins.mvw(88px)};
+
+    &::before {
+      inset: #{mixins.mvw(-40px)} #{mixins.mvw(-140px)} auto auto;
+      width: #{mixins.mvw(300px)};
+      height: #{mixins.mvw(300px)};
+      filter: blur(24px);
+    }
+  }
+}
+
+.services-overview__container {
+  position: relative;
+  z-index: 1;
+  width: #{mixins.vw(1360px)};
+  margin-inline: auto;
+
+  @include mixins.mobile {
+    width: min(100% - #{mixins.mvw(32px)}, 100%);
+  }
+}
+
+.services-overview__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: #{mixins.vw(12px)};
+
+  @include mixins.mobile {
+    gap: #{mixins.mvw(12px)};
+  }
+}
+
+.services-overview__eyebrow-icon {
+  width: #{mixins.vw(28px)};
+  height: #{mixins.vw(32px)};
+  flex: 0 0 auto;
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(28px)};
+    height: #{mixins.mvw(32px)};
+  }
+}
+
+.services-overview__eyebrow-text {
+  font-size: #{mixins.vw(16px)};
+  line-height: 1.36;
+
+  @include mixins.mobile {
+    font-size: #{mixins.mvw(16px)};
+  }
+}
+
+.services-overview__title {
+  width: #{mixins.vw(1113px)};
+  margin: #{mixins.vw(40px)} auto 0;
+  font-size: #{mixins.vw(32px)};
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+
+  @include mixins.mobile {
+    width: 100%;
+    margin-top: #{mixins.mvw(28px)};
+    font-size: #{mixins.mvw(28px)};
+  }
+}
+
+.services-overview__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: #{mixins.vw(20px)};
+  margin-top: #{mixins.vw(82px)};
+
+  @include mixins.mobile {
+    grid-template-columns: 1fr;
+    gap: #{mixins.mvw(20px)};
+    margin-top: #{mixins.mvw(44px)};
+  }
+}
+
+.service-card {
+  position: relative;
+  min-height: #{mixins.vw(463px)};
+  border-radius: #{mixins.vw(12px)};
+  background: #3f4858;
+  overflow: hidden;
+  transition:
+    background 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+
+  &::after {
+    position: absolute;
+    inset: auto #{mixins.vw(-40px)} #{mixins.vw(-120px)};
+    height: #{mixins.vw(220px)};
+    background: radial-gradient(circle at center, rgba(0, 115, 230, 0.9) 0%, rgba(0, 115, 230, 0) 72%);
+    filter: blur(44px);
+    opacity: 0;
+    content: "";
+    pointer-events: none;
+    transition: opacity 220ms ease;
+  }
+
+  @include mixins.mobile {
+    min-height: auto;
+    padding: #{mixins.mvw(24px)};
+    border-radius: #{mixins.mvw(12px)};
+
+    &::after {
+      inset: auto #{mixins.mvw(-20px)} #{mixins.mvw(-80px)};
+      height: #{mixins.mvw(180px)};
+      filter: blur(28px);
+    }
+  }
+}
+
+.service-card.is-active,
+.service-card:hover,
+.service-card:focus-within {
+  background:
+    linear-gradient(180deg, rgba(15, 16, 17, 0.94) 0%, rgba(4, 17, 31, 0.97) 58%, rgba(17, 110, 216, 0.96) 100%),
+    linear-gradient(180deg, #000102 0%, #0073e6 100%);
+  box-shadow: inset 0 0 0 1px #0073e6;
+
+  &::after {
+    opacity: 1;
+  }
+}
+
+.service-card__media {
+  position: absolute;
+  left: #{mixins.vw(40px)};
+  top: #{mixins.vw(40px)};
+  width: #{mixins.vw(140px)};
+  height: #{mixins.vw(140px)};
+  border-radius: #{mixins.vw(6px)};
+  background: #ffffff;
+  overflow: hidden;
+
+  &::after {
+    position: absolute;
+    left: 50%;
+    top: 68%;
+    width: #{mixins.vw(278px)};
+    height: #{mixins.vw(78px)};
+    background: rgba(17, 128, 255, 0.75);
+    filter: blur(#{mixins.vw(66px)});
+    transform: translateX(-50%);
+    content: "";
+    pointer-events: none;
+  }
+
+  @include mixins.mobile {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: #{mixins.mvw(140px)};
+    height: #{mixins.mvw(140px)};
+    border-radius: #{mixins.mvw(6px)};
+
+    &::after {
+      width: #{mixins.mvw(222px)};
+      height: #{mixins.mvw(62px)};
+      filter: blur(#{mixins.mvw(53px)});
+    }
+  }
+}
+
+.service-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--service-card-image-position, center);
+}
+
+.service-card__content {
+  position: absolute;
+  left: #{mixins.vw(40px)};
+  right: #{mixins.vw(40px)};
+  top: #{mixins.vw(212px)};
+
+  @include mixins.mobile {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    margin-top: #{mixins.mvw(24px)};
+  }
+}
+
+.service-card--low-copy .service-card__content {
+  top: #{mixins.vw(290px)};
+}
+
+.service-card__title {
+  max-width: #{mixins.vw(590px)};
+  font-size: #{mixins.vw(24px)};
+  font-weight: 400;
+  line-height: 1.2;
+
+  @include mixins.mobile {
+    max-width: 100%;
+    font-size: #{mixins.mvw(24px)};
+  }
+}
+
+.service-card__copy {
+  max-width: #{mixins.vw(590px)};
+  margin-top: #{mixins.vw(16px)};
+  color: var(--color-text-muted);
+  font-size: #{mixins.vw(16px)};
+  line-height: 1.36;
+
+  p + p {
+    margin-top: #{mixins.vw(26px)};
+  }
+
+  @include mixins.mobile {
+    max-width: 100%;
+    margin-top: #{mixins.mvw(16px)};
+    font-size: #{mixins.mvw(16px)};
+
+    p + p {
+      margin-top: #{mixins.mvw(18px)};
+    }
+  }
+}
+
+.service-card__cta {
+  position: absolute;
+  left: #{mixins.vw(40px)};
+  bottom: #{mixins.vw(24px)};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: #{mixins.vw(147px)};
+  min-height: #{mixins.vw(48px)};
+  padding: 0 #{mixins.vw(24px)};
+  border-radius: #{mixins.vw(8px)};
+  background: #2a83db;
+  color: #ffffff;
+  font-size: #{mixins.vw(14px)};
+  line-height: 1.3;
+
+  @include mixins.mobile {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    min-width: #{mixins.mvw(147px)};
+    min-height: #{mixins.mvw(48px)};
+    margin-top: #{mixins.mvw(24px)};
+    padding: 0 #{mixins.mvw(24px)};
+    border-radius: #{mixins.mvw(8px)};
+    font-size: #{mixins.mvw(14px)};
+  }
+}
