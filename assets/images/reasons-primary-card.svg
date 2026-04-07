@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="416" height="416" viewBox="0 0 416 416" fill="none">
+  <defs>
+    <linearGradient id="reasons-card-fill" x1="208" y1="12" x2="208" y2="404" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1780F2"/>
+      <stop offset="0.62" stop-color="#0C3469"/>
+      <stop offset="1" stop-color="#071522"/>
+    </linearGradient>
+    <radialGradient id="reasons-card-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(208 356) rotate(90) scale(92 170)">
+      <stop stop-color="#0073E6" stop-opacity="0.62"/>
+      <stop offset="1" stop-color="#0073E6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path
+    d="M208 12L365.3 102.8C375 108.4 381 118.8 381 130V286C381 297.2 375 307.6 365.3 313.2L208 404L50.7 313.2C41 307.6 35 297.2 35 286V130C35 118.8 41 108.4 50.7 102.8L208 12Z"
+    fill="url(#reasons-card-fill)"
+  />
+  <path
+    d="M208 12L365.3 102.8C375 108.4 381 118.8 381 130V286C381 297.2 375 307.6 365.3 313.2L208 404L50.7 313.2C41 307.6 35 297.2 35 286V130C35 118.8 41 108.4 50.7 102.8L208 12Z"
+    fill="url(#reasons-card-glow)"
+  />
+  <path
+    d="M208 12L365.3 102.8C375 108.4 381 118.8 381 130V286C381 297.2 375 307.6 365.3 313.2L208 404L50.7 313.2C41 307.6 35 297.2 35 286V130C35 118.8 41 108.4 50.7 102.8L208 12Z"
+    stroke="#0073E6"
+    stroke-width="1.5"
+    stroke-linejoin="round"
+  />
+</svg>
