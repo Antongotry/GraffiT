@@ -62,7 +62,7 @@
   position: absolute;
   left: 0;
   top: #{mixins.vw(18px)};
-  width: #{mixins.vw(1260px)};
+  width: min(#{mixins.vw(1260px)}, 1260px);
 
   @include mixins.mobile {
     position: relative;
@@ -95,7 +95,7 @@
 .services-hero__title {
   position: relative;
   width: 100%;
-  max-width: #{mixins.vw(1260px)};
+  max-width: min(#{mixins.vw(1260px)}, 1260px);
   font-size: #{mixins.vw(55.058px)};
   font-weight: 400;
   line-height: 0.94;
@@ -118,14 +118,19 @@
 }
 
 .services-hero__title-line--secondary {
-  max-width: #{mixins.vw(940px)};
+  display: inline-block;
+  width: fit-content;
+  max-width: min(#{mixins.vw(940px)}, 940px);
   margin-top: #{mixins.vw(16px)};
-  margin-left: #{mixins.vw(322px)};
+  margin-left: min(#{mixins.vw(322px)}, 322px);
+  font-size: 0.94em;
 
   @include mixins.mobile {
+    display: block;
     max-width: 100%;
     margin-top: #{mixins.mvw(12px)};
     margin-left: 0;
+    font-size: 1em;
   }
 }
 
