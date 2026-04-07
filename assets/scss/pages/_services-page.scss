@@ -275,7 +275,7 @@
   position: relative;
   margin-top: #{mixins.vw(195px)};
   padding-bottom: #{mixins.vw(140px)};
-  overflow: clip;
+  overflow: visible;
 
   &::before {
     position: absolute;
