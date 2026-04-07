@@ -927,15 +927,16 @@
 
 .reason-hex__stack {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
-  gap: #{mixins.vw(10px)};
-  width: #{mixins.vw(208px)};
+  gap: #{mixins.vw(4px)};
+  width: #{mixins.vw(212px)};
   margin-top: #{mixins.vw(24px)};
+  margin-inline: auto;
 
   @include mixins.mobile {
-    width: 100%;
-    gap: #{mixins.mvw(8px)};
+    width: #{mixins.mvw(212px)};
+    gap: #{mixins.mvw(4px)};
     margin-top: #{mixins.mvw(18px)};
   }
 }
@@ -944,42 +945,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: #{mixins.vw(24px)};
-  height: #{mixins.vw(24px)};
+  width: #{mixins.vw(32px)};
+  height: #{mixins.vw(32px)};
   color: rgba(255, 255, 255, 0.92);
   font-size: #{mixins.vw(12px)};
   font-weight: 600;
   line-height: 1;
 
   @include mixins.mobile {
-    width: #{mixins.mvw(24px)};
-    height: #{mixins.mvw(24px)};
+    width: #{mixins.mvw(32px)};
+    height: #{mixins.mvw(32px)};
     font-size: #{mixins.mvw(12px)};
   }
 }
 
-.reason-hex__stack-item.is-java {
-  color: #f26b4b;
-}
-
-.reason-hex__stack-item.is-kotlin {
-  color: #7e69ff;
-}
-
-.reason-hex__stack-item.is-postgresql {
-  color: #9cc7ff;
-}
-
-.reason-hex__stack-item.is-angular {
-  color: #ff625c;
-}
-
-.reason-hex__stack-item.is-kafka {
-  color: #d0d7e8;
-}
-
-.reason-hex__stack-item.is-docker {
-  color: #67c5ff;
+.reason-hex__stack-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .reason-hex--active {

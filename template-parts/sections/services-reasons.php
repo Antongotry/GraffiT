@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
+$uploads_base_url = trailingslashit((string) wp_get_upload_dir()['baseurl']) . '2026/04/';
 
 $reason_items = [
     [
@@ -21,12 +22,12 @@ $reason_items = [
         'classes' => ['reason-hex--card-stack'],
         'title' => 'Працюємо в стеку, який сумісний з вимогами enterprise:',
         'stack' => [
-            ['label' => 'Java', 'short' => 'J', 'class' => 'is-java'],
-            ['label' => 'Kotlin', 'short' => 'K', 'class' => 'is-kotlin'],
-            ['label' => 'PostgreSQL', 'short' => 'Pg', 'class' => 'is-postgresql'],
-            ['label' => 'Angular', 'short' => 'A', 'class' => 'is-angular'],
-            ['label' => 'Kafka', 'short' => 'Kf', 'class' => 'is-kafka'],
-            ['label' => 'Docker', 'short' => 'D', 'class' => 'is-docker'],
+            ['label' => 'Java', 'image_url' => $uploads_base_url . 'icon-1_result.webp'],
+            ['label' => 'Kotlin', 'image_url' => $uploads_base_url . 'icon-2_result.webp'],
+            ['label' => 'PostgreSQL', 'image_url' => $uploads_base_url . 'icon-3_result.webp'],
+            ['label' => 'Angular', 'image_url' => $uploads_base_url . 'icon-4_result.webp'],
+            ['label' => 'Kafka', 'image_url' => $uploads_base_url . 'icon-5_result.webp'],
+            ['label' => 'Docker', 'image_url' => $uploads_base_url . 'icon-6_result.webp'],
         ],
         'stack_caption' => 'Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first',
         'size' => 'small',

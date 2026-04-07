@@ -76,10 +76,12 @@ if (! empty($args['decorative'])) {
                         $stack_classes = ['reason-hex__stack-item'];
                         $stack_label = '';
                         $stack_short = '';
+                        $stack_image_url = '';
 
                         if (is_array($stack_item)) {
                             $stack_label = isset($stack_item['label']) ? (string) $stack_item['label'] : '';
                             $stack_short = isset($stack_item['short']) ? (string) $stack_item['short'] : $stack_label;
+                            $stack_image_url = isset($stack_item['image_url']) ? (string) $stack_item['image_url'] : '';
 
                             if (isset($stack_item['class']) && is_string($stack_item['class']) && $stack_item['class'] !== '') {
                                 $stack_classes[] = sanitize_html_class($stack_item['class']);
@@ -94,7 +96,19 @@ if (! empty($args['decorative'])) {
                             aria-label="<?php echo esc_attr($stack_label); ?>"
                             title="<?php echo esc_attr($stack_label); ?>"
                         >
-                            <?php echo esc_html($stack_short); ?>
+                            <?php if ($stack_image_url !== '') : ?>
+                                <img
+                                    class="reason-hex__stack-icon"
+                                    src="<?php echo esc_url($stack_image_url); ?>"
+                                    alt=""
+                                    width="32"
+                                    height="32"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                            <?php else : ?>
+                                <?php echo esc_html($stack_short); ?>
+                            <?php endif; ?>
                         </span>
                     <?php endforeach; ?>
                 </div>
