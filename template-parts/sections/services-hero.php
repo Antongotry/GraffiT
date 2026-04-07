@@ -21,12 +21,14 @@ declare(strict_types=1);
             <div class="services-hero__heading">
                 <div class="services-hero__brand-row">
                     <div class="services-hero__brand-copy">
-                        <p class="services-hero__title-glow">Graffit</p>
-                        <h1 class="services-hero__title">Graffit – програмні рішення</h1>
+                        <h1 class="services-hero__title">
+                            <span class="services-hero__title-line">
+                                <span class="services-hero__title-brand">Graffit</span> – програмні рішення
+                            </span>
+                            <span class="services-hero__title-line services-hero__title-line--secondary">під задачі вашого бізнесу</span>
+                        </h1>
                     </div>
                 </div>
-
-                <p class="services-hero__subtitle">під задачі вашого бізнесу</p>
             </div>
 
             <div class="services-hero__aside">

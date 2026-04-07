@@ -62,7 +62,7 @@
   position: absolute;
   left: 0;
   top: #{mixins.vw(32px)};
-  width: #{mixins.vw(732px)};
+  width: #{mixins.vw(1260px)};
 
   @include mixins.mobile {
     position: relative;
@@ -74,93 +74,78 @@
 
 .services-hero__brand-row {
   position: relative;
-  width: #{mixins.vw(732px)};
-  height: #{mixins.vw(168px)};
+  width: 100%;
 
   @include mixins.mobile {
     width: 100%;
-    height: #{mixins.mvw(120px)};
   }
 }
 
 .services-hero__brand-copy {
-  position: absolute;
-  left: 0;
-  top: #{mixins.vw(54px)};
-  width: #{mixins.vw(684px)};
-  min-height: #{mixins.vw(110px)};
+  position: relative;
+  width: 100%;
+  padding-top: #{mixins.vw(54px)};
 
   @include mixins.mobile {
-    left: 0;
-    top: #{mixins.mvw(72px)};
     width: 100%;
-    min-height: #{mixins.mvw(72px)};
-  }
-}
-
-.services-hero__title-glow {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: #{mixins.vw(594px)};
-  font-size: #{mixins.vw(55.058px)};
-  font-weight: 600;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.74);
-  filter: blur(10px);
-  white-space: pre-wrap;
-  pointer-events: none;
-
-  @include mixins.mobile {
-    width: #{mixins.mvw(180px)};
-    font-size: #{mixins.mvw(26px)};
-    filter: blur(8px);
+    padding-top: #{mixins.mvw(72px)};
   }
 }
 
 .services-hero__title {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: #{mixins.vw(684px)};
+  position: relative;
+  width: 100%;
+  max-width: #{mixins.vw(1260px)};
   font-size: #{mixins.vw(55.058px)};
   font-weight: 400;
-  line-height: 1;
-  white-space: normal;
+  line-height: 0.94;
 
   @include mixins.mobile {
-    width: auto;
+    width: 100%;
     max-width: 100%;
     font-size: #{mixins.mvw(30px)};
+    line-height: 1;
+  }
+}
+
+.services-hero__title-line {
+  display: block;
+  white-space: nowrap;
+
+  @include mixins.mobile {
     white-space: normal;
   }
 }
 
-.services-hero__subtitle {
-  position: absolute;
-  left: #{mixins.vw(250px)};
-  top: #{mixins.vw(136px)};
-  width: #{mixins.vw(625px)};
-  margin-top: 0;
-  margin-left: 0;
-  font-size: #{mixins.vw(48.176px)};
-  font-weight: 400;
-  line-height: 1;
+.services-hero__title-line--secondary {
+  max-width: #{mixins.vw(940px)};
+  margin-top: #{mixins.vw(4px)};
+  margin-left: #{mixins.vw(322px)};
 
   @include mixins.mobile {
-    position: relative;
-    left: auto;
-    top: auto;
-    margin-top: #{mixins.mvw(22px)};
     max-width: 100%;
-    font-size: #{mixins.mvw(28px)};
+    margin-top: #{mixins.mvw(12px)};
+    margin-left: 0;
+  }
+}
+
+.services-hero__title-brand {
+  display: inline-block;
+  text-shadow:
+    0 0 #{mixins.vw(8px)} rgba(255, 255, 255, 0.64),
+    0 0 #{mixins.vw(26px)} rgba(255, 255, 255, 0.38);
+
+  @include mixins.mobile {
+    text-shadow:
+      0 0 #{mixins.mvw(8px)} rgba(255, 255, 255, 0.64),
+      0 0 #{mixins.mvw(18px)} rgba(255, 255, 255, 0.34);
   }
 }
 
 .services-hero__aside {
   position: absolute;
   right: 0;
-  top: #{mixins.vw(106px)};
+  top: #{mixins.vw(296px)};
   width: #{mixins.vw(411px)};
 
   @include mixins.mobile {
