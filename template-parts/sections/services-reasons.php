@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
 $uploads_base_url = trailingslashit((string) wp_get_upload_dir()['baseurl']) . '2026/04/';
+$reasons_top_polygon_url = $uploads_base_url . 'Polygon-9_result.webp';
+$reasons_bottom_polygon_url = $uploads_base_url . 'Polygon-10_result.webp';
 
 $reason_items = [
     [
@@ -36,7 +38,7 @@ $reason_items = [
         'classes' => ['reason-hex--photo-large'],
         'size' => 'photo-large',
         'variant' => 'image',
-        'image_url' => graffit_services_automation_image_url(),
+        'image_url' => $reasons_top_polygon_url,
         'image_alt' => 'Команда GraffiT за роботою',
         'image_position' => '56% center',
         'decorative' => true,
@@ -63,7 +65,7 @@ $reason_items = [
         'classes' => ['reason-hex--photo-small'],
         'size' => 'photo-small',
         'variant' => 'image',
-        'image_url' => graffit_services_outsourcing_image_url(),
+        'image_url' => $reasons_bottom_polygon_url,
         'image_alt' => 'Фахівці GraffiT на зустрічі',
         'image_position' => '64% center',
         'decorative' => true,
