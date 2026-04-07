@@ -153,6 +153,11 @@
   top: #{mixins.vw(106px)};
   width: #{mixins.vw(411px)};
 
+  @media (max-width: 1600px) and (min-width: 1025px) {
+    top: min(#{mixins.vw(180px)}, 180px);
+    width: min(#{mixins.vw(320px)}, 320px);
+  }
+
   @include mixins.respond-max(xl) {
     top: #{mixins.vw(196px)};
     width: #{mixins.vw(360px)};
