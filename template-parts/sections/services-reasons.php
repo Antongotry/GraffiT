@@ -8,49 +8,6 @@
 declare(strict_types=1);
 
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
-$uploads_base_url = trailingslashit((string) wp_get_upload_dir()['baseurl']) . '2026/04/';
-
-$reason_items = [
-    [
-        'classes' => ['reason-hex--card-primary'],
-        'title' => 'Ми не нав’язуємо готову “коробку”',
-        'text' => 'створюємо рішення під ваші задачі',
-        'size' => 'small',
-        'variant' => 'active',
-    ],
-    [
-        'classes' => ['reason-hex--card-stack'],
-        'title' => 'Працюємо в стеку, який сумісний з вимогами enterprise:',
-        'stack' => [
-            ['label' => 'Java', 'image_url' => $uploads_base_url . 'icon-1_result.webp'],
-            ['label' => 'Kotlin', 'image_url' => $uploads_base_url . 'icon-2_result.webp'],
-            ['label' => 'PostgreSQL', 'image_url' => $uploads_base_url . 'icon-3_result.webp'],
-            ['label' => 'Angular', 'image_url' => $uploads_base_url . 'icon-4_result.webp'],
-            ['label' => 'Kafka', 'image_url' => $uploads_base_url . 'icon-5_result.webp'],
-            ['label' => 'Docker', 'image_url' => $uploads_base_url . 'icon-6_result.webp'],
-        ],
-        'stack_caption' => 'Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first',
-        'size' => 'small',
-    ],
-    [
-        'classes' => ['reason-hex--card-cases'],
-        'title' => 'Допомагаємо в складних кейсах,',
-        'text' => 'де інші кажуть “так не робиться”',
-        'size' => 'small',
-    ],
-    [
-        'classes' => ['reason-hex--card-landscape'],
-        'title' => 'Інтегруємось у вже існуючий ландшафт',
-        'text' => '(1С, CRM, ERP, маркетплейси, POS тощо)',
-        'size' => 'small',
-    ],
-    [
-        'classes' => ['reason-hex--card-docs'],
-        'title' => 'Даємо чітку документацію,',
-        'text' => 'підтримку після запуску і прозору комунікацію',
-        'size' => 'small',
-    ],
-];
 ?>
 <section class="services-reasons" aria-labelledby="services-reasons-title">
     <div class="services-reasons__container">
@@ -72,11 +29,6 @@ $reason_items = [
             Ми не просто кодимо — ми глибоко занурюємось у бізнес клієнта, щоб створювати рішення, які не лише автоматизують, а й посилюють ефективність.
         </h2>
 
-        <div class="services-reasons__cluster" role="list" aria-label="Переваги GraffiT">
-            <div class="reason-hex reason-hex--outline reason-hex--outline-left" aria-hidden="true"></div>
-            <?php foreach ($reason_items as $item) : ?>
-                <?php get_template_part('template-parts/components/reason', 'hex', $item); ?>
-            <?php endforeach; ?>
-        </div>
+        <div class="services-reasons__cluster" aria-hidden="true"></div>
     </div>
 </section>

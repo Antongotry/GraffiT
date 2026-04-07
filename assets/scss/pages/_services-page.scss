@@ -748,11 +748,11 @@
 
 .services-reasons__container {
   position: relative;
-  width: #{mixins.vw(1360px)};
+  width: 100%;
   margin-inline: auto;
 
   @include mixins.mobile {
-    width: min(100% - #{mixins.mvw(32px)}, 100%);
+    width: 100%;
   }
 }
 
@@ -818,17 +818,20 @@
 
 .services-reasons__cluster {
   position: relative;
-  width: #{mixins.vw(1280px)};
-  height: #{mixins.vw(1114px)};
+  left: 50%;
+  width: 100vw;
+  min-height: #{mixins.vw(873px)};
+  height: #{mixins.vw(873px)};
   margin: #{mixins.vw(82px)} auto 0;
+  transform: translateX(-50%);
 
   @include mixins.mobile {
+    left: auto;
     width: 100%;
+    min-height: #{mixins.mvw(320px)};
     height: auto;
     margin-top: #{mixins.mvw(36px)};
-    display: grid;
-    gap: #{mixins.mvw(20px)};
-    justify-items: center;
+    transform: none;
   }
 }
 
