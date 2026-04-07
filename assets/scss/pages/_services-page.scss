@@ -820,8 +820,9 @@
   width: #{mixins.vw(416px)};
   height: #{mixins.vw(416px)};
   overflow: hidden;
+  border-radius: #{mixins.vw(12px)};
   clip-path: polygon(50% 0, 93.5% 25%, 93.5% 75%, 50% 100%, 6.5% 75%, 6.5% 25%);
-  background: linear-gradient(180deg, rgba(74, 82, 101, 0.96) 0%, rgba(63, 70, 88, 0.98) 100%);
+  background: linear-gradient(180deg, #4a5265 0%, #454d5c 100%);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 
   &::before {
@@ -837,6 +838,7 @@
     position: relative;
     width: min(100%, #{mixins.mvw(310px)});
     height: #{mixins.mvw(310px)};
+    border-radius: #{mixins.mvw(12px)};
 
     &::before {
       inset: #{mixins.mvw(14px)};
@@ -887,11 +889,13 @@
 .reason-hex__media {
   position: absolute;
   inset: 0;
+  border-radius: inherit;
 }
 
 .reason-hex__image {
   width: 100%;
   height: 100%;
+  border-radius: inherit;
   object-fit: cover;
   object-position: var(--reason-hex-image-position, center);
 }
@@ -973,6 +977,14 @@
   box-shadow:
     inset 0 0 0 1px rgba(0, 115, 230, 0.95),
     0 #{mixins.vw(22px)} #{mixins.vw(56px)} rgba(0, 82, 182, 0.22);
+}
+
+.reason-hex--muted {
+  background: linear-gradient(180deg, #4a5265 0%, #454d5c 100%);
+
+  &::before {
+    display: none;
+  }
 }
 
 .reason-hex--image {
