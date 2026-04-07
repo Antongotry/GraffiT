@@ -14,8 +14,7 @@
 
   @include mixins.mobile {
     min-height: 100svh;
-    height: auto;
-    padding-bottom: #{mixins.mvw(48px)};
+    height: 100svh;
   }
 }
 
