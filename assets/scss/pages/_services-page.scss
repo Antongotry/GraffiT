@@ -837,11 +837,11 @@
 
 .services-reasons__outline-shape {
   position: absolute;
-  left: #{mixins.vw(-180px)};
+  left: #{mixins.vw(-208px)};
   top: #{mixins.vw(64px)};
-  width: #{mixins.vw(360px)};
-  min-height: #{mixins.vw(360px)};
-  height: #{mixins.vw(360px)};
+  width: #{mixins.vw(416px)};
+  min-height: #{mixins.vw(416px)};
+  height: #{mixins.vw(416px)};
   background: transparent;
 
   &::before {
@@ -853,21 +853,21 @@
   }
 
   @include mixins.mobile {
-    left: #{mixins.mvw(-140px)};
+    left: #{mixins.mvw(-155px)};
     top: #{mixins.mvw(24px)};
-    width: #{mixins.mvw(280px)};
-    min-height: #{mixins.mvw(280px)};
-    height: #{mixins.mvw(280px)};
+    width: #{mixins.mvw(310px)};
+    min-height: #{mixins.mvw(310px)};
+    height: #{mixins.mvw(310px)};
   }
 }
 
 .services-reasons__primary-card {
   position: absolute;
-  left: #{mixins.vw(180px)};
+  left: #{mixins.vw(208px)};
   top: #{mixins.vw(64px)};
-  width: #{mixins.vw(360px)};
-  min-height: #{mixins.vw(360px)};
-  height: #{mixins.vw(360px)};
+  width: #{mixins.vw(416px)};
+  min-height: #{mixins.vw(416px)};
+  height: #{mixins.vw(416px)};
   background: transparent;
   z-index: 2;
 
@@ -893,9 +893,9 @@
     position: relative;
     left: auto;
     top: auto;
-    width: min(100%, #{mixins.mvw(280px)});
-    min-height: #{mixins.mvw(280px)};
-    height: #{mixins.mvw(280px)};
+    width: min(100%, #{mixins.mvw(310px)});
+    min-height: #{mixins.mvw(310px)};
+    height: #{mixins.mvw(310px)};
     margin: #{mixins.mvw(20px)} auto 0;
 
     &::after {
