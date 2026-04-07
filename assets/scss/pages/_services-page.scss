@@ -55,7 +55,7 @@
   grid-template-columns: #{mixins.vw(839px)} #{mixins.vw(282px)};
   justify-content: space-between;
   align-items: start;
-  padding-top: #{mixins.vw(47px)};
+  padding-top: #{mixins.vw(79px)};
   height: 100%;
 
   @include mixins.mobile {
