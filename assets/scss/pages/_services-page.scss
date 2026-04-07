@@ -276,7 +276,6 @@
   margin-top: #{mixins.vw(195px)};
   padding-bottom: 0;
   overflow: visible;
-  z-index: 2;
 
   &::before {
     position: absolute;
@@ -693,22 +692,24 @@
   overflow: visible;
   isolation: isolate;
   background: transparent;
+  z-index: 1;
 
   &::after {
     position: absolute;
-    inset: 0;
+    inset: #{mixins.vw(-86px)} 0 #{mixins.vw(-86px)};
     background:
       radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 28%),
       radial-gradient(circle at 84% 20%, rgba(255, 255, 255, 0.44) 0%, rgba(255, 255, 255, 0) 26%),
       linear-gradient(180deg, #bfc6d0 0%, #ffffff 100%);
-    clip-path: polygon(0 14%, 24% 20%, 50% 31%, 76% 20%, 100% 14%, 100% 90%, 62% 95%, 50% 100%, 38% 95%, 0 90%);
+    clip-path: polygon(0 15%, 22% 22%, 50% 31%, 78% 22%, 100% 15%, 100% 86%, 64% 92%, 50% 100%, 36% 92%, 0 86%);
     content: "";
     pointer-events: none;
     z-index: 0;
   }
 
   &::before {
-    clip-path: polygon(0 14%, 24% 20%, 50% 31%, 76% 20%, 100% 14%, 100% 90%, 62% 95%, 50% 100%, 38% 95%, 0 90%);
+    inset: #{mixins.vw(-86px)} 0 #{mixins.vw(-86px)};
+    clip-path: polygon(0 15%, 22% 22%, 50% 31%, 78% 22%, 100% 15%, 100% 86%, 64% 92%, 50% 100%, 36% 92%, 0 86%);
     opacity: 0.18;
     z-index: 1;
   }
@@ -723,6 +724,7 @@
 
     &::after,
     &::before {
+      inset: 0;
       clip-path: none;
     }
   }
