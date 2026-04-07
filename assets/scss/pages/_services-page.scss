@@ -145,7 +145,7 @@
 .services-hero__aside {
   position: absolute;
   right: 0;
-  top: #{mixins.vw(296px)};
+  top: #{mixins.vw(106px)};
   width: #{mixins.vw(411px)};
 
   @include mixins.mobile {
@@ -193,8 +193,8 @@
 
 .services-hero__experience {
   position: absolute;
-  left: #{mixins.vw(728px)};
-  top: #{mixins.vw(258px)};
+  left: #{mixins.vw(744px)};
+  top: #{mixins.vw(500px)};
   width: #{mixins.vw(230px)};
   height: #{mixins.vw(247px)};
   display: flex;
