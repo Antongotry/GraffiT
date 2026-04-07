@@ -62,7 +62,7 @@
   position: absolute;
   left: 0;
   top: #{mixins.vw(32px)};
-  width: #{mixins.vw(732px)};
+  width: #{mixins.vw(920px)};
 
   @include mixins.mobile {
     position: relative;
@@ -74,7 +74,7 @@
 
 .services-hero__brand-row {
   position: relative;
-  width: #{mixins.vw(732px)};
+  width: #{mixins.vw(920px)};
   height: #{mixins.vw(168px)};
 
   @include mixins.mobile {
@@ -87,7 +87,7 @@
   position: absolute;
   left: 0;
   top: #{mixins.vw(54px)};
-  width: #{mixins.vw(684px)};
+  width: #{mixins.vw(920px)};
   min-height: #{mixins.vw(110px)};
 
   @include mixins.mobile {
@@ -122,7 +122,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: #{mixins.vw(684px)};
+  width: #{mixins.vw(920px)};
   font-size: #{mixins.vw(55.058px)};
   font-weight: 400;
   line-height: 1;
@@ -138,9 +138,9 @@
 
 .services-hero__subtitle {
   position: absolute;
-  left: #{mixins.vw(250px)};
-  top: #{mixins.vw(136px)};
-  width: #{mixins.vw(625px)};
+  left: #{mixins.vw(318px)};
+  top: #{mixins.vw(128px)};
+  width: #{mixins.vw(560px)};
   margin-top: 0;
   margin-left: 0;
   font-size: #{mixins.vw(48.176px)};
