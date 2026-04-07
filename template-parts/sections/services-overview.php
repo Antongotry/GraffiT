@@ -21,7 +21,7 @@ $cards = [
         'image_position' => 'center',
         'button_label' => 'Детальніше',
         'button_url' => '#',
-        'highlighted' => true,
+        'highlighted' => false,
         'layout' => 'default',
     ],
     [
