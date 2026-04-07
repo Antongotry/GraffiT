@@ -1017,6 +1017,116 @@
   }
 }
 
+.services-reasons__bottom-card {
+  position: absolute;
+  top: #{mixins.vw(420px)};
+  width: #{mixins.vw(416px)};
+  min-height: #{mixins.vw(416px)};
+  height: #{mixins.vw(416px)};
+  background: var(--reasons-card-image) center / 100% 100% no-repeat;
+  z-index: 2;
+
+  @include mixins.mobile {
+    position: relative;
+    top: auto;
+    width: min(100%, #{mixins.mvw(310px)});
+    min-height: #{mixins.mvw(310px)};
+    height: #{mixins.mvw(310px)};
+    margin: #{mixins.mvw(20px)} auto 0;
+  }
+}
+
+.services-reasons__bottom-card--cursor {
+  left: #{mixins.vw(30px)};
+
+  @include mixins.mobile {
+    left: auto;
+  }
+}
+
+.services-reasons__bottom-card--landscape {
+  left: #{mixins.vw(476px)};
+
+  @include mixins.mobile {
+    left: auto;
+  }
+}
+
+.services-reasons__bottom-card--docs {
+  left: #{mixins.vw(922px)};
+
+  @include mixins.mobile {
+    left: auto;
+  }
+}
+
+.services-reasons__bottom-card-inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  width: #{mixins.vw(310px)};
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -50%);
+
+  @include mixins.mobile {
+    width: min(100% - #{mixins.mvw(36px)}, #{mixins.mvw(310px)});
+  }
+}
+
+.services-reasons__bottom-card-title {
+  width: #{mixins.vw(310px)};
+  min-height: #{mixins.vw(58px)};
+  font-size: #{mixins.vw(24px)};
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+
+  @include mixins.mobile {
+    width: 100%;
+    min-height: auto;
+    font-size: #{mixins.mvw(24px)};
+  }
+}
+
+.services-reasons__bottom-card-text {
+  width: #{mixins.vw(164px)};
+  margin-top: #{mixins.vw(40px)};
+  color: rgba(255, 255, 255, 0.56);
+  font-size: #{mixins.vw(16px)};
+  line-height: 1.36;
+  text-align: center;
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(164px)};
+    margin-top: #{mixins.mvw(24px)};
+    font-size: #{mixins.mvw(16px)};
+  }
+}
+
+.services-reasons__bottom-card-text--short {
+  min-height: #{mixins.vw(44px)};
+
+  @include mixins.mobile {
+    min-height: auto;
+  }
+}
+
+.services-reasons__bottom-card-cursor {
+  width: #{mixins.vw(28px)};
+  height: #{mixins.vw(26px)};
+  margin-top: #{mixins.vw(24px)};
+  object-fit: contain;
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(28px)};
+    height: #{mixins.mvw(26px)};
+    margin-top: #{mixins.mvw(18px)};
+  }
+}
+
 .reason-hex {
   position: absolute;
   width: #{mixins.vw(416px)};

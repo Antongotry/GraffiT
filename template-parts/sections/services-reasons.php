@@ -21,6 +21,7 @@ $reasons_stack_icons = [
     'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/icon-5_result.webp',
     'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/icon-6_result.webp',
 ];
+$reasons_cursor_icon = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/cursor-5.svg';
 
 $cover_card_style   = sprintf("--reasons-card-image: url('%s');", esc_url_raw($reasons_card_images['cover']));
 $primary_card_style = sprintf("--reasons-card-image: url('%s');", esc_url_raw($reasons_card_images['primary']));
@@ -87,6 +88,48 @@ $stack_card_style   = sprintf("--reasons-card-image: url('%s');", esc_url_raw($r
                         <?php endforeach; ?>
                     </div>
                     <p class="services-reasons__stack-card-text">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
+                </div>
+            </article>
+            <article
+                class="services-reasons__bottom-card services-reasons__bottom-card--cursor"
+                role="listitem"
+                aria-label="Допомагаємо в складних кейсах"
+                style="<?php echo esc_attr($stack_card_style); ?>"
+            >
+                <div class="services-reasons__bottom-card-inner services-reasons__bottom-card-inner--short">
+                    <h3 class="services-reasons__bottom-card-title">Допомагаємо в складних кейсах,</h3>
+                    <p class="services-reasons__bottom-card-text services-reasons__bottom-card-text--short">де інші кажуть “так не робиться”</p>
+                    <img
+                        class="services-reasons__bottom-card-cursor"
+                        src="<?php echo esc_url($reasons_cursor_icon); ?>"
+                        alt=""
+                        width="28"
+                        height="26"
+                        loading="lazy"
+                        decoding="async"
+                    >
+                </div>
+            </article>
+            <article
+                class="services-reasons__bottom-card services-reasons__bottom-card--landscape"
+                role="listitem"
+                aria-label="Інтегруємось у вже існуючий ландшафт"
+                style="<?php echo esc_attr($stack_card_style); ?>"
+            >
+                <div class="services-reasons__bottom-card-inner">
+                    <h3 class="services-reasons__bottom-card-title">Інтегруємось у вже існуючий ландшафт</h3>
+                    <p class="services-reasons__bottom-card-text">(1С, CRM, ERP, маркетплейси, POS тощо)</p>
+                </div>
+            </article>
+            <article
+                class="services-reasons__bottom-card services-reasons__bottom-card--docs"
+                role="listitem"
+                aria-label="Даємо чітку документацію"
+                style="<?php echo esc_attr($stack_card_style); ?>"
+            >
+                <div class="services-reasons__bottom-card-inner">
+                    <h3 class="services-reasons__bottom-card-title">Даємо чітку документацію,</h3>
+                    <p class="services-reasons__bottom-card-text">підтримку після запуску і прозору комунікацію</p>
                 </div>
             </article>
         </div>
