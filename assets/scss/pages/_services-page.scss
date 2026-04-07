@@ -153,6 +153,11 @@
   top: #{mixins.vw(106px)};
   width: #{mixins.vw(411px)};
 
+  @include mixins.respond-max(xl) {
+    top: #{mixins.vw(196px)};
+    width: #{mixins.vw(360px)};
+  }
+
   @include mixins.mobile {
     position: relative;
     right: auto;
