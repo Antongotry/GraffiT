@@ -732,12 +732,14 @@
 
 .services-reasons {
   position: relative;
-  padding: #{mixins.vw(120px)} 0 #{mixins.vw(150px)};
+  padding: #{mixins.vw(132px)} 0 #{mixins.vw(142px)};
   background:
     radial-gradient(circle at 12% 72%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 32%),
     radial-gradient(circle at 94% 16%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
     linear-gradient(180deg, #03101f 0%, #000102 22%, #000102 100%);
   overflow: hidden;
+  isolation: isolate;
+  z-index: 2;
 
   @include mixins.mobile {
     padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(88px)};
@@ -755,17 +757,21 @@
 }
 
 .services-reasons__eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: #{mixins.vw(12px)};
+  position: relative;
+  width: #{mixins.vw(107px)};
+  height: #{mixins.vw(32px)};
+  margin-inline: auto;
 
   @include mixins.mobile {
-    gap: #{mixins.mvw(12px)};
+    width: #{mixins.mvw(107px)};
+    height: #{mixins.mvw(32px)};
   }
 }
 
 .services-reasons__eyebrow-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: #{mixins.vw(28px)};
   height: #{mixins.vw(32px)};
 
@@ -776,10 +782,19 @@
 }
 
 .services-reasons__eyebrow-text {
+  position: absolute;
+  left: #{mixins.vw(40px)};
+  top: #{mixins.vw(5px)};
+  width: #{mixins.vw(67px)};
+  min-height: #{mixins.vw(22px)};
   font-size: #{mixins.vw(16px)};
   line-height: 1.36;
 
   @include mixins.mobile {
+    left: #{mixins.mvw(40px)};
+    top: #{mixins.mvw(5px)};
+    width: #{mixins.mvw(67px)};
+    min-height: #{mixins.mvw(22px)};
     font-size: #{mixins.mvw(16px)};
   }
 }
@@ -787,6 +802,7 @@
 .services-reasons__summary {
   width: #{mixins.vw(789px)};
   margin: #{mixins.vw(34px)} auto 0;
+  min-height: #{mixins.vw(152px)};
   font-size: #{mixins.vw(32px)};
   font-weight: 500;
   line-height: 1.2;
@@ -795,15 +811,16 @@
   @include mixins.mobile {
     width: 100%;
     margin-top: #{mixins.mvw(28px)};
+    min-height: auto;
     font-size: #{mixins.mvw(28px)};
   }
 }
 
 .services-reasons__cluster {
   position: relative;
-  width: #{mixins.vw(1288px)};
-  height: #{mixins.vw(1048px)};
-  margin: #{mixins.vw(26px)} auto 0;
+  width: #{mixins.vw(1280px)};
+  height: #{mixins.vw(1114px)};
+  margin: #{mixins.vw(82px)} auto 0;
 
   @include mixins.mobile {
     width: 100%;
@@ -874,14 +891,16 @@
 .reason-hex__inner {
   position: relative;
   z-index: 1;
-  display: flex;
+  display: block;
+  width: 100%;
   height: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: #{mixins.vw(54px)} #{mixins.vw(50px)};
+  padding: 0;
 
   @include mixins.mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: #{mixins.mvw(38px)} #{mixins.mvw(28px)};
   }
 }
@@ -901,6 +920,7 @@
 }
 
 .reason-hex__title {
+  margin-inline: auto;
   max-width: #{mixins.vw(312px)};
   font-size: #{mixins.vw(24px)};
   font-weight: 500;
@@ -915,7 +935,7 @@
 
 .reason-hex__text,
 .reason-hex__caption {
-  margin-top: #{mixins.vw(24px)};
+  margin-inline: auto;
   max-width: #{mixins.vw(282px)};
   color: var(--color-text-muted);
   font-size: #{mixins.vw(16px)};
@@ -951,6 +971,7 @@
   justify-content: center;
   width: #{mixins.vw(32px)};
   height: #{mixins.vw(32px)};
+  border-radius: #{mixins.vw(2px)};
   color: rgba(255, 255, 255, 0.92);
   font-size: #{mixins.vw(12px)};
   font-weight: 600;
@@ -959,6 +980,7 @@
   @include mixins.mobile {
     width: #{mixins.mvw(32px)};
     height: #{mixins.mvw(32px)};
+    border-radius: #{mixins.mvw(2px)};
     font-size: #{mixins.mvw(12px)};
   }
 }
@@ -1014,49 +1036,49 @@
 
 .reason-hex--outline-left {
   left: #{mixins.vw(-208px)};
-  top: #{mixins.vw(56px)};
+  top: #{mixins.vw(64px)};
   z-index: 0;
 }
 
 .reason-hex--card-primary {
-  left: #{mixins.vw(228px)};
-  top: #{mixins.vw(56px)};
+  left: #{mixins.vw(224px)};
+  top: #{mixins.vw(64px)};
   z-index: 2;
 }
 
 .reason-hex--card-stack {
-  left: #{mixins.vw(664px)};
-  top: #{mixins.vw(56px)};
+  left: #{mixins.vw(660px)};
+  top: #{mixins.vw(64px)};
   z-index: 2;
 }
 
 .reason-hex--photo-large {
-  right: #{mixins.vw(-96px)};
-  top: 0;
+  right: #{mixins.vw(-120px)};
+  top: #{mixins.vw(36px)};
   z-index: 1;
 }
 
 .reason-hex--card-cases {
   left: 0;
-  top: #{mixins.vw(492px)};
+  top: #{mixins.vw(500px)};
   z-index: 2;
 }
 
 .reason-hex--card-landscape {
   left: #{mixins.vw(436px)};
-  top: #{mixins.vw(492px)};
+  top: #{mixins.vw(500px)};
   z-index: 2;
 }
 
 .reason-hex--card-docs {
   left: #{mixins.vw(872px)};
-  top: #{mixins.vw(492px)};
+  top: #{mixins.vw(500px)};
   z-index: 2;
 }
 
 .reason-hex--photo-small {
-  right: #{mixins.vw(-8px)};
-  top: #{mixins.vw(644px)};
+  right: #{mixins.vw(-28px)};
+  top: #{mixins.vw(720px)};
   z-index: 1;
 }
 
@@ -1066,31 +1088,48 @@
 }
 
 .reason-hex--card-primary .reason-hex__title {
-  max-width: #{mixins.vw(244px)};
+  width: #{mixins.vw(296px)};
+  max-width: #{mixins.vw(296px)};
+  margin-top: #{mixins.vw(137px)};
 }
 
 .reason-hex--card-primary .reason-hex__text {
-  max-width: #{mixins.vw(170px)};
-  margin-top: #{mixins.vw(28px)};
-  font-size: #{mixins.vw(14px)};
-  line-height: 1.4;
+  width: #{mixins.vw(164px)};
+  max-width: #{mixins.vw(164px)};
+  margin-top: #{mixins.vw(40px)};
 }
 
 .reason-hex--card-stack .reason-hex__title {
-  max-width: #{mixins.vw(276px)};
-  font-size: #{mixins.vw(22px)};
+  width: #{mixins.vw(272px)};
+  max-width: #{mixins.vw(272px)};
+  margin-top: #{mixins.vw(92px)};
+  font-size: #{mixins.vw(24px)};
+}
+
+.reason-hex--card-stack .reason-hex__stack {
+  margin-top: #{mixins.vw(24px)};
 }
 
 .reason-hex--card-stack .reason-hex__caption {
-  max-width: #{mixins.vw(254px)};
+  width: #{mixins.vw(282px)};
+  max-width: #{mixins.vw(282px)};
   margin-top: #{mixins.vw(24px)};
-  font-size: #{mixins.vw(16px)};
+}
+
+.reason-hex--card-cases .reason-hex__title,
+.reason-hex--card-landscape .reason-hex__title,
+.reason-hex--card-docs .reason-hex__title {
+  width: #{mixins.vw(310px)};
+  max-width: #{mixins.vw(310px)};
+  margin-top: #{mixins.vw(126px)};
 }
 
 .reason-hex--card-cases .reason-hex__text,
 .reason-hex--card-landscape .reason-hex__text,
 .reason-hex--card-docs .reason-hex__text {
-  max-width: #{mixins.vw(196px)};
+  width: #{mixins.vw(164px)};
+  max-width: #{mixins.vw(164px)};
+  margin-top: #{mixins.vw(40px)};
 }
 
 @include mixins.mobile {
