@@ -842,28 +842,12 @@
   width: #{mixins.vw(416px)};
   min-height: #{mixins.vw(416px)};
   height: #{mixins.vw(416px)};
-  border-radius: #{mixins.vw(12px)};
-  clip-path: polygon(50% 0, 93.5% 25%, 93.5% 75%, 50% 100%, 6.5% 75%, 6.5% 25%);
   background: transparent;
-  isolation: isolate;
 
   &::before {
     position: absolute;
     inset: 0;
-    padding: #{mixins.vw(1.5px)};
-    border-radius: inherit;
-    clip-path: inherit;
-    background:
-      radial-gradient(circle at 18% 50%, rgba(0, 115, 230, 0.9) 0%, rgba(0, 115, 230, 0.28) 42%, rgba(0, 115, 230, 0) 78%),
-      radial-gradient(circle at 82% 50%, rgba(0, 115, 230, 0.9) 0%, rgba(0, 115, 230, 0.28) 42%, rgba(0, 115, 230, 0) 78%);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask-composite: exclude;
+    background: url("../images/reasons-outline.svg") center / 100% 100% no-repeat;
     content: "";
     pointer-events: none;
   }
@@ -874,11 +858,6 @@
     width: #{mixins.mvw(310px)};
     min-height: #{mixins.mvw(310px)};
     height: #{mixins.mvw(310px)};
-    border-radius: #{mixins.mvw(12px)};
-
-    &::before {
-      padding: #{mixins.mvw(1.5px)};
-    }
   }
 }
 
