@@ -29,8 +29,14 @@ $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
             Ми не просто кодимо — ми глибоко занурюємось у бізнес клієнта, щоб створювати рішення, які не лише автоматизують, а й посилюють ефективність.
         </h2>
 
-        <div class="services-reasons__cluster" aria-hidden="true">
-            <div class="services-reasons__outline-shape"></div>
+        <div class="services-reasons__cluster" role="list" aria-label="Переваги GraffiT">
+            <div class="services-reasons__outline-shape" aria-hidden="true"></div>
+            <article class="services-reasons__primary-card" role="listitem" aria-label="Ми не нав’язуємо готову коробку">
+                <div class="services-reasons__primary-card-inner">
+                    <h3 class="services-reasons__primary-card-title">Ми не нав’язуємо готову “коробку”</h3>
+                    <p class="services-reasons__primary-card-text">створюємо рішення під ваші задачі</p>
+                </div>
+            </article>
         </div>
     </div>
 </section>

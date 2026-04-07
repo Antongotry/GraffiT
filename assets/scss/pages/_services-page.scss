@@ -861,6 +861,82 @@
   }
 }
 
+.services-reasons__primary-card {
+  position: absolute;
+  left: #{mixins.vw(224px)};
+  top: #{mixins.vw(64px)};
+  width: #{mixins.vw(416px)};
+  min-height: #{mixins.vw(416px)};
+  height: #{mixins.vw(416px)};
+  border-radius: #{mixins.vw(12px)};
+  clip-path: polygon(50% 0, 93.5% 25%, 93.5% 75%, 50% 100%, 6.5% 75%, 6.5% 25%);
+  background:
+    radial-gradient(circle at 50% 100%, rgba(0, 115, 230, 0.62) 0%, rgba(0, 115, 230, 0) 44%),
+    linear-gradient(180deg, rgba(23, 127, 241, 0.98) 0%, rgba(12, 52, 105, 0.98) 60%, rgba(7, 15, 27, 0.99) 100%);
+  box-shadow:
+    inset 0 0 0 #{mixins.vw(1px)} rgba(0, 115, 230, 0.94),
+    0 #{mixins.vw(22px)} #{mixins.vw(56px)} rgba(0, 82, 182, 0.18);
+  z-index: 2;
+
+  @include mixins.mobile {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(100%, #{mixins.mvw(310px)});
+    min-height: #{mixins.mvw(310px)};
+    height: #{mixins.mvw(310px)};
+    margin: #{mixins.mvw(20px)} auto 0;
+    border-radius: #{mixins.mvw(12px)};
+    box-shadow:
+      inset 0 0 0 #{mixins.mvw(1px)} rgba(0, 115, 230, 0.94),
+      0 #{mixins.mvw(18px)} #{mixins.mvw(42px)} rgba(0, 82, 182, 0.18);
+  }
+}
+
+.services-reasons__primary-card-inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  width: #{mixins.vw(310px)};
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: #{mixins.vw(40px)};
+  transform: translate(-50%, -50%);
+
+  @include mixins.mobile {
+    width: min(100% - #{mixins.mvw(36px)}, #{mixins.mvw(310px)});
+    gap: #{mixins.mvw(24px)};
+  }
+}
+
+.services-reasons__primary-card-title {
+  width: #{mixins.vw(296px)};
+  font-size: #{mixins.vw(24px)};
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+
+  @include mixins.mobile {
+    width: 100%;
+    font-size: #{mixins.mvw(24px)};
+  }
+}
+
+.services-reasons__primary-card-text {
+  width: #{mixins.vw(164px)};
+  color: rgba(255, 255, 255, 0.56);
+  font-size: #{mixins.vw(16px)};
+  line-height: 1.36;
+  text-align: center;
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(164px)};
+    font-size: #{mixins.mvw(16px)};
+  }
+}
+
 .reason-hex {
   position: absolute;
   width: #{mixins.vw(416px)};
