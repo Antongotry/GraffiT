@@ -847,7 +847,7 @@
   &::before {
     position: absolute;
     inset: 0;
-    background: url("../images/reasons-outline.svg") center / 100% 100% no-repeat;
+    background: url("../images/reasons-outline-shape.svg") center / 100% 100% no-repeat;
     content: "";
     pointer-events: none;
   }
@@ -874,7 +874,7 @@
   &::before {
     position: absolute;
     inset: 0;
-    background: url("../images/reasons-primary-card.svg") center / 100% 100% no-repeat;
+    background: url("../images/reasons-primary-card-shape.svg") center / 100% 100% no-repeat;
     content: "";
     pointer-events: none;
   }

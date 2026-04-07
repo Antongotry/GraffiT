@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="416" height="416" viewBox="0 0 416 416" fill="none">
+  <defs>
+    <linearGradient id="reasons-outline-strong-v2" x1="32" y1="108" x2="384" y2="308" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0073E6" stop-opacity="0.55"/>
+      <stop offset="0.5" stop-color="#0073E6" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#0073E6" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+  <path
+    d="M187 10Q208 -4 229 10L386 101Q415 118 415 146V270Q415 298 386 315L229 406Q208 420 187 406L30 315Q1 298 1 270V146Q1 118 30 101L187 10Z"
+    stroke="#0073E6"
+    stroke-opacity="0.12"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M187 10Q208 -4 229 10L386 101Q415 118 415 146V270Q415 298 386 315L229 406Q208 420 187 406L30 315Q1 298 1 270V146Q1 118 30 101L187 10Z"
+    stroke="url(#reasons-outline-strong-v2)"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
