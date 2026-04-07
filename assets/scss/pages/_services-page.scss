@@ -61,7 +61,7 @@
 .services-hero__heading {
   position: absolute;
   left: 0;
-  top: #{mixins.vw(32px)};
+  top: #{mixins.vw(18px)};
   width: #{mixins.vw(1260px)};
 
   @include mixins.mobile {
@@ -84,7 +84,7 @@
 .services-hero__brand-copy {
   position: relative;
   width: 100%;
-  padding-top: #{mixins.vw(54px)};
+  padding-top: #{mixins.vw(42px)};
 
   @include mixins.mobile {
     width: 100%;
@@ -119,7 +119,7 @@
 
 .services-hero__title-line--secondary {
   max-width: #{mixins.vw(940px)};
-  margin-top: #{mixins.vw(4px)};
+  margin-top: #{mixins.vw(16px)};
   margin-left: #{mixins.vw(322px)};
 
   @include mixins.mobile {
@@ -194,7 +194,7 @@
 .services-hero__experience {
   position: absolute;
   left: #{mixins.vw(744px)};
-  top: #{mixins.vw(500px)};
+  top: #{mixins.vw(320px)};
   width: #{mixins.vw(230px)};
   height: #{mixins.vw(247px)};
   display: flex;
