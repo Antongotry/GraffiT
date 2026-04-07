@@ -21,7 +21,7 @@
 
 .services-hero__media {
   position: absolute;
-  inset: #{mixins.vw(174px)} 0 0;
+  inset: 0;
   background-image: var(--services-hero-image);
   background-position: center top;
   background-repeat: no-repeat;
@@ -29,7 +29,7 @@
   z-index: 0;
 
   @include mixins.mobile {
-    inset: #{mixins.mvw(220px)} 0 0;
+    inset: 0;
     background-position: center, center, 60% center;
   }
 }
