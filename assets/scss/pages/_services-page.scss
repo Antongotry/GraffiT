@@ -2292,7 +2292,7 @@
 
 .project-case-card__result-item {
   position: relative;
-  padding-left: #{mixins.vw(36px)};
+  padding-left: #{mixins.vw(32px)};
   font-size: #{mixins.vw(16px)};
   line-height: 1.36;
 
@@ -2300,22 +2300,9 @@
     position: absolute;
     top: #{mixins.vw(4px)};
     left: 0;
-    width: #{mixins.vw(14px)};
-    height: #{mixins.vw(14px)};
-    border-radius: 50%;
-    background: #ffffff;
-    content: "";
-  }
-
-  &::after {
-    position: absolute;
-    top: #{mixins.vw(5px)};
-    left: #{mixins.vw(4px)};
-    width: #{mixins.vw(6px)};
-    height: #{mixins.vw(3px)};
-    border-bottom: 2px solid #0073e6;
-    border-left: 2px solid #0073e6;
-    transform: rotate(-45deg);
+    width: #{mixins.vw(16px)};
+    height: #{mixins.vw(16px)};
+    background: url('https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Icon.svg') center / 100% 100% no-repeat;
     content: "";
   }
 
@@ -2325,15 +2312,8 @@
 
     &::before {
       top: #{mixins.mvw(4px)};
-      width: #{mixins.mvw(14px)};
-      height: #{mixins.mvw(14px)};
-    }
-
-    &::after {
-      top: #{mixins.mvw(5px)};
-      left: #{mixins.mvw(4px)};
-      width: #{mixins.mvw(6px)};
-      height: #{mixins.mvw(3px)};
+      width: #{mixins.mvw(16px)};
+      height: #{mixins.mvw(16px)};
     }
   }
 }
