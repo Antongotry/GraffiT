@@ -279,9 +279,9 @@
   overflow: visible;
   z-index: 2;
 
-  &::before {
+  &::before,
+  &::after {
     position: absolute;
-    inset: #{mixins.vw(-120px)} #{mixins.vw(-220px)} auto auto;
     width: #{mixins.vw(520px)};
     height: #{mixins.vw(520px)};
     background: radial-gradient(circle, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0) 74%);
@@ -290,16 +290,32 @@
     pointer-events: none;
   }
 
+  &::before {
+    inset: #{mixins.vw(-120px)} #{mixins.vw(-220px)} auto auto;
+  }
+
+  &::after {
+    inset: #{mixins.vw(-120px)} auto auto #{mixins.vw(-220px)};
+  }
+
   @include mixins.mobile {
     margin-top: #{mixins.mvw(96px)};
     margin-bottom: 0;
     padding-bottom: #{mixins.mvw(88px)};
 
-    &::before {
-      inset: #{mixins.mvw(-40px)} #{mixins.mvw(-140px)} auto auto;
+    &::before,
+    &::after {
       width: #{mixins.mvw(300px)};
       height: #{mixins.mvw(300px)};
       filter: blur(24px);
+    }
+
+    &::before {
+      inset: #{mixins.mvw(-40px)} #{mixins.mvw(-140px)} auto auto;
+    }
+
+    &::after {
+      inset: #{mixins.mvw(-40px)} auto auto #{mixins.mvw(-140px)};
     }
   }
 }
