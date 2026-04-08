@@ -22,7 +22,7 @@ $reasons_stack_icons = [
     'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/icon-6_result.webp',
 ];
 $reasons_cursor_icon = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/cursor-5.svg';
-$reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
+$reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
 
 $cover_card_style   = sprintf("--reasons-card-image: url('%s');", esc_url_raw($reasons_card_images['cover']));
 $primary_card_style = sprintf("--reasons-card-image: url('%s');", esc_url_raw($reasons_card_images['primary']));
@@ -96,8 +96,8 @@ $stack_card_style   = sprintf("--reasons-card-image: url('%s');", esc_url_raw($r
                     class="services-reasons__side-photo-image"
                     src="<?php echo esc_url($reasons_side_photo); ?>"
                     alt=""
-                    width="621"
-                    height="621"
+                    width="365"
+                    height="365"
                     loading="lazy"
                     decoding="async"
                 >

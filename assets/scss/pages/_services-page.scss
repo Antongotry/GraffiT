@@ -992,11 +992,11 @@
 
 .services-reasons__side-photo {
   position: absolute;
-  top: calc(#{mixins.vw(132px)} - 20vw);
-  right: #{mixins.vw(-174px)};
-  width: #{mixins.vw(621px)};
-  min-height: #{mixins.vw(621px)};
-  height: #{mixins.vw(621px)};
+  top: #{mixins.vw(399px)};
+  right: #{mixins.vw(-37px)};
+  width: #{mixins.vw(365px)};
+  min-height: #{mixins.vw(365px)};
+  height: #{mixins.vw(365px)};
   z-index: 1;
   pointer-events: none;
 
