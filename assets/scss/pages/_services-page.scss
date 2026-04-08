@@ -1908,16 +1908,37 @@
   width: #{mixins.vw(64px)};
   height: #{mixins.vw(127px)};
   display: flex;
-  align-items: #{mixins.vw(40px)};
+  align-items: flex-start;
   justify-content: center;
+  padding-top: #{mixins.vw(46px)};
   background: linear-gradient(180deg, #031f46 0%, #0073e6 100%);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 76%);
+  border-radius: 0 0 #{mixins.vw(18px)} #{mixins.vw(18px)};
   color: #ffffff;
+  overflow: hidden;
+
+  &::after {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: #{mixins.vw(22px)};
+    height: #{mixins.vw(28px)};
+    background: rgba(255, 255, 255, 0.94);
+    clip-path: polygon(0 0, 0 100%, 100% 100%);
+    content: "";
+    pointer-events: none;
+  }
 
   @include mixins.mobile {
     right: #{mixins.mvw(24px)};
     width: #{mixins.mvw(64px)};
     height: #{mixins.mvw(127px)};
+    padding-top: #{mixins.mvw(46px)};
+    border-radius: 0 0 #{mixins.mvw(18px)} #{mixins.mvw(18px)};
+
+    &::after {
+      width: #{mixins.mvw(22px)};
+      height: #{mixins.mvw(28px)};
+    }
   }
 }
 
@@ -1925,16 +1946,17 @@
   width: #{mixins.vw(26px)};
   height: #{mixins.vw(26px)};
 
-  svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-
   @include mixins.mobile {
     width: #{mixins.mvw(26px)};
     height: #{mixins.mvw(26px)};
   }
+}
+
+.trust-card__icon-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .trust-card__content {

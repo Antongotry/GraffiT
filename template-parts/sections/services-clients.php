@@ -13,27 +13,22 @@ $trust_cards = [
     [
         'title' => 'Розуміння бізнесу',
         'text' => 'Багаторічна експертиза дозволяє будувати системи, які працюють на бізнес, а не проти нього.',
-        'icon' => 'insight',
     ],
     [
         'title' => 'Нічого зайвого',
         'text' => 'Кожне рішення під конкретні задачі та масштаб компанії.',
-        'icon' => 'focus',
     ],
     [
         'title' => 'Досвід роботи з лідерами ринку',
         'text' => 'Розуміємо вимоги великого бізнесу й будуємо рішення, що витримують навантаження.',
-        'icon' => 'market',
     ],
     [
         'title' => 'Масштабованість',
         'text' => 'Створюємо архітектуру, яка росте разом із бізнесом.',
-        'icon' => 'scale',
     ],
     [
         'title' => 'Партнерство',
         'text' => 'Не просто виконуємо завдання — підказуємо, як зробити ефективніше.',
-        'icon' => 'partnership',
     ],
 ];
 ?>
@@ -67,7 +62,13 @@ $trust_cards = [
 
                 <div class="services-clients__cards-stage js-clients-stage">
                     <div class="services-clients__cards-track js-clients-track">
-                        <?php foreach ($trust_cards as $trust_card) : ?>
+                        <?php foreach ($trust_cards as $index => $trust_card) : ?>
+                            <?php
+                            $trust_card['badge_icon_url'] = sprintf(
+                                'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/o%d.svg',
+                                $index + 1
+                            );
+                            ?>
                             <?php get_template_part('template-parts/components/trust', 'card', $trust_card); ?>
                         <?php endforeach; ?>
                     </div>
