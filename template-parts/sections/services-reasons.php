@@ -22,6 +22,7 @@ $reasons_stack_icons = [
     'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/icon-6_result.webp',
 ];
 $reasons_cursor_icon = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/cursor-5.svg';
+$reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 
 $cover_card_style   = sprintf("--reasons-card-image: url('%s');", esc_url_raw($reasons_card_images['cover']));
 $primary_card_style = sprintf("--reasons-card-image: url('%s');", esc_url_raw($reasons_card_images['primary']));
@@ -90,6 +91,17 @@ $stack_card_style   = sprintf("--reasons-card-image: url('%s');", esc_url_raw($r
                     <p class="services-reasons__stack-card-text">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
                 </div>
             </article>
+            <div class="services-reasons__side-photo" aria-hidden="true">
+                <img
+                    class="services-reasons__side-photo-image"
+                    src="<?php echo esc_url($reasons_side_photo); ?>"
+                    alt=""
+                    width="621"
+                    height="621"
+                    loading="lazy"
+                    decoding="async"
+                >
+            </div>
             <article
                 class="services-reasons__bottom-card services-reasons__bottom-card--cursor"
                 role="listitem"

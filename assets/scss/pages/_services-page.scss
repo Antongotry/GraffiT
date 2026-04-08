@@ -990,6 +990,29 @@
   }
 }
 
+.services-reasons__side-photo {
+  position: absolute;
+  top: #{mixins.vw(64px)};
+  right: 0;
+  width: #{mixins.vw(621px)};
+  min-height: #{mixins.vw(621px)};
+  height: #{mixins.vw(621px)};
+  z-index: 1;
+  pointer-events: none;
+
+  @include mixins.mobile {
+    display: none;
+  }
+}
+
+.services-reasons__side-photo-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
 .services-reasons__bottom-card {
   position: absolute;
   top: #{mixins.vw(420px)};
