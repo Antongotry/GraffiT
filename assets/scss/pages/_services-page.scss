@@ -1910,35 +1910,15 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: #{mixins.vw(46px)};
-  background: linear-gradient(180deg, #031f46 0%, #0073e6 100%);
-  border-radius: 0 0 #{mixins.vw(18px)} #{mixins.vw(18px)};
+  padding-top: #{mixins.vw(52px)};
+  background: url('../images/trust-ribbon-shape.svg') center / 100% 100% no-repeat;
   color: #ffffff;
-  overflow: hidden;
-
-  &::after {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: #{mixins.vw(22px)};
-    height: #{mixins.vw(28px)};
-    background: rgba(255, 255, 255, 0.94);
-    clip-path: polygon(0 0, 0 100%, 100% 100%);
-    content: "";
-    pointer-events: none;
-  }
 
   @include mixins.mobile {
     right: #{mixins.mvw(24px)};
     width: #{mixins.mvw(64px)};
     height: #{mixins.mvw(127px)};
-    padding-top: #{mixins.mvw(46px)};
-    border-radius: 0 0 #{mixins.mvw(18px)} #{mixins.mvw(18px)};
-
-    &::after {
-      width: #{mixins.mvw(22px)};
-      height: #{mixins.mvw(28px)};
-    }
+    padding-top: #{mixins.mvw(52px)};
   }
 }
 
