@@ -2623,6 +2623,7 @@
 .services-process__visual {
   position: sticky;
   top: #{mixins.vw(122px)};
+  align-self: end;
 
   @include mixins.mobile {
     position: relative;
@@ -2633,8 +2634,9 @@
 
 .services-process__visual-frame {
   position: relative;
-  width: #{mixins.vw(732px)};
-  height: #{mixins.vw(732px)};
+  width: #{mixins.vw(739px)};
+  height: #{mixins.vw(714px)};
+  overflow: visible;
 
   @include mixins.mobile {
     width: 100%;
@@ -2642,32 +2644,23 @@
   }
 }
 
-.services-process__visual-shape {
+.services-process__visual-photo {
   position: absolute;
-  inset: 0;
-  border-radius: #{mixins.vw(33px)};
-  transform: rotate(13.5deg);
-  border: 1px solid rgba(0, 115, 230, 0.46);
+  right: #{mixins.vw(-40px)};
+  bottom: 0;
+  width: #{mixins.vw(977px)};
+  height: #{mixins.vw(977px)};
+  object-fit: contain;
+  object-position: bottom right;
+  pointer-events: none;
 
   @include mixins.mobile {
-    border-radius: #{mixins.mvw(20px)};
-  }
-}
-
-.services-process__visual-image {
-  position: absolute;
-  inset: #{mixins.vw(48px)};
-  border-radius: #{mixins.vw(30px)};
-  clip-path: polygon(22% 0, 90% 9%, 100% 76%, 57% 100%, 17% 78%, 0 22%);
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.42) 100%),
-    radial-gradient(circle at 38% 38%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 24%),
-    linear-gradient(135deg, rgba(55, 73, 103, 0.88) 0%, rgba(31, 39, 57, 0.54) 36%, rgba(17, 20, 26, 0.18) 100%),
-    linear-gradient(180deg, #d6dde7 0%, #5c697e 100%);
-
-  @include mixins.mobile {
-    inset: #{mixins.mvw(20px)};
-    border-radius: #{mixins.mvw(16px)};
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    height: 100%;
+    object-position: center bottom;
   }
 }
 

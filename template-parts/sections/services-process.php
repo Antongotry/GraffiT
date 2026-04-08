@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
+$process_visual_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/sf_result.webp';
 
 $process_steps = [
     [
@@ -76,8 +77,15 @@ $process_steps = [
 
             <div class="services-process__visual" aria-hidden="true">
                 <div class="services-process__visual-frame">
-                    <span class="services-process__visual-shape"></span>
-                    <div class="services-process__visual-image"></div>
+                    <img
+                        class="services-process__visual-photo"
+                        src="<?php echo esc_url($process_visual_image); ?>"
+                        alt=""
+                        width="977"
+                        height="977"
+                        loading="lazy"
+                        decoding="async"
+                    >
                 </div>
             </div>
         </div>
