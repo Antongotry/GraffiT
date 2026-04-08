@@ -97,8 +97,8 @@ $stack_card_style   = sprintf("--reasons-card-image: url('%s');", esc_url_raw($r
                     class="services-reasons__side-photo-image"
                     src="<?php echo esc_url($reasons_side_photo); ?>"
                     alt=""
-                    width="621"
-                    height="621"
+                    width="559"
+                    height="559"
                     loading="lazy"
                     decoding="async"
                 >

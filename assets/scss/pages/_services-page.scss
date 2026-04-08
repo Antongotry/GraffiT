@@ -992,11 +992,11 @@
 
 .services-reasons__side-photo {
   position: absolute;
-  top: calc(#{mixins.vw(132px)} - 20vw);
-  right: #{mixins.vw(-174px)};
-  width: #{mixins.vw(621px)};
-  min-height: #{mixins.vw(621px)};
-  height: #{mixins.vw(621px)};
+  top: calc(#{mixins.vw(144px)} - 20vw);
+  right: #{mixins.vw(-143px)};
+  width: #{mixins.vw(559px)};
+  min-height: #{mixins.vw(559px)};
+  height: #{mixins.vw(559px)};
   z-index: 1;
   pointer-events: none;
 
@@ -1007,8 +1007,8 @@
 
 .services-reasons__lower-photo {
   position: absolute;
-  top: #{mixins.vw(435px)};
-  right: #{mixins.vw(-110px)};
+  top: #{mixins.vw(453px)};
+  right: #{mixins.vw(-128px)};
   width: #{mixins.vw(365px)};
   min-height: #{mixins.vw(365px)};
   height: #{mixins.vw(365px)};
