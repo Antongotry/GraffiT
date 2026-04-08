@@ -272,11 +272,39 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-process-section').forEach(function (section) {
+      var timeline = section.querySelector('.services-process__timeline');
       var lineFill = section.querySelector('.js-process-line-fill');
       var steps = Array.prototype.slice.call(section.querySelectorAll('.js-process-step'));
+      var line = lineFill ? lineFill.parentElement : null;
 
-      if (!lineFill || steps.length === 0) {
+      if (!timeline || !lineFill || !line || steps.length === 0) {
         return;
+      }
+
+      function getStepTags() {
+        return steps.map(function (step) {
+          return step.querySelector('.process-step__tag');
+        }).filter(Boolean);
+      }
+
+      function updateLineBounds() {
+        var tags = getStepTags();
+
+        if (tags.length === 0) {
+          return 0;
+        }
+
+        var timelineRect = timeline.getBoundingClientRect();
+        var firstRect = tags[0].getBoundingClientRect();
+        var lastRect = tags[tags.length - 1].getBoundingClientRect();
+        var start = firstRect.top - timelineRect.top + firstRect.height * 0.5;
+        var end = lastRect.top - timelineRect.top + lastRect.height * 0.5;
+        var lineHeight = Math.max(end - start, 0);
+
+        line.style.top = start + 'px';
+        line.style.height = lineHeight + 'px';
+
+        return lineHeight;
       }
 
       function setActiveStep(activeIndex) {
@@ -285,16 +313,14 @@
         });
       }
 
+      updateLineBounds();
       setActiveStep(0);
 
       window.gsap.fromTo(lineFill, {
-        height: lineFill.offsetHeight
+        height: 0
       }, {
         height: function () {
-          var lastStep = steps[steps.length - 1];
-          var lineRect = lineFill.parentElement.getBoundingClientRect();
-          var lastRect = lastStep.getBoundingClientRect();
-          return lastRect.top - lineRect.top + lastRect.height * 0.52;
+          return updateLineBounds();
         },
         ease: 'none',
         scrollTrigger: {
@@ -302,7 +328,10 @@
           start: 'top 62%',
           end: 'bottom 72%',
           scrub: 1,
-          invalidateOnRefresh: true
+          invalidateOnRefresh: true,
+          onRefresh: function () {
+            updateLineBounds();
+          }
         }
       });
 
