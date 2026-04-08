@@ -992,8 +992,8 @@
 
 .services-reasons__side-photo {
   position: absolute;
-  top: #{mixins.vw(64px)};
-  right: 0;
+  top: calc(#{mixins.vw(64px)} - 20vw);
+  right: #{mixins.vw(-124px)};
   width: #{mixins.vw(621px)};
   min-height: #{mixins.vw(621px)};
   height: #{mixins.vw(621px)};
