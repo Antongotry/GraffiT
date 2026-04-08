@@ -687,46 +687,19 @@
 
 .services-inquiry {
   position: relative;
-  margin-top: #{mixins.vw(-260px)};
-  padding: #{mixins.vw(300px)} 0 #{mixins.vw(220px)};
-  overflow: visible;
-  isolation: isolate;
-  background: transparent;
+  margin-top: 0;
+  padding: #{mixins.vw(132px)} 0 #{mixins.vw(132px)};
+  overflow: hidden;
+  isolation: auto;
   z-index: 1;
-
-  &::after {
-    position: absolute;
-    inset: #{mixins.vw(-86px)} 0 #{mixins.vw(-86px)};
-    background:
-      radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 28%),
-      radial-gradient(circle at 84% 20%, rgba(255, 255, 255, 0.44) 0%, rgba(255, 255, 255, 0) 26%),
-      linear-gradient(180deg, #bfc6d0 0%, #ffffff 100%);
-    clip-path: polygon(0 15%, 22% 22%, 50% 31%, 78% 22%, 100% 15%, 100% 86%, 64% 92%, 50% 100%, 36% 92%, 0 86%);
-    content: "";
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  &::before {
-    inset: #{mixins.vw(-86px)} 0 #{mixins.vw(-86px)};
-    clip-path: polygon(0 15%, 22% 22%, 50% 31%, 78% 22%, 100% 15%, 100% 86%, 64% 92%, 50% 100%, 36% 92%, 0 86%);
-    opacity: 0.18;
-    z-index: 1;
-  }
 
   .cta-band__container {
     z-index: 2;
   }
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(72px)};
-    padding: #{mixins.mvw(52px)} 0 #{mixins.mvw(56px)};
-
-    &::after,
-    &::before {
-      inset: 0;
-      clip-path: none;
-    }
+    margin-top: 0;
+    padding: #{mixins.mvw(84px)} 0 #{mixins.mvw(84px)};
   }
 }
 
@@ -2708,34 +2681,6 @@
     radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 28%),
     radial-gradient(circle at 84% 18%, rgba(255, 255, 255, 0.44) 0%, rgba(255, 255, 255, 0) 24%),
     linear-gradient(180deg, #edf0f4 0%, #cfd4db 100%);
-
-  &::before,
-  &::after {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: #{mixins.vw(36px)};
-    background: #000102;
-    content: "";
-    z-index: 2;
-  }
-
-  &::before {
-    top: 0;
-    clip-path: polygon(0 0, 44% 0, 50% 100%, 56% 0, 100% 0, 100% 100%, 0 100%);
-  }
-
-  &::after {
-    bottom: 0;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 56% 0, 50% 100%, 44% 0, 0 100%);
-  }
-
-  @include mixins.mobile {
-    &::before,
-    &::after {
-      display: none;
-    }
-  }
 }
 
 .services-final-cta__container {
