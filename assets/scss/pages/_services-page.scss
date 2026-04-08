@@ -274,8 +274,10 @@
 .services-overview {
   position: relative;
   margin-top: #{mixins.vw(195px)};
+  margin-bottom: #{mixins.vw(-186px)};
   padding-bottom: 0;
   overflow: visible;
+  z-index: 2;
 
   &::before {
     position: absolute;
@@ -290,6 +292,7 @@
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(96px)};
+    margin-bottom: 0;
     padding-bottom: #{mixins.mvw(88px)};
 
     &::before {
@@ -690,9 +693,10 @@
 .services-inquiry {
   position: relative;
   margin-top: 0;
-  padding: #{mixins.vw(132px)} 0 #{mixins.vw(132px)};
+  min-height: #{mixins.vw(700px)};
+  padding: #{mixins.vw(318px)} 0 #{mixins.vw(132px)};
   overflow: hidden;
-  isolation: auto;
+  isolation: isolate;
   z-index: 1;
 
   .cta-band__container {
@@ -701,6 +705,7 @@
 
   @include mixins.mobile {
     margin-top: 0;
+    min-height: auto;
     padding: #{mixins.mvw(84px)} 0 #{mixins.mvw(84px)};
   }
 }
