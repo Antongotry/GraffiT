@@ -810,11 +810,11 @@
 
 .services-reasons__outline-shape {
   position: absolute;
-  left: #{mixins.vw(-208px)};
+  left: #{mixins.vw(-187px)};
   top: #{mixins.vw(64px)};
-  width: #{mixins.vw(416px)};
-  min-height: #{mixins.vw(416px)};
-  height: #{mixins.vw(416px)};
+  width: #{mixins.vw(374px)};
+  min-height: #{mixins.vw(374px)};
+  height: #{mixins.vw(374px)};
   background: var(--reasons-card-image) center / 100% 100% no-repeat;
 
   @include mixins.mobile {
@@ -828,11 +828,11 @@
 
 .services-reasons__primary-card {
   position: absolute;
-  left: #{mixins.vw(238px)};
+  left: #{mixins.vw(217px)};
   top: #{mixins.vw(64px)};
-  width: #{mixins.vw(416px)};
-  min-height: #{mixins.vw(416px)};
-  height: #{mixins.vw(416px)};
+  width: #{mixins.vw(374px)};
+  min-height: #{mixins.vw(374px)};
+  height: #{mixins.vw(374px)};
   background: var(--reasons-card-image) center / 100% 100% no-repeat;
   z-index: 2;
 
@@ -893,11 +893,11 @@
 
 .services-reasons__stack-card {
   position: absolute;
-  left: #{mixins.vw(684px)};
+  left: #{mixins.vw(621px)};
   top: #{mixins.vw(64px)};
-  width: #{mixins.vw(416px)};
-  min-height: #{mixins.vw(416px)};
-  height: #{mixins.vw(416px)};
+  width: #{mixins.vw(374px)};
+  min-height: #{mixins.vw(374px)};
+  height: #{mixins.vw(374px)};
   background: var(--reasons-card-image) center / 100% 100% no-repeat;
   z-index: 2;
 
@@ -1015,10 +1015,10 @@
 
 .services-reasons__bottom-card {
   position: absolute;
-  top: #{mixins.vw(420px)};
-  width: #{mixins.vw(416px)};
-  min-height: #{mixins.vw(416px)};
-  height: #{mixins.vw(416px)};
+  top: #{mixins.vw(338px)};
+  width: #{mixins.vw(374px)};
+  min-height: #{mixins.vw(374px)};
+  height: #{mixins.vw(374px)};
   background: var(--reasons-card-image) center / 100% 100% no-repeat;
   z-index: 2;
 
@@ -1033,7 +1033,7 @@
 }
 
 .services-reasons__bottom-card--cursor {
-  left: #{mixins.vw(30px)};
+  left: #{mixins.vw(15px)};
 
   @include mixins.mobile {
     left: auto;
@@ -1041,7 +1041,7 @@
 }
 
 .services-reasons__bottom-card--landscape {
-  left: #{mixins.vw(476px)};
+  left: #{mixins.vw(419px)};
 
   @include mixins.mobile {
     left: auto;
@@ -1049,7 +1049,7 @@
 }
 
 .services-reasons__bottom-card--docs {
-  left: #{mixins.vw(922px)};
+  left: #{mixins.vw(823px)};
 
   @include mixins.mobile {
     left: auto;
