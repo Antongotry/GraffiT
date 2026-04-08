@@ -73,12 +73,9 @@
   display: none;
   align-items: center;
   justify-content: center;
-  width: #{mixins.mvw(40px)};
-  height: #{mixins.mvw(40px)};
   padding: 0;
   border: 0;
-  border-radius: #{mixins.mvw(8px)};
-  background: rgba(255, 255, 255, 0.08);
+  background: transparent;
   color: #fff;
   cursor: pointer;
   flex-shrink: 0;
