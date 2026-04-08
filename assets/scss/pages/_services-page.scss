@@ -1998,13 +1998,37 @@
 .services-projects {
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 4% 20%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 24%),
-    radial-gradient(circle at 86% 4%, rgba(0, 115, 230, 0.26) 0%, rgba(0, 115, 230, 0) 26%),
-    linear-gradient(180deg, #020b17 0%, #000102 100%);
+  isolation: isolate;
+  background: #000102;
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 4% 20%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 24%),
+      radial-gradient(circle at 86% 4%, rgba(0, 115, 230, 0.26) 0%, rgba(0, 115, 230, 0) 26%),
+      linear-gradient(180deg, rgba(2, 11, 23, 0.06) 0%, rgba(0, 1, 2, 0.14) 18%, rgba(0, 1, 2, 0.58) 54%, #000102 100%),
+      var(--services-projects-bg-image);
+    background-position:
+      center,
+      center,
+      center,
+      center top;
+    background-size:
+      auto,
+      auto,
+      100% 100%,
+      cover;
+    background-repeat: no-repeat;
+    content: "";
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
 .services-projects__viewport {
+  position: relative;
+  z-index: 1;
   min-height: 100svh;
   padding: #{mixins.vw(58px)} 0 #{mixins.vw(64px)};
 
@@ -2337,9 +2361,7 @@
 
 .project-case-card__media {
   position: relative;
-  background:
-    radial-gradient(circle at 75% 16%, rgba(255, 224, 170, 0.55) 0%, rgba(255, 224, 170, 0) 12%),
-    linear-gradient(180deg, rgba(53, 62, 77, 0) 0%, #353e4d 100%);
+  background: #353e4d;
 
   &::before {
     position: absolute;
@@ -2364,50 +2386,8 @@
   filter: saturate(1.02);
 }
 
-.project-case-card.is-pizzeria .project-case-card__media-overlay {
-  background:
-    radial-gradient(circle at 66% 18%, rgba(255, 231, 178, 0.84) 0%, rgba(255, 231, 178, 0) 10%),
-    radial-gradient(circle at 78% 28%, rgba(255, 240, 214, 0.68) 0%, rgba(255, 240, 214, 0) 8%),
-    linear-gradient(135deg, rgba(88, 48, 23, 0.74) 0%, rgba(38, 22, 13, 0.32) 44%, rgba(15, 16, 20, 0.12) 100%),
-    radial-gradient(circle at 78% 82%, rgba(196, 96, 34, 0.92) 0%, rgba(196, 96, 34, 0) 18%),
-    radial-gradient(circle at 92% 86%, rgba(219, 98, 47, 0.94) 0%, rgba(219, 98, 47, 0) 10%),
-    linear-gradient(180deg, #384555 0%, #4f301d 100%);
-}
-
-.project-case-card.is-bakery .project-case-card__media-overlay {
-  background:
-    radial-gradient(circle at 68% 22%, rgba(255, 228, 184, 0.72) 0%, rgba(255, 228, 184, 0) 12%),
-    radial-gradient(circle at 72% 78%, rgba(212, 166, 102, 0.84) 0%, rgba(212, 166, 102, 0) 16%),
-    linear-gradient(120deg, rgba(70, 57, 39, 0.82) 0%, rgba(44, 51, 63, 0.34) 48%, rgba(18, 18, 20, 0.08) 100%),
-    linear-gradient(180deg, #4d5b69 0%, #74532f 100%);
-}
-
-.project-case-card.is-loyalty .project-case-card__media-overlay {
-  background:
-    radial-gradient(circle at 70% 20%, rgba(93, 144, 255, 0.62) 0%, rgba(93, 144, 255, 0) 20%),
-    linear-gradient(135deg, rgba(48, 71, 114, 0.9) 0%, rgba(43, 28, 72, 0.7) 100%),
-    radial-gradient(circle at 76% 78%, rgba(208, 88, 192, 0.64) 0%, rgba(208, 88, 192, 0) 18%);
-}
-
-.project-case-card.is-retail-staff .project-case-card__media-overlay {
-  background:
-    radial-gradient(circle at 74% 18%, rgba(215, 234, 255, 0.68) 0%, rgba(215, 234, 255, 0) 12%),
-    linear-gradient(135deg, rgba(60, 74, 92, 0.88) 0%, rgba(41, 58, 86, 0.58) 42%, rgba(24, 28, 35, 0.18) 100%),
-    radial-gradient(circle at 78% 80%, rgba(42, 93, 170, 0.72) 0%, rgba(42, 93, 170, 0) 16%);
-}
-
-.project-case-card.is-enterprise-retail .project-case-card__media-overlay {
-  background:
-    linear-gradient(180deg, rgba(58, 69, 86, 0.8) 0%, rgba(28, 36, 47, 0.34) 44%, rgba(8, 13, 19, 0.14) 100%),
-    repeating-linear-gradient(90deg, rgba(111, 147, 197, 0.22) 0, rgba(111, 147, 197, 0.22) 1px, transparent 1px, transparent 44px),
-    linear-gradient(135deg, #40526b 0%, #223143 100%);
-}
-
-.project-case-card.is-signage .project-case-card__media-overlay {
-  background:
-    radial-gradient(circle at 66% 24%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0) 12%),
-    linear-gradient(135deg, rgba(53, 81, 120, 0.92) 0%, rgba(26, 31, 45, 0.72) 56%, rgba(10, 13, 18, 0.3) 100%),
-    repeating-linear-gradient(0deg, rgba(76, 150, 255, 0.22) 0, rgba(76, 150, 255, 0.22) 2px, transparent 2px, transparent 26px);
+.project-case-card__media-overlay[style] {
+  background: var(--project-case-media-image) center / cover no-repeat;
 }
 
 .services-process {

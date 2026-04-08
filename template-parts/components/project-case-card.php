@@ -15,6 +15,7 @@ $args = wp_parse_args(
         'results' => [],
         'detail_href' => '#',
         'media_class' => '',
+        'media_image_url' => '',
     ]
 );
 
@@ -22,6 +23,12 @@ $card_classes = ['project-case-card'];
 
 if (is_string($args['media_class']) && $args['media_class'] !== '') {
     $card_classes[] = sanitize_html_class($args['media_class']);
+}
+
+$media_style = '';
+
+if (is_string($args['media_image_url']) && $args['media_image_url'] !== '') {
+    $media_style = sprintf("--project-case-media-image: url('%s');", esc_url_raw($args['media_image_url']));
 }
 ?>
 <article class="<?php echo esc_attr(implode(' ', $card_classes)); ?>">
@@ -48,6 +55,6 @@ if (is_string($args['media_class']) && $args['media_class'] !== '') {
     </div>
 
     <div class="project-case-card__media" aria-hidden="true">
-        <span class="project-case-card__media-overlay"></span>
+        <span class="project-case-card__media-overlay" style="<?php echo esc_attr($media_style); ?>"></span>
     </div>
 </article>
