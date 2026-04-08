@@ -2373,10 +2373,7 @@
 .services-process {
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 0% 84%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 24%),
-    radial-gradient(circle at 100% 10%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 22%),
-    linear-gradient(180deg, #03101f 0%, #000102 20%, #000102 100%);
+  background: var(--color-background);
 
   &::after {
     position: absolute;
