@@ -1567,18 +1567,7 @@
 }
 
 .benefit-card::before {
-  position: absolute;
-  inset: #{mixins.vw(132px)} #{mixins.vw(-34px)} #{mixins.vw(-68px)} #{mixins.vw(-34px)};
-  background:
-    radial-gradient(circle at 18% 0%, rgba(0, 115, 230, 0.3) 0%, rgba(0, 115, 230, 0) 54%),
-    linear-gradient(180deg, rgba(2, 11, 21, 0.72) 0%, rgba(2, 10, 18, 0) 100%);
-  opacity: 0;
-  content: "";
-  pointer-events: none;
-}
-
-.benefit-card.is-active::before {
-  opacity: 1;
+  display: none;
 }
 
 .benefit-card__marker {
@@ -1595,29 +1584,39 @@
   }
 }
 
-.benefit-card__marker-shape {
+.benefit-card__marker-image {
   position: absolute;
   inset: 0;
-  clip-path: polygon(50% 0, 92% 24%, 92% 76%, 50% 100%, 8% 76%, 8% 24%);
-  box-shadow: inset 0 0 0 1px rgba(0, 115, 230, 0.96);
-  background: rgba(5, 11, 20, 0.96);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition:
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
 }
 
-.benefit-card.is-active .benefit-card__marker-shape {
-  background: linear-gradient(180deg, rgba(60, 126, 240, 0.98) 0%, rgba(8, 108, 223, 0.98) 100%);
-  box-shadow: none;
+.benefit-card__marker-image--inactive {
+  opacity: 1;
+  transform: scale(1);
 }
 
-.benefit-card__number {
-  position: relative;
-  z-index: 1;
-  color: #ffffff;
-  font-size: #{mixins.vw(14px)};
-  line-height: 1.36;
+.benefit-card__marker-image--active {
+  opacity: 0;
+  transform: scale(0.92);
+  filter: saturate(0.9) brightness(1.02);
+}
 
-  @include mixins.mobile {
-    font-size: #{mixins.mvw(14px)};
-  }
+.benefit-card.is-active .benefit-card__marker-image--inactive {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.benefit-card.is-active .benefit-card__marker-image--active {
+  opacity: 1;
+  transform: scale(1);
+  filter: saturate(1.05) brightness(1.04);
 }
 
 .benefit-card__body {
@@ -1631,17 +1630,30 @@
 .benefit-card__icon {
   width: #{mixins.vw(26px)};
   height: #{mixins.vw(26px)};
-  color: #ffffff;
-
-  svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
+  transition:
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
 
   @include mixins.mobile {
     width: #{mixins.mvw(26px)};
     height: #{mixins.mvw(26px)};
+  }
+}
+
+.benefit-card__icon-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.benefit-card.is-active .benefit-card__icon {
+  transform: translateY(#{mixins.vw(-2px)}) scale(1.04);
+  filter: brightness(1.06);
+
+  @include mixins.mobile {
+    transform: translateY(#{mixins.mvw(-2px)}) scale(1.04);
   }
 }
 

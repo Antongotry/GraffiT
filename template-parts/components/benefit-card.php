@@ -31,70 +31,48 @@ foreach ((array) $args['classes'] as $class_name) {
     }
 }
 
-$icon = is_string($args['icon']) ? $args['icon'] : 'system';
+$step_number = (int) preg_replace('/\D+/', '', (string) $args['number']);
+$step_number = $step_number > 0 ? min($step_number, 6) : 1;
 
-$render_icon = static function (string $icon_name): void {
-    switch ($icon_name) {
-        case 'architecture':
-            ?>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M4 8h4V4h2v6H4V8Zm10 0h6v2h-4v4h-2V8ZM4 14h2v4h4v2H4v-6Zm14 0h2v6h-6v-2h4v-4Z" fill="currentColor"/>
-            </svg>
-            <?php
-            break;
-
-        case 'visibility':
-            ?>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M10.9 18.8a8.5 8.5 0 0 1-6.6-6.8A8.6 8.6 0 0 1 12 4.2a8.6 8.6 0 0 1 7.8 7.8h-2A6.6 6.6 0 0 0 12 6.2a6.6 6.6 0 0 0-5.7 5.8 6.5 6.5 0 0 0 5 5.1l-.4 1.7Zm7 4.2-4.1-4.1a6.3 6.3 0 0 1-2.8.6 6.4 6.4 0 1 1 6.4-6.4c0 1-.2 1.9-.6 2.8L19 21.6 17.9 23ZM11 17.5a4.4 4.4 0 1 0 0-8.8 4.4 4.4 0 0 0 0 8.8Z" fill="currentColor"/>
-            </svg>
-            <?php
-            break;
-
-        case 'efficiency':
-            ?>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M4 12h4v8H4v-8Zm6-6h4v14h-4V6Zm6-4h4v18h-4V2Z" fill="currentColor"/>
-            </svg>
-            <?php
-            break;
-
-        case 'support':
-            ?>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M5 4h9a4 4 0 0 1 4 4v4h-2V8a2 2 0 0 0-2-2H5v12h5v2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm8 7h2v3h3v2h-3v3h-2v-3h-3v-2h3v-3Z" fill="currentColor"/>
-            </svg>
-            <?php
-            break;
-
-        case 'integration':
-            ?>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M5 3h5v5H8V6H6v2H3V3h2Zm11 0h5v5h-3V6h-2v2h-3V3h3Zm-8 8h8v2h-3v3h-2v-3H8v-2Zm-5 5h3v2h2v3H3v-5Zm15 2h-2v-2h5v5h-5v-3h2v-2Z" fill="currentColor"/>
-            </svg>
-            <?php
-            break;
-
-        case 'system':
-        default:
-            ?>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M5 4h14l1 4H4l1-4Zm-1 6h16v4H4v-4Zm1 6h14l1 4H4l1-4Z" fill="currentColor"/>
-            </svg>
-            <?php
-            break;
-    }
-};
+$marker_inactive_url = sprintf('https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/%d.svg', $step_number);
+$marker_active_url   = sprintf('https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/%02d-a.svg', $step_number);
+$icon_url            = sprintf('https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/i%d.svg', $step_number);
 ?>
 <article class="<?php echo esc_attr(implode(' ', $class_names)); ?>">
     <div class="benefit-card__marker">
-        <span class="benefit-card__marker-shape" aria-hidden="true"></span>
-        <span class="benefit-card__number"><?php echo esc_html((string) $args['number']); ?></span>
+        <img
+            class="benefit-card__marker-image benefit-card__marker-image--inactive"
+            src="<?php echo esc_url($marker_inactive_url); ?>"
+            alt=""
+            width="42"
+            height="48"
+            loading="lazy"
+            decoding="async"
+            aria-hidden="true"
+        >
+        <img
+            class="benefit-card__marker-image benefit-card__marker-image--active"
+            src="<?php echo esc_url($marker_active_url); ?>"
+            alt=""
+            width="42"
+            height="48"
+            loading="lazy"
+            decoding="async"
+            aria-hidden="true"
+        >
     </div>
 
     <div class="benefit-card__body">
         <div class="benefit-card__icon" aria-hidden="true">
-            <?php $render_icon($icon); ?>
+            <img
+                class="benefit-card__icon-image"
+                src="<?php echo esc_url($icon_url); ?>"
+                alt=""
+                width="26"
+                height="26"
+                loading="lazy"
+                decoding="async"
+            >
         </div>
 
         <h3 class="benefit-card__title"><?php echo esc_html((string) $args['title']); ?></h3>
