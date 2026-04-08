@@ -353,6 +353,75 @@
     window.ScrollTrigger.refresh();
   }
 
+  function initMobileMenu() {
+    var menu = document.querySelector('.js-mobile-menu');
+
+    if (!menu) {
+      return;
+    }
+
+    var toggles = Array.prototype.slice.call(document.querySelectorAll('.js-mobile-menu-toggle'));
+    var panel = menu.querySelector('.mobile-menu__panel');
+
+    function open() {
+      menu.classList.add('is-open');
+      menu.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('mobile-menu-open');
+
+      toggles.forEach(function (btn) {
+        if (btn.getAttribute('aria-expanded') !== null) {
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      if (window.__graffitLenis && typeof window.__graffitLenis.stop === 'function') {
+        window.__graffitLenis.stop();
+      }
+    }
+
+    function close() {
+      menu.classList.remove('is-open');
+      menu.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('mobile-menu-open');
+
+      toggles.forEach(function (btn) {
+        if (btn.getAttribute('aria-expanded') !== null) {
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      if (window.__graffitLenis && typeof window.__graffitLenis.start === 'function') {
+        window.__graffitLenis.start();
+      }
+    }
+
+    function toggle() {
+      if (menu.classList.contains('is-open')) {
+        close();
+      } else {
+        open();
+      }
+    }
+
+    toggles.forEach(function (btn) {
+      btn.addEventListener('click', toggle);
+    });
+
+    if (panel) {
+      panel.querySelectorAll('a[href]').forEach(function (link) {
+        link.addEventListener('click', function () {
+          close();
+        });
+      });
+    }
+
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+        close();
+      }
+    });
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -363,6 +432,7 @@
     }
   }
 
+  runInit(initMobileMenu, 'mobile-menu');
   runInit(initLenis, 'lenis');
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initClientsScroller, 'clients-scroller');
