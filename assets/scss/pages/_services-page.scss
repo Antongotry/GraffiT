@@ -2519,7 +2519,7 @@
   position: relative;
   display: grid;
   grid-template-columns: #{mixins.vw(75px)} 1fr;
-  align-items: start;
+  align-items: center;
   column-gap: #{mixins.vw(24px)};
 
   @include mixins.mobile {
