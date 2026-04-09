@@ -1896,9 +1896,36 @@
   isolation: isolate;
   z-index: 2;
 
+  &::before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: #{mixins.vw(-148px)};
+    height: #{mixins.vw(248px)};
+    background: radial-gradient(
+      46% 100% at 11% 0%,
+      rgba(0, 115, 230, 0.12) 0%,
+      rgba(0, 115, 230, 0.08) 24%,
+      rgba(0, 115, 230, 0) 62%
+    );
+    pointer-events: none;
+    content: "";
+  }
+
   @include mixins.mobile {
     padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(88px)};
     overflow-x: visible;
+
+    &::before {
+      bottom: #{mixins.mvw(-68px)};
+      height: #{mixins.mvw(132px)};
+      background: radial-gradient(
+        58% 100% at 9% 0%,
+        rgba(0, 115, 230, 0.12) 0%,
+        rgba(0, 115, 230, 0.08) 26%,
+        rgba(0, 115, 230, 0) 66%
+      );
+    }
   }
 }
 
@@ -2651,36 +2678,10 @@
 
 .services-benefits {
   position: relative;
-  z-index: 3;
-  overflow-x: clip;
-  overflow-y: visible;
-  isolation: isolate;
+  overflow: hidden;
   background:
     radial-gradient(circle at 0% 84%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 28%),
     linear-gradient(180deg, #03101f 0%, #000102 22%, #000102 100%);
-
-  &::before {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: #{mixins.vw(-112px)};
-    height: #{mixins.vw(164px)};
-    background:
-      radial-gradient(circle at 10% 100%, rgba(0, 115, 230, 0.14) 0%, rgba(0, 115, 230, 0) 48%),
-      linear-gradient(180deg, rgba(0, 1, 2, 0) 0%, rgba(3, 16, 31, 0.92) 72%, #03101f 100%);
-    pointer-events: none;
-    content: "";
-  }
-
-  @include mixins.mobile {
-    &::before {
-      top: #{mixins.mvw(-52px)};
-      height: #{mixins.mvw(96px)};
-      background:
-        radial-gradient(circle at 8% 100%, rgba(0, 115, 230, 0.14) 0%, rgba(0, 115, 230, 0) 52%),
-        linear-gradient(180deg, rgba(0, 1, 2, 0) 0%, rgba(3, 16, 31, 0.92) 76%, #03101f 100%);
-    }
-  }
 }
 
 .services-benefits__viewport {
