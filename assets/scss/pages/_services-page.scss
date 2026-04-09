@@ -741,10 +741,40 @@
     z-index: 2;
   }
 
+  // Bow-tie shape: #000102 from main shows in top/bottom center cutouts; light fill is clipped on top.
+  &.cta-band--light {
+    background: #000102;
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 32%),
+        radial-gradient(circle at 80% 24%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0) 34%),
+        linear-gradient(180deg, #f5f6f8 0%, #d3d6db 100%);
+      content: "";
+      pointer-events: none;
+    }
+
+    &::before {
+      z-index: 0;
+      clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+    }
+  }
+
   @include mixins.mobile {
     margin-top: 0;
     min-height: auto;
     padding: #{mixins.mvw(84px)} 0 #{mixins.mvw(84px)};
+
+    &.cta-band--light {
+      &::after,
+      &::before {
+        clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 50% 96%, 0 100%);
+      }
+    }
   }
 }
 
