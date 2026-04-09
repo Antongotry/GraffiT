@@ -70,6 +70,21 @@ $benefits = [
                 В результаті роботи ви отримаєте
             </h2>
 
+            <div class="services-benefits__swipe-hint">
+                <span class="services-benefits__swipe-icon-wrap" aria-hidden="true">
+                    <img
+                        class="services-benefits__swipe-icon"
+                        src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/mdi-gesture-swipe-right.svg'); ?>"
+                        alt=""
+                        width="24"
+                        height="24"
+                        loading="lazy"
+                        decoding="async"
+                    >
+                </span>
+                <p class="services-benefits__swipe-text">гортайте вбік</p>
+            </div>
+
             <div class="services-benefits__stage js-benefits-stage">
                 <div class="services-benefits__track js-benefits-track">
                     <div class="services-benefits__line" aria-hidden="true">

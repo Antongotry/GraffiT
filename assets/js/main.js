@@ -113,6 +113,45 @@
     window.ScrollTrigger.refresh();
   }
 
+  function initBenefitsMobileScroll() {
+    if (window.innerWidth > 1024) {
+      return;
+    }
+
+    document.querySelectorAll('.js-benefits-scroller').forEach(function (section) {
+      if (section.getAttribute('data-benefits-mobile-scroll') === '1') {
+        return;
+      }
+
+      var stage = section.querySelector('.js-benefits-stage');
+      var lineFill = section.querySelector('.js-benefits-line-fill');
+      var items = Array.prototype.slice.call(section.querySelectorAll('.js-benefit-item'));
+
+      if (!stage || items.length === 0) {
+        return;
+      }
+
+      section.setAttribute('data-benefits-mobile-scroll', '1');
+
+      function syncFromScroll() {
+        var maxScroll = stage.scrollWidth - stage.clientWidth;
+        var progress = maxScroll > 0 ? stage.scrollLeft / maxScroll : 0;
+        var activeIndex = Math.round(progress * (items.length - 1));
+
+        items.forEach(function (item, index) {
+          item.classList.toggle('is-active', index === activeIndex);
+        });
+
+        if (lineFill) {
+          lineFill.style.transform = 'scaleX(' + (0.14 + progress * 0.86) + ')';
+        }
+      }
+
+      stage.addEventListener('scroll', syncFromScroll, { passive: true });
+      window.requestAnimationFrame(syncFromScroll);
+    });
+  }
+
   function scrollToPosition(top) {
     var lenis = window.__graffitLenis;
 
@@ -450,6 +489,7 @@
   runInit(initMobileMenu, 'mobile-menu');
   runInit(initLenis, 'lenis');
   runInit(initBenefitsScroller, 'benefits-scroller');
+  runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initClientsScroller, 'clients-scroller');
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProcessTimeline, 'process-timeline');
