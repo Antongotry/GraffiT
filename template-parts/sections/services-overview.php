@@ -32,6 +32,8 @@ $cards = [
         'image_url' => graffit_services_outsourcing_image_url(),
         'image_alt' => 'Фахівці GraffiT на зустрічі',
         'image_position' => 'center',
+        'button_label' => 'Детальніше',
+        'button_url' => '#',
         'highlighted' => false,
         'layout' => 'low',
     ],
