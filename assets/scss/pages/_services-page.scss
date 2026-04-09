@@ -2540,10 +2540,10 @@
   @include mixins.mobile {
     position: relative;
     display: block;
-    width: 100vw;
-    margin-top: calc(-1 * #{mixins.mvw(238px)} * 0.1);
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    width: 90vw;
+    margin-top: calc(-1 * #{mixins.mvw(238px)} * 0.2);
+    margin-left: calc(50% - 45vw);
+    margin-right: calc(50% - 45vw);
     margin-bottom: 0;
     padding: 0;
     line-height: 0;
