@@ -41,6 +41,7 @@ $reasons_stack_icons = [
 $reasons_cursor_icon = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/cursor-5.svg';
 $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
+$hex_peek_polygon_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-10_result.webp';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
@@ -311,6 +312,43 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                     decoding="async"
                 >
             </div>
+            </div>
+
+            <!-- Bottom row: ~30% 1-card (left) · full 4-card (center) · ~30% Polygon-10 (right) -->
+            <div class="hex-reasons__m-row-bottom" aria-hidden="true">
+                <div class="hex-reasons__m-peek hex-reasons__m-peek--left">
+                    <img
+                        class="hex-reasons__m-peek-img"
+                        src="<?php echo esc_url( $hex_card_images['cover'] ); ?>"
+                        alt=""
+                        width="374"
+                        height="374"
+                        loading="lazy"
+                        decoding="async"
+                    >
+                </div>
+                <div class="hex-reasons__m-peek hex-reasons__m-peek--center">
+                    <img
+                        class="hex-reasons__m-peek-img hex-reasons__m-peek-img--full"
+                        src="<?php echo esc_url( $hex_card_images['stack'] ); ?>"
+                        alt=""
+                        width="374"
+                        height="374"
+                        loading="lazy"
+                        decoding="async"
+                    >
+                </div>
+                <div class="hex-reasons__m-peek hex-reasons__m-peek--right">
+                    <img
+                        class="hex-reasons__m-peek-img"
+                        src="<?php echo esc_url( $hex_peek_polygon_url ); ?>"
+                        alt=""
+                        width="374"
+                        height="374"
+                        loading="lazy"
+                        decoding="async"
+                    >
+                </div>
             </div>
     </div>
 </section>
