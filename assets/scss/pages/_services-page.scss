@@ -3473,8 +3473,12 @@ body:has(.site-main--services) {
 }
 
 .services-projects__nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: #{mixins.vw(64px)};
   height: #{mixins.vw(40px)};
+  padding: 0;
   border: 0;
   border-radius: #{mixins.vw(6px)};
   background: #4b5160;
