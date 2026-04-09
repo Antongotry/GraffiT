@@ -1737,11 +1737,11 @@
   top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2);
 }
 
-/* Photo large — bleeds past right edge, raised above row 0 */
+/* Photo large — absolute left/top positioning */
 .hex-reasons__hex--plg {
-  left: auto;
-  right: #{mixins.vw(-80px)};
-  top: #{mixins.vw(-150px)};
+  left: #{mixins.vw(905px)} !important;
+  top: #{mixins.vw(-150px)} !important;
+  right: auto !important;
 }
 
 /* Photo small — grid ≈ (3.43, 1.29) · exact original values via right/top */
