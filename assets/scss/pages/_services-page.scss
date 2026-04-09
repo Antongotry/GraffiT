@@ -1622,10 +1622,8 @@
   --hex-half: calc(var(--hex-step-x) * 0.5);
   --hex-r0y: #{mixins.vw(251px)};
 
-  /* ── Photo scale factors (from base box) ── */
-  --hex-scale-lg: 1.78;
+  /* ── Photo scale (small decorative hex) ── */
   --hex-scale-sm: 0.976;
-  --hex-box-lg: calc(var(--hex-box) * var(--hex-scale-lg));
   --hex-box-sm: calc(var(--hex-box) * var(--hex-scale-sm));
 
   min-height: #{mixins.vw(873px)};
@@ -1689,11 +1687,6 @@
   }
 }
 
-.hex-reasons__hex--photo-lg {
-  width: var(--hex-box-lg);
-  height: var(--hex-box-lg);
-}
-
 .hex-reasons__hex--photo-sm {
   width: var(--hex-box-sm);
   height: var(--hex-box-sm);
@@ -1735,14 +1728,6 @@
 .hex-reasons__hex--r1c2 {
   left: calc(var(--hex-half) + 2 * var(--hex-step-x) - var(--hex-box) / 2);
   top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2);
-}
-
-/* Photo large — absolute left/top positioning */
-.hex-reasons__hex--plg {
-  left: #{mixins.vw(905px)} !important;
-  top: #{mixins.vw(-248px)} !important;
-  right: auto !important;
-  z-index: 3;
 }
 
 /* Photo small — grid ≈ (3.43, 1.29) · exact original values via right/top */
