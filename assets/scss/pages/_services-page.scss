@@ -2181,13 +2181,21 @@
   background: #000102;
   color: #000102;
   overflow: hidden;
+}
 
-  // Same bow-tie as .services-inquiry CTA: #000102 in top/bottom center cutouts.
+.services-clients__viewport {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  padding: #{mixins.vw(48px)} 0 #{mixins.vw(48px)};
+  isolation: isolate;
+  // Clips copy + cards to the bow-tie; lives on the pinned element so fill stays fixed while only the track scrolls.
+  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+
   &::after {
     position: absolute;
     inset: 0;
     z-index: 0;
-    clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
     background:
       radial-gradient(circle at 22% 30%, rgba(255, 255, 255, 0.98) 0%, rgba(232, 236, 241, 0.94) 52%, rgba(211, 215, 221, 0.96) 100%);
     content: "";
@@ -2198,7 +2206,6 @@
     position: absolute;
     inset: 0;
     z-index: 1;
-    clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
     background-image: url('../images/cta-band-pattern.svg');
     background-repeat: no-repeat;
     background-position: center center;
@@ -2209,10 +2216,9 @@
   }
 
   @include mixins.mobile {
-    &::after,
-    &::before {
-      clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 50% 96%, 0 100%);
-    }
+    min-height: auto;
+    padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(88px)};
+    clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 50% 96%, 0 100%);
 
     &::before {
       background-size: #{mixins.mvw(260px)} auto;
@@ -2222,20 +2228,9 @@
   }
 }
 
-.services-clients__viewport {
-  position: relative;
-  z-index: 2;
-  min-height: 100svh;
-  padding: #{mixins.vw(48px)} 0 #{mixins.vw(48px)};
-
-  @include mixins.mobile {
-    min-height: auto;
-    padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(88px)};
-  }
-}
-
 .services-clients__container {
   position: relative;
+  z-index: 2;
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
 
@@ -2337,6 +2332,25 @@
   height: #{mixins.vw(899px)};
   overflow: hidden;
   z-index: 1;
+  // Fade cards near top/bottom so they “sink” into the bow-tie instead of hard-cutting.
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0,
+    rgba(0, 0, 0, 1) #{mixins.vw(40px)},
+    rgba(0, 0, 0, 1) calc(100% - #{mixins.vw(110px)}),
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0,
+    rgba(0, 0, 0, 1) #{mixins.vw(40px)},
+    rgba(0, 0, 0, 1) calc(100% - #{mixins.vw(110px)}),
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
 
   // Union.svg sits here (not on .js-clients-track) so it stays put while GSAP
   // translates the track; cards stack above via z-index on the track.
@@ -2362,7 +2376,7 @@
     background-size:
       100% 100%,
       #{mixins.vw(360px)} auto;
-    background-attachment: scroll, fixed;
+    background-attachment: scroll, scroll;
 
     @include mixins.mobile {
       background-position:
@@ -2371,19 +2385,20 @@
       background-size:
         100% 100%,
         #{mixins.mvw(240px)} auto;
-      background-attachment: scroll, scroll;
     }
   }
 
   @include mixins.mobile {
     height: auto;
     overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
 }
 
 .services-clients__cards-track {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: grid;
   gap: #{mixins.vw(40px)};
 
