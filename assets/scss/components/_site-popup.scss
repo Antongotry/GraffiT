@@ -425,7 +425,7 @@ body.graffit-popup-open {
 .request-popup__fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: #{mixins.vw(10px)};
+  gap: #{mixins.vw(12px)};
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
