@@ -2306,9 +2306,11 @@
   @include mixins.mobile {
     display: block;
     width: 100vw;
-    margin: 0;
+    /* Pull up ~10% of mobile hex tile (238mvw) toward row1 */
+    margin-top: calc(-1 * #{mixins.mvw(238px)} * 0.1);
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
+    margin-bottom: 0;
     padding: 0;
     line-height: 0;
     box-sizing: border-box;
