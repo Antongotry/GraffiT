@@ -199,39 +199,42 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
         </div>
     </div>
 
-    <!-- Mobile: row1 = two fixed 238×238 slots, 10px gap; hex inset inside slot -->
+    <!-- Mobile row1: two 238×238 boxes, 10px gap — ready-made card WebP (no clip-path) -->
     <div class="hex-reasons__mobi" role="region" aria-label="Переваги GraffiT">
             <div class="hex-reasons__m-row1">
-                <div class="hex-reasons__m-slot">
-                    <article class="hex-reasons__m-hex hex-reasons__m-hex--blue hex-reasons__m-hex--slot">
-                        <div class="hex-reasons__m-body">
-                            <h3 class="hex-reasons__m-heading">Ми не нав'язуємо готову &quot;коробку&quot;</h3>
-                            <p class="hex-reasons__m-text">створюємо рішення під ваші задачі</p>
-                        </div>
-                    </article>
+                <div class="hex-reasons__m-slot hex-reasons__m-slot--card">
+                    <div
+                        class="hex-reasons__m-card-tile"
+                        role="img"
+                        aria-label="<?php echo esc_attr__( 'Ми не нав\'язуємо готову коробку. Створюємо рішення під ваші задачі', 'graffit' ); ?>"
+                    >
+                        <img
+                            class="hex-reasons__m-card-img"
+                            src="<?php echo esc_url( $hex_card_images['primary'] ); ?>"
+                            alt=""
+                            width="374"
+                            height="374"
+                            loading="lazy"
+                            decoding="async"
+                        >
+                    </div>
                 </div>
-                <div class="hex-reasons__m-slot">
-                    <article class="hex-reasons__m-hex hex-reasons__m-hex--gray hex-reasons__m-hex--slot">
-                        <div class="hex-reasons__m-body">
-                            <h3 class="hex-reasons__m-heading">Працюємо в стеку, який сумісний з вимогами enterprise:</h3>
-                            <div class="hex-reasons__m-icons" aria-hidden="true">
-                                <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
-                                    <span class="hex-reasons__m-icon-wrap">
-                                        <img
-                                            class="hex-reasons__m-icon-img"
-                                            src="<?php echo esc_url( $icon_url ); ?>"
-                                            alt=""
-                                            width="32"
-                                            height="32"
-                                            loading="lazy"
-                                            decoding="async"
-                                        >
-                                    </span>
-                                <?php endforeach; ?>
-                            </div>
-                            <p class="hex-reasons__m-caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
-                        </div>
-                    </article>
+                <div class="hex-reasons__m-slot hex-reasons__m-slot--card">
+                    <div
+                        class="hex-reasons__m-card-tile"
+                        role="img"
+                        aria-label="<?php echo esc_attr__( 'Працюємо в стеку, сумісному з вимогами enterprise: Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker.', 'graffit' ); ?>"
+                    >
+                        <img
+                            class="hex-reasons__m-card-img"
+                            src="<?php echo esc_url( $hex_card_images['stack'] ); ?>"
+                            alt=""
+                            width="374"
+                            height="374"
+                            loading="lazy"
+                            decoding="async"
+                        >
+                    </div>
                 </div>
             </div>
 

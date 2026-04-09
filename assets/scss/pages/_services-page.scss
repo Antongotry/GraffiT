@@ -2103,7 +2103,7 @@
   }
 }
 
-/* Row 1: two squares 238×238 (mvw), 10px between; hex sits inset inside slot */
+/* Row 1: two fixed 238×238 (mvw) boxes, 10px gap; card art as <img> (no clip-path squash) */
 .hex-reasons__m-row1 {
   @include mixins.mobile {
     display: flex;
@@ -2126,66 +2126,37 @@
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    width: #{mixins.mvw(238px)};
-    min-width: #{mixins.mvw(238px)};
-    min-height: #{mixins.mvw(238px)};
-    height: auto;
     overflow: visible;
   }
 }
 
-/* ~10px inset from slot edge (238 − 218 ≈ 20) */
-.hex-reasons__m-hex.hex-reasons__m-hex--slot {
+.hex-reasons__m-slot--card {
+  @include mixins.mobile {
+    width: #{mixins.mvw(238px)};
+    min-width: #{mixins.mvw(238px)};
+    height: #{mixins.mvw(238px)};
+    min-height: #{mixins.mvw(238px)};
+  }
+}
+
+.hex-reasons__m-card-tile {
   @include mixins.mobile {
     display: flex;
-    flex-direction: column;
-    flex: 0 0 auto;
-    width: #{mixins.mvw(218px)};
-    min-width: #{mixins.mvw(218px)};
-    min-height: #{mixins.mvw(218px)};
-    height: auto;
-    max-width: #{mixins.mvw(218px)};
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
   }
 }
 
-.hex-reasons__m-hex--slot .hex-reasons__m-body {
+.hex-reasons__m-card-img {
   @include mixins.mobile {
-    min-height: 0;
-    padding: #{mixins.mvw(14px)} #{mixins.mvw(8px)} #{mixins.mvw(12px)};
-  }
-}
-
-.hex-reasons__m-hex--slot .hex-reasons__m-heading {
-  @include mixins.mobile {
-    font-size: #{mixins.mvw(15px)};
-    margin-bottom: #{mixins.mvw(8px)};
-  }
-}
-
-.hex-reasons__m-hex--slot .hex-reasons__m-text {
-  @include mixins.mobile {
-    font-size: #{mixins.mvw(12px)};
-  }
-}
-
-.hex-reasons__m-hex--slot .hex-reasons__m-caption {
-  @include mixins.mobile {
-    font-size: #{mixins.mvw(10px)};
-    margin-top: #{mixins.mvw(6px)};
-  }
-}
-
-.hex-reasons__m-hex--slot .hex-reasons__m-icons {
-  @include mixins.mobile {
-    gap: #{mixins.mvw(3px)};
-    margin-top: #{mixins.mvw(6px)};
-  }
-}
-
-.hex-reasons__m-hex--slot .hex-reasons__m-icon-wrap {
-  @include mixins.mobile {
-    width: #{mixins.mvw(22px)};
-    height: #{mixins.mvw(22px)};
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
   }
 }
 
