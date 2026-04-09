@@ -2177,13 +2177,54 @@
 
 .services-clients {
   position: relative;
-  background:
-    radial-gradient(circle at 22% 30%, rgba(255, 255, 255, 0.98) 0%, rgba(232, 236, 241, 0.94) 52%, rgba(211, 215, 221, 0.96) 100%);
+  isolation: isolate;
+  background: #000102;
   color: #000102;
   overflow: hidden;
+
+  // Same bow-tie as .services-inquiry CTA: #000102 in top/bottom center cutouts.
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+    background:
+      radial-gradient(circle at 22% 30%, rgba(255, 255, 255, 0.98) 0%, rgba(232, 236, 241, 0.94) 52%, rgba(211, 215, 221, 0.96) 100%);
+    content: "";
+    pointer-events: none;
+  }
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+    background-image: url('../images/cta-band-pattern.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: #{mixins.vw(522px)} auto;
+    opacity: 0.42;
+    content: "";
+    pointer-events: none;
+  }
+
+  @include mixins.mobile {
+    &::after,
+    &::before {
+      clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 50% 96%, 0 100%);
+    }
+
+    &::before {
+      background-size: #{mixins.mvw(260px)} auto;
+      background-position: center #{mixins.mvw(180px)};
+      opacity: 0.32;
+    }
+  }
 }
 
 .services-clients__viewport {
+  position: relative;
+  z-index: 2;
   min-height: 100svh;
   padding: #{mixins.vw(48px)} 0 #{mixins.vw(48px)};
 
@@ -2198,30 +2239,8 @@
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
 
-  &::before {
-    position: absolute;
-    top: #{mixins.vw(20px)};
-    right: #{mixins.vw(468px)};
-    width: #{mixins.vw(418px)};
-    height: #{mixins.vw(908px)};
-    background-image: url('../images/cta-band-pattern.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    opacity: 0.18;
-    content: "";
-    pointer-events: none;
-  }
-
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
-
-    &::before {
-      top: #{mixins.mvw(320px)};
-      right: #{mixins.mvw(12px)};
-      width: #{mixins.mvw(220px)};
-      height: #{mixins.mvw(420px)};
-    }
   }
 }
 
