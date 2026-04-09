@@ -78,7 +78,7 @@
         var activeIndex = Math.round(progress * (items.length - 1));
 
         items.forEach(function (item, index) {
-          item.classList.toggle('is-active', index === activeIndex);
+          item.classList.toggle('is-active', index <= activeIndex);
         });
 
         if (lineFill) {
@@ -139,7 +139,7 @@
         var activeIndex = Math.round(progress * (items.length - 1));
 
         items.forEach(function (item, index) {
-          item.classList.toggle('is-active', index === activeIndex);
+          item.classList.toggle('is-active', index <= activeIndex);
         });
 
         if (lineFill) {
