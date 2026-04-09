@@ -17,14 +17,12 @@ $args = wp_parse_args(
 <div class="request-popup">
     <div class="request-popup__layout">
         <div class="request-popup__form-shell">
-            <p class="request-popup__eyebrow">Заявка</p>
-
             <h2 class="request-popup__title" id="<?php echo esc_attr((string) $args['title_id']); ?>">
                 Залиште заявку
             </h2>
 
             <p class="request-popup__text">
-                Напишіть коротко про ваш запит, і ми звʼяжемося з вами найближчим робочим часом.
+                Ми звʼяжемося з вами найближчим робочим часом.
             </p>
 
             <form class="request-popup__form js-request-form" action="<?php echo esc_url(admin_url('admin-ajax.php')); ?>" method="post" novalidate>
@@ -35,29 +33,25 @@ $args = wp_parse_args(
 
                 <div class="request-popup__fields">
                     <label class="request-popup__field" data-field-wrap="name">
-                        <span class="request-popup__field-label">Імʼя*</span>
-                        <input class="request-popup__input" type="text" name="name" autocomplete="name" placeholder="Як до вас звертатися" required>
+                        <input class="request-popup__input" type="text" name="name" autocomplete="name" placeholder="Імʼя*" required>
                         <span class="request-popup__field-error" data-field-error="name"></span>
                     </label>
 
                     <label class="request-popup__field" data-field-wrap="phone">
-                        <span class="request-popup__field-label">Телефон*</span>
-                        <input class="request-popup__input" type="tel" name="phone" inputmode="tel" autocomplete="tel" placeholder="+380 (__) ___ __ __" required>
+                        <input class="request-popup__input" type="tel" name="phone" inputmode="tel" autocomplete="tel" placeholder="Телефон*" required>
                         <span class="request-popup__field-error" data-field-error="phone"></span>
                     </label>
 
                     <label class="request-popup__field" data-field-wrap="email">
-                        <span class="request-popup__field-label">E-mail*</span>
-                        <input class="request-popup__input" type="email" name="email" inputmode="email" autocomplete="email" placeholder="name@company.com" required>
+                        <input class="request-popup__input" type="email" name="email" inputmode="email" autocomplete="email" placeholder="E-mail*" required>
                         <span class="request-popup__field-error" data-field-error="email"></span>
                     </label>
-                </div>
 
-                <label class="request-popup__field request-popup__field--textarea" data-field-wrap="message">
-                    <span class="request-popup__field-label">Коментар*</span>
-                    <textarea class="request-popup__input request-popup__input--textarea" name="message" rows="5" placeholder="Коротко опишіть ваш запит" required></textarea>
-                    <span class="request-popup__field-error" data-field-error="message"></span>
-                </label>
+                    <label class="request-popup__field" data-field-wrap="message">
+                        <input class="request-popup__input" type="text" name="message" autocomplete="off" placeholder="Коментар*" required>
+                        <span class="request-popup__field-error" data-field-error="message"></span>
+                    </label>
+                </div>
 
                 <div class="request-popup__checks">
                     <label class="request-popup__checkbox" data-field-wrap="consent">

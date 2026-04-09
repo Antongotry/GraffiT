@@ -721,8 +721,8 @@
       }
 
       if (name === 'message') {
-        if (value.length < 10) {
-          return 'Опишіть задачу хоча б у кількох словах.';
+        if (value.length < 5) {
+          return 'Коротко опишіть запит.';
         }
 
         return '';

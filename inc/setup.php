@@ -228,7 +228,7 @@ function graffit_handle_request_submission(): void
     $name = sanitize_text_field(wp_unslash($_POST['name'] ?? ''));
     $phone = sanitize_text_field(wp_unslash($_POST['phone'] ?? ''));
     $email = sanitize_email(wp_unslash($_POST['email'] ?? ''));
-    $message = sanitize_textarea_field(wp_unslash($_POST['message'] ?? ''));
+    $message = sanitize_text_field(wp_unslash($_POST['message'] ?? ''));
     $source = sanitize_key(wp_unslash($_POST['source'] ?? 'site'));
     $source_label = sanitize_text_field(wp_unslash($_POST['source_label'] ?? __('Сайт', 'graffit')));
     $consent = ! empty($_POST['consent']);
@@ -248,8 +248,8 @@ function graffit_handle_request_submission(): void
         $errors['email'] = __('Вкажіть коректний e-mail.', 'graffit');
     }
 
-    if (mb_strlen($message) < 10) {
-        $errors['message'] = __('Коротко опишіть запит, щоб ми підготувалися до контакту.', 'graffit');
+    if (mb_strlen($message) < 5) {
+        $errors['message'] = __('Коротко опишіть запит.', 'graffit');
     }
 
     if (! $consent) {
