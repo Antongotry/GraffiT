@@ -515,7 +515,8 @@
 
 .service-card {
   position: relative;
-  min-height: #{mixins.vw(463px)};
+  // 463px @ 1440px artboard (keep calc() in output for inspectability)
+  min-height: #{"calc(100vw * 463 / 1440)"};
   border-radius: #{mixins.vw(20px)};
   background:
     linear-gradient(90deg, rgba(20, 23, 30, 0.5) 0%, rgba(20, 23, 30, 0) 38%),
@@ -677,23 +678,56 @@
   }
 }
 
+// Second card (IT outsourcing): stack like the 1440 layout — image, title, copy, CTA in flow
+// so min-height can stay 463/1440 vw without the button covering the last line.
 .service-card--low-copy {
-  // Taller than default: copy sits lower; reserve room above the absolute CTA.
-  min-height: #{mixins.vw(624px)};
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  min-height: #{"calc(100vw * 463 / 1440)"};
+  padding: #{mixins.vw(40px)};
+  padding-bottom: #{mixins.vw(24px)};
 
   @include mixins.mobile {
     min-height: #{mixins.mvw(410px)};
+    padding: #{mixins.mvw(16px)};
+    padding-bottom: #{mixins.mvw(20px)};
   }
 }
 
+.service-card--low-copy .service-card__media {
+  position: relative;
+  left: auto;
+  top: auto;
+  flex: 0 0 auto;
+  align-self: flex-start;
+}
+
 .service-card--low-copy .service-card__content {
-  top: #{mixins.vw(290px)};
-  // Space for .service-card__cta (min-height + bottom offset) so the last line is not covered.
-  padding-bottom: #{mixins.vw(96px)};
+  position: relative;
+  left: auto;
+  right: auto;
+  top: auto;
+  flex: 0 1 auto;
+  margin-top: #{mixins.vw(32px)};
+  width: 100%;
 
   @include mixins.mobile {
-    top: auto;
-    padding-bottom: 0;
+    margin-top: #{mixins.mvw(40px)};
+  }
+}
+
+.service-card--low-copy .service-card__cta {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  margin-top: #{mixins.vw(24px)};
+  align-self: flex-start;
+  z-index: 1;
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(24px)};
   }
 }
 
