@@ -386,8 +386,8 @@
   &::before,
   &::after {
     position: absolute;
-    width: #{mixins.vw(520px)};
-    height: #{mixins.vw(520px)};
+    width: #{mixins.vw(600px)};
+    height: #{mixins.vw(600px)};
     background: radial-gradient(circle, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0) 74%);
     filter: blur(40px);
     content: "";
@@ -395,11 +395,11 @@
   }
 
   &::before {
-    inset: #{mixins.vw(-120px)} #{mixins.vw(-220px)} auto auto;
+    inset: #{mixins.vw(-120px)} #{mixins.vw(-240px)} auto auto;
   }
 
   &::after {
-    inset: #{mixins.vw(-120px)} auto auto #{mixins.vw(-220px)};
+    inset: #{mixins.vw(-120px)} auto auto #{mixins.vw(-240px)};
   }
 
   @include mixins.mobile {
@@ -517,7 +517,10 @@
   position: relative;
   min-height: #{mixins.vw(463px)};
   border-radius: #{mixins.vw(20px)};
-  background: #454d5c;
+  background:
+    linear-gradient(90deg, rgba(20, 23, 30, 0.5) 0%, rgba(20, 23, 30, 0) 38%),
+    linear-gradient(270deg, rgba(20, 23, 30, 0.5) 0%, rgba(20, 23, 30, 0) 38%),
+    #454d5c;
   overflow: hidden;
   transition:
     box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -556,7 +559,10 @@
     padding: #{mixins.mvw(16px)};
     padding-bottom: #{mixins.mvw(20px)};
     border-radius: #{mixins.mvw(12px)};
-    background: linear-gradient(180deg, #000102 0%, #0073e6 100%);
+    background:
+      linear-gradient(90deg, rgba(0, 1, 8, 0.45) 0%, rgba(0, 1, 8, 0) 40%),
+      linear-gradient(270deg, rgba(0, 1, 8, 0.45) 0%, rgba(0, 1, 8, 0) 40%),
+      linear-gradient(180deg, #000102 0%, #0073e6 100%);
     box-shadow: inset 0 0 0 1px #0073e6;
 
     &::before {
@@ -671,11 +677,23 @@
   }
 }
 
+.service-card--low-copy {
+  // Taller than default: copy sits lower; reserve room above the absolute CTA.
+  min-height: #{mixins.vw(624px)};
+
+  @include mixins.mobile {
+    min-height: #{mixins.mvw(410px)};
+  }
+}
+
 .service-card--low-copy .service-card__content {
   top: #{mixins.vw(290px)};
+  // Space for .service-card__cta (min-height + bottom offset) so the last line is not covered.
+  padding-bottom: #{mixins.vw(96px)};
 
   @include mixins.mobile {
     top: auto;
+    padding-bottom: 0;
   }
 }
 
