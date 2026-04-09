@@ -39,6 +39,7 @@ $reasons_stack_icons = [
 ];
 
 $reasons_cursor_icon = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/cursor-5.svg';
+$reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
@@ -116,6 +117,22 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                 <p class="hex-reasons__hex-caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
             </div>
         </article>
+
+        <!-- ═ photo large — grid ~(3.227, −0.388) ═ -->
+        <div
+            class="hex-reasons__hex hex-reasons__hex--photo hex-reasons__hex--photo-lg hex-reasons__hex--plg"
+            aria-hidden="true"
+        >
+            <img
+                class="hex-reasons__hex-img"
+                src="<?php echo esc_url( $reasons_side_photo ); ?>"
+                alt=""
+                width="559"
+                height="559"
+                loading="lazy"
+                decoding="async"
+            >
+        </div>
 
         <!-- ═ row 1 · col 0 — Складні кейси ═ -->
         <article
