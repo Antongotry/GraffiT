@@ -139,10 +139,24 @@ $project_cases = [
 
             <div class="services-projects__nav">
                 <button class="services-projects__nav-button services-projects__nav-button--prev js-projects-prev" type="button" aria-label="Попередній кейс">
-                    <span aria-hidden="true">←</span>
+                    <img
+                        class="services-projects__nav-icon"
+                        src="<?php echo esc_url( content_url( 'uploads/2026/04/l.svg' ) ); ?>"
+                        alt=""
+                        width="18"
+                        height="20"
+                        decoding="async"
+                    />
                 </button>
                 <button class="services-projects__nav-button services-projects__nav-button--next js-projects-next" type="button" aria-label="Наступний кейс">
-                    <span aria-hidden="true">→</span>
+                    <img
+                        class="services-projects__nav-icon"
+                        src="<?php echo esc_url( content_url( 'uploads/2026/04/r.svg' ) ); ?>"
+                        alt=""
+                        width="18"
+                        height="20"
+                        decoding="async"
+                    />
                 </button>
             </div>
         </div>
