@@ -239,29 +239,29 @@
         return;
       }
 
-      function clientsTrackScrollRange() {
+      function clientsTrackScrollDistance() {
         var overflow = track.scrollHeight - stage.clientHeight;
         if (overflow <= 0) {
           return 0;
         }
-        // Match ~.services-clients__cards-stage bottom mask: stop short so the last card
-        // stays in the fully opaque band instead of under the fade.
+        // Full track travel so the last card can reach the stage; small extra so it sits
+        // above the bottom fade mask instead of ending the pin while still clipped.
         var w = window.innerWidth || 1440;
-        var reserve = Math.round((280 / 1440) * w);
-        reserve = Math.min(Math.max(reserve, 160), 360);
-        return Math.max(overflow - reserve, 0);
+        var extra = Math.round((200 / 1440) * w);
+        extra = Math.min(Math.max(extra, 120), 280);
+        return overflow + extra;
       }
 
       window.gsap.to(track, {
         y: function () {
-          return -clientsTrackScrollRange();
+          return -clientsTrackScrollDistance();
         },
         ease: 'none',
         scrollTrigger: {
           trigger: section,
           start: 'top top',
           end: function () {
-            return '+=' + clientsTrackScrollRange();
+            return '+=' + clientsTrackScrollDistance();
           },
           pin: viewport,
           scrub: 1,
