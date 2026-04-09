@@ -78,21 +78,17 @@ $process_steps = [
 
             <div class="services-process__visual" aria-hidden="true">
                 <div class="services-process__visual-frame">
-                    <picture>
-                        <source
-                            media="(max-width: 1024px)"
-                            srcset="<?php echo esc_url($process_visual_image_mobile); ?>"
-                        >
-                        <img
-                            class="services-process__visual-photo"
-                            src="<?php echo esc_url($process_visual_image); ?>"
-                            alt=""
-                            width="977"
-                            height="977"
-                            loading="lazy"
-                            decoding="async"
-                        >
-                    </picture>
+                    <img
+                        class="services-process__visual-photo"
+                        src="<?php echo esc_url($process_visual_image); ?>"
+                        srcset="<?php echo esc_url($process_visual_image_mobile); ?> 1084w, <?php echo esc_url($process_visual_image); ?> 1508w"
+                        sizes="(max-width: 1024px) 100vw, 45vw"
+                        alt=""
+                        width="977"
+                        height="977"
+                        loading="eager"
+                        decoding="async"
+                    >
                 </div>
             </div>
         </div>
