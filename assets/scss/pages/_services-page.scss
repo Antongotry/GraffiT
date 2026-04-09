@@ -4115,9 +4115,11 @@
   }
 
   @include mixins.mobile {
-    width: auto;
+    // Чітка ширина, щоб % у max-width у img не «злітали» (і фото не зникало)
+    width: 100%;
     max-width: 100%;
     height: auto;
+    min-height: 0;
     margin-inline: 0;
     margin-left: auto;
     margin-right: 0;
@@ -4125,6 +4127,11 @@
     transform: none;
     border-radius: 0;
     box-shadow: none;
+
+    picture {
+      display: block;
+      width: 100%;
+    }
   }
 }
 
@@ -4142,11 +4149,11 @@
     position: static;
     display: block;
     width: auto;
+    max-width: 100%;
     height: auto;
-    max-width: min(100%, 100vw);
     margin: 0 0 0 auto;
     transform: none;
-    object-fit: unset;
+    object-fit: contain;
     object-position: bottom right;
   }
 }
@@ -4222,7 +4229,9 @@
 
   @include mixins.mobile {
     width: 100%;
-    font-size: #{mixins.mvw(40px)};
+    max-width: #{mixins.mvw(355px)};
+    font-size: #{mixins.mvw(30px)};
+    line-height: 1;
   }
 }
 
@@ -4236,8 +4245,10 @@
 
   @include mixins.mobile {
     width: 100%;
+    max-width: #{mixins.mvw(355px)};
     margin-top: #{mixins.mvw(24px)};
-    font-size: #{mixins.mvw(16px)};
+    font-size: #{mixins.mvw(14px)};
+    line-height: 1.36;
   }
 }
 
@@ -4256,11 +4267,12 @@
   line-height: 1.3;
 
   @include mixins.mobile {
-    width: 100%;
-    min-height: #{mixins.mvw(52px)};
+    width: #{mixins.mvw(180px)};
+    min-height: #{mixins.mvw(48px)};
     margin-top: #{mixins.mvw(28px)};
-    padding: 0 #{mixins.mvw(24px)};
+    padding: 0 #{mixins.mvw(32px)};
     border-radius: #{mixins.mvw(8px)};
     font-size: #{mixins.mvw(14px)};
+    line-height: 1.3;
   }
 }
