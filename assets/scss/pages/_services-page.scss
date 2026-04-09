@@ -2889,8 +2889,7 @@
   overflow: hidden;
 
   @include mixins.mobile {
-    overflow-x: hidden;
-    overflow-y: visible;
+    overflow: visible;
   }
 }
 
@@ -2929,8 +2928,8 @@
   @include mixins.mobile {
     min-height: auto;
     padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(72px)};
-    // Ледь помітний «шеврон» замість глибокого трикутника (макет 375)
-    clip-path: polygon(0 0, 50% 0.55%, 100% 0, 100% 100%, 50% 99.45%, 0 100%);
+    // clip-path ламає position:sticky для карток; на мобілці без вирізу
+    clip-path: none;
 
     &::before {
       background-size: #{mixins.mvw(260px)} auto;
@@ -3125,10 +3124,13 @@
   gap: #{mixins.vw(40px)};
 
   @include mixins.mobile {
-    gap: #{mixins.mvw(20px)};
+    display: flex;
+    flex-direction: column;
+    gap: 0;
     width: min(100%, #{mixins.mvw(355px)});
     margin-inline: auto;
-    padding-top: #{mixins.mvw(36px)};
+    padding-top: #{mixins.mvw(16px)};
+    padding-bottom: #{mixins.mvw(320px)};
   }
 }
 
@@ -3144,12 +3146,27 @@
   overflow: hidden;
 
   @include mixins.mobile {
+    position: sticky;
+    top: #{mixins.mvw(64px)};
     min-height: #{mixins.mvw(240px)};
+    margin-bottom: #{mixins.mvw(-188px)};
     padding: #{mixins.mvw(20px)};
     border-radius: #{mixins.mvw(12px)};
     background-color: #ffffff;
     box-shadow: 0 #{mixins.mvw(8px)} #{mixins.mvw(24px)} rgba(0, 0, 0, 0.08);
-    overflow: visible;
+    overflow: hidden;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@for $i from 1 through 8 {
+  .services-clients__cards-track .trust-card:nth-child(#{$i}) {
+    @include mixins.mobile {
+      z-index: 10 + $i;
+    }
   }
 }
 
@@ -3167,14 +3184,12 @@
   color: #ffffff;
 
   @include mixins.mobile {
-    top: #{mixins.mvw(-31px)};
+    top: 0;
     right: #{mixins.mvw(20px)};
     width: #{mixins.mvw(56px)};
     height: #{mixins.mvw(111px)};
-    padding-top: #{mixins.mvw(52px)};
-    background: linear-gradient(180deg, #072042 0%, #0073e6 100%) no-repeat;
-    // Майже горизонтальний низ замість глибокого скосу SVG
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 96%);
+    padding-top: #{mixins.mvw(46px)};
+    background: url('../images/trust-ribbon-shape.svg') center / 100% 100% no-repeat;
   }
 }
 
