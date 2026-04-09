@@ -117,9 +117,10 @@
   @include mixins.mobile {
     width: 100%;
     max-width: 100%;
-    font-size: #{mixins.mvw(28px)};
-    font-weight: 500;
-    line-height: 1.12;
+    font-size: #{mixins.mvw(26px)};
+    font-weight: 400;
+    line-height: 1.22;
+    letter-spacing: -0.01em;
   }
 }
 
@@ -143,10 +144,10 @@
   @include mixins.mobile {
     display: block;
     max-width: 100%;
-    margin-top: #{mixins.mvw(10px)};
+    margin-top: #{mixins.mvw(8px)};
     margin-left: 0;
     font-size: 1em;
-    font-weight: 500;
+    font-weight: 400;
   }
 }
 
@@ -158,9 +159,9 @@
 
   @include mixins.mobile {
     font-weight: 700;
-    text-shadow:
-      0 0 #{mixins.mvw(6px)} rgba(255, 255, 255, 0.72),
-      0 0 #{mixins.mvw(20px)} rgba(255, 255, 255, 0.4);
+    margin-right: #{mixins.mvw(2px)};
+    // Одне м’яке світіння — два шари давали «брудну» пляму на «– програмні…»
+    text-shadow: 0 0 #{mixins.mvw(12px)} rgba(255, 255, 255, 0.5);
   }
 }
 
@@ -173,7 +174,7 @@
     right: auto;
     top: auto;
     width: 100%;
-    margin-top: #{mixins.mvw(24px)};
+    margin-top: #{mixins.mvw(22px)};
   }
 }
 
@@ -184,8 +185,8 @@
 
   @include mixins.mobile {
     font-size: #{mixins.mvw(15px)};
-    line-height: 1.42;
-    color: rgba(255, 255, 255, 0.62);
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.58);
   }
 }
 
@@ -207,11 +208,18 @@
     box-sizing: border-box;
     width: 100%;
     min-width: 0;
-    min-height: #{mixins.mvw(50px)};
-    margin-top: #{mixins.mvw(28px)};
-    padding: 0 #{mixins.mvw(24px)};
+    margin-top: #{mixins.mvw(24px)};
+    margin-bottom: #{mixins.mvw(44px)};
+    min-height: #{mixins.mvw(48px)};
+    padding: #{mixins.mvw(13px)} #{mixins.mvw(22px)};
+    border: 0;
     border-radius: #{mixins.mvw(10px)};
-    font-size: #{mixins.mvw(14px)};
+    background: #0073e6;
+    font-size: #{mixins.mvw(15px)};
+    font-weight: 500;
+    line-height: 1.25;
+    text-align: center;
+    box-shadow: none;
   }
 }
 
@@ -240,9 +248,9 @@
     align-self: flex-end;
     width: #{mixins.mvw(218px)};
     height: #{mixins.mvw(234px)};
-    margin: #{mixins.mvw(36px)} #{mixins.mvw(-4px)} 0 auto;
+    margin: 0 #{mixins.mvw(-4px)} 0 auto;
     padding: #{mixins.mvw(48px)} #{mixins.mvw(20px)} #{mixins.mvw(20px)};
-    transform: translateY(#{mixins.mvw(-32px)});
+    transform: none;
     z-index: 3;
   }
 }
