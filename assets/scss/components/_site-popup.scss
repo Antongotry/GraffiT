@@ -11,7 +11,7 @@ body.graffit-popup-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: #{mixins.vw(32px)};
+  padding: min(#{mixins.vw(32px)}, 32px);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -55,7 +55,7 @@ body.graffit-popup-open {
 .site-popup__stage {
   position: relative;
   z-index: 1;
-  width: min(100%, #{mixins.vw(480px)});
+  width: min(100%, #{mixins.vw(620px)}, 620px);
   display: flex;
   justify-content: center;
 
@@ -69,12 +69,12 @@ body.graffit-popup-open {
   width: 100%;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: #{mixins.vw(28px)};
+  border-radius: min(#{mixins.vw(28px)}, 28px);
   box-shadow:
-    0 #{mixins.vw(52px)} #{mixins.vw(110px)} rgba(0, 0, 0, 0.48),
-    0 #{mixins.vw(10px)} #{mixins.vw(28px)} rgba(0, 115, 230, 0.14);
+    0 min(#{mixins.vw(52px)}, 52px) min(#{mixins.vw(110px)}, 110px) rgba(0, 0, 0, 0.48),
+    0 min(#{mixins.vw(10px)}, 10px) min(#{mixins.vw(28px)}, 28px) rgba(0, 115, 230, 0.14);
   opacity: 0;
-  transform: translateY(#{mixins.vw(32px)}) scale(0.965);
+  transform: translateY(min(#{mixins.vw(32px)}, 32px)) scale(0.965);
   transition:
     opacity 360ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -82,11 +82,11 @@ body.graffit-popup-open {
   scrollbar-color: rgba(0, 115, 230, 0.56) rgba(255, 255, 255, 0.06);
 
   &::-webkit-scrollbar {
-    width: #{mixins.vw(8px)};
+    width: min(#{mixins.vw(8px)}, 8px);
   }
 
   &::-webkit-scrollbar-thumb {
-    border-radius: #{mixins.vw(999px)};
+    border-radius: 999px;
     background: rgba(0, 115, 230, 0.56);
   }
 
@@ -128,24 +128,24 @@ body.graffit-popup-open {
     background-image: url("../images/cta-band-pattern.svg");
     background-repeat: no-repeat;
     background-size: contain;
-    opacity: 0.08;
+    opacity: 0.04;
     content: "";
     pointer-events: none;
   }
 
   &::before {
-    left: #{mixins.vw(-18px)};
-    bottom: #{mixins.vw(-48px)};
-    width: #{mixins.vw(244px)};
-    height: #{mixins.vw(244px)};
+    left: -34px;
+    bottom: -66px;
+    width: 176px;
+    height: 176px;
     transform: rotate(18deg);
   }
 
   &::after {
-    top: #{mixins.vw(-20px)};
-    right: #{mixins.vw(42px)};
-    width: #{mixins.vw(186px)};
-    height: #{mixins.vw(186px)};
+    top: -12px;
+    right: 52px;
+    width: 116px;
+    height: 116px;
   }
 
   @include mixins.mobile {
@@ -180,14 +180,14 @@ body.graffit-popup-open {
 
 .site-popup__close {
   position: absolute;
-  top: #{mixins.vw(16px)};
-  right: #{mixins.vw(16px)};
+  top: 18px;
+  right: 18px;
   z-index: 3;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: #{mixins.vw(42px)};
-  height: #{mixins.vw(42px)};
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 50%;
@@ -227,7 +227,7 @@ body.graffit-popup-open {
 
 .site-popup__close-line {
   position: absolute;
-  width: #{mixins.vw(16px)};
+  width: 16px;
   height: 1px;
   border-radius: 999px;
   background: currentColor;
@@ -291,9 +291,9 @@ body.graffit-popup-open {
 }
 
 .request-popup__title {
-  max-width: 100%;
+  max-width: calc(100% - 88px);
   margin-top: 0;
-  font-size: #{mixins.vw(24px)};
+  font-size: 24px;
   font-weight: 500;
   line-height: 1.02;
 
@@ -304,11 +304,11 @@ body.graffit-popup-open {
 }
 
 .request-popup__text {
-  max-width: 100%;
-  margin-top: #{mixins.vw(8px)};
+  max-width: 420px;
+  margin-top: 10px;
   color: rgba(255, 255, 255, 0.68);
-  font-size: #{mixins.vw(13px)};
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.45;
 
   @include mixins.mobile {
     max-width: 100%;
@@ -396,9 +396,9 @@ body.graffit-popup-open {
 
 .request-popup__form-shell {
   position: relative;
-  max-width: #{mixins.vw(480px)};
+  max-width: 100%;
   margin: 0 auto;
-  padding: #{mixins.vw(26px)} #{mixins.vw(24px)} #{mixins.vw(22px)};
+  padding: 34px 34px 30px;
 
   @include mixins.mobile {
     max-width: 100%;
@@ -407,7 +407,7 @@ body.graffit-popup-open {
 }
 
 .request-popup__form {
-  margin-top: #{mixins.vw(14px)};
+  margin-top: 18px;
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(18px)};
@@ -425,7 +425,7 @@ body.graffit-popup-open {
 .request-popup__fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: #{mixins.vw(12px)};
+  gap: 16px;
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
@@ -452,13 +452,15 @@ body.graffit-popup-open {
 
 .request-popup__input {
   width: 100%;
-  min-height: #{mixins.vw(48px)};
-  padding: #{mixins.vw(14px)} #{mixins.vw(16px)};
+  min-height: 56px;
+  padding: 16px 18px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: #{mixins.vw(12px)};
+  border-radius: 16px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0.018) 100%);
   color: #ffffff;
+  font-size: 18px;
+  line-height: 1.2;
   outline: none;
   transition:
     border-color 220ms ease,
@@ -472,8 +474,8 @@ body.graffit-popup-open {
   &:focus {
     border-color: rgba(0, 115, 230, 0.8);
     box-shadow:
-      0 0 0 #{mixins.vw(2px)} rgba(0, 115, 230, 0.12),
-      0 #{mixins.vw(10px)} #{mixins.vw(22px)} rgba(0, 115, 230, 0.12);
+      0 0 0 2px rgba(0, 115, 230, 0.12),
+      0 12px 24px rgba(0, 115, 230, 0.12);
     background: rgba(5, 20, 34, 0.92);
   }
 
@@ -493,7 +495,7 @@ body.graffit-popup-open {
 .request-popup__field.is-invalid .request-popup__input,
 .request-popup__checkbox.is-invalid {
   border-color: rgba(255, 115, 115, 0.72);
-  box-shadow: 0 0 0 #{mixins.vw(3px)} rgba(255, 115, 115, 0.08);
+  box-shadow: 0 0 0 2px rgba(255, 115, 115, 0.08);
 
   @include mixins.mobile {
     box-shadow: 0 0 0 #{mixins.mvw(3px)} rgba(255, 115, 115, 0.08);
@@ -501,9 +503,9 @@ body.graffit-popup-open {
 }
 
 .request-popup__field-error {
-  margin-top: #{mixins.vw(4px)};
+  margin-top: 6px;
   color: #ff9d9d;
-  font-size: #{mixins.vw(11px)};
+  font-size: 12px;
   line-height: 1.35;
 
   &:empty {
@@ -522,8 +524,8 @@ body.graffit-popup-open {
 
 .request-popup__checks {
   display: grid;
-  gap: #{mixins.vw(6px)};
-  margin-top: #{mixins.vw(6px)};
+  gap: 8px;
+  margin-top: 10px;
 
   @include mixins.mobile {
     gap: #{mixins.mvw(8px)};
@@ -535,11 +537,11 @@ body.graffit-popup-open {
   position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: #{mixins.vw(10px)};
+  gap: 12px;
   align-items: center;
-  padding: #{mixins.vw(10px)} #{mixins.vw(12px)};
+  padding: 14px 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: #{mixins.vw(14px)};
+  border-radius: 18px;
   background: rgba(255, 255, 255, 0.025);
   cursor: pointer;
   transition:
@@ -571,14 +573,14 @@ body.graffit-popup-open {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: #{mixins.vw(20px)};
-  height: #{mixins.vw(20px)};
+  width: 20px;
+  height: 20px;
   margin-top: 0;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: #{mixins.vw(6px)};
+  border-radius: 6px;
   background: rgba(255, 255, 255, 0.04);
   color: #ffffff;
-  box-shadow: inset 0 0 0 #{mixins.vw(1px)} rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
   transition:
     transform 220ms ease,
     border-color 220ms ease,
@@ -586,8 +588,8 @@ body.graffit-popup-open {
     box-shadow 220ms ease;
 
   svg {
-    width: #{mixins.vw(11px)};
-    height: #{mixins.vw(11px)};
+    width: 11px;
+    height: 11px;
     opacity: 0;
     transform: scale(0.72);
     transition: opacity 180ms ease, transform 180ms ease;
@@ -609,7 +611,7 @@ body.graffit-popup-open {
 
 .request-popup__checkbox-input:focus-visible + .request-popup__checkbox-ui {
   border-color: rgba(0, 115, 230, 0.82);
-  box-shadow: 0 0 0 #{mixins.vw(3px)} rgba(0, 115, 230, 0.12);
+  box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.12);
 
   @include mixins.mobile {
     box-shadow: 0 0 0 #{mixins.mvw(3px)} rgba(0, 115, 230, 0.12);
@@ -620,8 +622,8 @@ body.graffit-popup-open {
   border-color: #48a8ff;
   background: linear-gradient(180deg, #1088ff 0%, #0073e6 100%);
   box-shadow:
-    0 #{mixins.vw(12px)} #{mixins.vw(24px)} rgba(0, 115, 230, 0.22),
-    inset 0 #{mixins.vw(1px)} #{mixins.vw(1px)} rgba(255, 255, 255, 0.24);
+    0 12px 24px rgba(0, 115, 230, 0.22),
+    inset 0 1px 1px rgba(255, 255, 255, 0.24);
   transform: scale(1.04);
 
   svg {
@@ -640,8 +642,8 @@ body.graffit-popup-open {
   display: flex;
   align-items: center;
   color: rgba(255, 255, 255, 0.72);
-  font-size: #{mixins.vw(11px)};
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.45;
 
   @include mixins.mobile {
     font-size: #{mixins.mvw(12px)};
@@ -660,9 +662,9 @@ body.graffit-popup-open {
 }
 
 .request-popup__form-status {
-  margin-top: #{mixins.vw(10px)};
+  margin-top: 12px;
   color: rgba(255, 255, 255, 0.62);
-  font-size: #{mixins.vw(12px)};
+  font-size: 13px;
   line-height: 1.4;
 
   &:empty {
@@ -684,7 +686,7 @@ body.graffit-popup-open {
 }
 
 .request-popup__actions {
-  margin-top: #{mixins.vw(8px)};
+  margin-top: 12px;
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(18px)};
@@ -698,14 +700,17 @@ body.graffit-popup-open {
   justify-content: center;
   width: 100%;
   min-width: 0;
-  min-height: #{mixins.vw(46px)};
-  padding: #{mixins.vw(14px)} #{mixins.vw(22px)};
+  min-height: 58px;
+  padding: 16px 24px;
   border: 0;
-  border-radius: #{mixins.vw(10px)};
+  border-radius: 18px;
   background: linear-gradient(135deg, #0c87ff 0%, #0073e6 54%, #005fbe 100%);
   color: #ffffff;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
   cursor: pointer;
-  box-shadow: 0 #{mixins.vw(14px)} #{mixins.vw(28px)} rgba(0, 115, 230, 0.24);
+  box-shadow: 0 18px 34px rgba(0, 115, 230, 0.24);
   transition:
     transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -713,7 +718,7 @@ body.graffit-popup-open {
 
   &::before {
     position: absolute;
-    inset: #{mixins.vw(1px)};
+    inset: 1px;
     border-radius: inherit;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 38%);
     content: "";
@@ -722,8 +727,8 @@ body.graffit-popup-open {
 
   &:hover,
   &:focus-visible {
-    transform: translateY(#{mixins.vw(-2px)});
-    box-shadow: 0 #{mixins.vw(18px)} #{mixins.vw(36px)} rgba(0, 115, 230, 0.28);
+    transform: translateY(-2px);
+    box-shadow: 0 22px 40px rgba(0, 115, 230, 0.28);
   }
 
   @include mixins.mobile {
