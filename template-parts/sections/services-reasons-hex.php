@@ -45,6 +45,8 @@ $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
 $hex_mobile_row2_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-1707480427_result.webp';
 /** Mobile row 3: two hexes + side FiCSS blocks. */
 $hex_mobile_row3_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2134_result.webp';
+/** Mobile row 4: single hex photo composite. */
+$hex_mobile_row4_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/44444_result.webp';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
@@ -301,6 +303,19 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                         <p class="hex-reasons__m-row3-caption-2"><?php echo esc_html( '(1С, CRM, ERP, маркетплейси, POS тощо)' ); ?></p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Row 4 (mobile): hex photo strip -->
+            <div class="hex-reasons__m-row4">
+                <img
+                    class="hex-reasons__m-row4-composite"
+                    src="<?php echo esc_url( $hex_mobile_row4_composite_url ); ?>"
+                    alt=""
+                    width="1089"
+                    height="1251"
+                    loading="lazy"
+                    decoding="async"
+                >
             </div>
     </div>
 </section>
