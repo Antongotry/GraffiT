@@ -257,7 +257,7 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                 </div>
             </div>
 
-            <!-- Row 2 (mobile): one full-bleed composite under row1 -->
+            <!-- Row 2 (mobile): composite + centered 238 tile overlay (FiCSS 144×82 block) -->
             <div class="hex-reasons__m-row-bottom">
                 <img
                     class="hex-reasons__m-row2-composite"
@@ -268,6 +268,12 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                     loading="lazy"
                     decoding="async"
                 >
+                <div class="hex-reasons__m-row2-hit">
+                    <div class="hex-reasons__m-row2-block">
+                        <p class="hex-reasons__m-row2-body-sm"><?php echo esc_html( 'Допомагаємо в складних кейсах, ' ); ?></p>
+                        <p class="hex-reasons__m-row2-caption"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
+                    </div>
+                </div>
             </div>
     </div>
 </section>

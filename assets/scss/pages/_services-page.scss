@@ -2301,9 +2301,10 @@
   }
 }
 
-/* Mobile row 2: single composite image, full-bleed, flush under row1 */
+/* Mobile row 2: composite + centered 238×238 hit (aligns with row1 card slot), FiCSS block inside */
 .hex-reasons__m-row-bottom {
   @include mixins.mobile {
+    position: relative;
     display: block;
     width: 100vw;
     /* Pull up 23% of mobile hex tile (238mvw) toward row1 (was 25%, −2%) */
@@ -2320,11 +2321,80 @@
 
 .hex-reasons__m-row2-composite {
   @include mixins.mobile {
+    position: relative;
+    z-index: 0;
     display: block;
     width: 100%;
     height: auto;
     object-fit: contain;
     object-position: center top;
+  }
+}
+
+/* Same footprint as .hex-reasons__m-slot--card — centers copy on middle hex */
+.hex-reasons__m-row2-hit {
+  @include mixins.mobile {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    width: #{mixins.mvw(238px)};
+    height: #{mixins.mvw(238px)};
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+}
+
+/* FiCSS .block — 144×82, scaled with mvw */
+.hex-reasons__m-row2-block {
+  @include mixins.mobile {
+    position: relative;
+    flex: 0 0 auto;
+    width: #{mixins.mvw(144px)};
+    height: #{mixins.mvw(82px)};
+    margin: 0;
+  }
+}
+
+.hex-reasons__m-row2-body-sm {
+  @include mixins.mobile {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: #{mixins.mvw(34px)};
+    margin: 0;
+    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: #{mixins.mvw(14px)};
+    font-weight: 500;
+    line-height: 1.2;
+    color: #ffffff;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+}
+
+.hex-reasons__m-row2-caption {
+  @include mixins.mobile {
+    position: absolute;
+    top: #{mixins.mvw(50px)};
+    left: 0;
+    width: 100%;
+    min-height: #{mixins.mvw(32px)};
+    margin: 0;
+    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: #{mixins.mvw(12px)};
+    font-weight: 400;
+    line-height: 1.36;
+    color: rgba(255, 255, 255, 0.56);
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: break-word;
   }
 }
 
