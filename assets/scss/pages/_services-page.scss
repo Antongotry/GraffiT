@@ -1736,11 +1736,11 @@
   top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2);
 }
 
-/* Photo large — positioned to overlap cards like a puzzle piece */
+/* Photo large — puzzle-fit: gap ≈ inter-card gap, peeks above row 0, bleeds right edge */
 .hex-reasons__hex--plg {
   left: auto;
-  right: #{mixins.vw(-143px)};
-  top: #{mixins.vw(-30px)};
+  right: #{mixins.vw(-55px)};
+  top: #{mixins.vw(-60px)};
 }
 
 /* Photo small — grid ≈ (3.43, 1.29) · exact original values via right/top */
