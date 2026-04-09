@@ -2680,6 +2680,7 @@
   @include mixins.mobile {
     height: auto;
     margin-top: #{mixins.mvw(24px)};
+    padding-bottom: #{mixins.mvw(14px)};
     overflow-x: auto;
     overflow-y: visible;
     -webkit-overflow-scrolling: touch;

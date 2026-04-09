@@ -476,6 +476,424 @@
     });
   }
 
+  function initRequestPopup() {
+    var popup = document.getElementById('site-popup');
+
+    if (!popup) {
+      return;
+    }
+
+    var panels = Array.prototype.slice.call(popup.querySelectorAll('.site-popup__panel'));
+    var form = popup.querySelector('.js-request-form');
+    var statusNode = form ? form.querySelector('[data-form-status]') : null;
+    var lastFocusedElement = null;
+
+    function stopLenis() {
+      if (window.__graffitLenis && typeof window.__graffitLenis.stop === 'function') {
+        window.__graffitLenis.stop();
+      }
+    }
+
+    function startLenis() {
+      if (window.__graffitLenis && typeof window.__graffitLenis.start === 'function') {
+        window.__graffitLenis.start();
+      }
+    }
+
+    function getPanel(name) {
+      return popup.querySelector('[data-popup-panel="' + name + '"]');
+    }
+
+    function getFocusableElements(panel) {
+      if (!panel) {
+        return [];
+      }
+
+      return Array.prototype.slice.call(
+        panel.querySelectorAll('a[href], button:not([disabled]), textarea:not([disabled]), input:not([type="hidden"]):not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])')
+      ).filter(function (node) {
+        return !node.hasAttribute('hidden');
+      });
+    }
+
+    function focusPanel(panel) {
+      var focusable = getFocusableElements(panel);
+
+      if (focusable.length === 0) {
+        return;
+      }
+
+      window.requestAnimationFrame(function () {
+        focusable[0].focus();
+      });
+    }
+
+    function setStatus(message, tone) {
+      if (!statusNode) {
+        return;
+      }
+
+      statusNode.textContent = message || '';
+      statusNode.classList.remove('is-error', 'is-success');
+
+      if (tone) {
+        statusNode.classList.add('is-' + tone);
+      }
+    }
+
+    function setPanel(name) {
+      panels.forEach(function (panel) {
+        var isTarget = panel.getAttribute('data-popup-panel') === name;
+        panel.hidden = !isTarget;
+        panel.classList.toggle('is-active', isTarget);
+      });
+
+      focusPanel(getPanel(name));
+    }
+
+    function updateSource(trigger) {
+      if (!form || !trigger) {
+        return;
+      }
+
+      var sourceInput = form.querySelector('input[name="source"]');
+      var sourceLabelInput = form.querySelector('input[name="source_label"]');
+      var source = trigger.getAttribute('data-popup-source') || 'site';
+      var sourceLabel = trigger.getAttribute('data-popup-source-label') || trigger.textContent.trim() || 'Сайт';
+
+      if (sourceInput) {
+        sourceInput.value = source;
+      }
+
+      if (sourceLabelInput) {
+        sourceLabelInput.value = sourceLabel;
+      }
+    }
+
+    function openPopup(name, trigger) {
+      if (!popup.classList.contains('is-open')) {
+        lastFocusedElement = trigger || document.activeElement;
+      }
+
+      if (name === 'request') {
+        updateSource(trigger);
+      }
+
+      popup.classList.add('is-open');
+      popup.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('graffit-popup-open');
+      stopLenis();
+      setPanel(name);
+    }
+
+    function closePopup() {
+      popup.classList.remove('is-open');
+      popup.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('graffit-popup-open');
+      startLenis();
+      setPanel('request');
+      setStatus('');
+
+      if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+        lastFocusedElement.focus();
+      }
+    }
+
+    function findFieldWrap(name) {
+      return form ? form.querySelector('[data-field-wrap="' + name + '"]') : null;
+    }
+
+    function findFieldError(name) {
+      return form ? form.querySelector('[data-field-error="' + name + '"]') : null;
+    }
+
+    function setFieldState(name, message) {
+      if (!form) {
+        return;
+      }
+
+      var wrap = findFieldWrap(name);
+      var error = findFieldError(name);
+      var field = form.elements[name];
+      var isInvalid = Boolean(message);
+
+      if (wrap) {
+        wrap.classList.toggle('is-invalid', isInvalid);
+      }
+
+      if (error) {
+        error.textContent = message || '';
+      }
+
+      if (field && typeof field.setAttribute === 'function') {
+        field.setAttribute('aria-invalid', isInvalid ? 'true' : 'false');
+      }
+    }
+
+    function clearFieldStates() {
+      if (!form) {
+        return;
+      }
+
+      ['name', 'phone', 'email', 'company', 'message', 'consent'].forEach(function (name) {
+        setFieldState(name, '');
+      });
+    }
+
+    function normalizePhone(value) {
+      var normalized = value.replace(/[^\d+()\-\s]/g, '');
+      var firstChar = normalized.charAt(0);
+
+      if (firstChar === '+') {
+        normalized = '+' + normalized.slice(1).replace(/\+/g, '');
+      } else {
+        normalized = normalized.replace(/\+/g, '');
+      }
+
+      return normalized.slice(0, 24);
+    }
+
+    function validateField(field) {
+      if (!field || !field.name) {
+        return '';
+      }
+
+      var name = field.name;
+      var value = field.type === 'checkbox' ? field.checked : field.value.replace(/\s+/g, ' ').trim();
+
+      if (name === 'name') {
+        if (value.length < 2) {
+          return 'Вкажіть імʼя.';
+        }
+
+        return '';
+      }
+
+      if (name === 'phone') {
+        if (value === '') {
+          return 'Вкажіть телефон.';
+        }
+
+        if (value.replace(/\D+/g, '').length < 10) {
+          return 'Телефон виглядає неповним.';
+        }
+
+        return '';
+      }
+
+      if (name === 'email') {
+        if (value === '') {
+          return 'Вкажіть e-mail.';
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          return 'Вкажіть коректний e-mail.';
+        }
+
+        return '';
+      }
+
+      if (name === 'message') {
+        if (value.length < 10) {
+          return 'Опишіть задачу хоча б у кількох словах.';
+        }
+
+        return '';
+      }
+
+      if (name === 'consent' && !value) {
+        return 'Підтвердьте згоду на обробку даних.';
+      }
+
+      return '';
+    }
+
+    function validateForm() {
+      if (!form) {
+        return {};
+      }
+
+      var fieldNames = ['name', 'phone', 'email', 'message', 'consent'];
+      var errors = {};
+
+      fieldNames.forEach(function (name) {
+        var field = form.elements[name];
+        var message = validateField(field);
+
+        setFieldState(name, message);
+
+        if (message) {
+          errors[name] = message;
+        }
+      });
+
+      return errors;
+    }
+
+    function focusFirstInvalid(errors) {
+      if (!form) {
+        return;
+      }
+
+      var firstInvalid = Object.keys(errors)[0];
+      var field = firstInvalid ? form.elements[firstInvalid] : null;
+
+      if (field && typeof field.focus === 'function') {
+        field.focus();
+      }
+    }
+
+    document.addEventListener('click', function (event) {
+      var trigger = event.target.closest('[data-popup-open="request"]');
+
+      if (trigger) {
+        event.preventDefault();
+        openPopup('request', trigger);
+        return;
+      }
+
+      if (!popup.classList.contains('is-open')) {
+        return;
+      }
+
+      if (event.target.closest('[data-popup-close]')) {
+        event.preventDefault();
+        closePopup();
+      }
+    });
+
+    popup.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closePopup();
+        return;
+      }
+
+      if (event.key !== 'Tab') {
+        return;
+      }
+
+      var activePanel = popup.querySelector('.site-popup__panel.is-active');
+      var focusable = getFocusableElements(activePanel);
+
+      if (focusable.length === 0) {
+        return;
+      }
+
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    if (!form) {
+      return;
+    }
+
+    form.addEventListener('input', function (event) {
+      var field = event.target;
+
+      if (!field || !field.name) {
+        return;
+      }
+
+      if (field.name === 'phone') {
+        field.value = normalizePhone(field.value);
+      }
+
+      if (findFieldWrap(field.name) && findFieldWrap(field.name).classList.contains('is-invalid')) {
+        setFieldState(field.name, validateField(field));
+      }
+    });
+
+    form.addEventListener('blur', function (event) {
+      var field = event.target;
+
+      if (!field || !field.name) {
+        return;
+      }
+
+      setFieldState(field.name, validateField(field));
+    }, true);
+
+    form.addEventListener('change', function (event) {
+      var field = event.target;
+
+      if (!field || !field.name) {
+        return;
+      }
+
+      if (field.type === 'checkbox') {
+        setFieldState(field.name, validateField(field));
+      }
+    });
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      clearFieldStates();
+      setStatus('');
+
+      var errors = validateForm();
+
+      if (Object.keys(errors).length > 0) {
+        setStatus('Перевірте заповнення форми.', 'error');
+        focusFirstInvalid(errors);
+        return;
+      }
+
+      form.classList.add('is-submitting');
+      setStatus('Надсилаємо заявку...', 'success');
+
+      window.fetch(form.getAttribute('action'), {
+        method: 'POST',
+        body: new window.FormData(form),
+        credentials: 'same-origin',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      }).then(function (response) {
+        return response.json().catch(function () {
+          return {
+            success: false,
+            data: {
+              message: 'Сервер повернув неочікувану відповідь.'
+            }
+          };
+        });
+      }).then(function (result) {
+        var data = result && result.data ? result.data : {};
+
+        if (!result || !result.success) {
+          if (data.errors) {
+            Object.keys(data.errors).forEach(function (name) {
+              setFieldState(name, data.errors[name]);
+            });
+
+            focusFirstInvalid(data.errors);
+          }
+
+          setStatus(data.message || 'Не вдалося відправити заявку.', 'error');
+          return;
+        }
+
+        form.reset();
+        clearFieldStates();
+        setStatus('');
+        openPopup('success');
+      }).catch(function () {
+        setStatus('Не вдалося відправити заявку. Спробуйте ще раз.', 'error');
+      }).finally(function () {
+        form.classList.remove('is-submitting');
+      });
+    });
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -487,6 +905,7 @@
   }
 
   runInit(initMobileMenu, 'mobile-menu');
+  runInit(initRequestPopup, 'request-popup');
   runInit(initLenis, 'lenis');
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');

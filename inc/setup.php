@@ -200,6 +200,127 @@ function graffit_enqueue_assets(): void
 add_action('wp_enqueue_scripts', 'graffit_enqueue_assets');
 
 /**
+ * Handle AJAX request submissions from the site popup.
+ */
+function graffit_handle_request_submission(): void
+{
+    $nonce_valid = check_ajax_referer('graffit_request_form', 'nonce', false);
+
+    if (! $nonce_valid) {
+        wp_send_json_error(
+            [
+                'message' => __('Сесія форми завершилась. Оновіть сторінку та спробуйте ще раз.', 'graffit'),
+            ],
+            403
+        );
+    }
+
+    $website = sanitize_text_field(wp_unslash($_POST['website'] ?? ''));
+
+    if ($website !== '') {
+        wp_send_json_success(
+            [
+                'message' => __('Дякуємо! Ми вже отримали ваш запит.', 'graffit'),
+            ]
+        );
+    }
+
+    $name = sanitize_text_field(wp_unslash($_POST['name'] ?? ''));
+    $phone = sanitize_text_field(wp_unslash($_POST['phone'] ?? ''));
+    $email = sanitize_email(wp_unslash($_POST['email'] ?? ''));
+    $company = sanitize_text_field(wp_unslash($_POST['company'] ?? ''));
+    $message = sanitize_textarea_field(wp_unslash($_POST['message'] ?? ''));
+    $source = sanitize_key(wp_unslash($_POST['source'] ?? 'site'));
+    $source_label = sanitize_text_field(wp_unslash($_POST['source_label'] ?? __('Сайт', 'graffit')));
+    $wants_materials = ! empty($_POST['wants_materials']);
+    $consent = ! empty($_POST['consent']);
+
+    $errors = [];
+    $phone_digits = preg_replace('/\D+/', '', $phone);
+
+    if (mb_strlen($name) < 2) {
+        $errors['name'] = __('Вкажіть імʼя, щоб ми могли до вас звернутися.', 'graffit');
+    }
+
+    if (strlen((string) $phone_digits) < 10) {
+        $errors['phone'] = __('Вкажіть коректний номер телефону.', 'graffit');
+    }
+
+    if ($email === '' || ! is_email($email)) {
+        $errors['email'] = __('Вкажіть коректний e-mail.', 'graffit');
+    }
+
+    if (mb_strlen($message) < 10) {
+        $errors['message'] = __('Коротко опишіть запит, щоб ми підготувалися до контакту.', 'graffit');
+    }
+
+    if (! $consent) {
+        $errors['consent'] = __('Потрібно підтвердити згоду на обробку даних.', 'graffit');
+    }
+
+    if ($errors !== []) {
+        wp_send_json_error(
+            [
+                'message' => __('Перевірте поля форми та спробуйте ще раз.', 'graffit'),
+                'errors' => $errors,
+            ],
+            422
+        );
+    }
+
+    $recipient = apply_filters('graffit_request_recipient_email', get_option('admin_email'));
+
+    if (! is_email((string) $recipient)) {
+        $recipient = get_option('admin_email');
+    }
+
+    $subject = sprintf(
+        __('[%1$s] Нова заявка: %2$s', 'graffit'),
+        wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES),
+        $source_label !== '' ? $source_label : strtoupper($source)
+    );
+
+    $lines = [
+        __('Нова заявка з сайту GraffiT', 'graffit'),
+        '------------------------------',
+        sprintf(__('Дата: %s', 'graffit'), wp_date('d.m.Y H:i')),
+        sprintf(__('Джерело: %s', 'graffit'), $source_label !== '' ? $source_label : $source),
+        sprintf(__('Імʼя: %s', 'graffit'), $name),
+        sprintf(__('Телефон: %s', 'graffit'), $phone),
+        sprintf(__('E-mail: %s', 'graffit'), $email),
+        sprintf(__('Компанія: %s', 'graffit'), $company !== '' ? $company : __('Не вказано', 'graffit')),
+        sprintf(__('Потрібні кейси / матеріали: %s', 'graffit'), $wants_materials ? __('Так', 'graffit') : __('Ні', 'graffit')),
+        '',
+        __('Опис запиту:', 'graffit'),
+        $message,
+    ];
+
+    $headers = [
+        'Content-Type: text/plain; charset=UTF-8',
+        'Reply-To: ' . $name . ' <' . $email . '>',
+    ];
+
+    $sent = wp_mail((string) $recipient, $subject, implode("\n", $lines), $headers);
+
+    if (! $sent) {
+        wp_send_json_error(
+            [
+                'message' => __('Не вдалося відправити заявку. Спробуйте ще раз трохи пізніше.', 'graffit'),
+            ],
+            500
+        );
+    }
+
+    wp_send_json_success(
+        [
+            'message' => __('Дякуємо! Ми вже отримали ваш запит.', 'graffit'),
+        ]
+    );
+}
+add_action('wp_ajax_graffit_submit_request', 'graffit_handle_request_submission');
+add_action('wp_ajax_nopriv_graffit_submit_request', 'graffit_handle_request_submission');
+
+/**
  * Force /services/ route to render static services template.
  */
 function graffit_force_services_route_template(): void

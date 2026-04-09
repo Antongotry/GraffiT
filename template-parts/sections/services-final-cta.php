@@ -17,6 +17,6 @@ declare(strict_types=1);
             Залишайте заявку, і ми зв'яжемося з вами. З'ясуємо ваші бізнес-завдання, визначимо, з чого почати і відповімо на всі запитання.
         </p>
 
-        <a class="services-final-cta__button" href="#site-footer">Залишити заявку</a>
+        <a class="services-final-cta__button" href="#site-footer" data-popup-open="request" data-popup-source="services-final-cta" data-popup-source-label="Final CTA · Залишити заявку">Залишити заявку</a>
     </div>
 </section>

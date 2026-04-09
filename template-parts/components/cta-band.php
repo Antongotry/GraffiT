@@ -15,6 +15,9 @@ $args = wp_parse_args(
         'text' => '',
         'button_label' => '',
         'button_url' => '#',
+        'button_popup' => false,
+        'button_source' => '',
+        'button_source_label' => '',
         'theme' => 'light',
         'pattern_url' => '',
         'title_parts' => [],
@@ -45,6 +48,20 @@ $style_tokens = [];
 if (! empty($args['pattern_url'])) {
     $style_tokens[] = '--cta-band-pattern: url("' . esc_url_raw((string) $args['pattern_url']) . '")';
 }
+
+$button_attributes = '';
+
+if (! empty($args['button_popup'])) {
+    $button_attributes .= ' data-popup-open="request"';
+
+    if (! empty($args['button_source'])) {
+        $button_attributes .= ' data-popup-source="' . esc_attr((string) $args['button_source']) . '"';
+    }
+
+    if (! empty($args['button_source_label'])) {
+        $button_attributes .= ' data-popup-source-label="' . esc_attr((string) $args['button_source_label']) . '"';
+    }
+}
 ?>
 <section
     class="<?php echo esc_attr(implode(' ', $class_names)); ?>"
@@ -66,7 +83,7 @@ if (! empty($args['pattern_url'])) {
                 <p class="cta-band__text"><?php echo esc_html((string) $args['text']); ?></p>
 
                 <?php if (! empty($args['button_label'])) : ?>
-                    <a class="cta-band__button" href="<?php echo esc_url((string) $args['button_url']); ?>">
+                    <a class="cta-band__button" href="<?php echo esc_url((string) $args['button_url']); ?>"<?php echo $button_attributes; ?>>
                         <?php echo esc_html((string) $args['button_label']); ?>
                     </a>
                 <?php endif; ?>
