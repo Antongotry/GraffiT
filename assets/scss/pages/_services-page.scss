@@ -736,6 +736,14 @@
   overflow: hidden;
   isolation: isolate;
   z-index: 1;
+  clip-path: polygon(
+    0% 20%,
+    50% 0%,
+    100% 20%,
+    100% 80%,
+    50% 100%,
+    0% 80%
+  );
 
   .cta-band__container {
     z-index: 2;
@@ -745,6 +753,14 @@
     margin-top: 0;
     min-height: auto;
     padding: #{mixins.mvw(84px)} 0 #{mixins.mvw(84px)};
+    clip-path: polygon(
+      0% 12%,
+      50% 0%,
+      100% 12%,
+      100% 88%,
+      50% 100%,
+      0% 88%
+    );
   }
 }
 
