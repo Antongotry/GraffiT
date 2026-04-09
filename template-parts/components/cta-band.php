@@ -17,7 +17,15 @@ $args = wp_parse_args(
         'button_url' => '#',
         'theme' => 'light',
         'pattern_url' => '',
+        'title_parts' => [],
     ]
+);
+
+$title_parts = array_values(
+    array_filter(
+        array_map('strval', (array) ($args['title_parts'] ?? [])),
+        static fn (string $p): bool => $p !== ''
+    )
 );
 
 $class_names = ['cta-band'];
@@ -44,7 +52,15 @@ if (! empty($args['pattern_url'])) {
 >
     <div class="cta-band__container">
         <div class="cta-band__layout">
-            <h2 class="cta-band__title"><?php echo esc_html((string) $args['title']); ?></h2>
+            <h2 class="cta-band__title">
+                <?php if ($title_parts !== []) : ?>
+                    <?php foreach ($title_parts as $i => $part) : ?>
+                        <span class="cta-band__title-line"><?php echo esc_html($part); ?></span>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <?php echo esc_html((string) $args['title']); ?>
+                <?php endif; ?>
+            </h2>
 
             <div class="cta-band__content">
                 <p class="cta-band__text"><?php echo esc_html((string) $args['text']); ?></p>

@@ -808,6 +808,28 @@
   }
 }
 
+.cta-band__title-line {
+  display: inline;
+
+  & + & {
+    &::before {
+      content: "\0020";
+    }
+  }
+
+  @include mixins.mobile {
+    display: block;
+
+    & + & {
+      margin-top: #{mixins.mvw(4px)};
+
+      &::before {
+        content: none;
+      }
+    }
+  }
+}
+
 .cta-band__content {
   width: #{mixins.vw(630px)};
 
@@ -938,7 +960,7 @@
       margin: 0 auto;
       padding: 0 #{mixins.mvw(4px)};
       font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: #{mixins.mvw(30px)};
+      font-size: #{mixins.mvw(28px)};
       font-weight: 500;
       line-height: 1;
       color: #000000;
