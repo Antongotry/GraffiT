@@ -517,7 +517,9 @@
     min-height: #{mixins.mvw(410px)};
     flex-direction: column;
     align-items: stretch;
+    justify-content: flex-start;
     padding: #{mixins.mvw(16px)};
+    padding-bottom: #{mixins.mvw(20px)};
     border-radius: #{mixins.mvw(12px)};
     background: linear-gradient(180deg, #000102 0%, #0073e6 100%);
     box-shadow: inset 0 0 0 1px #0073e6;
@@ -628,15 +630,18 @@
     right: auto;
     top: auto;
     display: flex;
-    min-height: 0;
+    flex: 0 0 auto;
     margin-top: #{mixins.mvw(40px)};
-    flex: 1 1 auto;
     flex-direction: column;
   }
 }
 
 .service-card--low-copy .service-card__content {
   top: #{mixins.vw(290px)};
+
+  @include mixins.mobile {
+    top: auto;
+  }
 }
 
 .service-card__title {
@@ -678,6 +683,10 @@
     p + p {
       margin-top: #{mixins.mvw(16px)};
     }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -706,14 +715,16 @@
     position: relative;
     left: auto;
     bottom: auto;
+    z-index: 1;
     box-sizing: border-box;
     align-self: flex-start;
-    width: #{mixins.mvw(147px)};
+    width: #{mixins.mvw(230px)};
     min-width: #{mixins.mvw(147px)};
     max-width: 100%;
     min-height: #{mixins.mvw(48px)};
-    margin-top: auto;
-    padding: 0 #{mixins.mvw(16px)};
+    margin-top: #{mixins.mvw(24px)};
+    flex: 0 0 auto;
+    padding: 0 #{mixins.mvw(20px)};
     border-radius: #{mixins.mvw(8px)};
     font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: #{mixins.mvw(14px)};
