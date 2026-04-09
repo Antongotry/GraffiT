@@ -14,7 +14,8 @@
 
   @include mixins.mobile {
     min-height: 100svh;
-    height: 100svh;
+    height: auto;
+    background: #050a10;
   }
 }
 
@@ -29,7 +30,9 @@
 
   @include mixins.mobile {
     inset: 0;
-    background-position: center, center, 60% center;
+    background-image: var(--services-hero-image-mobile, var(--services-hero-image));
+    background-position: center top;
+    background-size: cover;
   }
 }
 
@@ -42,9 +45,15 @@
   margin-inline: auto;
 
   @include mixins.mobile {
-    width: min(100% - #{mixins.mvw(32px)}, 100%);
+    display: flex;
+    width: min(100% - #{mixins.mvw(40px)}, 100%);
     height: auto;
     min-height: 100svh;
+    flex-direction: column;
+    align-items: stretch;
+    box-sizing: border-box;
+    padding-top: #{mixins.mvw(88px)};
+    padding-bottom: #{mixins.mvw(28px)};
   }
 }
 
@@ -60,6 +69,7 @@
   @include mixins.mobile {
     display: block;
     height: auto;
+    flex: 0 0 auto;
     padding-top: 0;
   }
 }
@@ -72,7 +82,7 @@
     position: relative;
     top: auto;
     width: 100%;
-    padding-top: #{mixins.mvw(48px)};
+    padding-top: 0;
   }
 }
 
@@ -92,7 +102,7 @@
 
   @include mixins.mobile {
     width: 100%;
-    padding-top: #{mixins.mvw(72px)};
+    padding-top: 0;
   }
 }
 
@@ -107,8 +117,9 @@
   @include mixins.mobile {
     width: 100%;
     max-width: 100%;
-    font-size: #{mixins.mvw(30px)};
-    line-height: 1;
+    font-size: #{mixins.mvw(28px)};
+    font-weight: 500;
+    line-height: 1.12;
   }
 }
 
@@ -132,9 +143,10 @@
   @include mixins.mobile {
     display: block;
     max-width: 100%;
-    margin-top: #{mixins.mvw(12px)};
+    margin-top: #{mixins.mvw(10px)};
     margin-left: 0;
     font-size: 1em;
+    font-weight: 500;
   }
 }
 
@@ -145,9 +157,10 @@
     0 0 #{mixins.vw(26px)} rgba(255, 255, 255, 0.38);
 
   @include mixins.mobile {
+    font-weight: 700;
     text-shadow:
-      0 0 #{mixins.mvw(8px)} rgba(255, 255, 255, 0.64),
-      0 0 #{mixins.mvw(18px)} rgba(255, 255, 255, 0.34);
+      0 0 #{mixins.mvw(6px)} rgba(255, 255, 255, 0.72),
+      0 0 #{mixins.mvw(20px)} rgba(255, 255, 255, 0.4);
   }
 }
 
@@ -160,7 +173,7 @@
     right: auto;
     top: auto;
     width: 100%;
-    margin-top: #{mixins.mvw(32px)};
+    margin-top: #{mixins.mvw(24px)};
   }
 }
 
@@ -170,7 +183,9 @@
   line-height: 1.36;
 
   @include mixins.mobile {
-    font-size: #{mixins.mvw(16px)};
+    font-size: #{mixins.mvw(15px)};
+    line-height: 1.42;
+    color: rgba(255, 255, 255, 0.62);
   }
 }
 
@@ -189,11 +204,13 @@
   line-height: 1.3;
 
   @include mixins.mobile {
-    min-width: 100%;
-    min-height: #{mixins.mvw(48px)};
-    margin-top: #{mixins.mvw(24px)};
-    padding: 0 #{mixins.mvw(20px)};
-    border-radius: #{mixins.mvw(8px)};
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: #{mixins.mvw(50px)};
+    margin-top: #{mixins.mvw(28px)};
+    padding: 0 #{mixins.mvw(24px)};
+    border-radius: #{mixins.mvw(10px)};
     font-size: #{mixins.mvw(14px)};
   }
 }
@@ -219,10 +236,14 @@
     position: relative;
     left: auto;
     top: auto;
-    width: #{mixins.mvw(230px)};
-    height: #{mixins.mvw(247px)};
-    margin: #{mixins.mvw(28px)} auto 0;
-    padding: #{mixins.mvw(52px)} #{mixins.mvw(24px)} #{mixins.mvw(22px)};
+    flex: 0 0 auto;
+    align-self: flex-end;
+    width: #{mixins.mvw(218px)};
+    height: #{mixins.mvw(234px)};
+    margin: #{mixins.mvw(36px)} #{mixins.mvw(-4px)} 0 auto;
+    padding: #{mixins.mvw(48px)} #{mixins.mvw(20px)} #{mixins.mvw(20px)};
+    transform: translateY(#{mixins.mvw(-32px)});
+    z-index: 3;
   }
 }
 
@@ -240,7 +261,7 @@
   line-height: 1.04;
 
   @include mixins.mobile {
-    font-size: #{mixins.mvw(40px)};
+    font-size: #{mixins.mvw(38px)};
   }
 }
 
@@ -252,8 +273,9 @@
   text-align: center;
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(4px)};
-    font-size: #{mixins.mvw(14px)};
+    margin-top: #{mixins.mvw(2px)};
+    font-size: #{mixins.mvw(13px)};
+    color: rgba(255, 255, 255, 0.52);
   }
 }
 
@@ -265,9 +287,10 @@
   line-height: 1.4;
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(18px)};
-    max-width: #{mixins.mvw(174px)};
-    font-size: #{mixins.mvw(14px)};
+    margin-top: #{mixins.mvw(14px)};
+    max-width: #{mixins.mvw(168px)};
+    font-size: #{mixins.mvw(13px)};
+    line-height: 1.38;
   }
 }
 

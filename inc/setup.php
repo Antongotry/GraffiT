@@ -82,6 +82,14 @@ function graffit_services_hero_image_url(): string
 }
 
 /**
+ * Services hero background for viewports up to 1024px (375 design width, full mobile art).
+ */
+function graffit_services_hero_image_mobile_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/hero-mob-p_result.webp';
+}
+
+/**
  * Services experience badge image URL.
  */
 function graffit_services_experience_image_url(): string
