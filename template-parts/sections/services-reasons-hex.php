@@ -199,42 +199,59 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
         </div>
     </div>
 
-    <!-- Mobile row1: two 238×238 boxes, 10px gap — ready-made card WebP (no clip-path) -->
+    <!-- Mobile row1: 238×238 boxes, tight gap; WebP under FiCSS-scaled copy + icon row -->
     <div class="hex-reasons__mobi" role="region" aria-label="Переваги GraffiT">
             <div class="hex-reasons__m-row1">
                 <div class="hex-reasons__m-slot hex-reasons__m-slot--card">
-                    <div
-                        class="hex-reasons__m-card-tile"
-                        role="img"
-                        aria-label="<?php echo esc_attr__( 'Ми не нав\'язуємо готову коробку. Створюємо рішення під ваші задачі', 'graffit' ); ?>"
-                    >
+                    <article class="hex-reasons__m-card-tile">
                         <img
-                            class="hex-reasons__m-card-img"
+                            class="hex-reasons__m-card-bg"
                             src="<?php echo esc_url( $hex_card_images['primary'] ); ?>"
                             alt=""
                             width="374"
                             height="374"
                             loading="lazy"
                             decoding="async"
+                            aria-hidden="true"
                         >
-                    </div>
+                        <div class="hex-reasons__m-card-overlay hex-reasons__m-card-overlay--box">
+                            <h3 class="hex-reasons__m-card-boxtitle"><?php echo esc_html( 'Ми не нав\'язуємо готову "коробку"' ); ?></h3>
+                            <p class="hex-reasons__m-card-boxcaption">створюємо рішення під ваші задачі</p>
+                        </div>
+                    </article>
                 </div>
                 <div class="hex-reasons__m-slot hex-reasons__m-slot--card">
-                    <div
-                        class="hex-reasons__m-card-tile"
-                        role="img"
-                        aria-label="<?php echo esc_attr__( 'Працюємо в стеку, сумісному з вимогами enterprise: Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker.', 'graffit' ); ?>"
-                    >
+                    <article class="hex-reasons__m-card-tile">
                         <img
-                            class="hex-reasons__m-card-img"
+                            class="hex-reasons__m-card-bg"
                             src="<?php echo esc_url( $hex_card_images['stack'] ); ?>"
                             alt=""
                             width="374"
                             height="374"
                             loading="lazy"
                             decoding="async"
+                            aria-hidden="true"
                         >
-                    </div>
+                        <div class="hex-reasons__m-card-overlay hex-reasons__m-card-overlay--stack">
+                            <p class="hex-reasons__m-stack-lead">Працюємо в стеку, який сумісний з вимогами enterprise:</p>
+                            <div class="hex-reasons__m-stack-icons" aria-hidden="true">
+                                <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
+                                    <span class="hex-reasons__m-stack-icon-cell">
+                                        <img
+                                            class="hex-reasons__m-stack-icon-img"
+                                            src="<?php echo esc_url( $icon_url ); ?>"
+                                            alt=""
+                                            width="32"
+                                            height="32"
+                                            loading="lazy"
+                                            decoding="async"
+                                        >
+                                    </span>
+                                <?php endforeach; ?>
+                            </div>
+                            <p class="hex-reasons__m-stack-caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
+                        </div>
+                    </article>
                 </div>
             </div>
 
