@@ -3358,26 +3358,41 @@
 
   &::before {
     position: absolute;
+    top: 0;
+    right: 0;
+    width: #{mixins.vw(1000px)};
+    aspect-ratio: 1687 / 2560;
+    background: var(--services-projects-bg-image) center top / 100% 100% no-repeat;
+    content: "";
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &::after {
+    position: absolute;
     inset: 0;
     background-image:
       radial-gradient(circle at 4% 20%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 24%),
       radial-gradient(circle at 86% 4%, rgba(0, 115, 230, 0.26) 0%, rgba(0, 115, 230, 0) 26%),
-      linear-gradient(180deg, rgba(2, 11, 23, 0.06) 0%, rgba(0, 1, 2, 0.14) 18%, rgba(0, 1, 2, 0.58) 54%, #000102 100%),
-      var(--services-projects-bg-image);
+      linear-gradient(180deg, rgba(2, 11, 23, 0.06) 0%, rgba(0, 1, 2, 0.14) 18%, rgba(0, 1, 2, 0.58) 54%, #000102 100%);
     background-position:
       center,
       center,
-      center,
-      center top;
+      center;
     background-size:
       auto,
       auto,
-      100% 100%,
-      cover;
+      100% 100%;
     background-repeat: no-repeat;
     content: "";
     pointer-events: none;
     z-index: 0;
+  }
+
+  @include mixins.mobile {
+    &::before {
+      width: #{mixins.mvw(260px)};
+    }
   }
 }
 
