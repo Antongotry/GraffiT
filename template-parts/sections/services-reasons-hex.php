@@ -43,6 +43,8 @@ $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
 /** Mobile row 2: single composite (three hexes in one asset). */
 $hex_mobile_row2_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-1707480427_result.webp';
+/** Mobile row 3: two hexes + side FiCSS blocks. */
+$hex_mobile_row3_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2134_result.webp';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
@@ -272,6 +274,31 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                     <div class="hex-reasons__m-row2-block">
                         <p class="hex-reasons__m-row2-body-sm"><?php echo esc_html( 'Допомагаємо в складних кейсах, ' ); ?></p>
                         <p class="hex-reasons__m-row2-caption"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3 (mobile): two-hex composite + 238 tiles left/right (FiCSS blocks) -->
+            <div class="hex-reasons__m-row3">
+                <img
+                    class="hex-reasons__m-row3-composite"
+                    src="<?php echo esc_url( $hex_mobile_row3_composite_url ); ?>"
+                    alt=""
+                    width="1125"
+                    height="714"
+                    loading="lazy"
+                    decoding="async"
+                >
+                <div class="hex-reasons__m-row3-hit hex-reasons__m-row3-hit--left">
+                    <div class="hex-reasons__m-row3-block">
+                        <p class="hex-reasons__m-row3-body-sm"><?php echo esc_html( 'Даємо чітку документацію, ' ); ?></p>
+                        <p class="hex-reasons__m-row3-caption"><?php echo esc_html( 'підтримку після запуску і прозору комунікацію' ); ?></p>
+                    </div>
+                </div>
+                <div class="hex-reasons__m-row3-hit hex-reasons__m-row3-hit--right">
+                    <div class="hex-reasons__m-row3-block-2">
+                        <p class="hex-reasons__m-row3-body-sm"><?php echo esc_html( 'Інтегруємось у вже існуючий ландшафт' ); ?></p>
+                        <p class="hex-reasons__m-row3-caption-2"><?php echo esc_html( '(1С, CRM, ERP, маркетплейси, POS тощо)' ); ?></p>
                     </div>
                 </div>
             </div>
