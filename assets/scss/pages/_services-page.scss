@@ -4093,6 +4093,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    flex-shrink: 0;
     // Full-bleed по горизонталі: правий край збігається з краєм в’юпорта, секція не обрізає
     width: 100vw;
     max-width: none;
@@ -4116,10 +4117,11 @@
 
   @include mixins.mobile {
     // Чітка ширина, щоб % у max-width у img не «злітали» (і фото не зникало)
+    // Не min-height: 0 — у flex-колонці це дозволяє стиснути блок до 0 і «ховати» картинку
     width: 100%;
     max-width: 100%;
     height: auto;
-    min-height: 0;
+    flex-shrink: 0;
     margin-inline: 0;
     margin-left: auto;
     margin-right: 0;
