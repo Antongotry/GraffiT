@@ -68,7 +68,7 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
         </h2>
     </div>
 
-    <div class="hex-reasons__scene" role="list" aria-label="Переваги GraffiT">
+    <div class="hex-reasons__scene hex-reasons__scene--desktop" role="list" aria-label="Переваги GraffiT">
 
         <!-- ═ row 0 · col 0 — decorative outline (half off-screen left) ═ -->
         <div
@@ -196,6 +196,96 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                 loading="lazy"
                 decoding="async"
             >
+        </div>
+    </div>
+
+    <!-- Mobile-only: 2-col honeycomb (flat-top hex), desktop uses .hex-reasons__scene--desktop -->
+    <div class="hex-reasons__mobi">
+        <div class="hex-reasons__m-grid" role="list" aria-label="Переваги GraffiT">
+            <article class="hex-reasons__m-hex hex-reasons__m-hex--blue" role="listitem">
+                <div class="hex-reasons__m-body">
+                    <h3 class="hex-reasons__m-heading">Ми не нав'язуємо готову &quot;коробку&quot;</h3>
+                    <p class="hex-reasons__m-text">створюємо рішення під ваші задачі</p>
+                </div>
+            </article>
+
+            <article class="hex-reasons__m-hex hex-reasons__m-hex--gray" role="listitem">
+                <div class="hex-reasons__m-body">
+                    <h3 class="hex-reasons__m-heading">Працюємо в стеку, який сумісний з вимогами enterprise:</h3>
+                    <div class="hex-reasons__m-icons" aria-hidden="true">
+                        <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
+                            <span class="hex-reasons__m-icon-wrap">
+                                <img
+                                    class="hex-reasons__m-icon-img"
+                                    src="<?php echo esc_url( $icon_url ); ?>"
+                                    alt=""
+                                    width="32"
+                                    height="32"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                            </span>
+                        <?php endforeach; ?>
+                    </div>
+                    <p class="hex-reasons__m-caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
+                </div>
+            </article>
+
+            <div class="hex-reasons__m-hex hex-reasons__m-hex--empty" aria-hidden="true"></div>
+
+            <article class="hex-reasons__m-hex hex-reasons__m-hex--gray" role="listitem">
+                <div class="hex-reasons__m-body">
+                    <h3 class="hex-reasons__m-heading">Допомагаємо в складних кейсах,</h3>
+                    <p class="hex-reasons__m-text">де інші кажуть &quot;так не робиться&quot;</p>
+                    <img
+                        class="hex-reasons__m-cursor"
+                        src="<?php echo esc_url( $reasons_cursor_icon ); ?>"
+                        alt=""
+                        width="28"
+                        height="26"
+                        loading="lazy"
+                        decoding="async"
+                    >
+                </div>
+            </article>
+
+            <div class="hex-reasons__m-hex hex-reasons__m-hex--img hex-reasons__m-hex--img-sm" aria-hidden="true">
+                <img
+                    class="hex-reasons__m-img"
+                    src="<?php echo esc_url( $reasons_lower_photo ); ?>"
+                    alt=""
+                    width="365"
+                    height="365"
+                    loading="lazy"
+                    decoding="async"
+                >
+            </div>
+
+            <article class="hex-reasons__m-hex hex-reasons__m-hex--gray" role="listitem">
+                <div class="hex-reasons__m-body">
+                    <h3 class="hex-reasons__m-heading">Даємо чітку документацію,</h3>
+                    <p class="hex-reasons__m-text">підтримку після запуску і прозору комунікацію</p>
+                </div>
+            </article>
+
+            <article class="hex-reasons__m-hex hex-reasons__m-hex--gray" role="listitem">
+                <div class="hex-reasons__m-body">
+                    <h3 class="hex-reasons__m-heading">Інтегруємось у вже існуючий ландшафт</h3>
+                    <p class="hex-reasons__m-text">(1С, CRM, ERP, маркетплейси, POS тощо)</p>
+                </div>
+            </article>
+
+            <div class="hex-reasons__m-hex hex-reasons__m-hex--img hex-reasons__m-hex--img-lg" role="presentation" aria-hidden="true">
+                <img
+                    class="hex-reasons__m-img"
+                    src="<?php echo esc_url( $reasons_side_photo ); ?>"
+                    alt=""
+                    width="559"
+                    height="559"
+                    loading="lazy"
+                    decoding="async"
+                >
+            </div>
         </div>
     </div>
 </section>
