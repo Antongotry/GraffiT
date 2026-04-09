@@ -41,7 +41,8 @@ $reasons_stack_icons = [
 $reasons_cursor_icon = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/cursor-5.svg';
 $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
-$hex_peek_polygon_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-10_result.webp';
+/** Mobile row 2: single composite (three hexes in one asset). */
+$hex_mobile_row2_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-1707480427_result.webp';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
@@ -256,48 +257,17 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                 </div>
             </div>
 
-            <!-- Row 2 (mobile only): 30% 1-card · full 4-card · 30% Polygon-10 — honeycomb grid hidden for now -->
+            <!-- Row 2 (mobile): one full-bleed composite under row1 -->
             <div class="hex-reasons__m-row-bottom">
-                <div class="hex-reasons__m-peek hex-reasons__m-peek--left" aria-hidden="true">
-                    <img
-                        class="hex-reasons__m-peek-img"
-                        src="<?php echo esc_url( $hex_card_images['cover'] ); ?>"
-                        alt=""
-                        width="374"
-                        height="374"
-                        loading="lazy"
-                        decoding="async"
-                    >
-                </div>
-                <div class="hex-reasons__m-peek hex-reasons__m-peek--center">
-                    <article class="hex-reasons__m-peek-tile">
-                        <img
-                            class="hex-reasons__m-peek-bg"
-                            src="<?php echo esc_url( $hex_card_images['stack'] ); ?>"
-                            alt=""
-                            width="374"
-                            height="374"
-                            loading="lazy"
-                            decoding="async"
-                            aria-hidden="true"
-                        >
-                        <div class="hex-reasons__m-peek-overlay hex-reasons__m-peek-overlay--cases">
-                            <p class="hex-reasons__m-peek-body"><?php echo esc_html( 'Допомагаємо в складних кейсах,' ); ?></p>
-                            <p class="hex-reasons__m-peek-cap"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
-                        </div>
-                    </article>
-                </div>
-                <div class="hex-reasons__m-peek hex-reasons__m-peek--right" aria-hidden="true">
-                    <img
-                        class="hex-reasons__m-peek-img"
-                        src="<?php echo esc_url( $hex_peek_polygon_url ); ?>"
-                        alt=""
-                        width="374"
-                        height="374"
-                        loading="lazy"
-                        decoding="async"
-                    >
-                </div>
+                <img
+                    class="hex-reasons__m-row2-composite"
+                    src="<?php echo esc_url( $hex_mobile_row2_composite_url ); ?>"
+                    alt=""
+                    width="1125"
+                    height="732"
+                    loading="lazy"
+                    decoding="async"
+                >
             </div>
     </div>
 </section>
