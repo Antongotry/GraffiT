@@ -256,65 +256,7 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                 </div>
             </div>
 
-            <div class="hex-reasons__m-grid">
-            <div class="hex-reasons__m-hex hex-reasons__m-hex--empty" aria-hidden="true"></div>
-
-            <article class="hex-reasons__m-hex hex-reasons__m-hex--gray">
-                <div class="hex-reasons__m-body">
-                    <h3 class="hex-reasons__m-heading">Допомагаємо в складних кейсах,</h3>
-                    <p class="hex-reasons__m-text">де інші кажуть &quot;так не робиться&quot;</p>
-                    <img
-                        class="hex-reasons__m-cursor"
-                        src="<?php echo esc_url( $reasons_cursor_icon ); ?>"
-                        alt=""
-                        width="28"
-                        height="26"
-                        loading="lazy"
-                        decoding="async"
-                    >
-                </div>
-            </article>
-
-            <div class="hex-reasons__m-hex hex-reasons__m-hex--img hex-reasons__m-hex--img-sm" aria-hidden="true">
-                <img
-                    class="hex-reasons__m-img"
-                    src="<?php echo esc_url( $reasons_lower_photo ); ?>"
-                    alt=""
-                    width="365"
-                    height="365"
-                    loading="lazy"
-                    decoding="async"
-                >
-            </div>
-
-            <article class="hex-reasons__m-hex hex-reasons__m-hex--gray">
-                <div class="hex-reasons__m-body">
-                    <h3 class="hex-reasons__m-heading">Даємо чітку документацію,</h3>
-                    <p class="hex-reasons__m-text">підтримку після запуску і прозору комунікацію</p>
-                </div>
-            </article>
-
-            <article class="hex-reasons__m-hex hex-reasons__m-hex--gray">
-                <div class="hex-reasons__m-body">
-                    <h3 class="hex-reasons__m-heading">Інтегруємось у вже існуючий ландшафт</h3>
-                    <p class="hex-reasons__m-text">(1С, CRM, ERP, маркетплейси, POS тощо)</p>
-                </div>
-            </article>
-
-            <div class="hex-reasons__m-hex hex-reasons__m-hex--img hex-reasons__m-hex--img-lg" role="presentation" aria-hidden="true">
-                <img
-                    class="hex-reasons__m-img"
-                    src="<?php echo esc_url( $reasons_side_photo ); ?>"
-                    alt=""
-                    width="559"
-                    height="559"
-                    loading="lazy"
-                    decoding="async"
-                >
-            </div>
-            </div>
-
-            <!-- Bottom row: ~30% 1-card (left) · full 4-card (center) · ~30% Polygon-10 (right) -->
+            <!-- Row 2 (mobile only): 30% 1-card · full 4-card · 30% Polygon-10 — honeycomb grid hidden for now -->
             <div class="hex-reasons__m-row-bottom" aria-hidden="true">
                 <div class="hex-reasons__m-peek hex-reasons__m-peek--left">
                     <img
