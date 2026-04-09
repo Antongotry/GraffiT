@@ -239,16 +239,29 @@
         return;
       }
 
+      function clientsTrackScrollRange() {
+        var overflow = track.scrollHeight - stage.clientHeight;
+        if (overflow <= 0) {
+          return 0;
+        }
+        // Match ~.services-clients__cards-stage bottom mask: stop short so the last card
+        // stays in the fully opaque band instead of under the fade.
+        var w = window.innerWidth || 1440;
+        var reserve = Math.round((280 / 1440) * w);
+        reserve = Math.min(Math.max(reserve, 160), 360);
+        return Math.max(overflow - reserve, 0);
+      }
+
       window.gsap.to(track, {
         y: function () {
-          return -(track.scrollHeight - stage.clientHeight);
+          return -clientsTrackScrollRange();
         },
         ease: 'none',
         scrollTrigger: {
           trigger: section,
           start: 'top top',
           end: function () {
-            return '+=' + Math.max(track.scrollHeight - stage.clientHeight, 0);
+            return '+=' + clientsTrackScrollRange();
           },
           pin: viewport,
           scrub: 1,
