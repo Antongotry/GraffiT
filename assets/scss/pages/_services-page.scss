@@ -1623,7 +1623,7 @@
   --hex-r0y: #{mixins.vw(251px)};
 
   /* ── Photo scale factors (from base box) ── */
-  --hex-scale-lg: 1.78;
+  --hex-scale-lg: 1.3;
   --hex-scale-sm: 0.976;
   --hex-box-lg: calc(var(--hex-box) * var(--hex-scale-lg));
   --hex-box-sm: calc(var(--hex-box) * var(--hex-scale-sm));
@@ -1739,10 +1739,10 @@
 
 /* Photo large — puzzle-fit next to r0c2 & r1c2, bleeds right */
 .hex-reasons__hex--plg {
-  left: #{mixins.vw(965px)} !important;
-  top: #{mixins.vw(93px)} !important;
+  left: #{mixins.vw(950px)} !important;
+  top: #{mixins.vw(8px)} !important;
   right: auto !important;
-  z-index: 3;
+  z-index: 1;
 }
 
 /* Photo small — grid ≈ (3.43, 1.29) · exact original values via right/top */
