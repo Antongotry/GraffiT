@@ -3126,11 +3126,11 @@
   @include mixins.mobile {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: #{mixins.mvw(20px)};
     width: min(100%, #{mixins.mvw(355px)});
     margin-inline: auto;
     padding-top: #{mixins.mvw(16px)};
-    padding-bottom: #{mixins.mvw(320px)};
+    padding-bottom: #{mixins.mvw(360px)};
   }
 }
 
@@ -3148,17 +3148,13 @@
   @include mixins.mobile {
     position: sticky;
     top: #{mixins.mvw(64px)};
+    flex-shrink: 0;
     min-height: #{mixins.mvw(240px)};
-    margin-bottom: #{mixins.mvw(-188px)};
     padding: #{mixins.mvw(20px)};
     border-radius: #{mixins.mvw(12px)};
     background-color: #ffffff;
     box-shadow: 0 #{mixins.mvw(8px)} #{mixins.mvw(24px)} rgba(0, 0, 0, 0.08);
     overflow: hidden;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 }
 
@@ -3166,6 +3162,8 @@
   .services-clients__cards-track .trust-card:nth-child(#{$i}) {
     @include mixins.mobile {
       z-index: 10 + $i;
+      // Легкий каскад: наступна картка «наїжджає» трохи нижче — видно край попередньої
+      top: #{mixins.mvw(64px + ($i - 1) * 6px)};
     }
   }
 }
