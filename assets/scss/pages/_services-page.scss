@@ -2404,8 +2404,8 @@
     position: relative;
     display: block;
     width: 100vw;
-    /* Pull up 12% of mobile hex tile (238mvw), same unit as row2 */
-    margin-top: calc(-1 * #{mixins.mvw(238px)} * 0.12);
+    /* Pull up 22% of mobile hex tile (238mvw): was 12%, +10% */
+    margin-top: calc(-1 * #{mixins.mvw(238px)} * 0.22);
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     margin-bottom: 0;
