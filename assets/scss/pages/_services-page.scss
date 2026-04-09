@@ -2139,6 +2139,19 @@
   }
 }
 
+/* ~10% of 238px tile → pull pair together (~12mvw each side) */
+.hex-reasons__m-slot--card:first-child {
+  @include mixins.mobile {
+    margin-right: -#{mixins.mvw(12px)};
+  }
+}
+
+.hex-reasons__m-slot--card:last-child {
+  @include mixins.mobile {
+    margin-left: -#{mixins.mvw(12px)};
+  }
+}
+
 .hex-reasons__m-card-tile {
   @include mixins.mobile {
     position: relative;
