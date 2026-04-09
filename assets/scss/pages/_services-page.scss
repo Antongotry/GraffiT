@@ -1519,18 +1519,19 @@
 /* ========================================================================
    hex-reasons — Hex-Grid "Чому ми" v2
    ═══════════════════════════════════════════════════════════════════════
-   Every hex position is derived from the same modular grid:
-     --hex-box   = bounding square of one base hex
-     --hex-step  = center-to-center distance (equal for x and y)
-     --hex-half  = step / 2 (odd-row x offset)
-     --hex-r0y   = y-center of row-0 hexes (from scene top)
+   Modular hex grid — all positions derived from 5 variables:
 
-   Hex shape: regular pointy-top hexagon
-     clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%)
-     where 6.7% ≈ (1 − √3/2) / 2 — mathematically correct for a regular hex in a square box.
+     --hex-box    = 374 px  bounding square of each base hex
+     --hex-step-x = 404 px  horizontal center-to-center
+     --hex-step-y = 298 px  vertical center-to-center (≈ 0.797 × box)
+     --hex-half   = 202 px  odd-row x-offset (step-x / 2)
+     --hex-r0y    = 251 px  y-center of row 0 (64 + box / 2)
 
-   Photo hexes use fractional grid coordinates for organic placement
-   while staying on the same module axis.
+     Row 0:  cx = col × step-x              cy = r0y
+     Row 1:  cx = col × step-x + half       cy = r0y + step-y
+     Any:    left = cx − width / 2           top = cy − height / 2
+
+   Photos sit at fractional grid coords, scaled proportionally from box.
    ======================================================================== */
 
 .hex-reasons {
@@ -1612,24 +1613,26 @@
   transform: translateX(-50%);
 
   /* ── Grid Module ── */
-  --hex-box: #{mixins.vw(416px)};
-  --hex-step: #{mixins.vw(436px)};
-  --hex-half: calc(var(--hex-step) * 0.5);
-  --hex-r0y: #{mixins.vw(272px)};
-  --hex-clip: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  --hex-box: #{mixins.vw(374px)};
+  --hex-step-x: #{mixins.vw(404px)};
+  --hex-step-y: #{mixins.vw(298px)};
+  --hex-half: calc(var(--hex-step-x) * 0.5);
+  --hex-r0y: #{mixins.vw(251px)};
 
-  /* ── Scale factors ── */
-  --hex-scale-lg: 1.654;
-  --hex-scale-sm: 0.877;
+  /* ── Photo scale factors (from base box) ── */
+  --hex-scale-lg: 1.495;
+  --hex-scale-sm: 0.976;
   --hex-box-lg: calc(var(--hex-box) * var(--hex-scale-lg));
   --hex-box-sm: calc(var(--hex-box) * var(--hex-scale-sm));
 
-  min-height: #{mixins.vw(1120px)};
+  min-height: #{mixins.vw(873px)};
+  height: #{mixins.vw(873px)};
 
   @include mixins.mobile {
     left: auto;
     width: min(100% - #{mixins.mvw(32px)}, 100%);
     min-height: auto;
+    height: auto;
     margin: #{mixins.mvw(36px)} auto 0;
     transform: none;
     display: flex;
@@ -1644,20 +1647,6 @@
   position: absolute;
   width: var(--hex-box);
   height: var(--hex-box);
-  clip-path: var(--hex-clip);
-  overflow: hidden;
-  border-radius: #{mixins.vw(12px)};
-  background: linear-gradient(180deg, #4a5265 0%, #454d5c 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
-
-  &::before {
-    position: absolute;
-    inset: #{mixins.vw(18px)};
-    clip-path: var(--hex-clip);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%);
-    content: "";
-    pointer-events: none;
-  }
 
   @include mixins.mobile {
     position: relative;
@@ -1666,27 +1655,21 @@
     right: auto !important;
     width: min(100%, #{mixins.mvw(310px)});
     height: #{mixins.mvw(310px)};
-    border-radius: #{mixins.mvw(12px)};
-
-    &::before {
-      inset: #{mixins.mvw(14px)};
-    }
   }
 }
 
 /* ─── Hex Variants ────────────────────────────── */
 .hex-reasons__hex--card {
+  background: var(--hex-card-bg) center / 100% 100% no-repeat;
   z-index: 2;
+
+  @include mixins.mobile {
+    min-height: #{mixins.mvw(310px)};
+  }
 }
 
 .hex-reasons__hex--outline {
-  background: transparent;
-  box-shadow: inset 0 0 0 1px rgba(0, 115, 230, 0.38);
-  opacity: 0.56;
-
-  &::before {
-    display: none;
-  }
+  background: var(--hex-card-bg) center / 100% 100% no-repeat;
 
   @include mixins.mobile {
     display: none;
@@ -1694,16 +1677,9 @@
 }
 
 .hex-reasons__hex--photo {
-  clip-path: none;
   background: transparent;
-  box-shadow: none;
-  border-radius: 0;
   z-index: 1;
   pointer-events: none;
-
-  &::before {
-    display: none;
-  }
 
   @include mixins.mobile {
     display: none;
@@ -1722,55 +1698,52 @@
 
 /* ─── Grid Positions ──────────────────────────── */
 /*
-   Formula for every cell:
-     left = origin_x + col × step + (odd_row ? half : 0) − width / 2
-     top  = r0y + row × step − height / 2
-
-   origin_x = 0 (col 0 center sits at viewport left edge)
+   Row 0 (even):  left = col × step-x − box / 2
+                   top  = r0y − box / 2
+   Row 1 (odd):   left = half + col × step-x − box / 2
+                   top  = r0y + step-y − box / 2
 */
 
-/* Row 0 (even row) */
 .hex-reasons__hex--r0c0 {
-  left: calc(0 * var(--hex-step) - var(--hex-box) / 2);
+  left: calc(0 * var(--hex-step-x) - var(--hex-box) / 2);
   top: calc(var(--hex-r0y) - var(--hex-box) / 2);
 }
 
 .hex-reasons__hex--r0c1 {
-  left: calc(1 * var(--hex-step) - var(--hex-box) / 2);
+  left: calc(1 * var(--hex-step-x) - var(--hex-box) / 2);
   top: calc(var(--hex-r0y) - var(--hex-box) / 2);
 }
 
 .hex-reasons__hex--r0c2 {
-  left: calc(2 * var(--hex-step) - var(--hex-box) / 2);
+  left: calc(2 * var(--hex-step-x) - var(--hex-box) / 2);
   top: calc(var(--hex-r0y) - var(--hex-box) / 2);
 }
 
-/* Row 1 (odd row — offset by half step) */
 .hex-reasons__hex--r1c0 {
-  left: calc(var(--hex-half) + 0 * var(--hex-step) - var(--hex-box) / 2);
-  top: calc(var(--hex-r0y) + 1 * var(--hex-step) - var(--hex-box) / 2);
+  left: calc(var(--hex-half) + 0 * var(--hex-step-x) - var(--hex-box) / 2);
+  top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2);
 }
 
 .hex-reasons__hex--r1c1 {
-  left: calc(var(--hex-half) + 1 * var(--hex-step) - var(--hex-box) / 2);
-  top: calc(var(--hex-r0y) + 1 * var(--hex-step) - var(--hex-box) / 2);
+  left: calc(var(--hex-half) + 1 * var(--hex-step-x) - var(--hex-box) / 2);
+  top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2);
 }
 
 .hex-reasons__hex--r1c2 {
-  left: calc(var(--hex-half) + 2 * var(--hex-step) - var(--hex-box) / 2);
-  top: calc(var(--hex-r0y) + 1 * var(--hex-step) - var(--hex-box) / 2);
+  left: calc(var(--hex-half) + 2 * var(--hex-step-x) - var(--hex-box) / 2);
+  top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2);
 }
 
-/* Photo — large (fractional grid: ~col 2.75, row 0.2) */
+/* Photo large — grid (3.227, −0.388) */
 .hex-reasons__hex--plg {
-  left: calc(2.75 * var(--hex-step) - var(--hex-box-lg) / 2);
-  top: calc(var(--hex-r0y) + 0.2 * var(--hex-step) - var(--hex-box-lg) / 2);
+  left: calc(3.227 * var(--hex-step-x) - var(--hex-box-lg) / 2);
+  top: calc(var(--hex-r0y) - 0.388 * var(--hex-step-y) - var(--hex-box-lg) / 2);
 }
 
-/* Photo — small (fractional grid: ~col 2.95 from odd row, row 1.45) */
+/* Photo small — grid (3.431, 1.290) */
 .hex-reasons__hex--psm {
-  left: calc(var(--hex-half) + 2.5 * var(--hex-step) - var(--hex-box-sm) / 2);
-  top: calc(var(--hex-r0y) + 1.45 * var(--hex-step) - var(--hex-box-sm) / 2);
+  left: calc(3.431 * var(--hex-step-x) - var(--hex-box-sm) / 2);
+  top: calc(var(--hex-r0y) + 1.290 * var(--hex-step-y) - var(--hex-box-sm) / 2);
 }
 
 /* ─── Hex Content Layout ──────────────────────── */

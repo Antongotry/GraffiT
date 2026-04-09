@@ -2,11 +2,19 @@
 /**
  * Services reasons section — hex-grid v2.
  *
- * All hex positions derive from a single modular grid:
- *   --hex-box  (bounding square of base hex)
- *   --hex-step (center-to-center distance, same for x and y)
- *   Row 0 (even): x = col × step
- *   Row 1 (odd):  x = col × step + step / 2
+ * Modular hex grid derived from original pixel positions:
+ *
+ *   hex-box  = 374 px  (square bounding box of each base hex)
+ *   step-x   = 404 px  (horizontal center-to-center)
+ *   step-y   = 298 px  (vertical center-to-center ≈ 0.797 × box)
+ *   half     = 202 px  (odd-row x-offset = step-x / 2)
+ *   r0y      = 251 px  (y-center of row 0 from scene top)
+ *
+ *   Row 0 (even): center_x = col × step-x
+ *   Row 1 (odd):  center_x = col × step-x + half
+ *   Any row:      center_y = r0y + row × step-y
+ *   Position:     left = center_x − width / 2
+ *                 top  = center_y − height / 2
  *
  * @package graffit
  */
@@ -14,6 +22,12 @@
 declare(strict_types=1);
 
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
+
+$hex_card_images = [
+    'cover'   => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/1-card_result.webp',
+    'primary' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2-card_result.webp',
+    'stack'   => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/4-card_result.webp',
+];
 
 $reasons_stack_icons = [
     'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/icon-1_result.webp',
@@ -27,6 +41,10 @@ $reasons_stack_icons = [
 $reasons_cursor_icon = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/cursor-5.svg';
 $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
+
+$cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
+$primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
+$stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['stack'] ) );
 ?>
 <section class="hex-reasons" aria-labelledby="hex-reasons-title">
     <div class="hex-reasons__head">
@@ -52,15 +70,17 @@ $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
 
     <div class="hex-reasons__scene" role="list" aria-label="Переваги GraffiT">
 
-        <!-- ══ Decorative outline hex — row 0, col 0 (partially off-screen left) ══ -->
+        <!-- ═ row 0 · col 0 — decorative outline (half off-screen left) ═ -->
         <div
             class="hex-reasons__hex hex-reasons__hex--outline hex-reasons__hex--r0c0"
+            style="<?php echo esc_attr( $cover_style ); ?>"
             aria-hidden="true"
         ></div>
 
-        <!-- ══ Row 0, Col 1 — «Ми не нав'язуємо готову коробку» ══ -->
+        <!-- ═ row 0 · col 1 — «Ми не нав'язуємо готову коробку» ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r0c1"
+            style="<?php echo esc_attr( $primary_style ); ?>"
             role="listitem"
             aria-label="Ми не нав'язуємо готову коробку"
         >
@@ -70,9 +90,10 @@ $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
             </div>
         </article>
 
-        <!-- ══ Row 0, Col 2 — Enterprise stack ══ -->
+        <!-- ═ row 0 · col 2 — Enterprise stack ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r0c2"
+            style="<?php echo esc_attr( $stack_style ); ?>"
             role="listitem"
             aria-label="Працюємо в стеку, який сумісний з вимогами enterprise"
         >
@@ -97,7 +118,7 @@ $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
             </div>
         </article>
 
-        <!-- ══ Photo — large (row 0 area, right side, scaled up) ══ -->
+        <!-- ═ photo large — grid ~(3.227, −0.388) ═ -->
         <div
             class="hex-reasons__hex hex-reasons__hex--photo hex-reasons__hex--photo-lg hex-reasons__hex--plg"
             aria-hidden="true"
@@ -113,9 +134,10 @@ $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
             >
         </div>
 
-        <!-- ══ Row 1, Col 0 — Складні кейси ══ -->
+        <!-- ═ row 1 · col 0 — Складні кейси ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r1c0"
+            style="<?php echo esc_attr( $stack_style ); ?>"
             role="listitem"
             aria-label="Допомагаємо в складних кейсах"
         >
@@ -134,9 +156,10 @@ $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
             </div>
         </article>
 
-        <!-- ══ Row 1, Col 1 — Інтеграція ══ -->
+        <!-- ═ row 1 · col 1 — Інтеграція ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r1c1"
+            style="<?php echo esc_attr( $stack_style ); ?>"
             role="listitem"
             aria-label="Інтегруємось у вже існуючий ландшафт"
         >
@@ -146,9 +169,10 @@ $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
             </div>
         </article>
 
-        <!-- ══ Row 1, Col 2 — Документація ══ -->
+        <!-- ═ row 1 · col 2 — Документація ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r1c2"
+            style="<?php echo esc_attr( $stack_style ); ?>"
             role="listitem"
             aria-label="Даємо чітку документацію"
         >
@@ -158,7 +182,7 @@ $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
             </div>
         </article>
 
-        <!-- ══ Photo — small (row 1 area, right side, scaled down) ══ -->
+        <!-- ═ photo small — grid ~(3.431, 1.290) ═ -->
         <div
             class="hex-reasons__hex hex-reasons__hex--photo hex-reasons__hex--photo-sm hex-reasons__hex--psm"
             aria-hidden="true"
