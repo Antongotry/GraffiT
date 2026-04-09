@@ -1521,11 +1521,11 @@
    ═══════════════════════════════════════════════════════════════════════
    Modular hex grid — all positions derived from 5 variables:
 
-     --hex-box    = 416 px  bounding square of each base hex
-     --hex-step-x = 436 px  horizontal center-to-center
-     --hex-step-y = 436 px  vertical center-to-center (= step-x)
-     --hex-half   = 208 px  odd-row x-offset (≈ step-x / 2, tuned for design)
-     --hex-r0y    = 272 px  y-center of row 0 (64 + box / 2)
+     --hex-box    = 374 px  bounding square of each base hex
+     --hex-step-x = 404 px  horizontal center-to-center
+     --hex-step-y = 298 px  vertical center-to-center (≈ 0.797 × box)
+     --hex-half   = 202 px  odd-row x-offset (step-x / 2)
+     --hex-r0y    = 251 px  y-center of row 0 (64 + box / 2)
 
      Row 0:  cx = col × step-x              cy = r0y
      Row 1:  cx = col × step-x + half       cy = r0y + step-y
@@ -1615,19 +1615,20 @@
   transform: translateX(-50%);
 
   /* ── Grid Module ── */
-  --hex-box: #{mixins.vw(416px)};
-  --hex-step-x: #{mixins.vw(436px)};
-  --hex-step-y: #{mixins.vw(436px)};
-  --hex-half: #{mixins.vw(208px)};
-  --hex-r0y: #{mixins.vw(272px)};
+  --hex-box: #{mixins.vw(374px)};
+  --hex-step-x: #{mixins.vw(404px)};
+  --hex-step-y: #{mixins.vw(298px)};
+  --hex-half: calc(var(--hex-step-x) * 0.5);
+  --hex-r0y: #{mixins.vw(251px)};
 
   /* ── Photo scale factors (from base box) ── */
-  --hex-scale-lg: 1.654;
-  --hex-scale-sm: 0.877;
+  --hex-scale-lg: 1.495;
+  --hex-scale-sm: 0.976;
   --hex-box-lg: calc(var(--hex-box) * var(--hex-scale-lg));
   --hex-box-sm: calc(var(--hex-box) * var(--hex-scale-sm));
 
-  min-height: #{mixins.vw(1040px)};
+  min-height: #{mixins.vw(873px)};
+  height: #{mixins.vw(873px)};
 
   @include mixins.mobile {
     left: auto;
@@ -1735,18 +1736,18 @@
   top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2);
 }
 
-/* Photo large — grid ≈ (2.79, 0.25) · right: −120, top: 36 */
+/* Photo large — grid ≈ (3.23, −0.39) · exact original values via right/top */
 .hex-reasons__hex--plg {
   left: auto;
-  right: #{mixins.vw(-120px)};
-  top: #{mixins.vw(36px)};
+  right: #{mixins.vw(-143px)};
+  top: calc(#{mixins.vw(144px)} - 20vw);
 }
 
-/* Photo small — grid ≈ (2.95, 1.45) · right: −28, top: 720 */
+/* Photo small — grid ≈ (3.43, 1.29) · exact original values via right/top */
 .hex-reasons__hex--psm {
   left: auto;
-  right: #{mixins.vw(-28px)};
-  top: #{mixins.vw(720px)};
+  right: #{mixins.vw(-128px)};
+  top: #{mixins.vw(453px)};
 }
 
 /* ─── Hex Content Layout ──────────────────────── */
@@ -1755,7 +1756,7 @@
   left: 50%;
   top: 50%;
   display: flex;
-  width: #{mixins.vw(340px)};
+  width: #{mixins.vw(310px)};
   min-width: 0;
   flex-direction: column;
   align-items: center;
@@ -1773,7 +1774,7 @@
 }
 
 .hex-reasons__hex-heading {
-  max-width: #{mixins.vw(312px)};
+  max-width: #{mixins.vw(296px)};
   font-size: #{mixins.vw(24px)};
   font-weight: 500;
   line-height: 1.2;
