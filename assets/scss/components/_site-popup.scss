@@ -246,12 +246,7 @@ body.graffit-popup-open {
 }
 
 .request-popup__layout {
-  display: grid;
-  grid-template-columns: #{mixins.vw(400px)} minmax(0, 1fr);
-
-  @include mixins.mobile {
-    grid-template-columns: 1fr;
-  }
+  display: block;
 }
 
 .request-popup__intro {
@@ -296,29 +291,29 @@ body.graffit-popup-open {
 }
 
 .request-popup__title {
-  max-width: #{mixins.vw(292px)};
+  max-width: 100%;
   margin-top: #{mixins.vw(24px)};
-  font-size: #{mixins.vw(42px)};
+  font-size: #{mixins.vw(38px)};
   font-weight: 500;
-  line-height: 0.98;
+  line-height: 1;
 
   @include mixins.mobile {
     max-width: 100%;
-    margin-top: #{mixins.mvw(22px)};
-    font-size: #{mixins.mvw(32px)};
+    margin-top: #{mixins.mvw(20px)};
+    font-size: #{mixins.mvw(30px)};
   }
 }
 
 .request-popup__text {
-  max-width: #{mixins.vw(286px)};
-  margin-top: #{mixins.vw(24px)};
+  max-width: 100%;
+  margin-top: #{mixins.vw(16px)};
   color: rgba(255, 255, 255, 0.68);
   font-size: #{mixins.vw(16px)};
   line-height: 1.5;
 
   @include mixins.mobile {
     max-width: 100%;
-    margin-top: #{mixins.mvw(18px)};
+    margin-top: #{mixins.mvw(14px)};
     font-size: #{mixins.mvw(15px)};
   }
 }
@@ -402,10 +397,21 @@ body.graffit-popup-open {
 
 .request-popup__form-shell {
   position: relative;
-  padding: #{mixins.vw(56px)} #{mixins.vw(42px)} #{mixins.vw(42px)};
+  max-width: #{mixins.vw(640px)};
+  margin: 0 auto;
+  padding: #{mixins.vw(56px)} #{mixins.vw(56px)} #{mixins.vw(48px)};
 
   @include mixins.mobile {
-    padding: #{mixins.mvw(22px)} #{mixins.mvw(18px)} #{mixins.mvw(18px)};
+    max-width: 100%;
+    padding: #{mixins.mvw(58px)} #{mixins.mvw(18px)} #{mixins.mvw(20px)};
+  }
+}
+
+.request-popup__form {
+  margin-top: #{mixins.vw(28px)};
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(24px)};
   }
 }
 
@@ -419,11 +425,10 @@ body.graffit-popup-open {
 
 .request-popup__fields {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: #{mixins.vw(18px)} #{mixins.vw(16px)};
+  grid-template-columns: 1fr;
+  gap: #{mixins.vw(16px)};
 
   @include mixins.mobile {
-    grid-template-columns: 1fr;
     gap: #{mixins.mvw(14px)};
   }
 }
@@ -434,7 +439,7 @@ body.graffit-popup-open {
 }
 
 .request-popup__field--textarea {
-  margin-top: #{mixins.vw(18px)};
+  margin-top: #{mixins.vw(16px)};
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(14px)};
@@ -533,11 +538,11 @@ body.graffit-popup-open {
 .request-popup__checks {
   display: grid;
   gap: #{mixins.vw(10px)};
-  margin-top: #{mixins.vw(8px)};
+  margin-top: #{mixins.vw(16px)};
 
   @include mixins.mobile {
     gap: #{mixins.mvw(10px)};
-    margin-top: #{mixins.mvw(6px)};
+    margin-top: #{mixins.mvw(14px)};
   }
 }
 
@@ -694,17 +699,10 @@ body.graffit-popup-open {
 }
 
 .request-popup__actions {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: #{mixins.vw(20px)};
-  margin-top: #{mixins.vw(10px)};
+  margin-top: #{mixins.vw(18px)};
 
   @include mixins.mobile {
-    flex-direction: column;
-    align-items: stretch;
-    gap: #{mixins.mvw(12px)};
-    margin-top: #{mixins.mvw(8px)};
+    margin-top: #{mixins.mvw(18px)};
   }
 }
 
@@ -713,8 +711,8 @@ body.graffit-popup-open {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  min-width: #{mixins.vw(236px)};
+  width: 100%;
+  min-width: 0;
   min-height: #{mixins.vw(60px)};
   padding: #{mixins.vw(18px)} #{mixins.vw(30px)};
   border: 0;

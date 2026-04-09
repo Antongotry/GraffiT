@@ -228,11 +228,9 @@ function graffit_handle_request_submission(): void
     $name = sanitize_text_field(wp_unslash($_POST['name'] ?? ''));
     $phone = sanitize_text_field(wp_unslash($_POST['phone'] ?? ''));
     $email = sanitize_email(wp_unslash($_POST['email'] ?? ''));
-    $company = sanitize_text_field(wp_unslash($_POST['company'] ?? ''));
     $message = sanitize_textarea_field(wp_unslash($_POST['message'] ?? ''));
     $source = sanitize_key(wp_unslash($_POST['source'] ?? 'site'));
     $source_label = sanitize_text_field(wp_unslash($_POST['source_label'] ?? __('Сайт', 'graffit')));
-    $wants_materials = ! empty($_POST['wants_materials']);
     $consent = ! empty($_POST['consent']);
 
     $errors = [];
@@ -288,8 +286,6 @@ function graffit_handle_request_submission(): void
         sprintf(__('Імʼя: %s', 'graffit'), $name),
         sprintf(__('Телефон: %s', 'graffit'), $phone),
         sprintf(__('E-mail: %s', 'graffit'), $email),
-        sprintf(__('Компанія: %s', 'graffit'), $company !== '' ? $company : __('Не вказано', 'graffit')),
-        sprintf(__('Потрібні кейси / матеріали: %s', 'graffit'), $wants_materials ? __('Так', 'graffit') : __('Ні', 'graffit')),
         '',
         __('Опис запиту:', 'graffit'),
         $message,

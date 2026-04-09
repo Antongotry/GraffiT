@@ -478,6 +478,7 @@
 
   function initRequestPopup() {
     var popup = document.getElementById('site-popup');
+    var servicesPage = document.querySelector('.site-main--services');
 
     if (!popup) {
       return;
@@ -487,6 +488,32 @@
     var form = popup.querySelector('.js-request-form');
     var statusNode = form ? form.querySelector('[data-form-status]') : null;
     var lastFocusedElement = null;
+
+    function decorateImplicitTriggers() {
+      if (!servicesPage) {
+        return;
+      }
+
+      var candidates = Array.prototype.slice.call(
+        document.querySelectorAll('.site-main--services a, .site-main--services button, .site-footer a, .site-footer button')
+      );
+
+      candidates.forEach(function (node) {
+        var label = (node.textContent || '').replace(/\s+/g, ' ').trim();
+
+        if (node.hasAttribute('data-popup-open')) {
+          return;
+        }
+
+        if (label !== 'Залишити заявку' && label !== 'Отримати консультацію') {
+          return;
+        }
+
+        node.setAttribute('data-popup-open', 'request');
+        node.setAttribute('data-popup-source', 'services-auto-trigger');
+        node.setAttribute('data-popup-source-label', label);
+      });
+    }
 
     function stopLenis() {
       if (window.__graffitLenis && typeof window.__graffitLenis.stop === 'function') {
@@ -635,7 +662,7 @@
         return;
       }
 
-      ['name', 'phone', 'email', 'company', 'message', 'consent'].forEach(function (name) {
+      ['name', 'phone', 'email', 'message', 'consent'].forEach(function (name) {
         setFieldState(name, '');
       });
     }
@@ -707,6 +734,8 @@
 
       return '';
     }
+
+    decorateImplicitTriggers();
 
     function validateForm() {
       if (!form) {
