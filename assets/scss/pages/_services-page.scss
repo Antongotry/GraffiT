@@ -2309,8 +2309,8 @@
     align-items: center;
     column-gap: 0;
     width: 100vw;
-    /* Strong negative overlap (~½ tile) so center hex meets the “valley” under row1 cards */
-    margin-top: calc(#{mixins.mvw(12px)} - #{mixins.mvw(238px)} * 0.52);
+    /* Overlap under row1; ~0.32 tile after −20% tile shift from prior 0.52 */
+    margin-top: calc(#{mixins.mvw(12px)} - #{mixins.mvw(238px)} * 0.32);
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     box-sizing: border-box;
