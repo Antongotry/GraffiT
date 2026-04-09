@@ -2,18 +2,6 @@
 
 .site-main--services {
   background: #000102;
-
-  @include mixins.mobile {
-    overflow-x: visible;
-  }
-}
-
-// Повноширинний блок процесу виходить за padding; body/html clip інакше може «з’їсти» картинку
-html:has(.site-main--services),
-body:has(.site-main--services) {
-  @include mixins.mobile {
-    overflow-x: visible;
-  }
 }
 
 .services-hero {
@@ -3473,6 +3461,7 @@ body:has(.site-main--services) {
 }
 
 .services-projects__nav-button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3492,10 +3481,16 @@ body:has(.site-main--services) {
   }
 
   .services-projects__nav-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
     display: block;
     width: #{mixins.vw(18px)};
     height: #{mixins.vw(20px)};
+    max-width: none;
     object-fit: contain;
+    object-position: center;
+    transform: translate(-50%, -50%);
   }
 
   @include mixins.mobile {
@@ -3573,12 +3568,13 @@ body:has(.site-main--services) {
   overflow: hidden;
 
   @include mixins.mobile {
-    // Fallback: viewport мінус горизонтальні поля секції (16+16)
-    flex: 0 0 calc(100vw - #{mixins.mvw(32px)});
+    // Fallback: як viewport мінус поля, але не ширше за скрол-контейнер (100vw дає зайвий скрол)
+    $card-w: calc(100vw - #{mixins.mvw(32px)});
+    flex: 0 0 min(100%, #{$card-w});
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto;
-    width: calc(100vw - #{mixins.mvw(32px)});
+    width: min(100%, #{$card-w});
     max-width: 100%;
     min-width: 0;
     height: auto;
