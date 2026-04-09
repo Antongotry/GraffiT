@@ -2338,6 +2338,43 @@
   overflow: hidden;
   z-index: 1;
 
+  // Union.svg sits here (not on .js-clients-track) so it stays put while GSAP
+  // translates the track; cards stack above via z-index on the track.
+  &::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    content: "";
+    background-color: transparent;
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.22) 0%,
+        rgba(240, 243, 247, 0.08) 42%,
+        rgba(210, 216, 224, 0.2) 100%
+      ),
+      url('../images/union.svg');
+    background-repeat: no-repeat;
+    background-position:
+      0 0,
+      38% 50%;
+    background-size:
+      100% 100%,
+      #{mixins.vw(360px)} auto;
+    background-attachment: scroll, fixed;
+
+    @include mixins.mobile {
+      background-position:
+        0 0,
+        50% #{mixins.mvw(120px)};
+      background-size:
+        100% 100%,
+        #{mixins.mvw(240px)} auto;
+      background-attachment: scroll, scroll;
+    }
+  }
+
   @include mixins.mobile {
     height: auto;
     overflow: visible;
@@ -2345,6 +2382,8 @@
 }
 
 .services-clients__cards-track {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: #{mixins.vw(40px)};
 
