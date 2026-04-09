@@ -2309,7 +2309,8 @@
     align-items: center;
     column-gap: #{mixins.mvw(4px)};
     width: 100vw;
-    margin-top: #{mixins.mvw(12px)};
+    /* Lift ~15% of 238 tile above prior spacing */
+    margin-top: calc(#{mixins.mvw(12px)} - #{mixins.mvw(238px)} * 0.15);
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     box-sizing: border-box;
@@ -2349,6 +2350,75 @@
   }
 }
 
+.hex-reasons__m-peek-tile {
+  @include mixins.mobile {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.hex-reasons__m-peek-bg {
+  @include mixins.mobile {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    pointer-events: none;
+  }
+}
+
+/* FiCSS block 144×82 — copy over center 4-card */
+.hex-reasons__m-peek-overlay--cases {
+  @include mixins.mobile {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: #{mixins.mvw(8px)};
+    gap: #{mixins.mvw(16px)};
+  }
+}
+
+.hex-reasons__m-peek-body {
+  @include mixins.mobile {
+    max-width: #{mixins.mvw(144px)};
+    margin: 0;
+    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: #{mixins.mvw(14px)};
+    font-weight: 500;
+    line-height: 1.2;
+    color: #ffffff;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+}
+
+.hex-reasons__m-peek-cap {
+  @include mixins.mobile {
+    max-width: #{mixins.mvw(144px)};
+    margin: 0;
+    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: #{mixins.mvw(12px)};
+    font-weight: 400;
+    line-height: 1.36;
+    color: rgba(255, 255, 255, 0.56);
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+}
+
 .hex-reasons__m-peek-img {
   @include mixins.mobile {
     display: block;
@@ -2372,12 +2442,6 @@
   @include mixins.mobile {
     transform: none;
     object-position: left center;
-  }
-}
-
-.hex-reasons__m-peek-img--full {
-  @include mixins.mobile {
-    transform: none;
   }
 }
 

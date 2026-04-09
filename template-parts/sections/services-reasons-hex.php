@@ -257,8 +257,8 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
             </div>
 
             <!-- Row 2 (mobile only): 30% 1-card · full 4-card · 30% Polygon-10 — honeycomb grid hidden for now -->
-            <div class="hex-reasons__m-row-bottom" aria-hidden="true">
-                <div class="hex-reasons__m-peek hex-reasons__m-peek--left">
+            <div class="hex-reasons__m-row-bottom">
+                <div class="hex-reasons__m-peek hex-reasons__m-peek--left" aria-hidden="true">
                     <img
                         class="hex-reasons__m-peek-img"
                         src="<?php echo esc_url( $hex_card_images['cover'] ); ?>"
@@ -270,17 +270,24 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                     >
                 </div>
                 <div class="hex-reasons__m-peek hex-reasons__m-peek--center">
-                    <img
-                        class="hex-reasons__m-peek-img hex-reasons__m-peek-img--full"
-                        src="<?php echo esc_url( $hex_card_images['stack'] ); ?>"
-                        alt=""
-                        width="374"
-                        height="374"
-                        loading="lazy"
-                        decoding="async"
-                    >
+                    <article class="hex-reasons__m-peek-tile">
+                        <img
+                            class="hex-reasons__m-peek-bg"
+                            src="<?php echo esc_url( $hex_card_images['stack'] ); ?>"
+                            alt=""
+                            width="374"
+                            height="374"
+                            loading="lazy"
+                            decoding="async"
+                            aria-hidden="true"
+                        >
+                        <div class="hex-reasons__m-peek-overlay hex-reasons__m-peek-overlay--cases">
+                            <p class="hex-reasons__m-peek-body"><?php echo esc_html( 'Допомагаємо в складних кейсах,' ); ?></p>
+                            <p class="hex-reasons__m-peek-cap"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
+                        </div>
+                    </article>
                 </div>
-                <div class="hex-reasons__m-peek hex-reasons__m-peek--right">
+                <div class="hex-reasons__m-peek hex-reasons__m-peek--right" aria-hidden="true">
                     <img
                         class="hex-reasons__m-peek-img"
                         src="<?php echo esc_url( $hex_peek_polygon_url ); ?>"
