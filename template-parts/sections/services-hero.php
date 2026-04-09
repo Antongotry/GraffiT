@@ -23,10 +23,12 @@ declare(strict_types=1);
                 <div class="services-hero__brand-row">
                     <div class="services-hero__brand-copy">
                         <h1 class="services-hero__title">
-                            <span class="services-hero__title-line">
+                            <span class="services-hero__title-line services-hero__title-line--primary">
                                 <span class="services-hero__title-brand">Graffit</span> – програмні рішення
                             </span>
-                            <span class="services-hero__title-line services-hero__title-line--secondary">під задачі вашого бізнесу</span>
+                            <span class="services-hero__title-line services-hero__title-line--secondary">
+                                <span class="services-hero__title-s2">під задачі вашого</span><span class="services-hero__title-s3">бізнесу</span>
+                            </span>
                         </h1>
                     </div>
                 </div>

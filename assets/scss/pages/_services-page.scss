@@ -115,22 +115,29 @@
   line-height: 0.94;
 
   @include mixins.mobile {
-    width: 100%;
+    // FiCSS mobile (375 base) — окремий вигляд для телефона
+    width: #{mixins.mvw(317px)};
     max-width: 100%;
-    font-size: #{mixins.mvw(26px)};
+    margin: 0;
+    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: #{mixins.mvw(24.439px)};
     font-weight: 400;
-    line-height: 1.14;
-    letter-spacing: -0.02em;
+    line-height: 1;
+    letter-spacing: 0;
     color: #ffffff;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 }
 
 .services-hero__title-line {
   display: block;
   white-space: nowrap;
+}
 
+.services-hero__title-line--primary {
   @include mixins.mobile {
-    // Другий скрін: рядок 1 — «Graffit – програмні рішення» одним рядком
     white-space: nowrap;
   }
 }
@@ -146,11 +153,34 @@
   @include mixins.mobile {
     display: block;
     max-width: 100%;
-    margin-top: #{mixins.mvw(6px)};
+    margin-top: #{mixins.mvw(2px)};
     margin-left: 0;
     font-size: 1em;
     font-weight: 400;
+    line-height: 1;
     white-space: normal;
+  }
+}
+
+// Десктоп: «під задачі вашого бізнесу» в один ряд; мобілка: 2-й і 3-й рядки макета
+.services-hero__title-s2,
+.services-hero__title-s3 {
+  @include mixins.mobile {
+    display: block;
+  }
+}
+
+.services-hero__title-s3 {
+  @include mixins.mobile {
+    margin-top: 0;
+  }
+
+  &::before {
+    content: "\0020";
+
+    @include mixins.mobile {
+      content: none;
+    }
   }
 }
 
