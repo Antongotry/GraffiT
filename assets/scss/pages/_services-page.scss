@@ -2887,6 +2887,11 @@
   background: #000102;
   color: #000102;
   overflow: hidden;
+
+  @include mixins.mobile {
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
 }
 
 .services-clients__viewport {
@@ -2923,12 +2928,13 @@
 
   @include mixins.mobile {
     min-height: auto;
-    padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(88px)};
-    clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 50% 96%, 0 100%);
+    padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(72px)};
+    // Ледь помітний «шеврон» замість глибокого трикутника (макет 375)
+    clip-path: polygon(0 0, 50% 0.55%, 100% 0, 100% 100%, 50% 99.45%, 0 100%);
 
     &::before {
       background-size: #{mixins.mvw(260px)} auto;
-      background-position: center #{mixins.mvw(180px)};
+      background-position: center #{mixins.mvw(120px)};
       opacity: 0.32;
     }
   }
@@ -2955,7 +2961,7 @@
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
-    row-gap: #{mixins.mvw(40px)};
+    row-gap: #{mixins.mvw(20px)};
     padding-top: 0;
   }
 }
@@ -2967,6 +2973,9 @@
 
   @include mixins.mobile {
     padding-top: 0;
+    width: min(100%, #{mixins.mvw(355px)});
+    margin-inline: auto;
+    text-align: center;
   }
 }
 
@@ -2977,6 +2986,7 @@
 
   @include mixins.mobile {
     gap: #{mixins.mvw(12px)};
+    justify-content: center;
   }
 }
 
@@ -2985,8 +2995,8 @@
   height: #{mixins.vw(32px)};
 
   @include mixins.mobile {
-    width: #{mixins.mvw(28px)};
-    height: #{mixins.mvw(32px)};
+    width: #{mixins.mvw(23px)};
+    height: #{mixins.mvw(26px)};
   }
 }
 
@@ -2996,7 +3006,7 @@
   line-height: 1.36;
 
   @include mixins.mobile {
-    font-size: #{mixins.mvw(16px)};
+    font-size: #{mixins.mvw(14px)};
   }
 }
 
@@ -3013,9 +3023,12 @@
   }
 
   @include mixins.mobile {
-    width: 100%;
-    margin-top: #{mixins.mvw(32px)};
-    font-size: #{mixins.mvw(28px)};
+    width: min(100%, #{mixins.mvw(343px)});
+    margin-top: #{mixins.mvw(24px)};
+    margin-inline: auto;
+    font-size: #{mixins.mvw(22px)};
+    line-height: 1.4;
+    text-align: center;
   }
 }
 
@@ -3027,9 +3040,12 @@
   line-height: 1.36;
 
   @include mixins.mobile {
-    width: 100%;
-    margin-top: #{mixins.mvw(32px)};
-    font-size: #{mixins.mvw(16px)};
+    width: min(100%, #{mixins.mvw(335px)});
+    margin-top: #{mixins.mvw(24px)};
+    margin-inline: auto;
+    font-size: #{mixins.mvw(14px)};
+    line-height: 1.36;
+    text-align: center;
   }
 }
 
@@ -3109,7 +3125,10 @@
   gap: #{mixins.vw(40px)};
 
   @include mixins.mobile {
-    gap: #{mixins.mvw(24px)};
+    gap: #{mixins.mvw(20px)};
+    width: min(100%, #{mixins.mvw(355px)});
+    margin-inline: auto;
+    padding-top: #{mixins.mvw(36px)};
   }
 }
 
@@ -3125,9 +3144,12 @@
   overflow: hidden;
 
   @include mixins.mobile {
-    min-height: #{mixins.mvw(280px)};
-    padding: #{mixins.mvw(24px)};
+    min-height: #{mixins.mvw(240px)};
+    padding: #{mixins.mvw(20px)};
     border-radius: #{mixins.mvw(12px)};
+    background-color: #ffffff;
+    box-shadow: 0 #{mixins.mvw(8px)} #{mixins.mvw(24px)} rgba(0, 0, 0, 0.08);
+    overflow: visible;
   }
 }
 
@@ -3145,10 +3167,14 @@
   color: #ffffff;
 
   @include mixins.mobile {
-    right: #{mixins.mvw(24px)};
-    width: #{mixins.mvw(64px)};
-    height: #{mixins.mvw(127px)};
+    top: #{mixins.mvw(-31px)};
+    right: #{mixins.mvw(20px)};
+    width: #{mixins.mvw(56px)};
+    height: #{mixins.mvw(111px)};
     padding-top: #{mixins.mvw(52px)};
+    background: linear-gradient(180deg, #072042 0%, #0073e6 100%) no-repeat;
+    // Майже горизонтальний низ замість глибокого скосу SVG
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 96%);
   }
 }
 
@@ -3157,8 +3183,8 @@
   height: #{mixins.vw(26px)};
 
   @include mixins.mobile {
-    width: #{mixins.mvw(26px)};
-    height: #{mixins.mvw(26px)};
+    width: #{mixins.mvw(23px)};
+    height: #{mixins.mvw(23px)};
   }
 }
 
@@ -3183,8 +3209,11 @@
   line-height: 1.24;
 
   @include mixins.mobile {
-    width: min(100%, #{mixins.mvw(240px)});
-    font-size: #{mixins.mvw(24px)};
+    width: min(100%, #{mixins.mvw(268px)});
+    max-width: calc(100% - #{mixins.mvw(76px)});
+    font-size: #{mixins.mvw(20px)};
+    line-height: 1.24;
+    text-align: left;
   }
 }
 
@@ -3197,8 +3226,12 @@
 
   @include mixins.mobile {
     width: 100%;
-    margin-top: #{mixins.mvw(80px)};
-    font-size: #{mixins.mvw(16px)};
+    max-width: #{mixins.mvw(315px)};
+    margin-top: auto;
+    padding-top: #{mixins.mvw(16px)};
+    font-size: #{mixins.mvw(14px)};
+    line-height: 1.36;
+    text-align: left;
   }
 }
 
