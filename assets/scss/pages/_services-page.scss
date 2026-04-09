@@ -4104,20 +4104,21 @@ body:has(.site-main--services) {
     position: relative;
     top: auto;
     order: 1;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     flex-shrink: 0;
-    // Не stretch — інакше в деяких рушіях ширина смуги збивається з 100vw
     align-self: center;
-    // Full-bleed: центруємо смугу 100vw через left/transform — стабільніше за margin у вузькому flex
+    // Смуга на всю ширину в’юпорта; контент вирівнюємо вправо (до краю екрана з урахуванням safe-area)
     width: 100vw;
     max-width: none;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
     padding-right: env(safe-area-inset-right, 0);
     box-sizing: border-box;
     margin-top: #{mixins.mvw(40px)};
-    left: 50%;
-    transform: translateX(-50%);
+    left: auto;
+    transform: none;
   }
 }
 
@@ -4128,8 +4129,9 @@ body:has(.site-main--services) {
   overflow: visible;
 
   @include mixins.mobile {
-    width: 100%;
-    max-width: 100%;
+    // −10% до попереднього розміру; блок прижато до правого краю смуги (край екрана)
+    width: 90%;
+    max-width: 90%;
     height: auto;
     flex-shrink: 0;
     margin: 0;
@@ -4159,7 +4161,7 @@ body:has(.site-main--services) {
     margin: 0;
     transform: none;
     object-fit: contain;
-    object-position: center right;
+    object-position: 100% 50%;
   }
 }
 
