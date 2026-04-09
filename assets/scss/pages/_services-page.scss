@@ -1737,10 +1737,10 @@
   top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2);
 }
 
-/* Photo large — absolute left/top positioning */
+/* Photo large — puzzle-fit next to r0c2 & r1c2, bleeds right */
 .hex-reasons__hex--plg {
-  left: #{mixins.vw(905px)} !important;
-  top: #{mixins.vw(-248px)} !important;
+  left: #{mixins.vw(965px)} !important;
+  top: #{mixins.vw(93px)} !important;
   right: auto !important;
   z-index: 3;
 }
