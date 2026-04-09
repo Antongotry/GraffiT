@@ -277,7 +277,8 @@
   margin-bottom: #{mixins.vw(-186px)};
   padding-bottom: 0;
   overflow: visible;
-  z-index: 2;
+  // Above .services-inquiry (z-index 3) so cards are not clipped by the overlapping CTA band.
+  z-index: 4;
 
   &::before,
   &::after {
