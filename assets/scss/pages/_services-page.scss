@@ -1740,8 +1740,8 @@
 /* Photo large — bleeds past right edge, raised above row 0 */
 .hex-reasons__hex--plg {
   left: auto;
-  right: #{mixins.vw(-120px)};
-  top: #{mixins.vw(-120px)};
+  right: #{mixins.vw(-80px)};
+  top: #{mixins.vw(-30px)};
 }
 
 /* Photo small — grid ≈ (3.43, 1.29) · exact original values via right/top */
