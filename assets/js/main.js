@@ -494,6 +494,100 @@
     window.ScrollTrigger.refresh();
   }
 
+  function initProcessMobileTimeline() {
+    if (window.innerWidth > 1024) {
+      return;
+    }
+
+    document.querySelectorAll('.js-process-section').forEach(function (section) {
+      if (section.getAttribute('data-process-mobile') === '1') {
+        return;
+      }
+
+      var lineFill = section.querySelector('.js-process-line-fill');
+      var line = lineFill ? lineFill.parentElement : null;
+      var steps = Array.prototype.slice.call(section.querySelectorAll('.js-process-step'));
+
+      if (steps.length === 0 || !lineFill || !line) {
+        return;
+      }
+
+      section.setAttribute('data-process-mobile', '1');
+
+      function updateLineFillHeight() {
+        var h = line.offsetHeight;
+
+        if (h <= 0) {
+          return;
+        }
+
+        var activeIndex = 0;
+
+        for (var i = 0; i < steps.length; i++) {
+          if (steps[i].classList.contains('is-active')) {
+            activeIndex = i;
+            break;
+          }
+        }
+
+        var n = steps.length;
+        var pct = (activeIndex + 1) / n;
+        lineFill.style.height = Math.round(h * pct) + 'px';
+      }
+
+      function setActive(index) {
+        var clamped = Math.max(0, Math.min(index, steps.length - 1));
+
+        for (var j = 0; j < steps.length; j++) {
+          steps[j].classList.toggle('is-active', j === clamped);
+        }
+
+        updateLineFillHeight();
+      }
+
+      var observer = new IntersectionObserver(
+        function (entries) {
+          var visible = entries.filter(function (e) {
+            return e.isIntersecting;
+          });
+
+          if (visible.length === 0) {
+            return;
+          }
+
+          visible.sort(function (a, b) {
+            return b.intersectionRatio - a.intersectionRatio;
+          });
+
+          var target = visible[0].target;
+          var idx = steps.indexOf(target);
+
+          if (idx >= 0) {
+            setActive(idx);
+          }
+        },
+        {
+          root: null,
+          threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+        }
+      );
+
+      steps.forEach(function (step) {
+        observer.observe(step);
+      });
+
+      window.addEventListener(
+        'resize',
+        function () {
+          window.requestAnimationFrame(updateLineFillHeight);
+        },
+        { passive: true }
+      );
+
+      window.requestAnimationFrame(updateLineFillHeight);
+    });
+  }
+
   function initMobileMenu() {
     var menu = document.querySelector('.js-mobile-menu');
 
@@ -1029,4 +1123,5 @@
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
   runInit(initProcessTimeline, 'process-timeline');
+  runInit(initProcessMobileTimeline, 'process-mobile-timeline');
 })();
