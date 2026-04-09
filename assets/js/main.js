@@ -95,8 +95,7 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          // Horizontal scrub starts when the section enters the viewport (not when its top hits the top edge).
-          start: 'top bottom',
+          start: 'top top',
           end: function () {
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
           },
@@ -164,8 +163,7 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          // Pin / horizontal motion begins when the bottom of the section meets the viewport bottom.
-          start: 'bottom bottom',
+          start: 'top top',
           end: function () {
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
           },
