@@ -2927,7 +2927,7 @@
 
   @include mixins.mobile {
     min-height: auto;
-    padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(72px)};
+    padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(40px)};
     // clip-path ламає position:sticky для карток; на мобілці без вирізу
     clip-path: none;
 
@@ -3130,7 +3130,7 @@
     width: min(100%, #{mixins.mvw(355px)});
     margin-inline: auto;
     padding-top: #{mixins.mvw(16px)};
-    padding-bottom: #{mixins.mvw(140px)};
+    padding-bottom: #{mixins.mvw(56px)};
   }
 }
 
@@ -3148,8 +3148,13 @@
   @include mixins.mobile {
     position: sticky;
     top: #{mixins.mvw(64px)};
+    display: flex;
+    flex-direction: column;
     flex-shrink: 0;
-    min-height: 0;
+    box-sizing: border-box;
+    height: #{mixins.mvw(240px)};
+    min-height: #{mixins.mvw(240px)};
+    max-height: #{mixins.mvw(240px)};
     padding: #{mixins.mvw(20px)};
     border-radius: #{mixins.mvw(12px)};
     background-color: #ffffff;
@@ -3214,9 +3219,10 @@
   flex-direction: column;
 
   @include mixins.mobile {
+    flex: 1;
+    min-height: 0;
     // Смуга під стрічку 56px + відступ (бейдж не перекриває заголовок і текст)
     padding-right: #{mixins.mvw(72px)};
-    min-height: #{mixins.mvw(120px)};
     box-sizing: border-box;
   }
 }
@@ -3247,11 +3253,13 @@
   @include mixins.mobile {
     width: 100%;
     max-width: 100%;
+    min-height: 0;
     margin-top: auto;
-    padding-top: #{mixins.mvw(16px)};
+    padding-top: #{mixins.mvw(12px)};
     font-size: #{mixins.mvw(14px)};
     line-height: 1.36;
     text-align: left;
+    overflow: hidden;
   }
 }
 
