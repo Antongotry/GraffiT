@@ -119,8 +119,9 @@
     max-width: 100%;
     font-size: #{mixins.mvw(26px)};
     font-weight: 400;
-    line-height: 1.22;
-    letter-spacing: -0.01em;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    color: #ffffff;
   }
 }
 
@@ -129,7 +130,8 @@
   white-space: nowrap;
 
   @include mixins.mobile {
-    white-space: normal;
+    // Другий скрін: рядок 1 — «Graffit – програмні рішення» одним рядком
+    white-space: nowrap;
   }
 }
 
@@ -144,10 +146,11 @@
   @include mixins.mobile {
     display: block;
     max-width: 100%;
-    margin-top: #{mixins.mvw(8px)};
+    margin-top: #{mixins.mvw(6px)};
     margin-left: 0;
     font-size: 1em;
     font-weight: 400;
+    white-space: normal;
   }
 }
 
@@ -159,9 +162,11 @@
 
   @include mixins.mobile {
     font-weight: 700;
-    margin-right: #{mixins.mvw(2px)};
-    // Одне м’яке світіння — два шари давали «брудну» пляму на «– програмні…»
-    text-shadow: 0 0 #{mixins.mvw(12px)} rgba(255, 255, 255, 0.5);
+    margin-right: #{mixins.mvw(3px)};
+    color: #ffffff;
+    text-shadow:
+      0 0 #{mixins.mvw(8px)} rgba(255, 255, 255, 0.55),
+      0 0 #{mixins.mvw(22px)} rgba(255, 255, 255, 0.28);
   }
 }
 
@@ -206,16 +211,18 @@
 
   @include mixins.mobile {
     box-sizing: border-box;
-    width: 100%;
+    width: #{mixins.mvw(230px)};
+    max-width: 100%;
     min-width: 0;
     margin-top: #{mixins.mvw(24px)};
     margin-bottom: #{mixins.mvw(44px)};
+    margin-right: auto;
     min-height: #{mixins.mvw(48px)};
-    padding: #{mixins.mvw(13px)} #{mixins.mvw(22px)};
+    padding: #{mixins.mvw(13px)} #{mixins.mvw(16px)};
     border: 0;
     border-radius: #{mixins.mvw(10px)};
     background: #0073e6;
-    font-size: #{mixins.mvw(15px)};
+    font-size: #{mixins.mvw(14px)};
     font-weight: 500;
     line-height: 1.25;
     text-align: center;
