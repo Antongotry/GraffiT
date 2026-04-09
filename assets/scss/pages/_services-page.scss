@@ -4236,9 +4236,14 @@ body:has(.site-main--services) {
 
   @include mixins.mobile {
     width: 100%;
-    max-width: #{mixins.mvw(355px)};
-    font-size: #{mixins.mvw(30px)};
-    line-height: 1;
+    max-width: 100%;
+    font-size: #{mixins.mvw(24px)};
+    line-height: 1.12;
+    text-align: center;
+
+    br {
+      display: none;
+    }
   }
 }
 
