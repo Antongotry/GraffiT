@@ -55,7 +55,7 @@ body.graffit-popup-open {
 .site-popup__stage {
   position: relative;
   z-index: 1;
-  width: min(100%, #{mixins.vw(860px)});
+  width: min(100%, #{mixins.vw(480px)});
   display: flex;
   justify-content: center;
 
@@ -67,11 +67,9 @@ body.graffit-popup-open {
 .site-popup__panel {
   position: relative;
   width: 100%;
-  max-height: min(calc(100vh - #{mixins.vw(64px)}), #{mixins.vw(700px)});
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: #{mixins.vw(32px)};
+  border-radius: #{mixins.vw(28px)};
   box-shadow:
     0 #{mixins.vw(52px)} #{mixins.vw(110px)} rgba(0, 0, 0, 0.48),
     0 #{mixins.vw(10px)} #{mixins.vw(28px)} rgba(0, 115, 230, 0.14);
@@ -98,6 +96,8 @@ body.graffit-popup-open {
 
   @include mixins.mobile {
     max-height: min(calc(100vh - #{mixins.mvw(10px)}), #{mixins.mvw(700px)});
+    overflow-x: hidden;
+    overflow-y: auto;
     border-radius: #{mixins.mvw(24px)};
     box-shadow:
       0 #{mixins.mvw(30px)} #{mixins.mvw(60px)} rgba(0, 0, 0, 0.42),
@@ -293,9 +293,9 @@ body.graffit-popup-open {
 .request-popup__title {
   max-width: 100%;
   margin-top: 0;
-  font-size: #{mixins.vw(30px)};
+  font-size: #{mixins.vw(24px)};
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.02;
 
   @include mixins.mobile {
     max-width: 100%;
@@ -305,9 +305,9 @@ body.graffit-popup-open {
 
 .request-popup__text {
   max-width: 100%;
-  margin-top: #{mixins.vw(10px)};
+  margin-top: #{mixins.vw(8px)};
   color: rgba(255, 255, 255, 0.68);
-  font-size: #{mixins.vw(14px)};
+  font-size: #{mixins.vw(13px)};
   line-height: 1.4;
 
   @include mixins.mobile {
@@ -396,9 +396,9 @@ body.graffit-popup-open {
 
 .request-popup__form-shell {
   position: relative;
-  max-width: #{mixins.vw(760px)};
+  max-width: #{mixins.vw(480px)};
   margin: 0 auto;
-  padding: #{mixins.vw(36px)} #{mixins.vw(40px)} #{mixins.vw(32px)};
+  padding: #{mixins.vw(26px)} #{mixins.vw(24px)} #{mixins.vw(22px)};
 
   @include mixins.mobile {
     max-width: 100%;
@@ -407,7 +407,7 @@ body.graffit-popup-open {
 }
 
 .request-popup__form {
-  margin-top: #{mixins.vw(18px)};
+  margin-top: #{mixins.vw(14px)};
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(18px)};
@@ -425,7 +425,7 @@ body.graffit-popup-open {
 .request-popup__fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: #{mixins.vw(12px)} #{mixins.vw(12px)};
+  gap: #{mixins.vw(10px)};
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
@@ -452,10 +452,10 @@ body.graffit-popup-open {
 
 .request-popup__input {
   width: 100%;
-  min-height: #{mixins.vw(54px)};
-  padding: #{mixins.vw(16px)} #{mixins.vw(18px)};
+  min-height: #{mixins.vw(48px)};
+  padding: #{mixins.vw(14px)} #{mixins.vw(16px)};
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: #{mixins.vw(14px)};
+  border-radius: #{mixins.vw(12px)};
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0.018) 100%);
   color: #ffffff;
@@ -472,8 +472,8 @@ body.graffit-popup-open {
   &:focus {
     border-color: rgba(0, 115, 230, 0.8);
     box-shadow:
-      0 0 0 #{mixins.vw(3px)} rgba(0, 115, 230, 0.12),
-      0 #{mixins.vw(14px)} #{mixins.vw(28px)} rgba(0, 115, 230, 0.12);
+      0 0 0 #{mixins.vw(2px)} rgba(0, 115, 230, 0.12),
+      0 #{mixins.vw(10px)} #{mixins.vw(22px)} rgba(0, 115, 230, 0.12);
     background: rgba(5, 20, 34, 0.92);
   }
 
@@ -501,14 +501,16 @@ body.graffit-popup-open {
 }
 
 .request-popup__field-error {
-  min-height: #{mixins.vw(16px)};
-  margin-top: #{mixins.vw(6px)};
+  margin-top: #{mixins.vw(4px)};
   color: #ff9d9d;
-  font-size: #{mixins.vw(12px)};
+  font-size: #{mixins.vw(11px)};
   line-height: 1.35;
 
+  &:empty {
+    display: none;
+  }
+
   @include mixins.mobile {
-    min-height: #{mixins.mvw(16px)};
     margin-top: #{mixins.mvw(6px)};
     font-size: #{mixins.mvw(11px)};
   }
@@ -520,8 +522,8 @@ body.graffit-popup-open {
 
 .request-popup__checks {
   display: grid;
-  gap: #{mixins.vw(8px)};
-  margin-top: #{mixins.vw(8px)};
+  gap: #{mixins.vw(6px)};
+  margin-top: #{mixins.vw(6px)};
 
   @include mixins.mobile {
     gap: #{mixins.mvw(8px)};
@@ -533,11 +535,11 @@ body.graffit-popup-open {
   position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: #{mixins.vw(12px)};
+  gap: #{mixins.vw(10px)};
   align-items: center;
-  padding: #{mixins.vw(12px)} #{mixins.vw(14px)};
+  padding: #{mixins.vw(10px)} #{mixins.vw(12px)};
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: #{mixins.vw(16px)};
+  border-radius: #{mixins.vw(14px)};
   background: rgba(255, 255, 255, 0.025);
   cursor: pointer;
   transition:
@@ -569,11 +571,11 @@ body.graffit-popup-open {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: #{mixins.vw(22px)};
-  height: #{mixins.vw(22px)};
+  width: #{mixins.vw(20px)};
+  height: #{mixins.vw(20px)};
   margin-top: 0;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: #{mixins.vw(7px)};
+  border-radius: #{mixins.vw(6px)};
   background: rgba(255, 255, 255, 0.04);
   color: #ffffff;
   box-shadow: inset 0 0 0 #{mixins.vw(1px)} rgba(255, 255, 255, 0.04);
@@ -584,8 +586,8 @@ body.graffit-popup-open {
     box-shadow 220ms ease;
 
   svg {
-    width: #{mixins.vw(12px)};
-    height: #{mixins.vw(12px)};
+    width: #{mixins.vw(11px)};
+    height: #{mixins.vw(11px)};
     opacity: 0;
     transform: scale(0.72);
     transition: opacity 180ms ease, transform 180ms ease;
@@ -638,8 +640,8 @@ body.graffit-popup-open {
   display: flex;
   align-items: center;
   color: rgba(255, 255, 255, 0.72);
-  font-size: #{mixins.vw(13px)};
-  line-height: 1.35;
+  font-size: #{mixins.vw(11px)};
+  line-height: 1.4;
 
   @include mixins.mobile {
     font-size: #{mixins.mvw(12px)};
@@ -658,11 +660,14 @@ body.graffit-popup-open {
 }
 
 .request-popup__form-status {
-  min-height: #{mixins.vw(22px)};
-  margin-top: #{mixins.vw(12px)};
+  margin-top: #{mixins.vw(10px)};
   color: rgba(255, 255, 255, 0.62);
-  font-size: #{mixins.vw(13px)};
+  font-size: #{mixins.vw(12px)};
   line-height: 1.4;
+
+  &:empty {
+    display: none;
+  }
 
   &.is-error {
     color: #ff9d9d;
@@ -673,14 +678,13 @@ body.graffit-popup-open {
   }
 
   @include mixins.mobile {
-    min-height: #{mixins.mvw(20px)};
     margin-top: #{mixins.mvw(14px)};
     font-size: #{mixins.mvw(12px)};
   }
 }
 
 .request-popup__actions {
-  margin-top: #{mixins.vw(10px)};
+  margin-top: #{mixins.vw(8px)};
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(18px)};
@@ -694,14 +698,14 @@ body.graffit-popup-open {
   justify-content: center;
   width: 100%;
   min-width: 0;
-  min-height: #{mixins.vw(52px)};
-  padding: #{mixins.vw(16px)} #{mixins.vw(26px)};
+  min-height: #{mixins.vw(46px)};
+  padding: #{mixins.vw(14px)} #{mixins.vw(22px)};
   border: 0;
-  border-radius: #{mixins.vw(12px)};
+  border-radius: #{mixins.vw(10px)};
   background: linear-gradient(135deg, #0c87ff 0%, #0073e6 54%, #005fbe 100%);
   color: #ffffff;
   cursor: pointer;
-  box-shadow: 0 #{mixins.vw(18px)} #{mixins.vw(34px)} rgba(0, 115, 230, 0.26);
+  box-shadow: 0 #{mixins.vw(14px)} #{mixins.vw(28px)} rgba(0, 115, 230, 0.24);
   transition:
     transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -719,7 +723,7 @@ body.graffit-popup-open {
   &:hover,
   &:focus-visible {
     transform: translateY(#{mixins.vw(-2px)});
-    box-shadow: 0 #{mixins.vw(24px)} #{mixins.vw(46px)} rgba(0, 115, 230, 0.32);
+    box-shadow: 0 #{mixins.vw(18px)} #{mixins.vw(36px)} rgba(0, 115, 230, 0.28);
   }
 
   @include mixins.mobile {
