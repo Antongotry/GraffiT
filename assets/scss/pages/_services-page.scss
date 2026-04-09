@@ -3130,7 +3130,7 @@
     width: min(100%, #{mixins.mvw(355px)});
     margin-inline: auto;
     padding-top: #{mixins.mvw(16px)};
-    padding-bottom: #{mixins.mvw(360px)};
+    padding-bottom: #{mixins.mvw(140px)};
   }
 }
 
@@ -3149,7 +3149,7 @@
     position: sticky;
     top: #{mixins.mvw(64px)};
     flex-shrink: 0;
-    min-height: #{mixins.mvw(240px)};
+    min-height: 0;
     padding: #{mixins.mvw(20px)};
     border-radius: #{mixins.mvw(12px)};
     background-color: #ffffff;
@@ -3212,6 +3212,13 @@
   display: flex;
   min-height: 100%;
   flex-direction: column;
+
+  @include mixins.mobile {
+    // Смуга під стрічку 56px + відступ (бейдж не перекриває заголовок і текст)
+    padding-right: #{mixins.mvw(72px)};
+    min-height: #{mixins.mvw(120px)};
+    box-sizing: border-box;
+  }
 }
 
 .trust-card__title {
@@ -3222,8 +3229,8 @@
   line-height: 1.24;
 
   @include mixins.mobile {
-    width: min(100%, #{mixins.mvw(268px)});
-    max-width: calc(100% - #{mixins.mvw(76px)});
+    width: 100%;
+    max-width: 100%;
     font-size: #{mixins.mvw(20px)};
     line-height: 1.24;
     text-align: left;
@@ -3239,7 +3246,7 @@
 
   @include mixins.mobile {
     width: 100%;
-    max-width: #{mixins.mvw(315px)};
+    max-width: 100%;
     margin-top: auto;
     padding-top: #{mixins.mvw(16px)};
     font-size: #{mixins.mvw(14px)};
