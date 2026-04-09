@@ -4129,9 +4129,9 @@ body:has(.site-main--services) {
   overflow: visible;
 
   @include mixins.mobile {
-    // −10% до попереднього розміру; блок прижато до правого краю смуги (край екрана)
-    width: 90%;
-    max-width: 90%;
+    // 95% ширини смуги (−10% + 5%); блок прижато до правого краю
+    width: 95%;
+    max-width: 95%;
     height: auto;
     flex-shrink: 0;
     margin: 0;
