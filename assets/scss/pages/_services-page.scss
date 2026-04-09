@@ -749,7 +749,7 @@
       position: absolute;
       inset: 0;
       z-index: 0;
-      clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+      clip-path: polygon(0 0, 50% 12%, 100% 0, 100% 100%, 50% 88%, 0 100%);
       background:
         radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 32%),
         radial-gradient(circle at 80% 24%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0) 34%),
@@ -760,7 +760,7 @@
 
     &::before {
       z-index: 0;
-      clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+      clip-path: polygon(0 0, 50% 12%, 100% 0, 100% 100%, 50% 88%, 0 100%);
     }
   }
 
@@ -772,7 +772,7 @@
     &.cta-band--light {
       &::after,
       &::before {
-        clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 50% 96%, 0 100%);
+        clip-path: polygon(0 0, 50% 8%, 100% 0, 100% 100%, 50% 92%, 0 100%);
       }
     }
   }
@@ -1566,18 +1566,21 @@
 
 .hex-reasons {
   position: relative;
-  padding: #{mixins.vw(132px)} 0 #{mixins.vw(142px)};
+  // Pull background under the CTA cutouts; extra padding keeps content aligned.
+  margin-top: #{mixins.vw(-120px)};
+  padding: #{mixins.vw(252px)} 0 #{mixins.vw(142px)};
   background:
-    radial-gradient(circle at 12% 72%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 32%),
-    radial-gradient(circle at 94% 16%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
-    linear-gradient(180deg, #03101f 0%, #000102 22%, #000102 100%);
+    radial-gradient(circle at 12% 58%, rgba(0, 115, 230, 0.26) 0%, rgba(0, 115, 230, 0) 36%),
+    radial-gradient(circle at 94% 8%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 30%),
+    linear-gradient(180deg, #000102 0%, #03101f 11%, #000102 26%, #000102 100%);
   overflow-x: clip;
   overflow-y: visible;
   isolation: isolate;
   z-index: 2;
 
   @include mixins.mobile {
-    padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(88px)};
+    margin-top: #{mixins.mvw(-64px)};
+    padding: #{mixins.mvw(136px)} 0 #{mixins.mvw(88px)};
   }
 }
 
