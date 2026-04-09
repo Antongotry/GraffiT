@@ -56,7 +56,7 @@
 
   @include mixins.mobile {
     min-height: auto;
-    padding: #{mixins.mvw(24px)};
+    padding: #{mixins.mvw(28px)} #{mixins.mvw(20px)} #{mixins.mvw(32px)};
     border-radius: #{mixins.mvw(12px)};
   }
 }
@@ -80,12 +80,20 @@
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
-    row-gap: #{mixins.mvw(28px)};
+    justify-items: center;
+    row-gap: #{mixins.mvw(40px)};
+    text-align: center;
   }
 }
 
 .site-footer__brand-column {
   min-width: 0;
+
+  @include mixins.mobile {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
 }
 
 .site-footer__logo-link {
@@ -98,7 +106,8 @@
   height: auto;
 
   @include mixins.mobile {
-    width: #{mixins.mvw(144px)};
+    width: #{mixins.mvw(126px)};
+    height: auto;
   }
 }
 
@@ -110,6 +119,8 @@
 
   @include mixins.mobile {
     font-size: #{mixins.mvw(14px)};
+    line-height: 1.3;
+    text-align: center;
   }
 }
 
@@ -124,7 +135,8 @@
   gap: #{mixins.vw(16px)};
 
   @include mixins.mobile {
-    gap: #{mixins.mvw(14px)};
+    align-items: center;
+    gap: #{mixins.mvw(16px)};
   }
 }
 
@@ -137,6 +149,15 @@
 
   @include mixins.mobile {
     font-size: #{mixins.mvw(14px)};
+    line-height: 1.3;
+    text-align: center;
+  }
+}
+
+.site-footer__nav-link {
+  @include mixins.mobile {
+    display: block;
+    width: 100%;
   }
 }
 
@@ -154,7 +175,8 @@
   gap: #{mixins.vw(34px)};
 
   @include mixins.mobile {
-    gap: #{mixins.mvw(20px)};
+    align-items: center;
+    gap: #{mixins.mvw(24px)};
   }
 }
 
@@ -164,7 +186,10 @@
   gap: #{mixins.vw(16px)};
 
   @include mixins.mobile {
-    gap: #{mixins.mvw(12px)};
+    align-items: center;
+    gap: #{mixins.mvw(16px)};
+    width: 100%;
+    max-width: #{mixins.mvw(280px)};
   }
 }
 
@@ -172,7 +197,14 @@
   max-width: #{mixins.vw(183px)};
 
   @include mixins.mobile {
-    max-width: #{mixins.mvw(210px)};
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+.site-footer__contact-link {
+  @include mixins.mobile {
+    display: block;
   }
 }
 
@@ -181,7 +213,9 @@
   gap: #{mixins.vw(54px)};
 
   @include mixins.mobile {
-    gap: #{mixins.mvw(28px)};
+    align-items: center;
+    gap: #{mixins.mvw(40px)};
+    width: 100%;
   }
 }
 
@@ -205,9 +239,14 @@
   }
 
   @include mixins.mobile {
+    width: #{mixins.mvw(180px)};
+    max-width: 100%;
     min-height: #{mixins.mvw(48px)};
+    padding: 0 #{mixins.mvw(24px)};
     border-radius: #{mixins.mvw(10px)};
     font-size: #{mixins.mvw(14px)};
+    line-height: 1.3;
+    box-sizing: border-box;
   }
 }
 
@@ -217,7 +256,9 @@
   gap: #{mixins.vw(14px)};
 
   @include mixins.mobile {
-    gap: #{mixins.mvw(14px)};
+    align-items: center;
+    gap: #{mixins.mvw(16px)};
+    width: 100%;
   }
 }
 
@@ -227,7 +268,9 @@
   gap: #{mixins.vw(8px)};
 
   @include mixins.mobile {
+    justify-content: center;
     gap: #{mixins.mvw(8px)};
+    width: 100%;
   }
 }
 
@@ -257,6 +300,8 @@
   @include mixins.mobile {
     width: #{mixins.mvw(48px)};
     height: #{mixins.mvw(48px)};
+    flex-shrink: 0;
+    border-color: rgba(255, 255, 255, 0.35);
 
     svg {
       width: #{mixins.mvw(20px)};
@@ -275,9 +320,12 @@
 
   @include mixins.mobile {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
     gap: #{mixins.mvw(12px)};
-    padding-top: #{mixins.mvw(28px)};
+    padding-top: #{mixins.mvw(32px)};
+    width: 100%;
+    text-align: center;
   }
 }
 
