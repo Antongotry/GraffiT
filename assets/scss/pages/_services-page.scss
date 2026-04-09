@@ -21,18 +21,53 @@
 
 .services-hero__media {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background-image: var(--services-hero-image);
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
   z-index: 0;
+  pointer-events: none;
+
+  &::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: clamp(#{mixins.vw(200px)}, 38vh, #{mixins.vw(560px)});
+    background: linear-gradient(
+      180deg,
+      rgba(0, 1, 2, 0) 0%,
+      rgba(0, 1, 2, 0.28) 38%,
+      rgba(0, 1, 2, 0.82) 76%,
+      #000102 100%
+    );
+    pointer-events: none;
+    content: "";
+  }
 
   @include mixins.mobile {
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background-image: var(--services-hero-image-mobile, var(--services-hero-image));
     background-position: center top;
     background-size: cover;
+
+    &::after {
+      height: clamp(#{mixins.mvw(160px)}, 36vh, #{mixins.mvw(400px)});
+      background: linear-gradient(
+        180deg,
+        rgba(5, 10, 16, 0) 0%,
+        rgba(5, 10, 16, 0.35) 40%,
+        rgba(5, 10, 16, 0.88) 78%,
+        #050a10 100%
+      );
+    }
   }
 }
 
