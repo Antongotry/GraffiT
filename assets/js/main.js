@@ -260,6 +260,93 @@
     window.ScrollTrigger.refresh();
   }
 
+  function initProjectsMobileCarousel() {
+    if (window.innerWidth > 1024) {
+      return;
+    }
+
+    document.querySelectorAll('.js-projects-scroller').forEach(function (section) {
+      if (section.getAttribute('data-projects-mobile-carousel') === '1') {
+        return;
+      }
+
+      var stage = section.querySelector('.js-projects-stage');
+      var prevButton = section.querySelector('.js-projects-prev');
+      var nextButton = section.querySelector('.js-projects-next');
+      var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
+
+      if (!stage || cards.length === 0) {
+        return;
+      }
+
+      section.setAttribute('data-projects-mobile-carousel', '1');
+
+      function getMaxIndex() {
+        return Math.max(cards.length - 1, 0);
+      }
+
+      function nearestIndex() {
+        var sl = stage.scrollLeft;
+        var best = 0;
+        var bestDist = Infinity;
+
+        for (var i = 0; i < cards.length; i++) {
+          var d = Math.abs(cards[i].offsetLeft - sl);
+
+          if (d < bestDist) {
+            bestDist = d;
+            best = i;
+          }
+        }
+
+        return best;
+      }
+
+      function updateButtons() {
+        var idx = nearestIndex();
+
+        if (prevButton) {
+          prevButton.disabled = idx <= 0;
+        }
+
+        if (nextButton) {
+          nextButton.disabled = idx >= getMaxIndex();
+        }
+      }
+
+      function scrollToIndex(index) {
+        var clamped = Math.max(0, Math.min(index, getMaxIndex()));
+        var card = cards[clamped];
+
+        if (!card) {
+          return;
+        }
+
+        stage.scrollTo({
+          left: card.offsetLeft,
+          behavior: 'smooth'
+        });
+
+        window.setTimeout(updateButtons, 400);
+      }
+
+      stage.addEventListener('scroll', updateButtons, { passive: true });
+      window.requestAnimationFrame(updateButtons);
+
+      if (prevButton) {
+        prevButton.addEventListener('click', function () {
+          scrollToIndex(nearestIndex() - 1);
+        });
+      }
+
+      if (nextButton) {
+        nextButton.addEventListener('click', function () {
+          scrollToIndex(nearestIndex() + 1);
+        });
+      }
+    });
+  }
+
   function initClientsScroller() {
     if (window.innerWidth <= 1024) {
       return;
@@ -940,5 +1027,6 @@
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initClientsScroller, 'clients-scroller');
   runInit(initProjectsScroller, 'projects-scroller');
+  runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
   runInit(initProcessTimeline, 'process-timeline');
 })();

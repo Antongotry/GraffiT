@@ -111,15 +111,21 @@ $project_cases = [
                     <h2 class="services-projects__title" id="services-projects-title">
                         Вміємо трансформувати ваші бізнес-запити у зрозумілі та робочі IT-рішення.
                     </h2>
+                </div>
 
-                    <div class="services-projects__nav">
-                        <button class="services-projects__nav-button services-projects__nav-button--prev js-projects-prev" type="button" aria-label="Попередній кейс">
-                            <span aria-hidden="true">←</span>
-                        </button>
-                        <button class="services-projects__nav-button services-projects__nav-button--next js-projects-next" type="button" aria-label="Наступний кейс">
-                            <span aria-hidden="true">→</span>
-                        </button>
-                    </div>
+                <div class="services-projects__swipe-hint">
+                    <span class="services-projects__swipe-icon-wrap" aria-hidden="true">
+                        <img
+                            class="services-projects__swipe-icon"
+                            src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/mdi-gesture-swipe-right.svg'); ?>"
+                            alt=""
+                            width="24"
+                            height="24"
+                            loading="lazy"
+                            decoding="async"
+                        >
+                    </span>
+                    <p class="services-projects__swipe-text">гортайте вбік</p>
                 </div>
             </div>
 
@@ -129,6 +135,15 @@ $project_cases = [
                         <?php get_template_part('template-parts/components/project-case', 'card', $project_case); ?>
                     <?php endforeach; ?>
                 </div>
+            </div>
+
+            <div class="services-projects__nav">
+                <button class="services-projects__nav-button services-projects__nav-button--prev js-projects-prev" type="button" aria-label="Попередній кейс">
+                    <span aria-hidden="true">←</span>
+                </button>
+                <button class="services-projects__nav-button services-projects__nav-button--next js-projects-next" type="button" aria-label="Наступний кейс">
+                    <span aria-hidden="true">→</span>
+                </button>
             </div>
         </div>
     </div>
