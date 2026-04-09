@@ -1516,6 +1516,392 @@
   }
 }
 
+/* ========================================================================
+   hex-reasons — Hex-Grid "Чому ми" v2
+   ═══════════════════════════════════════════════════════════════════════
+   Every hex position is derived from the same modular grid:
+     --hex-box   = bounding square of one base hex
+     --hex-step  = center-to-center distance (equal for x and y)
+     --hex-half  = step / 2 (odd-row x offset)
+     --hex-r0y   = y-center of row-0 hexes (from scene top)
+
+   Hex shape: regular pointy-top hexagon
+     clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%)
+     where 6.7% ≈ (1 − √3/2) / 2 — mathematically correct for a regular hex in a square box.
+
+   Photo hexes use fractional grid coordinates for organic placement
+   while staying on the same module axis.
+   ======================================================================== */
+
+.hex-reasons {
+  position: relative;
+  padding: #{mixins.vw(132px)} 0 #{mixins.vw(142px)};
+  background:
+    radial-gradient(circle at 12% 72%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 32%),
+    radial-gradient(circle at 94% 16%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
+    linear-gradient(180deg, #03101f 0%, #000102 22%, #000102 100%);
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 2;
+
+  @include mixins.mobile {
+    padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(88px)};
+  }
+}
+
+.hex-reasons__head {
+  width: 100%;
+  margin-inline: auto;
+  text-align: center;
+
+  @include mixins.mobile {
+    padding-inline: #{mixins.mvw(16px)};
+  }
+}
+
+.hex-reasons__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: #{mixins.vw(12px)};
+
+  @include mixins.mobile {
+    gap: #{mixins.mvw(12px)};
+  }
+}
+
+.hex-reasons__eyebrow-icon {
+  width: #{mixins.vw(28px)};
+  height: #{mixins.vw(32px)};
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(28px)};
+    height: #{mixins.mvw(32px)};
+  }
+}
+
+.hex-reasons__eyebrow-text {
+  font-size: #{mixins.vw(16px)};
+  line-height: 1.36;
+
+  @include mixins.mobile {
+    font-size: #{mixins.mvw(16px)};
+  }
+}
+
+.hex-reasons__title {
+  width: #{mixins.vw(789px)};
+  margin: #{mixins.vw(34px)} auto 0;
+  font-size: #{mixins.vw(32px)};
+  font-weight: 500;
+  line-height: 1.2;
+
+  @include mixins.mobile {
+    width: 100%;
+    margin-top: #{mixins.mvw(28px)};
+    font-size: #{mixins.mvw(28px)};
+  }
+}
+
+/* ─── Hex Grid Scene ──────────────────────────── */
+.hex-reasons__scene {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-top: #{mixins.vw(82px)};
+  transform: translateX(-50%);
+
+  /* ── Grid Module ── */
+  --hex-box: #{mixins.vw(416px)};
+  --hex-step: #{mixins.vw(436px)};
+  --hex-half: calc(var(--hex-step) * 0.5);
+  --hex-r0y: #{mixins.vw(272px)};
+  --hex-clip: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+
+  /* ── Scale factors ── */
+  --hex-scale-lg: 1.654;
+  --hex-scale-sm: 0.877;
+  --hex-box-lg: calc(var(--hex-box) * var(--hex-scale-lg));
+  --hex-box-sm: calc(var(--hex-box) * var(--hex-scale-sm));
+
+  min-height: #{mixins.vw(1120px)};
+
+  @include mixins.mobile {
+    left: auto;
+    width: min(100% - #{mixins.mvw(32px)}, 100%);
+    min-height: auto;
+    margin: #{mixins.mvw(36px)} auto 0;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: #{mixins.mvw(16px)};
+  }
+}
+
+/* ─── Base Hex Cell ───────────────────────────── */
+.hex-reasons__hex {
+  position: absolute;
+  width: var(--hex-box);
+  height: var(--hex-box);
+  clip-path: var(--hex-clip);
+  overflow: hidden;
+  border-radius: #{mixins.vw(12px)};
+  background: linear-gradient(180deg, #4a5265 0%, #454d5c 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+
+  &::before {
+    position: absolute;
+    inset: #{mixins.vw(18px)};
+    clip-path: var(--hex-clip);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%);
+    content: "";
+    pointer-events: none;
+  }
+
+  @include mixins.mobile {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    width: min(100%, #{mixins.mvw(310px)});
+    height: #{mixins.mvw(310px)};
+    border-radius: #{mixins.mvw(12px)};
+
+    &::before {
+      inset: #{mixins.mvw(14px)};
+    }
+  }
+}
+
+/* ─── Hex Variants ────────────────────────────── */
+.hex-reasons__hex--card {
+  z-index: 2;
+}
+
+.hex-reasons__hex--outline {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(0, 115, 230, 0.38);
+  opacity: 0.56;
+
+  &::before {
+    display: none;
+  }
+
+  @include mixins.mobile {
+    display: none;
+  }
+}
+
+.hex-reasons__hex--photo {
+  clip-path: none;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  &::before {
+    display: none;
+  }
+
+  @include mixins.mobile {
+    display: none;
+  }
+}
+
+.hex-reasons__hex--photo-lg {
+  width: var(--hex-box-lg);
+  height: var(--hex-box-lg);
+}
+
+.hex-reasons__hex--photo-sm {
+  width: var(--hex-box-sm);
+  height: var(--hex-box-sm);
+}
+
+/* ─── Grid Positions ──────────────────────────── */
+/*
+   Formula for every cell:
+     left = origin_x + col × step + (odd_row ? half : 0) − width / 2
+     top  = r0y + row × step − height / 2
+
+   origin_x = 0 (col 0 center sits at viewport left edge)
+*/
+
+/* Row 0 (even row) */
+.hex-reasons__hex--r0c0 {
+  left: calc(0 * var(--hex-step) - var(--hex-box) / 2);
+  top: calc(var(--hex-r0y) - var(--hex-box) / 2);
+}
+
+.hex-reasons__hex--r0c1 {
+  left: calc(1 * var(--hex-step) - var(--hex-box) / 2);
+  top: calc(var(--hex-r0y) - var(--hex-box) / 2);
+}
+
+.hex-reasons__hex--r0c2 {
+  left: calc(2 * var(--hex-step) - var(--hex-box) / 2);
+  top: calc(var(--hex-r0y) - var(--hex-box) / 2);
+}
+
+/* Row 1 (odd row — offset by half step) */
+.hex-reasons__hex--r1c0 {
+  left: calc(var(--hex-half) + 0 * var(--hex-step) - var(--hex-box) / 2);
+  top: calc(var(--hex-r0y) + 1 * var(--hex-step) - var(--hex-box) / 2);
+}
+
+.hex-reasons__hex--r1c1 {
+  left: calc(var(--hex-half) + 1 * var(--hex-step) - var(--hex-box) / 2);
+  top: calc(var(--hex-r0y) + 1 * var(--hex-step) - var(--hex-box) / 2);
+}
+
+.hex-reasons__hex--r1c2 {
+  left: calc(var(--hex-half) + 2 * var(--hex-step) - var(--hex-box) / 2);
+  top: calc(var(--hex-r0y) + 1 * var(--hex-step) - var(--hex-box) / 2);
+}
+
+/* Photo — large (fractional grid: ~col 2.75, row 0.2) */
+.hex-reasons__hex--plg {
+  left: calc(2.75 * var(--hex-step) - var(--hex-box-lg) / 2);
+  top: calc(var(--hex-r0y) + 0.2 * var(--hex-step) - var(--hex-box-lg) / 2);
+}
+
+/* Photo — small (fractional grid: ~col 2.95 from odd row, row 1.45) */
+.hex-reasons__hex--psm {
+  left: calc(var(--hex-half) + 2.5 * var(--hex-step) - var(--hex-box-sm) / 2);
+  top: calc(var(--hex-r0y) + 1.45 * var(--hex-step) - var(--hex-box-sm) / 2);
+}
+
+/* ─── Hex Content Layout ──────────────────────── */
+.hex-reasons__hex-body {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  width: #{mixins.vw(310px)};
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -50%);
+
+  @include mixins.mobile {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(100% - #{mixins.mvw(36px)}, #{mixins.mvw(310px)});
+    transform: none;
+    margin: auto;
+    padding: #{mixins.mvw(38px)} 0;
+  }
+}
+
+.hex-reasons__hex-heading {
+  max-width: #{mixins.vw(296px)};
+  font-size: #{mixins.vw(24px)};
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+
+  @include mixins.mobile {
+    max-width: 100%;
+    font-size: #{mixins.mvw(24px)};
+  }
+}
+
+.hex-reasons__hex-heading--narrow {
+  max-width: #{mixins.vw(272px)};
+}
+
+.hex-reasons__hex-sub {
+  max-width: #{mixins.vw(164px)};
+  margin-top: #{mixins.vw(40px)};
+  color: rgba(255, 255, 255, 0.56);
+  font-size: #{mixins.vw(16px)};
+  line-height: 1.36;
+  text-align: center;
+
+  @include mixins.mobile {
+    max-width: 100%;
+    margin-top: #{mixins.mvw(24px)};
+    font-size: #{mixins.mvw(16px)};
+  }
+}
+
+.hex-reasons__hex-caption {
+  max-width: #{mixins.vw(282px)};
+  margin-top: #{mixins.vw(24px)};
+  color: rgba(255, 255, 255, 0.56);
+  font-size: #{mixins.vw(16px)};
+  line-height: 1.36;
+  text-align: center;
+
+  @include mixins.mobile {
+    max-width: #{mixins.mvw(244px)};
+    margin-top: #{mixins.mvw(18px)};
+    font-size: #{mixins.mvw(15px)};
+  }
+}
+
+/* ─── Stack Icons Row ─────────────────────────── */
+.hex-reasons__icons {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: #{mixins.vw(4px)};
+  width: #{mixins.vw(212px)};
+  margin-top: #{mixins.vw(24px)};
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(212px)};
+    gap: #{mixins.mvw(4px)};
+    margin-top: #{mixins.mvw(18px)};
+  }
+}
+
+.hex-reasons__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: #{mixins.vw(32px)};
+  height: #{mixins.vw(32px)};
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(32px)};
+    height: #{mixins.mvw(32px)};
+  }
+}
+
+.hex-reasons__icon-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ─── Cursor Accent Image ─────────────────────── */
+.hex-reasons__cursor-img {
+  width: #{mixins.vw(28px)};
+  height: #{mixins.vw(26px)};
+  margin-top: #{mixins.vw(24px)};
+  object-fit: contain;
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(28px)};
+    height: #{mixins.mvw(26px)};
+    margin-top: #{mixins.mvw(18px)};
+  }
+}
+
+/* ─── Photo Image ─────────────────────────────── */
+.hex-reasons__hex-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
 .services-benefits {
   position: relative;
   overflow: hidden;
