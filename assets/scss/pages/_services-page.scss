@@ -3784,6 +3784,8 @@
   background: var(--color-background);
 
   @include mixins.mobile {
+    overflow-x: visible;
+    overflow-y: visible;
     background:
       radial-gradient(circle at 50% 0%, rgba(0, 115, 230, 0.14) 0%, rgba(0, 115, 230, 0) 42%),
       linear-gradient(180deg, #03101f 0%, #000102 38%, #000102 100%);
@@ -4091,7 +4093,13 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    width: 100%;
+    // Full-bleed по горизонталі: правий край збігається з краєм в’юпорта, секція не обрізає
+    width: 100vw;
+    max-width: none;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding-right: env(safe-area-inset-right, 0);
+    box-sizing: border-box;
     margin-top: #{mixins.mvw(40px)};
   }
 }
@@ -4112,6 +4120,7 @@
     height: auto;
     margin-inline: 0;
     margin-left: auto;
+    margin-right: 0;
     overflow: visible;
     transform: none;
     border-radius: 0;
@@ -4133,8 +4142,8 @@
     position: static;
     display: block;
     width: auto;
-    max-width: 100%;
     height: auto;
+    max-width: min(100%, 100vw);
     margin: 0 0 0 auto;
     transform: none;
     object-fit: unset;
