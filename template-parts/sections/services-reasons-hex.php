@@ -182,22 +182,6 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
             </div>
         </article>
 
-        <!--
-          Mobile honeycomb row 3 right: duplicate of r1c1 (desktop hidden).
-          One node cannot sit in grid row 2 and row 3 at once.
-        -->
-        <article
-            class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r1c1-clone"
-            style="<?php echo esc_attr( $stack_style ); ?>"
-            role="presentation"
-            aria-hidden="true"
-        >
-            <div class="hex-reasons__hex-body">
-                <h3 class="hex-reasons__hex-heading">Інтегруємось у вже існуючий ландшафт</h3>
-                <p class="hex-reasons__hex-sub">(1С, CRM, ERP, маркетплейси, POS тощо)</p>
-            </div>
-        </article>
-
         <!-- ═ photo small — grid ~(3.431, 1.290) ═ -->
         <div
             class="hex-reasons__hex hex-reasons__hex--photo hex-reasons__hex--photo-sm hex-reasons__hex--psm"
