@@ -1593,6 +1593,7 @@
 .hex-reasons__title {
   width: #{mixins.vw(789px)};
   margin: #{mixins.vw(34px)} auto 0;
+  min-height: #{mixins.vw(152px)};
   font-size: #{mixins.vw(32px)};
   font-weight: 500;
   line-height: 1.2;
@@ -1600,6 +1601,7 @@
   @include mixins.mobile {
     width: 100%;
     margin-top: #{mixins.mvw(28px)};
+    min-height: auto;
     font-size: #{mixins.mvw(28px)};
   }
 }
@@ -1734,16 +1736,18 @@
   top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2);
 }
 
-/* Photo large — grid (3.227, −0.388) */
+/* Photo large — grid ≈ (3.23, −0.39) · exact original values via right/top */
 .hex-reasons__hex--plg {
-  left: calc(3.227 * var(--hex-step-x) - var(--hex-box-lg) / 2);
-  top: calc(var(--hex-r0y) - 0.388 * var(--hex-step-y) - var(--hex-box-lg) / 2);
+  left: auto;
+  right: #{mixins.vw(-143px)};
+  top: calc(#{mixins.vw(144px)} - 20vw);
 }
 
-/* Photo small — grid (3.431, 1.290) */
+/* Photo small — grid ≈ (3.43, 1.29) · exact original values via right/top */
 .hex-reasons__hex--psm {
-  left: calc(3.431 * var(--hex-step-x) - var(--hex-box-sm) / 2);
-  top: calc(var(--hex-r0y) + 1.290 * var(--hex-step-y) - var(--hex-box-sm) / 2);
+  left: auto;
+  right: #{mixins.vw(-128px)};
+  top: #{mixins.vw(453px)};
 }
 
 /* ─── Hex Content Layout ──────────────────────── */
