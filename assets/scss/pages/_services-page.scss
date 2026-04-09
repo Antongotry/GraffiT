@@ -4099,6 +4099,10 @@
   height: #{mixins.vw(714px)};
   overflow: visible;
 
+  picture {
+    display: contents;
+  }
+
   @include mixins.mobile {
     width: min(100%, #{mixins.mvw(280px)});
     height: auto;
