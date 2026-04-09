@@ -1622,7 +1622,7 @@
   --hex-r0y: #{mixins.vw(251px)};
 
   /* ── Photo scale factors (from base box) ── */
-  --hex-scale-lg: 1.495;
+  --hex-scale-lg: 1.645;
   --hex-scale-sm: 0.976;
   --hex-box-lg: calc(var(--hex-box) * var(--hex-scale-lg));
   --hex-box-sm: calc(var(--hex-box) * var(--hex-scale-sm));
@@ -1740,7 +1740,7 @@
 .hex-reasons__hex--plg {
   left: auto;
   right: #{mixins.vw(-143px)};
-  top: #{mixins.vw(-60px)};
+  top: #{mixins.vw(-80px)};
 }
 
 /* Photo small — grid ≈ (3.43, 1.29) · exact original values via right/top */
