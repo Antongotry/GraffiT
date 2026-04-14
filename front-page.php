@@ -14,7 +14,7 @@ get_header();
     <?php get_template_part('template-parts/sections/home', 'hero'); ?>
     <?php get_template_part('template-parts/sections/home', 'showcase'); ?>
     <?php get_template_part('template-parts/sections/home', 'chaos'); ?>
-    <?php get_template_part('template-parts/sections/home', 'about'); ?>
+    <?php get_template_part('template-parts/sections/services', 'clients'); ?>
     <?php
     get_template_part(
         'template-parts/sections/services-reasons-hex',
@@ -33,7 +33,6 @@ get_header();
     ?>
     <?php get_template_part('template-parts/sections/home-services-directions'); ?>
     <?php get_template_part('template-parts/sections/home-inquiry'); ?>
-    <?php get_template_part('template-parts/sections/services', 'clients'); ?>
     <?php get_template_part('template-parts/sections/services', 'process'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
