@@ -278,7 +278,8 @@
 }
 
 .home-chaos__headline {
-  width: #{mixins.vw(488px)};
+  width: fit-content;
+  max-width: min(100%, #{mixins.vw(920px)});
   font-size: #{mixins.vw(48px)};
   line-height: 0.92;
   letter-spacing: -0.03em;
