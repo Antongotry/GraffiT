@@ -10,7 +10,7 @@ declare(strict_types=1);
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
 $faq_chevron_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-1321316906.svg';
 
-$faq_placeholder = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
+$faq_placeholder = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 $faq_left = [
     [
