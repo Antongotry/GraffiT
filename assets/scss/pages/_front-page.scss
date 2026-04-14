@@ -66,45 +66,39 @@
 
 .home-hero__project-link {
   position: absolute;
-  top: #{mixins.vw(389.4px)};
-  right: #{mixins.vw(199.8px)};
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  top: #{mixins.vw(375px)};
+  right: #{mixins.vw(171px)};
   width: #{mixins.vw(175px)};
   height: #{mixins.vw(187px)};
-  text-align: center;
-  overflow: visible;
 }
 
 .home-hero__project-link-shape {
   position: absolute;
   inset: 0;
-  transition: transform 0.24s ease;
 }
 
 .home-hero__project-link-shape-image {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .home-hero__project-link-text {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   z-index: 1;
   width: #{mixins.vw(98px)};
+  transform: translate(-50%, -50%);
   font-size: #{mixins.vw(14px)};
   font-weight: 500;
   line-height: 1.2;
   color: #ffffff;
   text-align: center;
   text-transform: uppercase;
-}
-
-.home-hero__project-link:hover .home-hero__project-link-shape,
-.home-hero__project-link:focus-visible .home-hero__project-link-shape {
-  transform: scale(1.03);
 }
 
 .home-hero__title-wrap {
