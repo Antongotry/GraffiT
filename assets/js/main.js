@@ -179,6 +179,7 @@
 
     document.querySelectorAll('.js-home-showcase').forEach(function (section) {
       var media = section.querySelector('.js-home-showcase-media');
+      var figureImage = section.querySelector('.home-showcase__figure-image');
 
       if (!media) {
         return;
@@ -194,6 +195,26 @@
           start: 'top bottom',
           end: 'bottom top',
           scrub: 1,
+          invalidateOnRefresh: true
+        }
+      });
+
+      if (!figureImage) {
+        return;
+      }
+
+      window.gsap.fromTo(figureImage, {
+        yPercent: -2.5,
+        scale: 0.985
+      }, {
+        yPercent: 2.5,
+        scale: 1.015,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.1,
           invalidateOnRefresh: true
         }
       });
