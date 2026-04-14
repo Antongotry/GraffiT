@@ -230,6 +230,29 @@ function graffit_enqueue_assets(): void
 add_action('wp_enqueue_scripts', 'graffit_enqueue_assets');
 
 /**
+ * Optional: discourage caching of HTML (browser/CDN that respect response headers).
+ *
+ * Full-page plugins (e.g. LiteSpeed Cache on Hostinger) may still serve a stored
+ * copy until you purge the cache in the panel or adjust the plugin — PHP headers
+ * alone do not always bypass that layer.
+ *
+ * In wp-config.php: define( 'GRAFFIT_DISABLE_HTML_CACHE', true );
+ */
+function graffit_maybe_send_nocache_headers(): void
+{
+    if (is_admin() || wp_doing_ajax() || wp_doing_cron()) {
+        return;
+    }
+
+    if (! defined('GRAFFIT_DISABLE_HTML_CACHE') || ! GRAFFIT_DISABLE_HTML_CACHE) {
+        return;
+    }
+
+    nocache_headers();
+}
+add_action('send_headers', 'graffit_maybe_send_nocache_headers', 0);
+
+/**
  * Handle AJAX request submissions from the site popup.
  */
 function graffit_handle_request_submission(): void
