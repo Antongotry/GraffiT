@@ -1176,12 +1176,18 @@
         if (details.open) {
           isAnimating = true;
           answer.style.maxHeight = answer.scrollHeight + 'px';
+          answer.style.opacity = '1';
           requestAnimationFrame(function () {
-            answer.style.maxHeight = '0px';
+            requestAnimationFrame(function () {
+              answer.style.maxHeight = '0px';
+              answer.style.opacity = '0';
+            });
           });
-          var onClose = function () {
+          var onClose = function (ev) {
+            if (ev.propertyName !== 'max-height') return;
             details.open = false;
             answer.style.maxHeight = '';
+            answer.style.opacity = '';
             isAnimating = false;
             answer.removeEventListener('transitionend', onClose);
           };
@@ -1189,13 +1195,20 @@
         } else {
           details.open = true;
           isAnimating = true;
+          answer.style.opacity = '';
           var h = answer.scrollHeight;
           answer.style.maxHeight = '0px';
+          answer.style.opacity = '0';
           requestAnimationFrame(function () {
-            answer.style.maxHeight = h + 'px';
+            requestAnimationFrame(function () {
+              answer.style.maxHeight = h + 'px';
+              answer.style.opacity = '1';
+            });
           });
-          var onOpen = function () {
+          var onOpen = function (ev) {
+            if (ev.propertyName !== 'max-height') return;
             answer.style.maxHeight = 'none';
+            answer.style.opacity = '';
             isAnimating = false;
             answer.removeEventListener('transitionend', onOpen);
           };

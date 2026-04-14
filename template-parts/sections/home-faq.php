@@ -8,34 +8,37 @@
 declare(strict_types=1);
 
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
+$faq_chevron_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-1321316906.svg';
+
+$faq_placeholder = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
 
 $faq_left = [
     [
         'question' => 'Які IT-рішення для бізнесу ви пропонуєте?',
-        'answer' => 'Ми розробляємо індивідуальні IT-рішення під ключ, готові продукти для рітейлу, логістики та продажів, а також надаємо консалтинг і підтримку існуючих систем.',
+        'answer' => $faq_placeholder,
     ],
     [
         'question' => 'Чи надаєте ви IT-підтримку після запуску системи?',
-        'answer' => 'Так, ми супроводжуємо кожен проєкт після запуску — оновлення, моніторинг, підтримка користувачів і розвиток функціоналу.',
+        'answer' => $faq_placeholder,
     ],
     [
         'question' => 'Чи можна замовити розробку програмного забезпечення під ключ?',
-        'answer' => 'Так, це один із наших ключових напрямків. Ми беремо на себе весь цикл — від аналізу та проєктування до розробки, тестування й впровадження.',
+        'answer' => $faq_placeholder,
     ],
 ];
 
 $faq_right = [
     [
         'question' => 'Які готові IT-продукти для рітейлу та логістики у вас є?',
-        'answer' => 'У нас є рішення для автоматизації торговельних мереж, складської логістики, POS-систем та управління ланцюгами поставок.',
+        'answer' => $faq_placeholder,
     ],
     [
         'question' => 'Чи працюєте ви з компаніями за межами України?',
-        'answer' => 'Так, ми працюємо з клієнтами з різних країн і маємо досвід міжнародних проєктів.',
+        'answer' => $faq_placeholder,
     ],
     [
         'question' => 'Скільки часу займає розробка програмного рішення?',
-        'answer' => 'Залежить від складності: від 2–3 місяців для MVP до 6–12 місяців для масштабних enterprise-систем. Точні строки визначаємо після аналізу.',
+        'answer' => $faq_placeholder,
     ],
 ];
 ?>
@@ -63,7 +66,16 @@ $faq_right = [
                     <details class="home-faq__item js-faq-item">
                         <summary class="home-faq__question">
                             <span class="home-faq__question-text"><?php echo esc_html($item['question']); ?></span>
-                            <span class="home-faq__chevron" aria-hidden="true"></span>
+                            <img
+                                class="home-faq__chevron"
+                                src="<?php echo esc_url($faq_chevron_url); ?>"
+                                alt=""
+                                width="14"
+                                height="14"
+                                loading="lazy"
+                                decoding="async"
+                                aria-hidden="true"
+                            >
                         </summary>
                         <div class="home-faq__answer">
                             <p><?php echo esc_html($item['answer']); ?></p>
@@ -77,7 +89,16 @@ $faq_right = [
                     <details class="home-faq__item js-faq-item">
                         <summary class="home-faq__question">
                             <span class="home-faq__question-text"><?php echo esc_html($item['question']); ?></span>
-                            <span class="home-faq__chevron" aria-hidden="true"></span>
+                            <img
+                                class="home-faq__chevron"
+                                src="<?php echo esc_url($faq_chevron_url); ?>"
+                                alt=""
+                                width="14"
+                                height="14"
+                                loading="lazy"
+                                decoding="async"
+                                aria-hidden="true"
+                            >
                         </summary>
                         <div class="home-faq__answer">
                             <p><?php echo esc_html($item['answer']); ?></p>
