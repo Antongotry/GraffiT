@@ -204,17 +204,17 @@
       }
 
       window.gsap.fromTo(figureImage, {
-        yPercent: -2.5,
-        scale: 0.985
+        yPercent: -5,
+        scale: 0.965
       }, {
-        yPercent: 2.5,
-        scale: 1.015,
+        yPercent: 5,
+        scale: 1.04,
         ease: 'none',
         scrollTrigger: {
           trigger: section,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1.1,
+          scrub: 1.2,
           invalidateOnRefresh: true
         }
       });
