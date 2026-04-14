@@ -152,3 +152,28 @@
   position: relative;
   font-weight: 400;
 }
+
+.home-showcase {
+  position: relative;
+  min-height: 100svh;
+  height: 100svh;
+  overflow: hidden;
+  background: #010814;
+}
+
+.home-showcase__media {
+  position: absolute;
+  top: #{mixins.vw(-32px)};
+  right: 0;
+  bottom: #{mixins.vw(-32px)};
+  left: 0;
+  will-change: transform;
+}
+
+.home-showcase__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}

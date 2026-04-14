@@ -166,6 +166,40 @@
     });
   }
 
+  function initHomeShowcaseParallax() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    document.querySelectorAll('.js-home-showcase').forEach(function (section) {
+      var media = section.querySelector('.js-home-showcase-media');
+
+      if (!media) {
+        return;
+      }
+
+      window.gsap.fromTo(media, {
+        yPercent: -2
+      }, {
+        yPercent: 2,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+          invalidateOnRefresh: true
+        }
+      });
+    });
+  }
+
   function initProjectsScroller() {
     if (window.innerWidth <= 1024) {
       return;
@@ -1117,6 +1151,7 @@
   runInit(initMobileMenu, 'mobile-menu');
   runInit(initRequestPopup, 'request-popup');
   runInit(initLenis, 'lenis');
+  runInit(initHomeShowcaseParallax, 'home-showcase-parallax');
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initClientsScroller, 'clients-scroller');
