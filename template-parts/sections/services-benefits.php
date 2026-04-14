@@ -67,7 +67,8 @@ $benefits = [
             </div>
 
             <h2 class="services-benefits__title" id="services-benefits-title">
-                В результаті роботи ви отримаєте
+                <span class="services-benefits__title-line">В результаті роботи</span><br>
+                <span class="services-benefits__title-line">ви отримаєте</span>
             </h2>
 
             <div class="services-benefits__swipe-hint">

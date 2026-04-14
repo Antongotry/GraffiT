@@ -2947,17 +2947,25 @@
 }
 
 .services-benefits__title {
-  width: #{mixins.vw(476px)};
+  width: min(100%, #{mixins.vw(560px)});
   margin: #{mixins.vw(28px)} auto 0;
   font-size: #{mixins.vw(48px)};
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.08;
   text-align: center;
+  word-break: normal;
+  overflow-wrap: normal;
+
+  .services-benefits__title-line {
+    display: inline-block;
+    max-width: 100%;
+  }
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(44px)}, #{mixins.mvw(331px)});
     margin-top: #{mixins.mvw(28px)};
     font-size: #{mixins.mvw(30px)};
+    line-height: 1.1;
   }
 }
 
