@@ -13,6 +13,7 @@ get_header();
 <main id="primary" class="site-main site-main--home" aria-label="<?php esc_attr_e('Front page', 'graffit'); ?>">
     <?php get_template_part('template-parts/sections/home', 'hero'); ?>
     <?php get_template_part('template-parts/sections/home', 'showcase'); ?>
+    <?php get_template_part('template-parts/sections/home', 'chaos'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php
