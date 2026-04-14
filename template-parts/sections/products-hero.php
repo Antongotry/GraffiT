@@ -16,16 +16,12 @@ declare(strict_types=1);
     <div class="products-hero__container">
         <div class="products-hero__content">
             <div class="products-hero__headline">
-                <div class="products-hero__sparkles" aria-hidden="true">
-                    <span class="products-hero__sparkle products-hero__sparkle--1"></span>
-                    <span class="products-hero__sparkle products-hero__sparkle--2"></span>
-                    <span class="products-hero__sparkle products-hero__sparkle--3"></span>
-                    <span class="products-hero__sparkle products-hero__sparkle--4"></span>
-                </div>
-
                 <h1 class="products-hero__title">
-                    <span class="products-hero__title-halo" aria-hidden="true">Graffit</span>
-                    <span class="products-hero__title-text">Graffit – готові програмні рішення, створені на основі 18 років експертизи</span>
+                    <span class="products-hero__title-line">
+                        <span class="products-hero__title-brand">Graffit</span> – готові програмні
+                    </span>
+                    <span class="products-hero__title-line">рішення, створені на основі</span>
+                    <span class="products-hero__title-line">18 років експертизи</span>
                 </h1>
             </div>
 
