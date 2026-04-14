@@ -23,6 +23,26 @@ declare(strict_types=1);
 
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
 
+$reasons_hex_defaults = [
+    'section_extra_class' => '',
+    'eyebrow_text' => 'Чому ми',
+    'eyebrow_icon_url' => $logo_mark_url,
+    'title_id' => 'hex-reasons-title',
+    'title_class_extra' => '',
+    'custom_title_lines' => null,
+];
+$reasons_hex = wp_parse_args(
+    isset($args) && is_array($args) ? $args : [],
+    $reasons_hex_defaults
+);
+
+$reasons_section_classes = 'hex-reasons';
+if ($reasons_hex['section_extra_class'] !== '') {
+    $reasons_section_classes .= ' ' . sanitize_html_class($reasons_hex['section_extra_class']);
+}
+
+$reasons_title_classes = trim('hex-reasons__title ' . $reasons_hex['title_class_extra']);
+
 $hex_card_images = [
     'cover'   => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/1-card_result.webp',
     'primary' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2-card_result.webp',
@@ -52,12 +72,12 @@ $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
 $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['stack'] ) );
 ?>
-<section class="hex-reasons" aria-labelledby="hex-reasons-title">
+<section class="<?php echo esc_attr( $reasons_section_classes ); ?>" aria-labelledby="<?php echo esc_attr( (string) $reasons_hex['title_id'] ); ?>">
     <div class="hex-reasons__head">
         <div class="hex-reasons__eyebrow">
             <img
                 class="hex-reasons__eyebrow-icon"
-                src="<?php echo esc_url( $logo_mark_url ); ?>"
+                src="<?php echo esc_url( (string) $reasons_hex['eyebrow_icon_url'] ); ?>"
                 alt=""
                 width="28"
                 height="32"
@@ -65,12 +85,25 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
                 loading="lazy"
                 decoding="async"
             >
-            <p class="hex-reasons__eyebrow-text">Чому ми</p>
+            <p class="hex-reasons__eyebrow-text"><?php echo esc_html( (string) $reasons_hex['eyebrow_text'] ); ?></p>
         </div>
 
-        <h2 class="hex-reasons__title" id="hex-reasons-title">
+        <h2 class="<?php echo esc_attr( $reasons_title_classes ); ?>" id="<?php echo esc_attr( (string) $reasons_hex['title_id'] ); ?>">
+            <?php
+            if (! empty( $reasons_hex['custom_title_lines'] ) && is_array( $reasons_hex['custom_title_lines'] )) {
+                $lines = array_values( array_filter( $reasons_hex['custom_title_lines'], 'is_string' ) );
+                echo esc_html( (string) ( $lines[0] ?? '' ) );
+                for ( $ri = 1, $rlen = count( $lines ); $ri < $rlen; $ri++ ) {
+                    echo '<br>';
+                    echo esc_html( (string) $lines[ $ri ] );
+                }
+            } else {
+                ?>
             Ми не просто кодимо — ми глибоко занурюємось у бізнес клієнта, щоб
             створювати рішення, які не лише автоматизують, а й посилюють ефективність.
+                <?php
+            }
+            ?>
         </h2>
     </div>
 
