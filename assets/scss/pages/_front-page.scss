@@ -525,13 +525,26 @@
 }
 
 .home-faq__answer {
-  padding: 0 #{mixins.vw(24px)} #{mixins.vw(24px)};
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 350ms ease, opacity 250ms ease, padding 350ms ease;
+  padding: 0 #{mixins.vw(24px)};
   color: #3a3f47;
   font-size: #{mixins.vw(15px)};
   line-height: 1.5;
 
+  .home-faq__item[open] & {
+    opacity: 1;
+    padding-bottom: #{mixins.vw(24px)};
+  }
+
   @include mixins.mobile {
-    padding: 0 #{mixins.mvw(16px)} #{mixins.mvw(16px)};
+    padding: 0 #{mixins.mvw(16px)};
     font-size: #{mixins.mvw(13px)};
+
+    .home-faq__item[open] & {
+      padding-bottom: #{mixins.mvw(16px)};
+    }
   }
 }

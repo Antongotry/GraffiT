@@ -1159,6 +1159,52 @@
     });
   }
 
+  function initFaqAccordion() {
+    var items = document.querySelectorAll('.js-faq-item');
+
+    items.forEach(function (details) {
+      var summary = details.querySelector('summary');
+      var answer = details.querySelector('.home-faq__answer');
+      if (!summary || !answer) return;
+
+      var isAnimating = false;
+
+      summary.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (isAnimating) return;
+
+        if (details.open) {
+          isAnimating = true;
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+          requestAnimationFrame(function () {
+            answer.style.maxHeight = '0px';
+          });
+          var onClose = function () {
+            details.open = false;
+            answer.style.maxHeight = '';
+            isAnimating = false;
+            answer.removeEventListener('transitionend', onClose);
+          };
+          answer.addEventListener('transitionend', onClose);
+        } else {
+          details.open = true;
+          isAnimating = true;
+          var h = answer.scrollHeight;
+          answer.style.maxHeight = '0px';
+          requestAnimationFrame(function () {
+            answer.style.maxHeight = h + 'px';
+          });
+          var onOpen = function () {
+            answer.style.maxHeight = 'none';
+            isAnimating = false;
+            answer.removeEventListener('transitionend', onOpen);
+          };
+          answer.addEventListener('transitionend', onOpen);
+        }
+      });
+    });
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -1180,4 +1226,5 @@
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
   runInit(initProcessTimeline, 'process-timeline');
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
+  runInit(initFaqAccordion, 'faq-accordion');
 })();
