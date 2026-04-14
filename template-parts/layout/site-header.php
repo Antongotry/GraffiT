@@ -12,9 +12,17 @@ $current_path = graffit_current_request_path();
 $services_link_classes = ['site-header__nav-link'];
 $mobile_services_link_classes = ['mobile-menu__nav-link'];
 
+$products_link_classes = ['site-header__nav-link'];
+$mobile_products_link_classes = ['mobile-menu__nav-link'];
+
 if ($current_path === 'services') {
     $services_link_classes[] = 'is-active';
     $mobile_services_link_classes[] = 'is-active';
+}
+
+if ($current_path === 'products') {
+    $products_link_classes[] = 'is-active';
+    $mobile_products_link_classes[] = 'is-active';
 }
 ?>
 <header class="site-header">
@@ -34,7 +42,7 @@ if ($current_path === 'services') {
         <nav class="site-header__nav" aria-label="<?php esc_attr_e('Primary', 'graffit'); ?>">
             <a class="site-header__nav-link" href="#">Про нас</a>
             <a class="<?php echo esc_attr(implode(' ', $services_link_classes)); ?>" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
-            <a class="site-header__nav-link" href="#">Продукти</a>
+            <a class="<?php echo esc_attr(implode(' ', $products_link_classes)); ?>" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
             <a class="site-header__nav-link" href="#">Проєкти</a>
             <a class="site-header__nav-link" href="#site-footer">Контакти</a>
         </nav>
@@ -60,7 +68,7 @@ if ($current_path === 'services') {
         <nav class="mobile-menu__nav" aria-label="<?php esc_attr_e('Mobile', 'graffit'); ?>">
             <a class="mobile-menu__nav-link" href="#">Про нас</a>
             <a class="<?php echo esc_attr(implode(' ', $mobile_services_link_classes)); ?>" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
-            <a class="mobile-menu__nav-link" href="#">Продукти</a>
+            <a class="<?php echo esc_attr(implode(' ', $mobile_products_link_classes)); ?>" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
             <a class="mobile-menu__nav-link" href="#">Проєкти</a>
             <a class="mobile-menu__nav-link" href="#site-footer">Контакти</a>
         </nav>

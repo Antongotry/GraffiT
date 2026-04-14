@@ -715,6 +715,7 @@
   function initRequestPopup() {
     var popup = document.getElementById('site-popup');
     var servicesPage = document.querySelector('.site-main--services');
+    var productsPage = document.querySelector('.site-main--products');
 
     if (!popup) {
       return;
@@ -726,12 +727,14 @@
     var lastFocusedElement = null;
 
     function decorateImplicitTriggers() {
-      if (!servicesPage) {
+      if (!servicesPage && !productsPage) {
         return;
       }
 
       var candidates = Array.prototype.slice.call(
-        document.querySelectorAll('.site-main--services a, .site-main--services button, .site-footer a, .site-footer button')
+        document.querySelectorAll(
+          '.site-main--services a, .site-main--services button, .site-main--products a, .site-main--products button, .site-footer a, .site-footer button'
+        )
       );
 
       candidates.forEach(function (node) {
@@ -746,7 +749,10 @@
         }
 
         node.setAttribute('data-popup-open', 'request');
-        node.setAttribute('data-popup-source', 'services-auto-trigger');
+        node.setAttribute(
+          'data-popup-source',
+          productsPage && productsPage.contains(node) ? 'products-auto-trigger' : 'services-auto-trigger'
+        );
         node.setAttribute('data-popup-source-label', label);
       });
     }

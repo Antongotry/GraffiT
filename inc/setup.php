@@ -98,6 +98,14 @@ function graffit_home_hero_cta_image_url(): string
 }
 
 /**
+ * Products page hero background (desktop art).
+ */
+function graffit_products_hero_image_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-2087325709_result-scaled.webp';
+}
+
+/**
  * Services hero background for viewports up to 1024px (375 design width, full mobile art).
  */
 function graffit_services_hero_image_mobile_url(): string
@@ -175,6 +183,19 @@ function graffit_preload_home_hero(): void
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_home_hero_cta_image_url()) . '">' . "\n";
 }
 add_action('wp_head', 'graffit_preload_home_hero', 3);
+
+/**
+ * Preload the products hero image on the products page.
+ */
+function graffit_preload_products_hero(): void
+{
+    if (graffit_current_request_path() !== 'products') {
+        return;
+    }
+
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_products_hero_image_url()) . '">' . "\n";
+}
+add_action('wp_head', 'graffit_preload_products_hero', 3);
 
 /**
  * Load theme assets.
@@ -393,3 +414,28 @@ function graffit_force_services_route_template(): void
     }
 }
 add_action('template_redirect', 'graffit_force_services_route_template', 0);
+
+/**
+ * Force /products/ route to render static products template.
+ */
+function graffit_force_products_route_template(): void
+{
+    if (is_admin() || wp_doing_ajax() || wp_doing_cron()) {
+        return;
+    }
+
+    if (graffit_current_request_path() !== 'products') {
+        return;
+    }
+
+    status_header(200);
+    nocache_headers();
+
+    $template = locate_template('page-products.php');
+
+    if ($template) {
+        include $template;
+        exit;
+    }
+}
+add_action('template_redirect', 'graffit_force_products_route_template', 0);

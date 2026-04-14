@@ -29,7 +29,7 @@ declare(strict_types=1);
                     <p class="site-footer__label">Навігація</p>
                     <a class="site-footer__nav-link" href="#">Про нас</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
-                    <a class="site-footer__nav-link" href="#">Продукти</a>
+                    <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
                     <a class="site-footer__nav-link" href="#">Проєкти</a>
                     <a class="site-footer__nav-link" href="#site-footer">Контакти</a>
                 </nav>
