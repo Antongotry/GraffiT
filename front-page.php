@@ -33,7 +33,6 @@ get_header();
     ?>
     <?php get_template_part('template-parts/sections/home-services-directions'); ?>
     <?php get_template_part('template-parts/sections/home-inquiry'); ?>
-    <?php get_template_part('template-parts/sections/services', 'benefits'); ?>
     <?php get_template_part('template-parts/sections/services', 'projects'); ?>
     <?php get_template_part('template-parts/sections/services', 'process'); ?>
 </main>
