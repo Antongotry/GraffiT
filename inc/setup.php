@@ -86,7 +86,7 @@ function graffit_services_hero_image_url(): string
  */
 function graffit_home_hero_image_url(): string
 {
-    return graffit_services_hero_image_url();
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/home1440_result-scaled.webp';
 }
 
 /**
