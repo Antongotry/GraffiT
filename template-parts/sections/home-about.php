@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-$logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
+$home_about_eyebrow_icon_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-8694.svg';
 
 $trust_cards = [
     [
@@ -40,10 +40,10 @@ $trust_cards = [
                     <div class="services-clients__eyebrow">
                         <img
                             class="services-clients__eyebrow-icon"
-                            src="<?php echo esc_url($logo_mark_url); ?>"
+                            src="<?php echo esc_url($home_about_eyebrow_icon_url); ?>"
                             alt=""
                             width="28"
-                            height="32"
+                            height="28"
                             aria-hidden="true"
                             loading="lazy"
                             decoding="async"

@@ -8,7 +8,6 @@
 declare(strict_types=1);
 
 $home_chaos_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-1707480434_result.webp?v=home-chaos-1';
-$home_chaos_experience_icon = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-8694.svg';
 ?>
 <section class="home-chaos" aria-label="<?php esc_attr_e('Коли бізнес росте — разом із ним хаос', 'graffit'); ?>">
     <div class="home-chaos__inner">
@@ -32,27 +31,12 @@ $home_chaos_experience_icon = 'https://lavenderblush-bat-855084.hostingersite.co
 
         <div class="home-chaos__content">
             <p class="home-chaos__headline">
-                Коли шаблонні рішення<br>
-                не працюють<br>
-                — ми створюємо свої
+                Коли шаблонні рішення не працюють — ми створюємо свої
             </p>
 
-            <p class="home-chaos__experience">
-                <img
-                    class="home-chaos__experience-icon"
-                    src="<?php echo esc_url($home_chaos_experience_icon); ?>"
-                    alt=""
-                    width="28"
-                    height="28"
-                    loading="lazy"
-                    decoding="async"
-                >
-                <span class="home-chaos__experience-text">18 років<br>досвіду</span>
-            </p>
+            <p class="home-chaos__experience">&gt;18 років<br>досвіду</p>
             <p class="home-chaos__copy">
-                лежать в основі<br>
-                нашого розуміння саме<br>
-                таких задач
+                лежать в основі нашого розуміння саме таких задач
             </p>
         </div>
     </div>

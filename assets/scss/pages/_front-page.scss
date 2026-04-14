@@ -279,10 +279,12 @@
 
 .home-chaos__headline {
   width: 100%;
-  max-width: min(100%, #{mixins.vw(1120px)});
-  font-size: #{mixins.vw(56px)};
-  line-height: 0.92;
+  max-width: min(100%, #{mixins.vw(574px)});
+  font-size: #{mixins.vw(48px)};
+  line-height: 1;
   letter-spacing: -0.03em;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .home-chaos__content {
@@ -300,36 +302,35 @@
 }
 
 .home-chaos__experience {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  gap: #{mixins.vw(10px)};
-  width: auto;
-  max-width: min(100%, #{mixins.vw(220px)});
+  width: #{mixins.vw(123px)};
+  max-width: min(100%, #{mixins.vw(123px)});
   margin-top: #{mixins.vw(28px)};
   font-size: #{mixins.vw(24px)};
   font-weight: 400;
   line-height: 1;
-  text-align: left;
-}
-
-.home-chaos__experience-icon {
-  flex-shrink: 0;
-  display: block;
-  width: #{mixins.vw(28px)};
-  height: auto;
-}
-
-.home-chaos__experience-text {
-  text-align: left;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .home-chaos__copy {
-  width: #{mixins.vw(151px)};
+  width: #{mixins.vw(178px)};
+  max-width: min(100%, #{mixins.vw(178px)});
   margin-top: #{mixins.vw(10px)};
   font-size: #{mixins.vw(14px)};
   font-weight: 400;
   line-height: 1.36;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+@include mixins.mobile {
+  .home-chaos__headline,
+  .home-chaos__experience,
+  .home-chaos__copy {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
 }
 
 .home-chaos__visual {
