@@ -1,6 +1,6 @@
 <?php
 /**
- * Blank front page placeholder.
+ * Front page template.
  *
  * @package graffit
  */
@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 get_header();
 ?>
-<main id="primary" class="site-main site-main--blank-front" aria-label="<?php esc_attr_e('Front page', 'graffit'); ?>"></main>
+<?php get_template_part('template-parts/layout/site', 'header'); ?>
+<main id="primary" class="site-main site-main--home" aria-label="<?php esc_attr_e('Front page', 'graffit'); ?>">
+    <?php get_template_part('template-parts/sections/home', 'hero'); ?>
+</main>
+<?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php
-echo '</div>';
-wp_footer();
-?>
-</body>
-</html>
+get_footer();

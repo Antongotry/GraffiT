@@ -82,6 +82,22 @@ function graffit_services_hero_image_url(): string
 }
 
 /**
+ * Front page hero image URL.
+ */
+function graffit_home_hero_image_url(): string
+{
+    return graffit_services_hero_image_url();
+}
+
+/**
+ * Front page CTA gem image URL.
+ */
+function graffit_home_hero_cta_image_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-8668_result.webp';
+}
+
+/**
  * Services hero background for viewports up to 1024px (375 design width, full mobile art).
  */
 function graffit_services_hero_image_mobile_url(): string
@@ -145,6 +161,20 @@ function graffit_preload_services_hero(): void
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_services_outsourcing_image_url()) . '">' . "\n";
 }
 add_action('wp_head', 'graffit_preload_services_hero', 3);
+
+/**
+ * Preload the front page hero images.
+ */
+function graffit_preload_home_hero(): void
+{
+    if (graffit_current_request_path() !== '') {
+        return;
+    }
+
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_home_hero_image_url()) . '">' . "\n";
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_home_hero_cta_image_url()) . '">' . "\n";
+}
+add_action('wp_head', 'graffit_preload_home_hero', 3);
 
 /**
  * Load theme assets.
