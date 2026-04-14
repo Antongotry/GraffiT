@@ -66,8 +66,8 @@
 
 .home-hero__project-link {
   position: absolute;
-  top: #{mixins.vw(375px)};
-  right: #{mixins.vw(171px)};
+  top: #{mixins.vw(389.4px)};
+  right: #{mixins.vw(199.8px)};
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -79,10 +79,7 @@
 
 .home-hero__project-link-shape {
   position: absolute;
-  left: #{mixins.vw(-28.8px)};
-  top: #{mixins.vw(14.4px)};
-  width: #{mixins.vw(175px)};
-  height: #{mixins.vw(187px)};
+  inset: 0;
   transition: transform 0.24s ease;
 }
 
