@@ -167,13 +167,17 @@
   right: 0;
   bottom: #{mixins.vw(-32px)};
   left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   will-change: transform;
 }
 
 .home-showcase__image {
+  flex: none;
   display: block;
-  width: 100%;
+  width: auto;
   height: 100%;
-  object-fit: cover;
-  object-position: center center;
+  max-width: none;
 }
