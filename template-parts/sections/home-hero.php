@@ -7,8 +7,8 @@
 
 declare(strict_types=1);
 
-$home_hero_background_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/home1440_result-scaled.webp?v=home-hero-1';
-$home_hero_cta_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-8668_result.webp?v=home-cta-1';
+$home_hero_background_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/home1440_result-scaled.webp?v=home-hero-2';
+$home_hero_cta_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-8668_result.webp?v=home-cta-2';
 ?>
 <section class="home-hero">
     <div class="home-hero__media" aria-hidden="true">
@@ -38,7 +38,16 @@ $home_hero_cta_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
             data-popup-source-label="Home Hero · Обговорити проєкт"
             aria-label="<?php esc_attr_e('Обговорити проєкт', 'graffit'); ?>"
         >
-            <span class="home-hero__project-link-shape" aria-hidden="true" style="background-image: url('<?php echo esc_url($home_hero_cta_image); ?>');"></span>
+            <span class="home-hero__project-link-shape" aria-hidden="true">
+                <img
+                    class="home-hero__project-link-shape-image"
+                    src="<?php echo esc_url($home_hero_cta_image); ?>"
+                    alt=""
+                    width="175"
+                    height="187"
+                    decoding="async"
+                >
+            </span>
             <span class="home-hero__project-link-text">Обговорити проєкт</span>
         </a>
 
