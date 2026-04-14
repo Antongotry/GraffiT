@@ -6,15 +6,12 @@
  */
 
 declare(strict_types=1);
+
+$home_hero_background_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/home1440_result-scaled.webp?v=home-hero-1';
+$home_hero_cta_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-8668_result.webp?v=home-cta-1';
 ?>
-<section
-    class="home-hero"
-    style="
-        --home-hero-image: url('<?php echo esc_url(graffit_home_hero_image_url()); ?>');
-        --home-hero-cta-image: url('<?php echo esc_url(graffit_home_hero_cta_image_url()); ?>');
-    "
->
-    <div class="home-hero__media" aria-hidden="true"></div>
+<section class="home-hero">
+    <div class="home-hero__media" aria-hidden="true" style="background-image: url('<?php echo esc_url($home_hero_background_image); ?>');"></div>
 
     <div class="home-hero__container">
         <div class="home-hero__summary">
@@ -31,7 +28,7 @@ declare(strict_types=1);
             data-popup-source-label="Home Hero · Обговорити проєкт"
             aria-label="<?php esc_attr_e('Обговорити проєкт', 'graffit'); ?>"
         >
-            <span class="home-hero__project-link-shape" aria-hidden="true"></span>
+            <span class="home-hero__project-link-shape" aria-hidden="true" style="background-image: url('<?php echo esc_url($home_hero_cta_image); ?>');"></span>
             <span class="home-hero__project-link-text">Обговорити проєкт</span>
         </a>
 
