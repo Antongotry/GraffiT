@@ -55,14 +55,16 @@ if (! empty($args['image_position'])) {
     <div class="service-card__content">
         <h3 class="service-card__title"><?php echo esc_html((string) $args['title']); ?></h3>
 
-        <div class="service-card__copy">
-            <?php foreach ((array) $args['copy'] as $paragraph) : ?>
-                <p><?php echo esc_html((string) $paragraph); ?></p>
-            <?php endforeach; ?>
-        </div>
+        <?php if (! empty((array) $args['copy'])) : ?>
+            <div class="service-card__copy">
+                <?php foreach ((array) $args['copy'] as $paragraph) : ?>
+                    <p><?php echo esc_html((string) $paragraph); ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
-    <?php if (! empty($args['button_label'])) : ?>
+    <?php if (! empty($args['button_label']) && ($args['layout'] ?? 'default') !== 'low') : ?>
         <a class="service-card__cta" href="<?php echo esc_url((string) $args['button_url']); ?>">
             <?php echo esc_html((string) $args['button_label']); ?>
         </a>

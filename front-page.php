@@ -31,6 +31,8 @@ get_header();
         ]
     );
     ?>
+    <?php get_template_part('template-parts/sections/home-services-directions'); ?>
+    <?php get_template_part('template-parts/sections/home-inquiry'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php
