@@ -29,17 +29,19 @@ $home_chaos_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-conte
             >
         </div>
 
-        <p class="home-chaos__headline">
-            Коли шаблонні рішення<br>
-            не працюють<br>
-            — ми створюємо свої
-        </p>
+        <div class="home-chaos__content">
+            <p class="home-chaos__headline">
+                Коли шаблонні рішення<br>
+                не працюють<br>
+                — ми створюємо свої
+            </p>
 
-        <p class="home-chaos__experience">&gt;18 років досвіду</p>
-        <p class="home-chaos__copy">
-            лежать в основі<br>
-            нашого розуміння саме<br>
-            таких задач
-        </p>
+            <p class="home-chaos__experience">&gt;18 років<br>досвіду</p>
+            <p class="home-chaos__copy">
+                лежать в основі<br>
+                нашого розуміння саме<br>
+                таких задач
+            </p>
+        </div>
     </div>
 </section>
