@@ -11,7 +11,17 @@ $home_hero_background_image = 'https://lavenderblush-bat-855084.hostingersite.co
 $home_hero_cta_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-8668_result.webp?v=home-cta-1';
 ?>
 <section class="home-hero">
-    <div class="home-hero__media" aria-hidden="true" style="background-image: url('<?php echo esc_url($home_hero_background_image); ?>');"></div>
+    <div class="home-hero__media" aria-hidden="true">
+        <img
+            class="home-hero__media-image"
+            src="<?php echo esc_url($home_hero_background_image); ?>"
+            alt=""
+            width="1440"
+            height="810"
+            fetchpriority="high"
+            decoding="async"
+        >
+    </div>
 
     <div class="home-hero__container">
         <div class="home-hero__summary">
