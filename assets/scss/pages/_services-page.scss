@@ -888,6 +888,16 @@
         linear-gradient(180deg, rgba(15, 16, 17, 0.94) 0%, rgba(4, 17, 31, 0.97) 58%, rgba(17, 110, 216, 0.96) 100%),
         linear-gradient(180deg, #000102 0%, #0073e6 100%);
     }
+
+    @include mixins.mobile {
+      box-shadow: inset 0 0 0 1px #0073e6;
+    }
+  }
+
+  .service-card:hover,
+  .service-card:focus-within,
+  .service-card:has(.service-card__cta:focus-visible) {
+    box-shadow: inset 0 0 0 1px #0073e6;
   }
 
   .service-card:not(:hover):not(:focus-within) .service-card__cta {
