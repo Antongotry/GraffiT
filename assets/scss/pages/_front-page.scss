@@ -157,6 +157,7 @@
   position: relative;
   min-height: 100svh;
   height: 100svh;
+  padding-top: #{mixins.vw(95px)};
   overflow: hidden;
   background: #010814;
 }
@@ -174,10 +175,31 @@
   will-change: transform;
 }
 
+.home-showcase__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
 .home-showcase__image {
   flex: none;
   display: block;
   width: auto;
   height: 100%;
   max-width: none;
+}
+
+.home-showcase__figure {
+  width: #{mixins.vw(692px)};
+  max-width: 100%;
+}
+
+.home-showcase__figure-image {
+  display: block;
+  width: 100%;
+  height: auto;
 }
