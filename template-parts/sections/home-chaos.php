@@ -17,18 +17,6 @@ $home_chaos_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-conte
             із ним хаос
         </h2>
 
-        <p class="home-chaos__headline">
-            Коли шаблонні рішення не працюють <br>
-            — ми створюємо свої
-        </p>
-
-        <p class="home-chaos__experience">&gt;18 років досвіду</p>
-        <p class="home-chaos__copy">
-            лежать в основі<br>
-            нашого розуміння саме<br>
-            таких задач
-        </p>
-
         <div class="home-chaos__visual" aria-hidden="true">
             <img
                 class="home-chaos__image"
@@ -40,5 +28,18 @@ $home_chaos_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-conte
                 decoding="async"
             >
         </div>
+
+        <p class="home-chaos__headline">
+            Коли шаблонні рішення<br>
+            не працюють<br>
+            — ми створюємо свої
+        </p>
+
+        <p class="home-chaos__experience">&gt;18 років досвіду</p>
+        <p class="home-chaos__copy">
+            лежать в основі<br>
+            нашого розуміння саме<br>
+            таких задач
+        </p>
     </div>
 </section>
