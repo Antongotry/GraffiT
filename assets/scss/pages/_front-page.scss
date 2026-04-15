@@ -489,8 +489,11 @@
   margin: #{mixins.vw(40px)} auto 0;
 
   @include mixins.mobile {
+    position: relative;
+    left: 50%;
     width: 130vw;
     margin: #{mixins.mvw(40px)} auto 0;
+    transform: translateX(-50%);
   }
 }
 
