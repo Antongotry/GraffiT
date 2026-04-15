@@ -286,6 +286,7 @@
 
   @include mixins.mobile {
     overflow: visible;
+    height: 70%;
   }
 
   &::before {
@@ -424,7 +425,7 @@
   margin-top: #{mixins.vw(66px)};
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(52px)};
+    margin-top: #{mixins.mvw(20px)};
   }
 }
 
