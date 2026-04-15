@@ -175,20 +175,22 @@
 }
 
 .about-stack__card {
+  --about-stack-hex-shape: polygon(50% 2.5%, 88.5% 24%, 88.5% 76%, 50% 97.5%, 11.5% 76%, 11.5% 24%);
   position: relative;
   flex: 0 0 #{mixins.vw(186px)};
   width: #{mixins.vw(186px)};
   height: #{mixins.vw(216px)};
   filter: drop-shadow(0 #{mixins.vw(3.193px)} #{mixins.vw(3.193px)} rgba(0, 0, 0, 0.08));
   transition: transform 0.24s ease, filter 0.24s ease;
-  clip-path: polygon(50% 0%, 97% 27%, 97% 73%, 50% 100%, 3% 73%, 3% 27%);
+  clip-path: var(--about-stack-hex-shape);
+  border-radius: #{mixins.vw(18px)};
 
   &::before,
   &::after {
     position: absolute;
     inset: 0;
     content: "";
-    clip-path: inherit;
+    clip-path: var(--about-stack-hex-shape);
   }
 
   &::before {
@@ -197,8 +199,7 @@
 
   &::after {
     inset: #{mixins.vw(1px)};
-    border: 1px solid #0073e6;
-    background: transparent;
+    background: #0073e6;
   }
 
   &:hover,
@@ -214,7 +215,7 @@
     flex: 0 0 auto;
     width: #{mixins.mvw(150px)};
     height: #{mixins.mvw(174px)};
-    clip-path: polygon(50% 0%, 97% 27%, 97% 73%, 50% 100%, 3% 73%, 3% 27%);
+    border-radius: #{mixins.mvw(16px)};
     filter: drop-shadow(0 #{mixins.mvw(3px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.08));
 
     &::after {
@@ -242,15 +243,16 @@
 
 .about-stack__card-inner {
   position: absolute;
-  inset: #{mixins.vw(1px)};
+  inset: #{mixins.vw(2px)};
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  clip-path: inherit;
+  background: #000102;
+  clip-path: var(--about-stack-hex-shape);
 
   @include mixins.mobile {
-    inset: #{mixins.mvw(1px)};
+    inset: #{mixins.mvw(2px)};
   }
 }
 
