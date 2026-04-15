@@ -1,6 +1,6 @@
 <?php
 /**
- * Product MediaHub — «В результаті використання MediaHub» (benefits grid).
+ * Product MediaHub — «В результаті використання MediaHub» (intro + benefits grid).
  *
  * @package graffit
  */
@@ -44,8 +44,8 @@ $mediahub_results_cards = [
 ?>
 <section class="mediahub-results" aria-labelledby="mediahub-results-title">
     <div class="mediahub-results__inner">
-        <div class="mediahub-results__grid">
-            <div class="mediahub-results__cell mediahub-results__cell--intro">
+        <div class="mediahub-results__layout">
+            <header class="mediahub-results__intro">
                 <div class="mediahub-results__eyebrow">
                     <img
                         class="mediahub-results__eyebrow-icon"
@@ -62,7 +62,7 @@ $mediahub_results_cards = [
                 <h2 id="mediahub-results-title" class="mediahub-results__title">
                     В результаті використання MediaHub
                 </h2>
-            </div>
+            </header>
 
             <?php foreach ($mediahub_results_cards as $card) : ?>
                 <?php
