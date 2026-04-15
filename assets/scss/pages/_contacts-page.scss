@@ -29,6 +29,11 @@
   max-width: #{mixins.vw(640px)};
   margin: 0 auto;
   text-align: center;
+
+  @include mixins.mobile {
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
 .contacts__eyebrow {
@@ -82,9 +87,10 @@
   line-height: 1.45;
 
   @include mixins.mobile {
+    max-width: 100%;
     margin-top: #{mixins.mvw(12px)};
     font-size: #{mixins.mvw(14px)};
-    line-height: 1.4;
+    line-height: 1.45;
   }
 }
 
