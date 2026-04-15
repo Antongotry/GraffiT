@@ -118,8 +118,8 @@
   @include mixins.mobile {
     top: #{mixins.mvw(300px)};
     right: #{mixins.mvw(52px)};
-    width: #{mixins.mvw(185px)};
-    height: #{mixins.mvw(198px)};
+    width: #{mixins.mvw(130px)};
+    height: #{mixins.mvw(139px)};
   }
 }
 
@@ -152,8 +152,8 @@
   text-transform: uppercase;
 
   @include mixins.mobile {
-    width: #{mixins.mvw(112px)};
-    font-size: #{mixins.mvw(14px)};
+    width: #{mixins.mvw(82px)};
+    font-size: #{mixins.mvw(10px)};
     line-height: 1.15;
   }
 }
