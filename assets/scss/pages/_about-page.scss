@@ -175,58 +175,22 @@
 }
 
 .about-stack__card {
-  --about-stack-hex-shape: polygon(50% 2.5%, 88.5% 24%, 88.5% 76%, 50% 97.5%, 11.5% 76%, 11.5% 24%);
   position: relative;
   flex: 0 0 #{mixins.vw(186px)};
   width: #{mixins.vw(186px)};
-  height: #{mixins.vw(216px)};
-  filter: drop-shadow(0 #{mixins.vw(3.193px)} #{mixins.vw(3.193px)} rgba(0, 0, 0, 0.08));
-  transition: transform 0.24s ease, filter 0.24s ease;
-  clip-path: var(--about-stack-hex-shape);
-  border-radius: #{mixins.vw(18px)};
-
-  &::before,
-  &::after {
-    position: absolute;
-    inset: 0;
-    content: "";
-    clip-path: var(--about-stack-hex-shape);
-  }
-
-  &::before {
-    background: #000102;
-  }
-
-  &::after {
-    inset: #{mixins.vw(1px)};
-    background: #0073e6;
-  }
-
-  &:hover,
-  &.is-active {
-    filter: drop-shadow(0 #{mixins.vw(3.193px)} #{mixins.vw(3.193px)} rgba(0, 0, 0, 0.08));
-
-    &::before {
-      background: linear-gradient(180deg, #000102 0%, #0073e6 100%);
-    }
-  }
+  height: #{mixins.vw(217px)};
+  transition: transform 0.24s ease;
 
   @include mixins.mobile {
     flex: 0 0 auto;
     width: #{mixins.mvw(150px)};
-    height: #{mixins.mvw(174px)};
-    border-radius: #{mixins.mvw(16px)};
-    filter: drop-shadow(0 #{mixins.mvw(3px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.08));
-
-    &::after {
-      inset: #{mixins.mvw(1px)};
-    }
+    height: #{mixins.mvw(175px)};
   }
 }
 
 .about-stack__card--2,
 .about-stack__card--6 {
-  transform: translateY(calc(-1 * #{mixins.vw(216px)} * 0.4));
+  transform: translateY(calc(-1 * #{mixins.vw(217px)} * 0.4));
 
   @include mixins.mobile {
     transform: none;
@@ -234,7 +198,7 @@
 }
 
 .about-stack__card--4 {
-  transform: translateY(calc(-1 * #{mixins.vw(216px)} * 0.3));
+  transform: translateY(calc(-1 * #{mixins.vw(217px)} * 0.3));
 
   @include mixins.mobile {
     transform: none;
@@ -242,30 +206,22 @@
 }
 
 .about-stack__card-inner {
-  position: absolute;
-  inset: #{mixins.vw(2px)};
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #000102;
-  clip-path: var(--about-stack-hex-shape);
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 
-  @include mixins.mobile {
-    inset: #{mixins.mvw(2px)};
-  }
+.about-stack__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  object-position: center;
 }
 
 .about-stack__icon {
-  width: #{mixins.vw(80px)};
-  height: #{mixins.vw(80px)};
-  max-width: none;
-  object-fit: contain;
-
-  @include mixins.mobile {
-    width: #{mixins.mvw(68px)};
-    height: #{mixins.mvw(68px)};
-  }
+  display: none;
 }
 
 .about-hero__description {

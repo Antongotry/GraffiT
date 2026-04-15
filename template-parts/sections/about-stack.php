@@ -9,31 +9,31 @@ declare(strict_types=1);
 
 $stack_items = [
     [
-        'icon_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ics1.svg',
+        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s1-noa_result.webp',
         'label'    => 'Java',
     ],
     [
-        'icon_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ics2.svg',
+        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s2-noa_result.webp',
         'label'    => 'Kotlin',
     ],
     [
-        'icon_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ics3.svg',
+        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s3-noa_result.webp',
         'label'    => 'PostgreSQL',
     ],
     [
-        'icon_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ics4.svg',
+        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s4-noa_result.webp',
         'label'    => 'Angular',
     ],
     [
-        'icon_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ics5.svg',
+        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s5-noa_result.webp',
         'label'    => 'Kafka',
     ],
     [
-        'icon_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ics6.svg',
+        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s6-noa_result.webp',
         'label'    => 'Docker',
     ],
     [
-        'icon_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ics7.svg',
+        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s7-noa_result.webp',
         'label'    => 'Spring Boot',
     ],
 ];
@@ -62,11 +62,11 @@ $stack_items = [
                 <article class="<?php echo esc_attr(implode(' ', $card_classes)); ?>" role="listitem" aria-label="<?php echo esc_attr($stack_item['label']); ?>">
                     <span class="about-stack__card-inner">
                         <img
-                            class="about-stack__icon"
-                            src="<?php echo esc_url($stack_item['icon_url']); ?>"
+                            class="about-stack__image"
+                            src="<?php echo esc_url($stack_item['image_url']); ?>"
                             alt=""
-                            width="80"
-                            height="80"
+                            width="186"
+                            height="217"
                             loading="lazy"
                             decoding="async"
                         >
