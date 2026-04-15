@@ -59,7 +59,7 @@ $products_catalog_items = [
                     <button class="products-catalog__nav-button products-catalog__nav-button--prev js-products-catalog-prev" type="button" aria-label="Попередній продукт">
                         <img
                             class="products-catalog__nav-icon"
-                            src="<?php echo esc_url(content_url('uploads/2026/04/l.svg')); ?>"
+                            src="<?php echo esc_url('https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/left-white.svg'); ?>"
                             alt=""
                             width="18"
                             height="20"
@@ -70,7 +70,7 @@ $products_catalog_items = [
                     <button class="products-catalog__nav-button products-catalog__nav-button--next js-products-catalog-next" type="button" aria-label="Наступний продукт">
                         <img
                             class="products-catalog__nav-icon"
-                            src="<?php echo esc_url(content_url('uploads/2026/04/r.svg')); ?>"
+                            src="<?php echo esc_url('https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/right-white.svg'); ?>"
                             alt=""
                             width="18"
                             height="20"
@@ -81,6 +81,19 @@ $products_catalog_items = [
             </div>
 
             <h2 class="screen-reader-text" id="products-catalog-title">Каталог продуктів Graffit</h2>
+
+            <div class="products-catalog__swipe-hint" aria-hidden="true">
+                <img
+                    class="products-catalog__swipe-icon"
+                    src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/mdi-gesture-swipe-right.svg'); ?>"
+                    alt=""
+                    width="24"
+                    height="24"
+                    loading="lazy"
+                    decoding="async"
+                >
+                <p class="products-catalog__swipe-text">гортайте вбік</p>
+            </div>
 
             <div class="products-catalog__stage js-products-catalog-stage">
                 <div class="products-catalog__track js-products-catalog-track">
@@ -111,6 +124,30 @@ $products_catalog_items = [
                         </article>
                     <?php endforeach; ?>
                 </div>
+            </div>
+
+            <div class="products-catalog__nav products-catalog__nav--mobile">
+                <button class="products-catalog__nav-button products-catalog__nav-button--prev js-products-catalog-prev" type="button" aria-label="Попередній продукт">
+                    <img
+                        class="products-catalog__nav-icon"
+                        src="<?php echo esc_url('https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/left-white.svg'); ?>"
+                        alt=""
+                        width="18"
+                        height="20"
+                        decoding="async"
+                    >
+                </button>
+
+                <button class="products-catalog__nav-button products-catalog__nav-button--next js-products-catalog-next" type="button" aria-label="Наступний продукт">
+                    <img
+                        class="products-catalog__nav-icon"
+                        src="<?php echo esc_url('https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/right-white.svg'); ?>"
+                        alt=""
+                        width="18"
+                        height="20"
+                        decoding="async"
+                    >
+                </button>
             </div>
         </div>
     </div>

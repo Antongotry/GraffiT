@@ -515,8 +515,8 @@
       var viewport = section.querySelector('.products-catalog__viewport');
       var stage = section.querySelector('.js-products-catalog-stage');
       var track = section.querySelector('.js-products-catalog-track');
-      var prevButton = section.querySelector('.js-products-catalog-prev');
-      var nextButton = section.querySelector('.js-products-catalog-next');
+      var prevButtons = Array.prototype.slice.call(section.querySelectorAll('.js-products-catalog-prev'));
+      var nextButtons = Array.prototype.slice.call(section.querySelectorAll('.js-products-catalog-next'));
       var cards = Array.prototype.slice.call(section.querySelectorAll('.product-catalog-card'));
 
       if (!viewport || !stage || !track || cards.length === 0) {
@@ -559,13 +559,13 @@
       });
 
       function updateButtons() {
-        if (prevButton) {
-          prevButton.disabled = currentIndex <= 0;
-        }
+        prevButtons.forEach(function (button) {
+          button.disabled = currentIndex <= 0;
+        });
 
-        if (nextButton) {
-          nextButton.disabled = currentIndex >= getMaxIndex();
-        }
+        nextButtons.forEach(function (button) {
+          button.disabled = currentIndex >= getMaxIndex();
+        });
       }
 
       function scrollToIndex(index) {
@@ -588,17 +588,17 @@
       setActiveCard(currentIndex);
       updateButtons();
 
-      if (prevButton) {
-        prevButton.addEventListener('click', function () {
+      prevButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
           scrollToIndex(currentIndex - 1);
         });
-      }
+      });
 
-      if (nextButton) {
-        nextButton.addEventListener('click', function () {
+      nextButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
           scrollToIndex(currentIndex + 1);
         });
-      }
+      });
     });
 
     window.ScrollTrigger.refresh();
@@ -615,8 +615,8 @@
       }
 
       var stage = section.querySelector('.js-products-catalog-stage');
-      var prevButton = section.querySelector('.js-products-catalog-prev');
-      var nextButton = section.querySelector('.js-products-catalog-next');
+      var prevButtons = Array.prototype.slice.call(section.querySelectorAll('.js-products-catalog-prev'));
+      var nextButtons = Array.prototype.slice.call(section.querySelectorAll('.js-products-catalog-next'));
       var cards = Array.prototype.slice.call(section.querySelectorAll('.product-catalog-card'));
 
       if (!stage || cards.length === 0) {
@@ -653,13 +653,13 @@
           card.classList.toggle('is-active', cardIndex === idx);
         });
 
-        if (prevButton) {
-          prevButton.disabled = idx <= 0;
-        }
+        prevButtons.forEach(function (button) {
+          button.disabled = idx <= 0;
+        });
 
-        if (nextButton) {
-          nextButton.disabled = idx >= getMaxIndex();
-        }
+        nextButtons.forEach(function (button) {
+          button.disabled = idx >= getMaxIndex();
+        });
       }
 
       function scrollToIndex(index) {
@@ -681,17 +681,17 @@
       stage.addEventListener('scroll', updateButtons, { passive: true });
       window.requestAnimationFrame(updateButtons);
 
-      if (prevButton) {
-        prevButton.addEventListener('click', function () {
+      prevButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
           scrollToIndex(nearestIndex() - 1);
         });
-      }
+      });
 
-      if (nextButton) {
-        nextButton.addEventListener('click', function () {
+      nextButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
           scrollToIndex(nearestIndex() + 1);
         });
-      }
+      });
     });
   }
 
