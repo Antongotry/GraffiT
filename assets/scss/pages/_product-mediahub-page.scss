@@ -6,6 +6,10 @@
 
 /* Hero: текст + кнопка, потім зображення на 100% ширини секції впритул */
 .mediahub-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
   background: #000102;
   overflow: hidden;
 }
