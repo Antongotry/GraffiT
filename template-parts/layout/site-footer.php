@@ -10,6 +10,7 @@ declare(strict_types=1);
 $current_path = graffit_current_request_path();
 $is_front_page = $current_path === '';
 $about_url = home_url('/about/');
+$contacts_url = home_url('/contacts/');
 $projects_url = ($is_front_page || $current_path === 'services')
     ? '#services-projects'
     : home_url('/#services-projects');
@@ -38,7 +39,7 @@ $projects_url = ($is_front_page || $current_path === 'services')
                     <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
-                    <a class="site-footer__nav-link" href="#site-footer">Контакти</a>
+                    <a class="site-footer__nav-link" href="<?php echo esc_url($contacts_url); ?>">Контакти</a>
                 </nav>
 
                 <div class="site-footer__contacts">

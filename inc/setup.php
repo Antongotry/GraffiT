@@ -144,6 +144,7 @@ function graffit_static_route_title(): ?string
 {
     return match (graffit_current_request_path()) {
         'about' => 'Про нас',
+        'contacts' => 'Контакти',
         'products' => 'Продукти',
         default => null,
     };
@@ -605,3 +606,38 @@ function graffit_force_about_route_template(): void
     }
 }
 add_action('template_redirect', 'graffit_force_about_route_template', 0);
+
+/**
+ * Force /contacts/ route to render static contacts template.
+ */
+function graffit_force_contacts_route_template(): void
+{
+    if (is_admin() || wp_doing_ajax() || wp_doing_cron()) {
+        return;
+    }
+
+    if (graffit_current_request_path() !== 'contacts') {
+        return;
+    }
+
+    global $wp_query;
+
+    if ($wp_query instanceof \WP_Query) {
+        $wp_query->is_404      = false;
+        $wp_query->is_page     = true;
+        $wp_query->is_singular = true;
+        $wp_query->is_home     = false;
+        $wp_query->is_archive  = false;
+    }
+
+    status_header(200);
+    nocache_headers();
+
+    $template = locate_template('page-contacts.php');
+
+    if ($template) {
+        include $template;
+        exit;
+    }
+}
+add_action('template_redirect', 'graffit_force_contacts_route_template', 0);
