@@ -9,32 +9,39 @@ declare(strict_types=1);
 
 $stack_items = [
     [
-        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s1-noa_result.webp',
-        'label'    => 'Java',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s1-noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s1-ho_result.webp',
+        'label'           => 'Java',
     ],
     [
-        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s2-noa_result.webp',
-        'label'    => 'Kotlin',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s2-noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s2-ho_result.webp',
+        'label'           => 'Kotlin',
     ],
     [
-        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s3-noa_result.webp',
-        'label'    => 'PostgreSQL',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s3-noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s3-ho_result.webp',
+        'label'           => 'PostgreSQL',
     ],
     [
-        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s4-noa_result.webp',
-        'label'    => 'Angular',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s4-noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s4-ho_result.webp',
+        'label'           => 'Angular',
     ],
     [
-        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s5-noa_result.webp',
-        'label'    => 'Kafka',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s5-noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s5-ho_result.webp',
+        'label'           => 'Kafka',
     ],
     [
-        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s6-noa_result.webp',
-        'label'    => 'Docker',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s6-noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s6-ho_result.webp',
+        'label'           => 'Docker',
     ],
     [
-        'image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s7-noa_result.webp',
-        'label'    => 'Spring Boot',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s7-noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s7-ho_result.webp',
+        'label'           => 'Spring Boot',
     ],
 ];
 ?>
@@ -62,7 +69,7 @@ $stack_items = [
                 <article class="<?php echo esc_attr(implode(' ', $card_classes)); ?>" role="listitem" aria-label="<?php echo esc_attr($stack_item['label']); ?>">
                     <span class="about-stack__card-inner">
                         <img
-                            class="about-stack__image"
+                            class="about-stack__image about-stack__image--default"
                             src="<?php echo esc_url($stack_item['image_url']); ?>"
                             alt=""
                             width="186"
@@ -70,6 +77,17 @@ $stack_items = [
                             loading="lazy"
                             decoding="async"
                         >
+                        <?php if (! empty($stack_item['hover_image_url'])) : ?>
+                            <img
+                                class="about-stack__image about-stack__image--hover"
+                                src="<?php echo esc_url($stack_item['hover_image_url']); ?>"
+                                alt=""
+                                width="186"
+                                height="217"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                        <?php endif; ?>
                     </span>
                 </article>
             <?php endforeach; ?>
