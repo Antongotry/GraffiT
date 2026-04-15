@@ -654,7 +654,9 @@
   }
 
   .services-process__visual {
-    top: #{mixins.vw(148px)};
+    position: relative;
+    top: 0;
+    align-self: start;
     justify-self: end;
     width: #{mixins.vw(760px)};
     margin-right: #{mixins.vw(-78px)};
@@ -699,6 +701,7 @@
     }
 
     .services-process__visual {
+      position: relative;
       margin-top: #{mixins.mvw(36px)};
       width: 100%;
       margin-right: 0;
