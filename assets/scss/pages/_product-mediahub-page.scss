@@ -4,12 +4,8 @@
   background: #000102;
 }
 
-/* Hero: текст + кнопка, потім зображення на 100% ширини секції впритул */
+/* Hero: текст + кнопка, потім зображення на 100% ширини впритул */
 .mediahub-hero {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0;
   background: #000102;
   overflow: hidden;
 }
@@ -23,12 +19,12 @@
   max-width: 100%;
   margin-inline: auto;
   padding-top: #{mixins.vw(160px)};
-  padding-bottom: 0;
+  padding-bottom: #{mixins.vw(56px)};
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
     padding-top: #{mixins.mvw(100px)};
-    padding-bottom: 0;
+    padding-bottom: #{mixins.mvw(40px)};
   }
 }
 
@@ -39,15 +35,26 @@
   width: 100%;
 }
 
+/* Зображення обрізає темний пустий верх оригінального файлу */
 .mediahub-hero__visual {
   width: 100%;
+  /* висота — лише частина зображення з реальним UI */
+  height: #{mixins.vw(560px)};
+  overflow: hidden;
   line-height: 0;
+
+  @include mixins.mobile {
+    height: #{mixins.mvw(240px)};
+  }
 }
 
 .mediahub-hero__image {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  /* зміщуємо нижче, щоб показати UI а не чорний верх зображення */
+  object-position: center 70%;
 }
 
 .mediahub-hero__title {
