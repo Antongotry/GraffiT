@@ -32,8 +32,10 @@ if (! empty($args['active'])) {
     <div class="process-step__content">
         <h3 class="process-step__title"><?php echo esc_html((string) $args['title']); ?></h3>
         <p class="process-step__text"><?php echo esc_html((string) $args['text']); ?></p>
-        <div class="process-step__result">
-            <p class="process-step__result-text"><?php echo esc_html((string) $args['result']); ?></p>
-        </div>
+        <?php if ((string) $args['result'] !== '') : ?>
+            <div class="process-step__result">
+                <p class="process-step__result-text"><?php echo esc_html((string) $args['result']); ?></p>
+            </div>
+        <?php endif; ?>
     </div>
 </article>

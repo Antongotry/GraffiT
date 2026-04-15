@@ -620,6 +620,7 @@
   .services-process__container {
     width: #{mixins.vw(1360px)};
     padding: #{mixins.vw(112px)} 0 #{mixins.vw(132px)};
+    overflow: visible;
   }
 
   .services-process__title {
@@ -654,17 +655,21 @@
 
   .services-process__visual {
     top: #{mixins.vw(148px)};
+    justify-self: end;
+    width: #{mixins.vw(760px)};
+    margin-right: #{mixins.vw(-78px)};
   }
 
   .services-process__visual-frame {
-    width: #{mixins.vw(640px)};
-    height: #{mixins.vw(694px)};
+    width: #{mixins.vw(768px)};
+    height: #{mixins.vw(833px)};
+    overflow: visible;
   }
 
   .services-process__visual-photo {
-    right: #{mixins.vw(-8px)};
-    bottom: #{mixins.vw(-42px)};
-    width: #{mixins.vw(712px)};
+    right: #{mixins.vw(-18px)};
+    bottom: #{mixins.vw(-56px)};
+    width: #{mixins.vw(854px)};
     height: auto;
   }
 
@@ -695,6 +700,8 @@
 
     .services-process__visual {
       margin-top: #{mixins.mvw(36px)};
+      width: 100%;
+      margin-right: 0;
     }
 
     .services-process__visual-frame {
