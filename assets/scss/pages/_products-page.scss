@@ -620,8 +620,9 @@
     width: calc(100vw - #{mixins.mvw(38px)});
     min-width: calc(100vw - #{mixins.mvw(38px)});
     max-width: calc(100vw - #{mixins.mvw(38px)});
-    min-height: #{mixins.mvw(602px)};
-    padding: #{mixins.mvw(30px)} #{mixins.mvw(28px)} #{mixins.mvw(32px)};
+    height: #{mixins.mvw(410px)};
+    min-height: #{mixins.mvw(410px)};
+    padding: #{mixins.mvw(24px)} #{mixins.mvw(28px)};
     border-radius: #{mixins.mvw(12px)};
     scroll-snap-align: start;
     box-sizing: border-box;
@@ -646,10 +647,11 @@
     position: relative;
     left: auto;
     top: auto;
-    width: #{mixins.mvw(206px)};
-    height: #{mixins.mvw(138px)};
+    width: #{mixins.mvw(205px)};
+    height: #{mixins.mvw(124px)};
     margin: 0;
     border-radius: #{mixins.mvw(6px)};
+    flex-shrink: 0;
   }
 }
 
@@ -685,8 +687,8 @@
     top: auto;
     width: 100%;
     max-width: none;
-    margin: #{mixins.mvw(34px)} 0 0;
-    font-size: #{mixins.mvw(20px)};
+    margin: #{mixins.mvw(20px)} 0 0;
+    font-size: #{mixins.mvw(18px)};
     line-height: 1.2;
     transition: none;
   }
@@ -713,7 +715,7 @@
     top: auto;
     width: 100%;
     max-width: none;
-    margin: #{mixins.mvw(22px)} 0 0;
+    margin: #{mixins.mvw(12px)} 0 0;
     font-size: #{mixins.mvw(14px)};
     line-height: 1.36;
     transition: none;
@@ -760,7 +762,7 @@
     top: auto;
     width: #{mixins.mvw(147px)};
     min-width: 0;
-    margin: #{mixins.mvw(28px)} 0 0;
+    margin: auto 0 0;
     padding: #{mixins.mvw(19px)} #{mixins.mvw(32px)};
     border-radius: #{mixins.mvw(8px)};
     font-size: #{mixins.mvw(14px)};
