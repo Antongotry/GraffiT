@@ -14,6 +14,8 @@ $contacts_url = home_url('/contacts/');
 $projects_url = ($is_front_page || $current_path === 'services')
     ? '#services-projects'
     : home_url('/#services-projects');
+
+$mediahub_url = home_url('/product-mediahub/');
 ?>
 <footer class="site-footer" id="site-footer">
     <div class="site-footer__container">
@@ -38,6 +40,7 @@ $projects_url = ($is_front_page || $current_path === 'services')
                     <a class="site-footer__nav-link" href="<?php echo esc_url($about_url); ?>">Про нас</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
+                    <a class="site-footer__nav-link" href="<?php echo esc_url($mediahub_url); ?>">Медіахаб</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url($contacts_url); ?>">Контакти</a>
                 </nav>

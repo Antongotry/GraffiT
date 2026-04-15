@@ -138,6 +138,14 @@ function graffit_about_hero_image_mobile_url(): string
 }
 
 /**
+ * Product MediaHub hero background (desktop art, mockups in frame).
+ */
+function graffit_product_mediahub_hero_image_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-2087325778_result-scaled.webp';
+}
+
+/**
  * Static route title by current path.
  */
 function graffit_static_route_title(): ?string
@@ -146,6 +154,7 @@ function graffit_static_route_title(): ?string
         'about' => 'Про нас',
         'contacts' => 'Контакти',
         'products' => 'Продукти',
+        'product-mediahub' => 'Продукт - Медіахаб',
         default => null,
     };
 }
@@ -257,6 +266,19 @@ function graffit_preload_about_hero(): void
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_about_hero_image_mobile_url()) . '" media="(max-width: 1024px)">' . "\n";
 }
 add_action('wp_head', 'graffit_preload_about_hero', 3);
+
+/**
+ * Preload the MediaHub product hero image.
+ */
+function graffit_preload_product_mediahub_hero(): void
+{
+    if (graffit_current_request_path() !== 'product-mediahub') {
+        return;
+    }
+
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_product_mediahub_hero_image_url()) . '">' . "\n";
+}
+add_action('wp_head', 'graffit_preload_product_mediahub_hero', 3);
 
 /**
  * Prevent WordPress from keeping static routes in a 404 state.
@@ -641,3 +663,38 @@ function graffit_force_contacts_route_template(): void
     }
 }
 add_action('template_redirect', 'graffit_force_contacts_route_template', 0);
+
+/**
+ * Force /product-mediahub/ route to render static MediaHub product template.
+ */
+function graffit_force_product_mediahub_route_template(): void
+{
+    if (is_admin() || wp_doing_ajax() || wp_doing_cron()) {
+        return;
+    }
+
+    if (graffit_current_request_path() !== 'product-mediahub') {
+        return;
+    }
+
+    global $wp_query;
+
+    if ($wp_query instanceof \WP_Query) {
+        $wp_query->is_404      = false;
+        $wp_query->is_page     = true;
+        $wp_query->is_singular = true;
+        $wp_query->is_home     = false;
+        $wp_query->is_archive  = false;
+    }
+
+    status_header(200);
+    nocache_headers();
+
+    $template = locate_template('page-product-mediahub.php');
+
+    if ($template) {
+        include $template;
+        exit;
+    }
+}
+add_action('template_redirect', 'graffit_force_product_mediahub_route_template', 0);
