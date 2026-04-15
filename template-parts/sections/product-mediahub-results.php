@@ -74,16 +74,18 @@ $mediahub_results_cards = [
                 ?>
                 <div class="mediahub-results__cell mediahub-results__cell--card">
                     <article class="mediahub-results__card">
-                        <img
-                            class="mediahub-results__flag"
-                            src="<?php echo esc_url($img_url); ?>"
-                            alt=""
-                            width="64"
-                            height="90"
-                            loading="lazy"
-                            decoding="async"
-                            aria-hidden="true"
-                        >
+                        <div class="mediahub-results__card-head">
+                            <img
+                                class="mediahub-results__flag"
+                                src="<?php echo esc_url($img_url); ?>"
+                                alt=""
+                                width="64"
+                                height="90"
+                                loading="lazy"
+                                decoding="async"
+                                aria-hidden="true"
+                            >
+                        </div>
                         <h3 class="mediahub-results__card-title"><?php echo esc_html($card['title']); ?></h3>
                         <p class="<?php echo esc_attr(implode(' ', $text_classes)); ?>">
                             <?php echo esc_html($card['text']); ?>
