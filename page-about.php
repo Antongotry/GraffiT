@@ -14,6 +14,7 @@ get_header();
     <?php get_template_part('template-parts/sections/about', 'hero'); ?>
     <?php get_template_part('template-parts/sections/about', 'clients'); ?>
     <?php get_template_part('template-parts/sections/about', 'stack'); ?>
+    <?php get_template_part('template-parts/sections/about', 'story'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php
