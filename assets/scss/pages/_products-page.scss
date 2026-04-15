@@ -536,10 +536,6 @@
   }
 }
 
-.products-catalog__nav-button--prev {
-  transform: rotate(180deg);
-}
-
 .products-catalog__nav-icon {
   width: #{mixins.vw(11px)};
   height: #{mixins.vw(14px)};
