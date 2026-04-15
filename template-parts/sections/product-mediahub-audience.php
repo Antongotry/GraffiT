@@ -2,7 +2,8 @@
 /**
  * Product MediaHub — «Для кого MediaHub» (audience cards).
  *
- * Desktop grid 3 + 2; sizes from 1440 → vw. Images 1l–5l in screenshot order.
+ * Desktop: 2 ряди × 4 колонки (8 слотів); порожні слоти — невидимі, але займають місце.
+ * Порядок: ряд 1 — 1, 2, порожньо, 3; ряд 2 — порожньо, 4, 5, порожньо.
  *
  * @package graffit
  */
@@ -41,28 +42,42 @@ $mediahub_audience_cards = [
         'modifier' => 'mediahub-audience__card--tall-head',
     ],
 ];
+
+/**
+ * Слоти: 'card' + індекс у $mediahub_audience_cards, або null для порожньої комірки.
+ *
+ * @var array<int, int|null>
+ */
+$mediahub_audience_slots = [0, 1, null, 2, null, 3, 4, null];
 ?>
 <section class="mediahub-audience" aria-labelledby="mediahub-audience-title">
     <div class="mediahub-audience__inner">
         <h2 id="mediahub-audience-title" class="mediahub-audience__title">Для кого MediaHub</h2>
 
         <div class="mediahub-audience__grid">
-            <?php foreach ($mediahub_audience_cards as $card) : ?>
-                <?php
-                $card_classes = ['mediahub-audience__card'];
-                if ($card['modifier'] !== '') {
-                    $card_classes[] = $card['modifier'];
-                }
-                $img_url = graffit_product_mediahub_audience_image_url((int) $card['image']);
-                ?>
-                <article class="<?php echo esc_attr(implode(' ', $card_classes)); ?>">
-                    <div class="mediahub-audience__thumb" style="--mediahub-audience-thumb: url('<?php echo esc_url($img_url); ?>');">
-                        <span class="mediahub-audience__thumb-glow" aria-hidden="true"></span>
+            <?php foreach ($mediahub_audience_slots as $slot) : ?>
+                <?php if ($slot === null) : ?>
+                    <div class="mediahub-audience__cell mediahub-audience__cell--empty" aria-hidden="true"></div>
+                <?php else : ?>
+                    <?php
+                    $card = $mediahub_audience_cards[$slot];
+                    $card_classes = ['mediahub-audience__card'];
+                    if ($card['modifier'] !== '') {
+                        $card_classes[] = $card['modifier'];
+                    }
+                    $img_url = graffit_product_mediahub_audience_image_url((int) $card['image']);
+                    ?>
+                    <div class="mediahub-audience__cell">
+                        <article class="<?php echo esc_attr(implode(' ', $card_classes)); ?>">
+                            <div class="mediahub-audience__thumb" style="--mediahub-audience-thumb: url('<?php echo esc_url($img_url); ?>');">
+                                <span class="mediahub-audience__thumb-glow" aria-hidden="true"></span>
+                            </div>
+                            <h3 class="mediahub-audience__card-title"><?php echo esc_html($card['title']); ?></h3>
+                            <div class="mediahub-audience__rule" aria-hidden="true"></div>
+                            <p class="mediahub-audience__card-text"><?php echo esc_html($card['text']); ?></p>
+                        </article>
                     </div>
-                    <h3 class="mediahub-audience__card-title"><?php echo esc_html($card['title']); ?></h3>
-                    <div class="mediahub-audience__rule" aria-hidden="true"></div>
-                    <p class="mediahub-audience__card-text"><?php echo esc_html($card['text']); ?></p>
-                </article>
+                <?php endif; ?>
             <?php endforeach; ?>
         </div>
     </div>
