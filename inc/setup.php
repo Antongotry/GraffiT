@@ -106,6 +106,17 @@ function graffit_products_hero_image_url(): string
 }
 
 /**
+ * Static route title by current path.
+ */
+function graffit_static_route_title(): ?string
+{
+    return match (graffit_current_request_path()) {
+        'products' => 'Продукти',
+        default => null,
+    };
+}
+
+/**
  * Services hero background for viewports up to 1024px (375 design width, full mobile art).
  */
 function graffit_services_hero_image_mobile_url(): string
@@ -196,6 +207,67 @@ function graffit_preload_products_hero(): void
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_products_hero_image_url()) . '">' . "\n";
 }
 add_action('wp_head', 'graffit_preload_products_hero', 3);
+
+/**
+ * Prevent WordPress from keeping static routes in a 404 state.
+ */
+function graffit_prevent_static_route_404($preempt, \WP_Query $query)
+{
+    if ($preempt || is_admin() || wp_doing_ajax() || wp_doing_cron()) {
+        return $preempt;
+    }
+
+    global $wp_query;
+
+    if (! $wp_query instanceof \WP_Query || $query !== $wp_query) {
+        return $preempt;
+    }
+
+    if (graffit_static_route_title() === null) {
+        return $preempt;
+    }
+
+    $query->is_404 = false;
+
+    return true;
+}
+add_filter('pre_handle_404', 'graffit_prevent_static_route_404', 10, 2);
+
+/**
+ * Override the document title for static routes.
+ *
+ * @param array<string, string> $title_parts
+ * @return array<string, string>
+ */
+function graffit_static_route_document_title(array $title_parts): array
+{
+    $title = graffit_static_route_title();
+
+    if ($title === null) {
+        return $title_parts;
+    }
+
+    $title_parts['title'] = $title;
+
+    return $title_parts;
+}
+add_filter('document_title_parts', 'graffit_static_route_document_title');
+
+/**
+ * Remove 404 body class from static routes.
+ *
+ * @param array<int, string> $classes
+ * @return array<int, string>
+ */
+function graffit_static_route_body_class(array $classes): array
+{
+    if (graffit_static_route_title() === null) {
+        return $classes;
+    }
+
+    return array_values(array_diff($classes, ['error404']));
+}
+add_filter('body_class', 'graffit_static_route_body_class');
 
 /**
  * Load theme assets.
@@ -426,6 +498,16 @@ function graffit_force_products_route_template(): void
 
     if (graffit_current_request_path() !== 'products') {
         return;
+    }
+
+    global $wp_query;
+
+    if ($wp_query instanceof \WP_Query) {
+        $wp_query->is_404      = false;
+        $wp_query->is_page     = true;
+        $wp_query->is_singular = true;
+        $wp_query->is_home     = false;
+        $wp_query->is_archive  = false;
     }
 
     status_header(200);

@@ -134,3 +134,144 @@
     font-size: #{mixins.mvw(14px)};
   }
 }
+
+.products-benefits {
+  position: relative;
+  overflow: hidden;
+  padding: #{mixins.vw(100px)} 0 #{mixins.vw(128px)};
+  background:
+    radial-gradient(circle at 0% 48%, rgba(0, 115, 230, 0.26) 0%, rgba(0, 115, 230, 0) 34%),
+    #000102;
+
+  @include mixins.mobile {
+    padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(80px)};
+    background:
+      radial-gradient(circle at 0% 20%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0) 46%),
+      #000102;
+  }
+}
+
+.products-benefits__container {
+  display: grid;
+  grid-template-columns: #{mixins.vw(570px)} minmax(0, 1fr);
+  column-gap: #{mixins.vw(89px)};
+  width: #{mixins.vw(1280px)};
+  margin-inline: auto;
+
+  @include mixins.mobile {
+    grid-template-columns: 1fr;
+    row-gap: #{mixins.mvw(48px)};
+    width: min(100% - #{mixins.mvw(32px)}, 100%);
+  }
+}
+
+.products-benefits__intro {
+  display: flex;
+  flex-direction: column;
+  min-height: #{mixins.vw(464px)};
+
+  @include mixins.mobile {
+    min-height: auto;
+  }
+}
+
+.products-benefits__title {
+  margin: 0;
+  font-family: "Involve", sans-serif;
+  font-size: #{mixins.vw(32px)};
+  font-weight: 500;
+  line-height: 120%;
+  color: #ffffff;
+
+  @include mixins.mobile {
+    font-size: #{mixins.mvw(28px)};
+    line-height: 1.18;
+  }
+}
+
+.products-benefits__description {
+  width: #{mixins.vw(444px)};
+  max-width: 100%;
+  margin: auto 0 0;
+  font-family: "Involve", sans-serif;
+  font-size: #{mixins.vw(16px)};
+  font-weight: 400;
+  line-height: 136%;
+  color: rgba(255, 255, 255, 0.56);
+
+  @include mixins.mobile {
+    width: 100%;
+    margin-top: #{mixins.mvw(24px)};
+    font-size: #{mixins.mvw(14px)};
+  }
+}
+
+.products-benefits__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: #{mixins.vw(18px)};
+  row-gap: #{mixins.vw(40px)};
+
+  @include mixins.mobile {
+    grid-template-columns: 1fr;
+    gap: #{mixins.mvw(28px)};
+  }
+}
+
+.products-benefits__card {
+  position: relative;
+  min-height: #{mixins.vw(208px)};
+  padding-top: #{mixins.vw(1px)};
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.16);
+    content: "";
+  }
+
+  @include mixins.mobile {
+    min-height: auto;
+  }
+}
+
+.products-benefits__card-icon {
+  width: #{mixins.vw(64px)};
+  height: auto;
+}
+
+.products-benefits__card-text {
+  width: #{mixins.vw(244px)};
+  max-width: 100%;
+  margin: #{mixins.vw(56px)} 0 0;
+  font-family: "Involve", sans-serif;
+  font-size: #{mixins.vw(16px)};
+  font-weight: 400;
+  line-height: 136%;
+  color: #ffffff;
+
+  br {
+    display: block;
+  }
+
+  @include mixins.mobile {
+    width: 100%;
+    margin-top: #{mixins.mvw(20px)};
+    font-size: #{mixins.mvw(15px)};
+  }
+}
+
+.products-benefits__card:nth-child(1) .products-benefits__card-text {
+  width: #{mixins.vw(318px)};
+}
+
+.products-benefits__card:nth-child(3) .products-benefits__card-text {
+  width: #{mixins.vw(275px)};
+}
+
+.products-benefits__card:nth-child(4) .products-benefits__card-text {
+  width: #{mixins.vw(238px)};
+}

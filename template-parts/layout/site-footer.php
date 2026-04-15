@@ -6,6 +6,13 @@
  */
 
 declare(strict_types=1);
+
+$current_path = graffit_current_request_path();
+$is_front_page = $current_path === '';
+$about_url = $is_front_page ? '#home-about' : home_url('/#home-about');
+$projects_url = ($is_front_page || $current_path === 'services')
+    ? '#services-projects'
+    : home_url('/#services-projects');
 ?>
 <footer class="site-footer" id="site-footer">
     <div class="site-footer__container">
@@ -27,10 +34,10 @@ declare(strict_types=1);
 
                 <nav class="site-footer__nav" aria-label="<?php esc_attr_e('Footer navigation', 'graffit'); ?>">
                     <p class="site-footer__label">Навігація</p>
-                    <a class="site-footer__nav-link" href="#">Про нас</a>
+                    <a class="site-footer__nav-link" href="<?php echo esc_url($about_url); ?>">Про нас</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
-                    <a class="site-footer__nav-link" href="#">Проєкти</a>
+                    <a class="site-footer__nav-link" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
                     <a class="site-footer__nav-link" href="#site-footer">Контакти</a>
                 </nav>
 

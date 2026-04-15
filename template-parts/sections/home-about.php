@@ -32,7 +32,7 @@ $trust_cards = [
     ],
 ];
 ?>
-<section class="home-about services-clients js-clients-scroller" aria-labelledby="home-about-title">
+<section class="home-about services-clients js-clients-scroller" id="home-about" aria-labelledby="home-about-title">
     <div class="services-clients__viewport">
         <div class="services-clients__container">
             <div class="services-clients__layout">
