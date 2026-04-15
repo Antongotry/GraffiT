@@ -614,3 +614,14 @@
     font-size: #{mixins.mvw(16px)};
   }
 }
+
+/* Reuse front “three directions” + inquiry CTA under industries on /about/ */
+.site-main--about .services-overview--home-directions {
+  margin-top: #{mixins.vw(64px)};
+}
+
+@include mixins.mobile {
+  .site-main--about .services-overview--home-directions {
+    margin-top: #{mixins.mvw(40px)};
+  }
+}
