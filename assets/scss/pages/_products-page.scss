@@ -748,3 +748,9 @@
     font-size: #{mixins.mvw(14px)};
   }
 }
+
+.products-projects {
+  position: relative;
+  isolation: isolate;
+  z-index: 1;
+}

@@ -239,6 +239,7 @@
       var prevButton = section.querySelector('.js-projects-prev');
       var nextButton = section.querySelector('.js-projects-next');
       var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
+      var startOffset = section.classList.contains('products-projects') ? 220 : 100;
 
       if (!viewport || !stage || !track || cards.length === 0) {
         return;
@@ -257,7 +258,7 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          start: 'top+=100 top',
+          start: 'top+=' + startOffset + ' top',
           end: function () {
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
           },
