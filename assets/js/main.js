@@ -257,7 +257,7 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          start: 'top top',
+          start: 'top+=100 top',
           end: function () {
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
           },
