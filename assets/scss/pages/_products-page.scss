@@ -12,6 +12,11 @@
   height: 100svh;
   overflow: hidden;
   background: #000102;
+
+  @include mixins.mobile {
+    min-height: #{mixins.mvw(633px)};
+    height: auto;
+  }
 }
 
 .products-hero__backdrop {
@@ -24,6 +29,12 @@
   background-repeat: no-repeat;
   background-size: cover;
   pointer-events: none;
+
+  @include mixins.mobile {
+    background-image: var(--products-hero-image-mobile, var(--products-hero-image));
+    background-position: center top;
+    background-size: cover;
+  }
 }
 
 .products-hero__container {
@@ -39,10 +50,10 @@
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
-    min-height: 100svh;
+    min-height: #{mixins.mvw(633px)};
     height: auto;
-    padding-top: #{mixins.mvw(120px)};
-    padding-bottom: #{mixins.mvw(40px)};
+    padding-top: #{mixins.mvw(73px)};
+    padding-bottom: #{mixins.mvw(24px)};
   }
 }
 
@@ -57,7 +68,10 @@
   max-width: 100%;
 
   @include mixins.mobile {
-    width: 100%;
+    position: relative;
+    width: #{mixins.mvw(349px)};
+    max-width: 100%;
+    min-height: #{mixins.mvw(152px)};
   }
 }
 
@@ -70,17 +84,51 @@
   color: #ffffff;
 
   @include mixins.mobile {
-    font-size: #{mixins.mvw(32px)};
-    line-height: 1.12;
+    position: relative;
+    width: #{mixins.mvw(349px)};
+    max-width: 100%;
+    font-size: #{mixins.mvw(27.931px)};
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  &::before {
+    display: none;
+
+    @include mixins.mobile {
+      position: absolute;
+      inset: 0 auto auto 0;
+      display: block;
+      width: #{mixins.mvw(301px)};
+      min-height: #{mixins.mvw(56px)};
+      filter: blur(#{mixins.mvw(5px)});
+      font-size: #{mixins.mvw(27.931px)};
+      font-weight: 600;
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.7);
+      content: "Graffit";
+      pointer-events: none;
+    }
   }
 }
 
 .products-hero__title-line {
   display: block;
+
+  @include mixins.mobile {
+    white-space: normal;
+  }
 }
 
 .products-hero__title-brand {
   font-weight: 600;
+
+  @include mixins.mobile {
+    font-weight: 600;
+    text-shadow:
+      0 0 #{mixins.mvw(8px)} rgba(255, 255, 255, 0.54),
+      0 0 #{mixins.mvw(22px)} rgba(255, 255, 255, 0.28);
+  }
 }
 
 .products-hero__description {
@@ -93,9 +141,12 @@
   color: rgba(255, 255, 255, 0.56);
 
   @include mixins.mobile {
-    width: 100%;
-    margin-top: #{mixins.mvw(20px)};
+    width: #{mixins.mvw(358px)};
+    max-width: 100%;
+    min-height: #{mixins.mvw(76px)};
+    margin-top: #{mixins.mvw(44px)};
     font-size: #{mixins.mvw(14px)};
+    line-height: 1.36;
   }
 }
 
@@ -126,12 +177,14 @@
   }
 
   @include mixins.mobile {
+    width: #{mixins.mvw(231px)};
+    max-width: 100%;
     min-width: 0;
-    width: 100%;
-    margin-top: #{mixins.mvw(20px)};
-    padding: #{mixins.mvw(16px)} #{mixins.mvw(24px)};
+    margin-top: #{mixins.mvw(28px)};
+    padding: #{mixins.mvw(19px)} #{mixins.mvw(32px)};
     border-radius: #{mixins.mvw(8px)};
     font-size: #{mixins.mvw(14px)};
+    line-height: 1.3;
   }
 }
 

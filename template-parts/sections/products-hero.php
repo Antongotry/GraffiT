@@ -9,7 +9,10 @@ declare(strict_types=1);
 ?>
 <section
     class="products-hero"
-    style="--products-hero-image: url('<?php echo esc_url(graffit_products_hero_image_url()); ?>');"
+    style="
+        --products-hero-image: url('<?php echo esc_url(graffit_products_hero_image_url()); ?>');
+        --products-hero-image-mobile: url('<?php echo esc_url(graffit_products_hero_image_mobile_url()); ?>');
+    "
 >
     <div class="products-hero__backdrop" aria-hidden="true"></div>
 

@@ -114,6 +114,14 @@ function graffit_products_hero_image_url(): string
 }
 
 /**
+ * Products page hero background for viewports up to 1024px.
+ */
+function graffit_products_hero_image_mobile_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-2087325777_result.webp';
+}
+
+/**
  * About page hero background (desktop art).
  */
 function graffit_about_hero_image_url(): string
@@ -231,6 +239,7 @@ function graffit_preload_products_hero(): void
     }
 
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_products_hero_image_url()) . '">' . "\n";
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_products_hero_image_mobile_url()) . '" media="(max-width: 1024px)">' . "\n";
 }
 add_action('wp_head', 'graffit_preload_products_hero', 3);
 
