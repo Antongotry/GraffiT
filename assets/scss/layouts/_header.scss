@@ -167,8 +167,8 @@
   height: #{mixins.mvw(40px)};
   padding: 0;
   border: 0;
-  border-radius: #{mixins.mvw(8px)};
-  background: rgba(255, 255, 255, 0.08);
+  border-radius: 0;
+  background: transparent;
   color: #fff;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;

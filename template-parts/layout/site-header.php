@@ -75,7 +75,7 @@ if ($current_path === 'products') {
                 <img class="mobile-menu__logo-image" src="<?php echo esc_url(graffit_logo_url()); ?>" alt="GraffiT" width="105" height="40" loading="lazy" decoding="async">
             </a>
             <button class="mobile-menu__close js-mobile-menu-toggle" type="button" aria-label="<?php esc_attr_e('Закрити', 'graffit'); ?>">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
             </button>
         </div>
 
