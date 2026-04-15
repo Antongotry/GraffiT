@@ -9,38 +9,38 @@ declare(strict_types=1);
 
 $stack_items = [
     [
-        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s1-noa_result.webp',
-        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s1-ho_result.webp',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/1noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/h1_result.webp',
         'label'           => 'Java',
     ],
     [
-        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s2-noa_result.webp',
-        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s2-ho_result.webp',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/h2_result.webp',
         'label'           => 'Kotlin',
     ],
     [
-        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s3-noa_result.webp',
-        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s3-ho_result.webp',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/3noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/h3_result.webp',
         'label'           => 'PostgreSQL',
     ],
     [
-        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s4-noa_result.webp',
-        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s4-ho_result.webp',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/4noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/h4_result.webp',
         'label'           => 'Angular',
     ],
     [
-        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s5-noa_result.webp',
-        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s5-ho_result.webp',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/5noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/h5_result.webp',
         'label'           => 'Kafka',
     ],
     [
-        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s6-noa_result.webp',
-        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s6-ho_result.webp',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/6noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/h6_result.webp',
         'label'           => 'Docker',
     ],
     [
-        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s7-noa_result.webp',
-        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/s7-ho_result.webp',
+        'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/7noa_result.webp',
+        'hover_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/h7_result.webp',
         'label'           => 'Spring Boot',
     ],
 ];
