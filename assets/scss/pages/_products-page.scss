@@ -619,7 +619,7 @@
 
   .services-process__container {
     width: #{mixins.vw(1360px)};
-    padding: #{mixins.vw(112px)} 0 #{mixins.vw(132px)};
+    padding: #{mixins.vw(112px)} 0 #{mixins.vw(236px)};
     overflow: visible;
   }
 
@@ -676,7 +676,7 @@
   @include mixins.mobile {
     .services-process__container {
       width: min(100% - #{mixins.mvw(32px)}, 100%);
-      padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(84px)};
+      padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(112px)};
     }
 
     .services-process__title {

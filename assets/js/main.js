@@ -239,7 +239,7 @@
       var prevButton = section.querySelector('.js-projects-prev');
       var nextButton = section.querySelector('.js-projects-next');
       var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
-      var startOffset = section.classList.contains('products-projects') ? 220 : 100;
+      var startOffset = section.classList.contains('products-projects') ? 360 : 100;
 
       if (!viewport || !stage || !track || cards.length === 0) {
         return;
