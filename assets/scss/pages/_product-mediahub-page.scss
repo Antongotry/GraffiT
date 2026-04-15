@@ -259,46 +259,45 @@
 .mediahub-audience__thumb {
   position: relative;
   flex-shrink: 0;
-  width: #{mixins.vw(140px)};
-  height: #{mixins.vw(140px)};
+  width: 100%;
+  height: #{mixins.vw(180px)};
   overflow: hidden;
   border-radius: #{mixins.vw(6px)};
-  background-color: #ffffff;
+  background-color: #0a0d14;
   background-image: var(--mediahub-audience-thumb);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 
   @include mixins.mobile {
-    width: #{mixins.mvw(140px)};
-    height: #{mixins.mvw(140px)};
+    width: 100%;
+    height: #{mixins.mvw(180px)};
     border-radius: #{mixins.mvw(6px)};
   }
 }
 
 .mediahub-audience__thumb-glow {
   position: absolute;
-  left: #{mixins.vw(-41px)};
-  top: #{mixins.vw(77px)};
-  width: #{mixins.vw(222px)};
-  height: #{mixins.vw(62px)};
+  bottom: #{mixins.vw(-10px)};
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: #{mixins.vw(40px)};
   border-radius: 50%;
   background: rgba(0, 115, 230, 0.42);
-  filter: blur(#{mixins.vw(53px)});
+  filter: blur(#{mixins.vw(30px)});
   pointer-events: none;
 
   @include mixins.mobile {
-    left: #{mixins.mvw(-41px)};
-    top: #{mixins.mvw(77px)};
-    width: #{mixins.mvw(222px)};
-    height: #{mixins.mvw(62px)};
-    filter: blur(#{mixins.mvw(53px)});
+    bottom: #{mixins.mvw(-10px)};
+    height: #{mixins.mvw(40px)};
+    filter: blur(#{mixins.mvw(30px)});
   }
 }
 
 .mediahub-audience__card-title {
-  margin: #{mixins.vw(76px)} 0 0;
-  max-width: #{mixins.vw(238px)};
+  margin: #{mixins.vw(20px)} 0 0;
+  max-width: 100%;
   min-height: #{mixins.vw(29px)};
   font-family: "Involve", sans-serif;
   font-size: #{mixins.vw(24px)};
@@ -308,7 +307,7 @@
   text-align: left;
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(76px)};
+    margin-top: #{mixins.mvw(20px)};
     max-width: 100%;
     min-height: 0;
     font-size: #{mixins.mvw(20px)};
@@ -363,10 +362,10 @@
   max-width: #{mixins.vw(223px)};
 }
 
-/* Виробничі… — двохрядковий заголовок (FiCSS .h3-4 / .body-4) */
+/* Виробничі… — двохрядковий заголовок */
 .mediahub-audience__card--tall-head .mediahub-audience__card-title {
-  margin-top: #{mixins.vw(47px)};
-  max-width: #{mixins.vw(270px)};
+  margin-top: #{mixins.vw(20px)};
+  max-width: 100%;
   min-height: #{mixins.vw(58px)};
 }
 
