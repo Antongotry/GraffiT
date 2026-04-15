@@ -694,6 +694,13 @@
   }
 }
 
+@include mixins.mobile {
+  .product-catalog-card:hover .product-catalog-card__title,
+  .product-catalog-card.is-active .product-catalog-card__title {
+    top: auto;
+  }
+}
+
 .product-catalog-card__description {
   position: absolute;
   left: #{mixins.vw(40px)};
@@ -720,6 +727,13 @@
     line-height: 1.3;
     flex: 0 0 auto;
     transition: none;
+  }
+}
+
+@include mixins.mobile {
+  .product-catalog-card:hover .product-catalog-card__description,
+  .product-catalog-card.is-active .product-catalog-card__description {
+    top: auto;
   }
 }
 
