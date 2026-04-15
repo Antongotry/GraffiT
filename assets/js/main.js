@@ -246,6 +246,10 @@
         return;
       }
 
+      if (isProductsProjects) {
+        return;
+      }
+
       var currentIndex = 0;
 
       function getMaxIndex() {
@@ -322,6 +326,91 @@
     });
 
     window.ScrollTrigger.refresh();
+  }
+
+  function initProductsProjectsCarousel() {
+    document.querySelectorAll('.products-projects').forEach(function (section) {
+      if (section.getAttribute('data-products-projects-carousel') === '1') {
+        return;
+      }
+
+      var stage = section.querySelector('.js-projects-stage');
+      var track = section.querySelector('.js-projects-track');
+      var prevButton = section.querySelector('.js-projects-prev');
+      var nextButton = section.querySelector('.js-projects-next');
+      var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
+
+      if (!stage || !track || cards.length === 0) {
+        return;
+      }
+
+      section.setAttribute('data-products-projects-carousel', '1');
+      track.style.transform = '';
+
+      function getMaxIndex() {
+        return Math.max(cards.length - 1, 0);
+      }
+
+      function nearestIndex() {
+        var scrollLeft = stage.scrollLeft;
+        var best = 0;
+        var bestDistance = Infinity;
+
+        for (var i = 0; i < cards.length; i++) {
+          var distance = Math.abs(cards[i].offsetLeft - scrollLeft);
+
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            best = i;
+          }
+        }
+
+        return best;
+      }
+
+      function updateButtons() {
+        var index = nearestIndex();
+
+        if (prevButton) {
+          prevButton.disabled = index <= 0;
+        }
+
+        if (nextButton) {
+          nextButton.disabled = index >= getMaxIndex();
+        }
+      }
+
+      function scrollToIndex(index) {
+        var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
+        var card = cards[clampedIndex];
+
+        if (!card) {
+          return;
+        }
+
+        stage.scrollTo({
+          left: card.offsetLeft,
+          behavior: 'smooth'
+        });
+
+        window.setTimeout(updateButtons, 400);
+      }
+
+      stage.addEventListener('scroll', updateButtons, { passive: true });
+      window.requestAnimationFrame(updateButtons);
+
+      if (prevButton) {
+        prevButton.addEventListener('click', function () {
+          scrollToIndex(nearestIndex() - 1);
+        });
+      }
+
+      if (nextButton) {
+        nextButton.addEventListener('click', function () {
+          scrollToIndex(nearestIndex() + 1);
+        });
+      }
+    });
   }
 
   function initProjectsMobileCarousel() {
@@ -1446,6 +1535,7 @@
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initClientsScroller, 'clients-scroller');
   runInit(initProjectsScroller, 'projects-scroller');
+  runInit(initProductsProjectsCarousel, 'products-projects-carousel');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
   runInit(initProductsCatalogScroller, 'products-catalog-scroller');
   runInit(initProductsCatalogMobileCarousel, 'products-catalog-mobile-carousel');
