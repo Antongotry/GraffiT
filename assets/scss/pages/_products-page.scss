@@ -805,6 +805,17 @@
 
 .products-inquiry {
   margin-top: 0;
+
+  @include mixins.mobile {
+    &.cta-band--light {
+      background: linear-gradient(180deg, #f5f6f8 0%, #d3d6db 100%);
+
+      &::before,
+      &::after {
+        clip-path: none;
+      }
+    }
+  }
 }
 
 .products-process {
