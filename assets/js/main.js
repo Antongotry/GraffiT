@@ -329,6 +329,10 @@
   }
 
   function initProductsProjectsCarousel() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
     document.querySelectorAll('.products-projects').forEach(function (section) {
       if (section.getAttribute('data-products-projects-carousel') === '1') {
         return;
