@@ -14,8 +14,8 @@
   background: #000102;
 
   @include mixins.mobile {
-    min-height: #{mixins.mvw(633px)};
-    height: auto;
+    min-height: 100svh;
+    height: 100svh;
   }
 }
 
@@ -50,8 +50,8 @@
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(38px)}, 100%);
-    min-height: #{mixins.mvw(633px)};
-    height: auto;
+    min-height: 100svh;
+    height: 100svh;
     padding-top: #{mixins.mvw(86px)};
     padding-bottom: #{mixins.mvw(24px)};
   }
