@@ -146,6 +146,19 @@ function graffit_product_mediahub_hero_image_url(): string
 }
 
 /**
+ * MediaHub «audience» card image (1–5), 1440 art exports.
+ */
+function graffit_product_mediahub_audience_image_url(int $index): string
+{
+    $index = max(1, min(5, $index));
+
+    return sprintf(
+        'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/%dl_result.webp',
+        $index
+    );
+}
+
+/**
  * Static route title by current path.
  */
 function graffit_static_route_title(): ?string
