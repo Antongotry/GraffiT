@@ -8,8 +8,8 @@
 .mediahub-hero {
   position: relative;
   isolation: isolate;
-  min-height: 100svh;
-  height: 100svh;
+  min-height: 120svh;
+  height: 120svh;
   overflow: hidden;
   background: #000102;
 
@@ -43,10 +43,10 @@
   flex-direction: column;
   align-items: center;
   width: #{mixins.vw(1360px)};
-  min-height: 100svh;
+  min-height: 120svh;
   height: 100%;
   margin-inline: auto;
-  padding-top: #{mixins.vw(200px)};
+  padding-top: #{mixins.vw(160px)};
   padding-bottom: #{mixins.vw(32px)};
 
   @include mixins.mobile {
