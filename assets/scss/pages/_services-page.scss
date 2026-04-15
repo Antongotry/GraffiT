@@ -1026,6 +1026,8 @@
     }
 
     .service-card__media {
+      left: auto;
+      top: auto;
       align-self: center;
       width: #{mixins.mvw(120px)};
       height: #{mixins.mvw(120px)};
@@ -1038,6 +1040,10 @@
     }
 
     .service-card__content {
+      position: relative;
+      top: auto;
+      left: auto;
+      right: auto;
       width: 100%;
       margin-top: #{mixins.mvw(32px)};
       text-align: center;
@@ -1053,6 +1059,10 @@
     }
 
     .service-card__cta {
+      position: relative;
+      left: auto;
+      right: auto;
+      bottom: auto;
       align-self: center;
       width: #{mixins.mvw(147px)};
       min-width: #{mixins.mvw(147px)};
