@@ -202,7 +202,7 @@
     #000102;
 
   @include mixins.mobile {
-    padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(80px)};
+    padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(72px)};
     background:
       radial-gradient(circle at 0% 20%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0) 46%),
       #000102;
@@ -218,7 +218,7 @@
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
-    row-gap: #{mixins.mvw(48px)};
+    row-gap: #{mixins.mvw(42px)};
     width: min(100% - #{mixins.mvw(32px)}, 100%);
   }
 }
@@ -242,8 +242,11 @@
   color: #ffffff;
 
   @include mixins.mobile {
-    font-size: #{mixins.mvw(28px)};
-    line-height: 1.18;
+    width: #{mixins.mvw(293px)};
+    max-width: 100%;
+    min-height: #{mixins.mvw(88px)};
+    font-size: #{mixins.mvw(22px)};
+    line-height: 1;
   }
 }
 
@@ -258,9 +261,12 @@
   color: rgba(255, 255, 255, 0.56);
 
   @include mixins.mobile {
-    width: 100%;
-    margin-top: #{mixins.mvw(24px)};
+    width: #{mixins.mvw(355px)};
+    max-width: 100%;
+    min-height: #{mixins.mvw(76px)};
+    margin-top: #{mixins.mvw(44px)};
     font-size: #{mixins.mvw(14px)};
+    line-height: 1.36;
   }
 }
 
@@ -271,8 +277,9 @@
   row-gap: #{mixins.vw(40px)};
 
   @include mixins.mobile {
-    grid-template-columns: 1fr;
-    gap: #{mixins.mvw(28px)};
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: #{mixins.mvw(18px)};
+    row-gap: #{mixins.mvw(40px)};
   }
 }
 
@@ -292,13 +299,19 @@
   }
 
   @include mixins.mobile {
-    min-height: auto;
+    min-height: #{mixins.mvw(208px)};
+    padding-top: #{mixins.mvw(1px)};
   }
 }
 
 .products-benefits__card-icon {
   width: #{mixins.vw(64px)};
   height: auto;
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(56px)};
+    height: #{mixins.mvw(79px)};
+  }
 }
 
 .products-benefits__card-text {
@@ -316,22 +329,43 @@
   }
 
   @include mixins.mobile {
-    width: 100%;
-    margin-top: #{mixins.mvw(20px)};
-    font-size: #{mixins.mvw(15px)};
+    width: #{mixins.mvw(120px)};
+    max-width: 100%;
+    min-height: #{mixins.mvw(76px)};
+    margin-top: #{mixins.mvw(56px)};
+    font-size: #{mixins.mvw(14px)};
+    line-height: 1.36;
   }
 }
 
 .products-benefits__card:nth-child(1) .products-benefits__card-text {
   width: #{mixins.vw(318px)};
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(120px)};
+  }
 }
 
 .products-benefits__card:nth-child(3) .products-benefits__card-text {
   width: #{mixins.vw(275px)};
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(87px)};
+  }
 }
 
 .products-benefits__card:nth-child(4) .products-benefits__card-text {
   width: #{mixins.vw(238px)};
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(147px)};
+  }
+}
+
+.products-benefits__card:nth-child(2) .products-benefits__card-text {
+  @include mixins.mobile {
+    width: #{mixins.mvw(120px)};
+  }
 }
 
 .products-catalog {
