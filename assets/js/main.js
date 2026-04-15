@@ -402,6 +402,201 @@
     });
   }
 
+  function initProductsCatalogScroller() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    document.querySelectorAll('.js-products-catalog-scroller').forEach(function (section) {
+      var viewport = section.querySelector('.products-catalog__viewport');
+      var stage = section.querySelector('.js-products-catalog-stage');
+      var track = section.querySelector('.js-products-catalog-track');
+      var prevButton = section.querySelector('.js-products-catalog-prev');
+      var nextButton = section.querySelector('.js-products-catalog-next');
+      var cards = Array.prototype.slice.call(section.querySelectorAll('.product-catalog-card'));
+
+      if (!viewport || !stage || !track || cards.length === 0) {
+        return;
+      }
+
+      var currentIndex = 0;
+
+      function getMaxIndex() {
+        return Math.max(cards.length - 1, 0);
+      }
+
+      function setActiveCard(index) {
+        cards.forEach(function (card, cardIndex) {
+          card.classList.toggle('is-active', cardIndex === index);
+        });
+      }
+
+      var tween = window.gsap.to(track, {
+        x: function () {
+          return -(track.scrollWidth - stage.clientWidth);
+        },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: function () {
+            return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
+          },
+          pin: viewport,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: function (self) {
+            currentIndex = Math.round(self.progress * getMaxIndex());
+            setActiveCard(currentIndex);
+            updateButtons();
+          }
+        }
+      });
+
+      function updateButtons() {
+        if (prevButton) {
+          prevButton.disabled = currentIndex <= 0;
+        }
+
+        if (nextButton) {
+          nextButton.disabled = currentIndex >= getMaxIndex();
+        }
+      }
+
+      function scrollToIndex(index) {
+        var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
+        var trigger = tween.scrollTrigger;
+
+        if (!trigger) {
+          return;
+        }
+
+        var progress = getMaxIndex() === 0 ? 0 : clampedIndex / getMaxIndex();
+        var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
+
+        currentIndex = clampedIndex;
+        setActiveCard(currentIndex);
+        updateButtons();
+        scrollToPosition(targetScroll);
+      }
+
+      setActiveCard(currentIndex);
+      updateButtons();
+
+      if (prevButton) {
+        prevButton.addEventListener('click', function () {
+          scrollToIndex(currentIndex - 1);
+        });
+      }
+
+      if (nextButton) {
+        nextButton.addEventListener('click', function () {
+          scrollToIndex(currentIndex + 1);
+        });
+      }
+    });
+
+    window.ScrollTrigger.refresh();
+  }
+
+  function initProductsCatalogMobileCarousel() {
+    if (window.innerWidth > 1024) {
+      return;
+    }
+
+    document.querySelectorAll('.js-products-catalog-scroller').forEach(function (section) {
+      if (section.getAttribute('data-products-catalog-mobile-carousel') === '1') {
+        return;
+      }
+
+      var stage = section.querySelector('.js-products-catalog-stage');
+      var prevButton = section.querySelector('.js-products-catalog-prev');
+      var nextButton = section.querySelector('.js-products-catalog-next');
+      var cards = Array.prototype.slice.call(section.querySelectorAll('.product-catalog-card'));
+
+      if (!stage || cards.length === 0) {
+        return;
+      }
+
+      section.setAttribute('data-products-catalog-mobile-carousel', '1');
+
+      function getMaxIndex() {
+        return Math.max(cards.length - 1, 0);
+      }
+
+      function nearestIndex() {
+        var sl = stage.scrollLeft;
+        var best = 0;
+        var bestDist = Infinity;
+
+        for (var i = 0; i < cards.length; i++) {
+          var distance = Math.abs(cards[i].offsetLeft - sl);
+
+          if (distance < bestDist) {
+            bestDist = distance;
+            best = i;
+          }
+        }
+
+        return best;
+      }
+
+      function updateButtons() {
+        var idx = nearestIndex();
+
+        cards.forEach(function (card, cardIndex) {
+          card.classList.toggle('is-active', cardIndex === idx);
+        });
+
+        if (prevButton) {
+          prevButton.disabled = idx <= 0;
+        }
+
+        if (nextButton) {
+          nextButton.disabled = idx >= getMaxIndex();
+        }
+      }
+
+      function scrollToIndex(index) {
+        var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
+        var card = cards[clampedIndex];
+
+        if (!card) {
+          return;
+        }
+
+        stage.scrollTo({
+          left: card.offsetLeft,
+          behavior: 'smooth'
+        });
+
+        window.setTimeout(updateButtons, 400);
+      }
+
+      stage.addEventListener('scroll', updateButtons, { passive: true });
+      window.requestAnimationFrame(updateButtons);
+
+      if (prevButton) {
+        prevButton.addEventListener('click', function () {
+          scrollToIndex(nearestIndex() - 1);
+        });
+      }
+
+      if (nextButton) {
+        nextButton.addEventListener('click', function () {
+          scrollToIndex(nearestIndex() + 1);
+        });
+      }
+    });
+  }
+
   function initClientsScroller() {
     if (window.innerWidth <= 1024) {
       return;
@@ -1243,6 +1438,8 @@
   runInit(initClientsScroller, 'clients-scroller');
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
+  runInit(initProductsCatalogScroller, 'products-catalog-scroller');
+  runInit(initProductsCatalogMobileCarousel, 'products-catalog-mobile-carousel');
   runInit(initProcessTimeline, 'process-timeline');
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
   runInit(initFaqAccordion, 'faq-accordion');
