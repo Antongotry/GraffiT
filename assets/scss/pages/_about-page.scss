@@ -11,6 +11,11 @@
   height: 100svh;
   overflow: hidden;
   background: #000102;
+
+  @include mixins.mobile {
+    min-height: #{mixins.mvw(751px)};
+    height: auto;
+  }
 }
 
 .about-hero__backdrop {
@@ -23,6 +28,12 @@
   background-repeat: no-repeat;
   background-size: cover;
   pointer-events: none;
+
+  @include mixins.mobile {
+    background-image: var(--about-hero-image-mobile, var(--about-hero-image));
+    background-position: center top;
+    background-size: cover;
+  }
 }
 
 .about-hero__container {
@@ -38,10 +49,10 @@
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
-    min-height: 100svh;
+    min-height: #{mixins.mvw(751px)};
     height: auto;
-    padding-top: #{mixins.mvw(120px)};
-    padding-bottom: #{mixins.mvw(40px)};
+    padding-top: #{mixins.mvw(73px)};
+    padding-bottom: #{mixins.mvw(32px)};
   }
 }
 
@@ -51,6 +62,7 @@
 
   @include mixins.mobile {
     width: 100%;
+    max-width: #{mixins.mvw(358px)};
   }
 }
 
@@ -60,7 +72,8 @@
   min-height: #{mixins.vw(150px)};
 
   @include mixins.mobile {
-    min-height: auto;
+    width: #{mixins.mvw(349px)};
+    min-height: #{mixins.mvw(76px)};
   }
 }
 
@@ -76,7 +89,14 @@
   pointer-events: none;
 
   @include mixins.mobile {
-    display: none;
+    inset: 0 auto auto #{mixins.mvw(11px)};
+    width: #{mixins.mvw(301px)};
+    min-height: #{mixins.mvw(28px)};
+    display: block;
+    filter: blur(#{mixins.mvw(5px)});
+    font-size: #{mixins.mvw(27.931px)};
+    font-weight: 600;
+    line-height: 1;
   }
 }
 
@@ -90,8 +110,12 @@
   color: #ffffff;
 
   @include mixins.mobile {
-    font-size: #{mixins.mvw(32px)};
-    line-height: 1.08;
+    left: #{mixins.mvw(11px)};
+    width: #{mixins.mvw(349px)};
+    min-height: #{mixins.mvw(76px)};
+    font-size: #{mixins.mvw(27.931px)};
+    font-weight: 600;
+    line-height: 1;
   }
 }
 
@@ -106,9 +130,11 @@
   color: rgba(255, 255, 255, 0.56);
 
   @include mixins.mobile {
-    width: 100%;
-    margin-top: #{mixins.mvw(24px)};
+    width: #{mixins.mvw(358px)};
+    max-width: 100%;
+    margin-top: #{mixins.mvw(123px)};
     font-size: #{mixins.mvw(14px)};
+    line-height: 1.36;
   }
 }
 
@@ -136,12 +162,14 @@
   }
 
   @include mixins.mobile {
+    width: #{mixins.mvw(231px)};
+    max-width: 100%;
     min-width: 0;
-    width: 100%;
-    margin-top: #{mixins.mvw(20px)};
-    padding: #{mixins.mvw(16px)} #{mixins.mvw(24px)};
+    margin-top: #{mixins.mvw(26px)};
+    padding: #{mixins.mvw(19px)} #{mixins.mvw(32px)};
     border-radius: #{mixins.mvw(8px)};
     font-size: #{mixins.mvw(14px)};
+    line-height: 1.3;
   }
 }
 

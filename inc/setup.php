@@ -122,6 +122,14 @@ function graffit_about_hero_image_url(): string
 }
 
 /**
+ * About page hero background for viewports up to 1024px.
+ */
+function graffit_about_hero_image_mobile_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-2087325776_result.webp';
+}
+
+/**
  * Static route title by current path.
  */
 function graffit_static_route_title(): ?string
@@ -236,6 +244,7 @@ function graffit_preload_about_hero(): void
     }
 
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_about_hero_image_url()) . '">' . "\n";
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_about_hero_image_mobile_url()) . '" media="(max-width: 1024px)">' . "\n";
 }
 add_action('wp_head', 'graffit_preload_about_hero', 3);
 

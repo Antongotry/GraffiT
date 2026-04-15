@@ -10,7 +10,10 @@ declare(strict_types=1);
 <section
     class="about-hero"
     aria-labelledby="about-hero-title"
-    style="--about-hero-image: url('https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-2087325771_result-scaled.webp')"
+    style="
+        --about-hero-image: url('<?php echo esc_url(graffit_about_hero_image_url()); ?>');
+        --about-hero-image-mobile: url('<?php echo esc_url(graffit_about_hero_image_mobile_url()); ?>');
+    "
 >
     <div class="about-hero__backdrop" aria-hidden="true"></div>
 
