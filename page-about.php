@@ -12,10 +12,10 @@ get_header();
 <?php get_template_part('template-parts/layout/site', 'header'); ?>
 <main id="primary" class="site-main site-main--about">
     <?php get_template_part('template-parts/sections/about', 'hero'); ?>
-    <?php get_template_part('template-parts/sections/about', 'industries'); ?>
     <?php get_template_part('template-parts/sections/about', 'clients'); ?>
     <?php get_template_part('template-parts/sections/about', 'stack'); ?>
     <?php get_template_part('template-parts/sections/about', 'story'); ?>
+    <?php get_template_part('template-parts/sections/about', 'industries'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php
