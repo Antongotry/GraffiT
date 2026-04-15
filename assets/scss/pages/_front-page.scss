@@ -489,7 +489,7 @@
   margin: #{mixins.vw(40px)} auto 0;
 
   @include mixins.mobile {
-    width: 100vw;
+    width: 130vw;
     margin: #{mixins.mvw(40px)} auto 0;
   }
 }
