@@ -613,9 +613,10 @@
   }
 
   @include mixins.mobile {
-    flex: 0 0 100%;
-    width: 100%;
+    flex: 0 0 #{mixins.mvw(355px)};
+    width: #{mixins.mvw(355px)};
     min-width: #{mixins.mvw(355px)};
+    max-width: #{mixins.mvw(355px)};
     height: auto;
     min-height: #{mixins.mvw(410px)};
     border-radius: #{mixins.mvw(12px)};
