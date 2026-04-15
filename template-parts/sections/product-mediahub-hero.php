@@ -7,14 +7,9 @@
 
 declare(strict_types=1);
 
-$hero_bg = graffit_product_mediahub_hero_image_url();
+$hero_img = graffit_product_mediahub_hero_image_url();
 ?>
-<section
-    class="mediahub-hero"
-    style="--mediahub-hero-image: url('<?php echo esc_url($hero_bg); ?>');"
->
-    <div class="mediahub-hero__backdrop" aria-hidden="true"></div>
-
+<section class="mediahub-hero">
     <div class="mediahub-hero__container">
         <div class="mediahub-hero__content">
             <h1 class="mediahub-hero__title">
@@ -34,5 +29,15 @@ $hero_bg = graffit_product_mediahub_hero_image_url();
                 data-popup-source-label="MediaHub · Hero · Отримати консультацію"
             >Отримати консультацію</a>
         </div>
+    </div>
+
+    <div class="mediahub-hero__visual">
+        <img
+            class="mediahub-hero__image"
+            src="<?php echo esc_url($hero_img); ?>"
+            alt=""
+            aria-hidden="true"
+            loading="eager"
+        >
     </div>
 </section>
