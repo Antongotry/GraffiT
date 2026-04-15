@@ -19,7 +19,6 @@ $stack_items = [
     [
         'icon_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ics3.svg',
         'label'    => 'PostgreSQL',
-        'active'   => true,
     ],
     [
         'icon_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ics4.svg',
