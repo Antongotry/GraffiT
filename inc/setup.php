@@ -110,7 +110,7 @@ function graffit_products_hero_image_url(): string
  */
 function graffit_about_hero_image_url(): string
 {
-    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-2087325771_result-scaled.webp';
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-14_result.webp';
 }
 
 /**
