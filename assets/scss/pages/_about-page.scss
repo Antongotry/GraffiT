@@ -135,7 +135,7 @@
   @include mixins.mobile {
     width: #{mixins.mvw(358px)};
     max-width: 100%;
-    margin-top: #{mixins.mvw(34px)};
+    margin-top: #{mixins.mvw(24px)};
     font-size: #{mixins.mvw(14px)};
     line-height: 1.36;
   }
