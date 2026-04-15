@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 $current_path = graffit_current_request_path();
 $is_front_page = $current_path === '';
-$about_url = $is_front_page ? '#home-about' : home_url('/#home-about');
+$about_url = home_url('/about/');
 $projects_url = ($is_front_page || $current_path === 'services')
     ? '#services-projects'
     : home_url('/#services-projects');
