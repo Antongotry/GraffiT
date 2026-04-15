@@ -225,6 +225,7 @@
 
   @include mixins.mobile {
     width: 100%;
+    max-width: #{mixins.mvw(355px)};
   }
 }
 
@@ -303,23 +304,23 @@
   .about-story__title {
     width: #{mixins.mvw(355px)};
     max-width: 100%;
-    min-height: #{mixins.mvw(150px)};
+    min-height: auto;
     margin-top: #{mixins.mvw(28px)};
     font-size: #{mixins.mvw(30px)};
     line-height: 1;
   }
 
   .about-story__description {
-    width: #{mixins.mvw(344px)};
+    width: 100%;
     max-width: 100%;
-    min-height: #{mixins.mvw(138px)};
-    margin-top: #{mixins.mvw(28px)};
+    min-height: auto;
+    margin-top: #{mixins.mvw(34px)};
     font-size: #{mixins.mvw(14px)};
     line-height: 1.36;
   }
 
   .about-story__description--secondary {
-    margin-top: #{mixins.mvw(12px)};
+    margin-top: #{mixins.mvw(22px)};
   }
 
   .about-story__media {
