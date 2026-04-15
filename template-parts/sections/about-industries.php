@@ -39,6 +39,8 @@ $columns = [
 ?>
 <section class="about-industries" aria-labelledby="about-industries-title">
     <div class="about-industries__container">
+        <div class="about-industries__divider" aria-hidden="true"></div>
+
         <header class="about-industries__header">
             <h2 class="about-industries__title" id="about-industries-title">
                 Наші рішення підходять для компаній у
@@ -47,8 +49,6 @@ $columns = [
                 Ми не просто кодимо — ми оптимізуємо, автоматизуємо і виводимо процеси з “ручного режиму” в керовану систему в компаніях будь-якого масштабу — від стартапів до корпорацій.
             </p>
         </header>
-
-        <div class="about-industries__divider" aria-hidden="true"></div>
 
         <div class="about-industries__grid" role="list">
             <?php foreach ($columns as $column) : ?>
