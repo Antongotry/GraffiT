@@ -1013,7 +1013,10 @@
     }
 
     .service-card {
+      width: 100%;
+      max-width: #{mixins.mvw(355px)};
       min-height: #{mixins.mvw(360px)};
+      margin-inline: auto;
       padding: #{mixins.mvw(40px)} #{mixins.mvw(24px)} #{mixins.mvw(24px)};
       border-radius: #{mixins.mvw(12px)};
       justify-content: flex-start;
