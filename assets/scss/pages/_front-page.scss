@@ -259,8 +259,8 @@
   background: #010814;
 
   @include mixins.mobile {
-    min-height: #{mixins.mvw(760px)};
-    height: #{mixins.mvw(760px)};
+    min-height: #{mixins.mvw(630px)};
+    height: #{mixins.mvw(630px)};
   }
 }
 
@@ -286,7 +286,6 @@
 
   @include mixins.mobile {
     overflow: visible;
-    height: 70%;
   }
 
   &::before {
