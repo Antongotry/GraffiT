@@ -324,7 +324,7 @@
     #000102;
 
   @include mixins.mobile {
-    padding: #{mixins.mvw(84px)} 0 #{mixins.mvw(88px)};
+    padding: #{mixins.mvw(84px)} 0 0;
   }
 }
 
@@ -423,6 +423,7 @@
     position: relative;
     display: block;
     width: 100%;
+    max-width: 100%;
     margin-top: #{mixins.mvw(40px)};
   }
 

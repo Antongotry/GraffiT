@@ -1546,10 +1546,6 @@
         visual.classList.toggle('is-active', isVisible && isNearViewportCenter);
       }
 
-      visual.addEventListener('click', function () {
-        visual.classList.toggle('is-active');
-      });
-
       window.addEventListener('scroll', syncState, { passive: true });
       window.addEventListener('resize', syncState);
       window.requestAnimationFrame(syncState);
