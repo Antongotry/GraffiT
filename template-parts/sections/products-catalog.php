@@ -115,7 +115,15 @@ $products_catalog_items = [
                             <p class="product-catalog-card__description"><?php echo esc_html($catalog_item['description']); ?></p>
 
                             <a
-                                class="product-catalog-card__cta"
+                                class="product-catalog-card__cta product-catalog-card__cta--desktop"
+                                href="#site-footer"
+                                data-popup-open="request"
+                                data-popup-source="products-catalog"
+                                data-popup-source-label="<?php echo esc_attr('Catalog · ' . $catalog_item['title']); ?>"
+                            >Детальніше</a>
+
+                            <a
+                                class="product-catalog-card__cta product-catalog-card__cta--mobile"
                                 href="#site-footer"
                                 data-popup-open="request"
                                 data-popup-source="products-catalog"
