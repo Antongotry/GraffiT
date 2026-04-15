@@ -13,6 +13,7 @@ get_header();
 <main id="primary" class="site-main site-main--product-mediahub">
     <?php get_template_part('template-parts/sections/product-mediahub', 'hero'); ?>
     <?php get_template_part('template-parts/sections/product-mediahub', 'audience'); ?>
+    <?php get_template_part('template-parts/sections/product-mediahub', 'results'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php

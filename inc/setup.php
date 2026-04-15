@@ -159,6 +159,19 @@ function graffit_product_mediahub_audience_image_url(int $index): string
 }
 
 /**
+ * MediaHub «результат» — іконки-прапорці (1–5), gN_result.webp.
+ */
+function graffit_product_mediahub_result_image_url(int $index): string
+{
+    $index = max(1, min(5, $index));
+
+    return sprintf(
+        'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/g%d_result.webp',
+        $index
+    );
+}
+
+/**
  * Static route title by current path.
  */
 function graffit_static_route_title(): ?string
