@@ -116,7 +116,7 @@
   height: #{mixins.vw(187px)};
 
   @include mixins.mobile {
-    top: #{mixins.mvw(300px)};
+    top: #{mixins.mvw(390px)};
     right: #{mixins.mvw(52px)};
     width: #{mixins.mvw(130px)};
     height: #{mixins.mvw(139px)};
