@@ -1517,6 +1517,45 @@
     });
   }
 
+  function initAboutStackMobileVisual() {
+    if (window.innerWidth > 1024) {
+      return;
+    }
+
+    var visuals = document.querySelectorAll('.js-about-stack-mobile-visual');
+
+    if (!visuals.length) {
+      return;
+    }
+
+    visuals.forEach(function (visual) {
+      if (visual.getAttribute('data-about-stack-mobile-ready') === '1') {
+        return;
+      }
+
+      visual.setAttribute('data-about-stack-mobile-ready', '1');
+
+      function syncState() {
+        var rect = visual.getBoundingClientRect();
+        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        var elementCenter = rect.top + rect.height / 2;
+        var viewportCenter = viewportHeight / 2;
+        var isNearViewportCenter = Math.abs(elementCenter - viewportCenter) <= rect.height * 0.22;
+        var isVisible = rect.bottom > 0 && rect.top < viewportHeight;
+
+        visual.classList.toggle('is-active', isVisible && isNearViewportCenter);
+      }
+
+      visual.addEventListener('click', function () {
+        visual.classList.toggle('is-active');
+      });
+
+      window.addEventListener('scroll', syncState, { passive: true });
+      window.addEventListener('resize', syncState);
+      window.requestAnimationFrame(syncState);
+    });
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -1542,4 +1581,5 @@
   runInit(initProcessTimeline, 'process-timeline');
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
   runInit(initFaqAccordion, 'faq-accordion');
+  runInit(initAboutStackMobileVisual, 'about-stack-mobile-visual');
 })();

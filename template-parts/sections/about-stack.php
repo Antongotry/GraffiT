@@ -7,6 +7,9 @@
 
 declare(strict_types=1);
 
+$about_stack_mobile_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/noam_result.webp';
+$about_stack_mobile_image_active = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/am_result.webp';
+
 $stack_items = [
     [
         'image_url'       => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/1noa_result.webp',
@@ -54,6 +57,27 @@ $stack_items = [
         <p class="about-stack__lead">
             Використовуємо сучасний стек і закладаємо масштабованість із самого початку:
         </p>
+
+        <button class="about-stack__mobile-visual js-about-stack-mobile-visual" type="button" aria-label="Технологічний стек GraffIT">
+            <img
+                class="about-stack__mobile-image about-stack__mobile-image--default"
+                src="<?php echo esc_url($about_stack_mobile_image); ?>"
+                alt=""
+                width="391"
+                height="886"
+                loading="lazy"
+                decoding="async"
+            >
+            <img
+                class="about-stack__mobile-image about-stack__mobile-image--active"
+                src="<?php echo esc_url($about_stack_mobile_image_active); ?>"
+                alt=""
+                width="391"
+                height="886"
+                loading="lazy"
+                decoding="async"
+            >
+        </button>
 
         <div class="about-stack__grid" role="list" aria-label="Технологічний стек GraffIT">
             <?php foreach ($stack_items as $index => $stack_item) : ?>
