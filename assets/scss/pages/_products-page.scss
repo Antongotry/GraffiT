@@ -49,10 +49,10 @@
   padding-bottom: #{mixins.vw(48px)};
 
   @include mixins.mobile {
-    width: min(100% - #{mixins.mvw(32px)}, 100%);
+    width: min(100% - #{mixins.mvw(38px)}, 100%);
     min-height: #{mixins.mvw(633px)};
     height: auto;
-    padding-top: #{mixins.mvw(73px)};
+    padding-top: #{mixins.mvw(86px)};
     padding-bottom: #{mixins.mvw(24px)};
   }
 }
@@ -69,9 +69,9 @@
 
   @include mixins.mobile {
     position: relative;
-    width: #{mixins.mvw(349px)};
+    width: 100%;
     max-width: 100%;
-    min-height: #{mixins.mvw(152px)};
+    min-height: auto;
   }
 }
 
@@ -85,11 +85,11 @@
 
   @include mixins.mobile {
     position: relative;
-    width: #{mixins.mvw(349px)};
+    width: 100%;
     max-width: 100%;
     font-size: #{mixins.mvw(27.931px)};
     font-weight: 400;
-    line-height: 1;
+    line-height: 0.96;
   }
 
   &::before {
@@ -116,7 +116,12 @@
   display: block;
 
   @include mixins.mobile {
+    display: inline;
     white-space: normal;
+
+    & + .products-hero__title-line::before {
+      content: " ";
+    }
   }
 }
 
@@ -144,7 +149,7 @@
     width: #{mixins.mvw(358px)};
     max-width: 100%;
     min-height: #{mixins.mvw(76px)};
-    margin-top: #{mixins.mvw(44px)};
+    margin-top: #{mixins.mvw(28px)};
     font-size: #{mixins.mvw(14px)};
     line-height: 1.36;
   }
@@ -180,7 +185,7 @@
     width: #{mixins.mvw(231px)};
     max-width: 100%;
     min-width: 0;
-    margin-top: #{mixins.mvw(28px)};
+    margin-top: #{mixins.mvw(18px)};
     padding: #{mixins.mvw(19px)} #{mixins.mvw(32px)};
     border-radius: #{mixins.mvw(8px)};
     font-size: #{mixins.mvw(14px)};
