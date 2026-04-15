@@ -90,6 +90,14 @@ function graffit_home_hero_image_url(): string
 }
 
 /**
+ * Front page hero background for viewports up to 1024px.
+ */
+function graffit_home_hero_image_mobile_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-2087325775_result.webp';
+}
+
+/**
  * Front page CTA gem image URL.
  */
 function graffit_home_hero_cta_image_url(): string
@@ -200,6 +208,7 @@ function graffit_preload_home_hero(): void
     }
 
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_home_hero_image_url()) . '">' . "\n";
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_home_hero_image_mobile_url()) . '" media="(max-width: 1024px)">' . "\n";
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_home_hero_cta_image_url()) . '">' . "\n";
 }
 add_action('wp_head', 'graffit_preload_home_hero', 3);
