@@ -687,9 +687,9 @@
     top: auto;
     width: 100%;
     max-width: none;
-    margin: #{mixins.mvw(20px)} 0 0;
-    font-size: #{mixins.mvw(18px)};
-    line-height: 1.2;
+    margin: #{mixins.mvw(14px)} 0 0;
+    font-size: #{mixins.mvw(17px)};
+    line-height: 1.1;
     transition: none;
   }
 }
@@ -715,9 +715,10 @@
     top: auto;
     width: 100%;
     max-width: none;
-    margin: #{mixins.mvw(12px)} 0 0;
-    font-size: #{mixins.mvw(14px)};
-    line-height: 1.36;
+    margin: #{mixins.mvw(10px)} 0 0;
+    font-size: #{mixins.mvw(12px)};
+    line-height: 1.3;
+    flex: 0 0 auto;
     transition: none;
   }
 }
@@ -762,13 +763,14 @@
     top: auto;
     width: #{mixins.mvw(147px)};
     min-width: 0;
-    margin: auto 0 0;
+    margin: #{mixins.mvw(16px)} 0 0;
     padding: #{mixins.mvw(19px)} #{mixins.mvw(32px)};
     border-radius: #{mixins.mvw(8px)};
     font-size: #{mixins.mvw(14px)};
     opacity: 1;
     transform: none;
     pointer-events: auto;
+    align-self: flex-start;
     transition: background 0.2s ease;
   }
 }
