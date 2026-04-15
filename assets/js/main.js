@@ -239,7 +239,8 @@
       var prevButton = section.querySelector('.js-projects-prev');
       var nextButton = section.querySelector('.js-projects-next');
       var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
-      var startOffset = section.classList.contains('products-projects') ? 360 : 100;
+      var isProductsProjects = section.classList.contains('products-projects');
+      var startOffset = isProductsProjects ? 360 : 100;
 
       if (!viewport || !stage || !track || cards.length === 0) {
         return;
@@ -266,6 +267,13 @@
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onToggle: function (self) {
+            if (!isProductsProjects) {
+              return;
+            }
+
+            section.classList.toggle('is-projects-active', self.isActive);
+          },
           onUpdate: function (self) {
             currentIndex = Math.round(self.progress * getMaxIndex());
           }

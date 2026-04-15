@@ -753,4 +753,24 @@
   position: relative;
   isolation: isolate;
   z-index: 1;
+
+  .services-projects__viewport {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+  }
+
+  &.is-projects-active {
+    .services-projects__viewport {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  @include mixins.mobile {
+    .services-projects__viewport {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 }
