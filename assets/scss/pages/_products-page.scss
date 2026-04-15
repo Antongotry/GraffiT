@@ -278,11 +278,17 @@
 
 .products-catalog {
   position: relative;
+  margin-bottom: #{mixins.vw(-186px)};
   overflow: hidden;
+  z-index: 4;
   background:
     radial-gradient(circle at 0% 42%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 24%),
     radial-gradient(circle at 100% 0%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
     #000102;
+
+  @include mixins.mobile {
+    margin-bottom: 0;
+  }
 }
 
 .products-catalog__viewport {
@@ -600,4 +606,8 @@
     transform: none;
     pointer-events: auto;
   }
+}
+
+.products-inquiry {
+  margin-top: 0;
 }
