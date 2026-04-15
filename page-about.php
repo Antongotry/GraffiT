@@ -16,7 +16,20 @@ get_header();
     <?php get_template_part('template-parts/sections/about', 'stack'); ?>
     <?php get_template_part('template-parts/sections/about', 'story'); ?>
     <?php get_template_part('template-parts/sections/about', 'industries'); ?>
-    <?php get_template_part('template-parts/sections/home-services-directions'); ?>
+    <?php
+    get_template_part(
+        'template-parts/sections/home-services-directions',
+        null,
+        [
+            'eyebrow_text' => 'Напрямки роботи',
+            'title_id' => 'about-services-directions-title',
+            'title_lines' => [
+                'Проєктуємо рішення, що працюють у реальному навантаженні',
+                'та витримують темп бізнесу',
+            ],
+        ]
+    );
+    ?>
     <?php
     get_template_part(
         'template-parts/sections/home-inquiry',

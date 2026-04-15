@@ -620,8 +620,25 @@
   margin-top: #{mixins.vw(64px)};
 }
 
+.site-main--about .services-overview--home-directions .services-overview__eyebrow {
+  width: auto;
+  max-width: #{mixins.vw(520px)};
+}
+
+.site-main--about .services-overview--home-directions .services-overview__eyebrow-text {
+  flex: 0 1 auto;
+  width: auto;
+  max-width: 100%;
+  text-align: center;
+  white-space: normal;
+}
+
 @include mixins.mobile {
   .site-main--about .services-overview--home-directions {
     margin-top: #{mixins.mvw(40px)};
+  }
+
+  .site-main--about .services-overview--home-directions .services-overview__eyebrow {
+    max-width: 100%;
   }
 }

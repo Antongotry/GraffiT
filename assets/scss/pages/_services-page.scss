@@ -860,6 +860,18 @@
     }
   }
 
+  .services-overview__title-line {
+    display: block;
+  }
+
+  .services-overview__title-line + .services-overview__title-line {
+    margin-top: #{mixins.vw(10px)};
+
+    @include mixins.mobile {
+      margin-top: #{mixins.mvw(8px)};
+    }
+  }
+
   .services-overview__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: #{mixins.vw(20px)};

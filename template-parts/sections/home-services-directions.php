@@ -1,11 +1,37 @@
 <?php
 /**
- * Front page: three service direction cards + matches services overview FiCSS layout.
+ * Front page (default) and About page (optional copy): three service direction cards.
+ *
+ * Optional `get_template_part` args:
+ * - `eyebrow_text` (string)
+ * - `title_id` (string)
+ * - `title_lines` (string[]) — if non-empty, multi-line title; else `title_text` or default
+ * - `title_text` (string) — single-line title when `title_lines` empty
  *
  * @package graffit
  */
 
 declare(strict_types=1);
+
+$directions_eyebrow_text = isset($eyebrow_text) && is_string($eyebrow_text) && $eyebrow_text !== ''
+    ? $eyebrow_text
+    : 'Послуги';
+$directions_title_id = isset($title_id) && is_string($title_id) && $title_id !== ''
+    ? $title_id
+    : 'home-services-directions-title';
+$directions_title_lines = [];
+
+if (isset($title_lines) && is_array($title_lines)) {
+    foreach ($title_lines as $line) {
+        if (is_string($line) && $line !== '') {
+            $directions_title_lines[] = $line;
+        }
+    }
+}
+
+$directions_title_text = isset($title_text) && is_string($title_text) && $title_text !== ''
+    ? $title_text
+    : 'Ми працюємо у трьох напрямках:';
 
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
 $uploads_base = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/';
@@ -47,7 +73,7 @@ $cards = [
     ],
 ];
 ?>
-<section class="services-overview services-overview--home-directions" aria-labelledby="home-services-directions-title">
+<section class="services-overview services-overview--home-directions" aria-labelledby="<?php echo esc_attr($directions_title_id); ?>">
     <div class="services-overview__container">
         <div class="services-overview__eyebrow">
             <img
@@ -60,11 +86,17 @@ $cards = [
                 loading="lazy"
                 decoding="async"
             >
-            <p class="services-overview__eyebrow-text">Послуги</p>
+            <p class="services-overview__eyebrow-text"><?php echo esc_html($directions_eyebrow_text); ?></p>
         </div>
 
-        <h2 class="services-overview__title" id="home-services-directions-title">
-            Ми працюємо у трьох напрямках:
+        <h2 class="services-overview__title" id="<?php echo esc_attr($directions_title_id); ?>">
+            <?php if ($directions_title_lines !== []) : ?>
+                <?php foreach ($directions_title_lines as $line) : ?>
+                    <span class="services-overview__title-line"><?php echo esc_html($line); ?></span>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <?php echo esc_html($directions_title_text); ?>
+            <?php endif; ?>
         </h2>
 
         <div class="services-overview__grid">
