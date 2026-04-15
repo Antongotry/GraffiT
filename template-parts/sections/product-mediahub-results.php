@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-$logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
+$mediahub_results_eyebrow_icon_url = get_template_directory_uri() . '/assets/images/mediahub-benefits-eyebrow.svg';
 
 $mediahub_results_cards = [
     [
@@ -49,9 +49,9 @@ $mediahub_results_cards = [
                 <div class="mediahub-results__eyebrow">
                     <img
                         class="mediahub-results__eyebrow-icon"
-                        src="<?php echo esc_url($logo_mark_url); ?>"
+                        src="<?php echo esc_url($mediahub_results_eyebrow_icon_url); ?>"
                         alt=""
-                        width="28"
+                        width="29"
                         height="32"
                         aria-hidden="true"
                         loading="eager"

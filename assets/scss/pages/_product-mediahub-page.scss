@@ -464,29 +464,32 @@
 .mediahub-results__eyebrow {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: #{mixins.vw(12px)};
+  width: fit-content;
+  min-height: #{mixins.vw(32px)};
   margin: 0;
 
   @include mixins.mobile {
     gap: #{mixins.mvw(12px)};
+    min-height: #{mixins.mvw(32px)};
   }
 }
 
 .mediahub-results__eyebrow-icon {
   display: block;
   flex-shrink: 0;
-  width: #{mixins.vw(28px)};
+  width: #{mixins.vw(29px)};
   height: #{mixins.vw(32px)};
 
   @include mixins.mobile {
-    width: #{mixins.mvw(28px)};
+    width: #{mixins.mvw(29px)};
     height: #{mixins.mvw(32px)};
   }
 }
 
 .mediahub-results__eyebrow-text {
-  margin: 0;
+  margin: #{mixins.vw(5px)} 0 0;
   font-family: "Involve", sans-serif;
   font-size: #{mixins.vw(16px)};
   font-weight: 400;
@@ -494,6 +497,7 @@
   color: #000102;
 
   @include mixins.mobile {
+    margin-top: #{mixins.mvw(5px)};
     font-size: #{mixins.mvw(16px)};
   }
 }
