@@ -19,12 +19,12 @@
   max-width: 100%;
   margin-inline: auto;
   padding-top: #{mixins.vw(160px)};
-  padding-bottom: #{mixins.vw(48px)};
+  padding-bottom: 0;
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
     padding-top: #{mixins.mvw(100px)};
-    padding-bottom: #{mixins.mvw(32px)};
+    padding-bottom: 0;
   }
 }
 
