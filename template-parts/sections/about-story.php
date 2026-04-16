@@ -40,7 +40,7 @@ declare(strict_types=1);
         <div class="about-story__media" aria-hidden="true">
             <img
                 class="about-story__image"
-                src="<?php echo esc_url(graffit_about_hero_image_url()); ?>"
+                src="<?php echo esc_url(graffit_about_story_image_url()); ?>"
                 width="810"
                 height="951"
                 alt=""

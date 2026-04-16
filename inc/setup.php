@@ -138,6 +138,14 @@ function graffit_about_hero_image_mobile_url(): string
 }
 
 /**
+ * About page «Наша історія» illustration (not the hero backdrop).
+ */
+function graffit_about_story_image_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-14_result.webp';
+}
+
+/**
  * Product MediaHub hero background (desktop art, mockups in frame).
  */
 function graffit_product_mediahub_hero_image_url(): string
