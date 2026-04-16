@@ -57,7 +57,7 @@
 }
 
 .about-hero__content {
-  width: #{mixins.vw(620px)};
+  width: #{mixins.vw(820px)};
   max-width: 100%;
 
   @include mixins.mobile {
@@ -73,7 +73,7 @@
 
   @include mixins.mobile {
     width: 100%;
-    max-width: #{mixins.mvw(349px)};
+    max-width: 100%;
     min-height: #{mixins.mvw(84px)};
   }
 }
@@ -114,7 +114,7 @@
   @include mixins.mobile {
     left: 0;
     width: 100%;
-    max-width: #{mixins.mvw(349px)};
+    max-width: 100%;
     min-height: #{mixins.mvw(84px)};
     font-size: #{mixins.mvw(26px)};
     font-weight: 600;
