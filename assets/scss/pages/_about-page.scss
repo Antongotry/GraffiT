@@ -44,7 +44,7 @@
   min-height: 100svh;
   height: 100%;
   margin-inline: auto;
-  padding-top: #{mixins.vw(230px)};
+  padding-top: #{mixins.vw(180px)};
   padding-bottom: #{mixins.vw(48px)};
 
   @include mixins.mobile {
