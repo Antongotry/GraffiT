@@ -383,7 +383,7 @@
 
 /* ------------------------------------------------------------------
    Results — «В результаті використання MediaHub»
-   (перший ряд: інтро зліва + дві картки справа; далі сітка 3×1)
+   (перший ряд: інтро + дві картки справа; нижній ряд: 4 колонки — картка, картка, порожньо, картка вправі)
    ------------------------------------------------------------------ */
 
 .mediahub-results {
@@ -471,7 +471,7 @@
 
 .mediahub-results__layout {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: start;
   margin: 0;
   padding: 0;
@@ -479,6 +479,29 @@
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Нижній ряд: 1 | 2 | (порожня колонка) | 3 — остання картка біля правого краю як у верхньому ряду */
+.mediahub-results__layout > .mediahub-results__cell--card:nth-child(1) {
+  grid-column: 1;
+}
+
+.mediahub-results__layout > .mediahub-results__cell--card:nth-child(2) {
+  grid-column: 2;
+}
+
+.mediahub-results__layout > .mediahub-results__cell--card:nth-child(3) {
+  grid-column: 4;
+  justify-self: end;
+}
+
+@include mixins.mobile {
+  .mediahub-results__layout > .mediahub-results__cell--card:nth-child(1),
+  .mediahub-results__layout > .mediahub-results__cell--card:nth-child(2),
+  .mediahub-results__layout > .mediahub-results__cell--card:nth-child(3) {
+    grid-column: auto;
+    justify-self: stretch;
   }
 }
 
