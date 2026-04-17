@@ -44,26 +44,26 @@ $mediahub_results_cards = [
 ?>
 <section class="mediahub-results" aria-labelledby="mediahub-results-title">
     <div class="mediahub-results__inner">
-        <div class="mediahub-results__layout">
-            <header class="mediahub-results__intro">
-                <div class="mediahub-results__eyebrow">
-                    <img
-                        class="mediahub-results__eyebrow-icon"
-                        src="<?php echo esc_url($mediahub_results_eyebrow_icon_url); ?>"
-                        alt=""
-                        width="29"
-                        height="32"
-                        aria-hidden="true"
-                        loading="eager"
-                        decoding="async"
-                    >
-                    <p class="mediahub-results__eyebrow-text">Переваги</p>
-                </div>
-                <h2 id="mediahub-results-title" class="mediahub-results__title">
-                    В результаті використання MediaHub
-                </h2>
-            </header>
+        <header class="mediahub-results__intro">
+            <div class="mediahub-results__eyebrow">
+                <img
+                    class="mediahub-results__eyebrow-icon"
+                    src="<?php echo esc_url($mediahub_results_eyebrow_icon_url); ?>"
+                    alt=""
+                    width="29"
+                    height="32"
+                    aria-hidden="true"
+                    loading="eager"
+                    decoding="async"
+                >
+                <p class="mediahub-results__eyebrow-text">Переваги</p>
+            </div>
+            <h2 id="mediahub-results-title" class="mediahub-results__title">
+                В результаті використання MediaHub
+            </h2>
+        </header>
 
+        <div class="mediahub-results__layout">
             <?php foreach ($mediahub_results_cards as $card) : ?>
                 <?php
                 $img_url = graffit_product_mediahub_result_image_url((int) $card['image']);
