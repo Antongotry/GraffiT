@@ -239,6 +239,11 @@
       var prevButton = section.querySelector('.js-projects-prev');
       var nextButton = section.querySelector('.js-projects-next');
       var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
+
+      if (cards.length === 0) {
+        cards = Array.prototype.slice.call(section.querySelectorAll('.mediahub-capability-card'));
+      }
+
       var isProductsProjects = section.classList.contains('products-projects');
       var startOffset = isProductsProjects ? 360 : 100;
 
@@ -431,6 +436,10 @@
       var prevButton = section.querySelector('.js-projects-prev');
       var nextButton = section.querySelector('.js-projects-next');
       var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
+
+      if (cards.length === 0) {
+        cards = Array.prototype.slice.call(section.querySelectorAll('.mediahub-capability-card'));
+      }
 
       if (!stage || cards.length === 0) {
         return;

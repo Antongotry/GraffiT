@@ -631,3 +631,255 @@
     max-width: 100%;
   }
 }
+
+/* ------------------------------------------------------------------
+   Capabilities carousel — «Що вміє MediaHub» (shell як services-projects)
+   ------------------------------------------------------------------ */
+
+.mediahub-capabilities.services-projects {
+  &::before {
+    opacity: 0.14;
+  }
+}
+
+.mediahub-capabilities .services-projects__container {
+  width: min(#{mixins.vw(1360px)}, 100%);
+  max-width: 100%;
+  padding-left: #{mixins.vw(24px)};
+  padding-right: #{mixins.vw(24px)};
+  margin-inline: auto;
+  box-sizing: border-box;
+
+  @include mixins.mobile {
+    padding-left: #{mixins.mvw(16px)};
+    padding-right: #{mixins.mvw(16px)};
+  }
+}
+
+.mediahub-capabilities .services-projects__header {
+  width: 100%;
+  max-width: 100%;
+  padding-right: #{mixins.vw(100px)};
+
+  @include mixins.mobile {
+    padding-right: 0;
+  }
+}
+
+.mediahub-capabilities .services-projects__top-row {
+  padding-right: #{mixins.vw(120px)};
+
+  @include mixins.mobile {
+    padding-right: 0;
+  }
+}
+
+.mediahub-capabilities .services-projects__title {
+  width: min(#{mixins.vw(720px)}, 100%);
+  max-width: 100%;
+  font-size: #{mixins.vw(24px)};
+  font-weight: 500;
+  line-height: 1.2;
+
+  @include mixins.mobile {
+    width: 100%;
+    font-size: #{mixins.mvw(18px)};
+    line-height: 1.22;
+  }
+}
+
+.mediahub-capabilities .services-projects__nav {
+  right: #{mixins.vw(32px)};
+
+  @include mixins.mobile {
+    right: auto;
+  }
+}
+
+.mediahub-capability-card {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 #{mixins.vw(670px)};
+  width: #{mixins.vw(670px)};
+  min-height: 0;
+  height: 100%;
+  padding: #{mixins.vw(40px)};
+  border-radius: #{mixins.vw(12px)};
+  background: #353e4d;
+  overflow: hidden;
+
+  @include mixins.mobile {
+    $card-w: calc(100vw - #{mixins.mvw(32px)});
+
+    flex: 0 0 min(100%, #{$card-w});
+    width: min(100%, #{$card-w});
+    max-width: 100%;
+    height: auto;
+    min-height: #{mixins.mvw(480px)};
+    padding: #{mixins.mvw(24px)};
+    border-radius: #{mixins.mvw(12px)};
+    scroll-snap-align: start;
+    box-sizing: border-box;
+
+    @supports (width: 1cqw) {
+      flex: 0 0 100cqw;
+      width: 100cqw;
+      max-width: 100cqw;
+    }
+  }
+}
+
+.mediahub-capability-card__visual {
+  flex: 1 1 auto;
+  min-height: #{mixins.vw(200px)};
+  border-radius: #{mixins.vw(8px)};
+  background: #979797;
+
+  @include mixins.mobile {
+    min-height: #{mixins.mvw(180px)};
+    border-radius: #{mixins.mvw(8px)};
+  }
+}
+
+.mediahub-capability-card__body {
+  margin: #{mixins.vw(28px)} 0 0;
+  font-family: "Involve", sans-serif;
+  font-size: #{mixins.vw(16px)};
+  font-weight: 400;
+  line-height: 136%;
+  color: #ffffff;
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(20px)};
+    font-size: #{mixins.mvw(15px)};
+  }
+}
+
+.mediahub-capability-card__result {
+  flex: 0 0 auto;
+  margin-top: #{mixins.vw(22px)};
+  padding: #{mixins.vw(24px)};
+  border-radius: #{mixins.vw(12px)};
+  background: #0073e6;
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(18px)};
+    padding: #{mixins.mvw(20px)};
+    border-radius: #{mixins.mvw(10px)};
+  }
+}
+
+.mediahub-capability-card__result-label {
+  margin: 0;
+  font-family: "Involve", sans-serif;
+  font-size: #{mixins.vw(16px)};
+  font-weight: 400;
+  line-height: 136%;
+  color: rgba(255, 255, 255, 0.56);
+
+  @include mixins.mobile {
+    font-size: #{mixins.mvw(14px)};
+  }
+}
+
+.mediahub-capability-card__result-text {
+  margin: #{mixins.vw(12px)} 0 0;
+  font-family: "Involve", sans-serif;
+  font-size: #{mixins.vw(16px)};
+  font-weight: 400;
+  line-height: 136%;
+  color: #ffffff;
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(10px)};
+    font-size: #{mixins.mvw(15px)};
+  }
+}
+
+.mediahub-capability-card--cta {
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(180deg, #cfd5df 0%, #eef0f4 42%, #ffffff 100%);
+}
+
+.mediahub-capability-card__cta-logo {
+  display: block;
+  flex-shrink: 0;
+  width: #{mixins.vw(63px)};
+  height: #{mixins.vw(72px)};
+  margin: 0 auto;
+  object-fit: contain;
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(56px)};
+    height: #{mixins.mvw(64px)};
+  }
+}
+
+.mediahub-capability-card__cta-title {
+  margin: #{mixins.vw(36px)} 0 0;
+  max-width: #{mixins.vw(560px)};
+  font-family: "Involve", sans-serif;
+  font-size: #{mixins.vw(32px)};
+  font-weight: 500;
+  line-height: 1.2;
+  color: #000102;
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(28px)};
+    max-width: 100%;
+    font-size: #{mixins.mvw(22px)};
+  }
+}
+
+.mediahub-capability-card__cta-lead {
+  margin: #{mixins.vw(24px)} 0 0;
+  max-width: #{mixins.vw(400px)};
+  font-family: "Involve", sans-serif;
+  font-size: #{mixins.vw(16px)};
+  font-weight: 400;
+  line-height: 136%;
+  color: #000000;
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(16px)};
+    max-width: 100%;
+    font-size: #{mixins.mvw(15px)};
+  }
+}
+
+.mediahub-capability-card__cta-button {
+  margin-top: #{mixins.vw(32px)};
+  padding: #{mixins.vw(15px)} #{mixins.vw(69px)};
+  border: 0;
+  border-radius: #{mixins.vw(8px)};
+  background: #0073e6;
+  font-family: "Involve", sans-serif;
+  font-size: #{mixins.vw(14px)};
+  font-weight: 400;
+  line-height: 130%;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #1a82ea;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(28px)};
+    width: 100%;
+    max-width: #{mixins.mvw(305px)};
+    padding: #{mixins.mvw(14px)} #{mixins.mvw(24px)};
+    border-radius: #{mixins.mvw(8px)};
+    font-size: #{mixins.mvw(14px)};
+  }
+}
