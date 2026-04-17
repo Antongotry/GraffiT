@@ -383,7 +383,7 @@
 
 /* ------------------------------------------------------------------
    Results — «В результаті використання MediaHub»
-   (інтро над сіткою; картки 3+2, останній ряд вирівняно вправо)
+   (перший ряд: інтро зліва + дві картки справа; далі сітка 3×1)
    ------------------------------------------------------------------ */
 
 .mediahub-results {
@@ -415,6 +415,60 @@
   }
 }
 
+.mediahub-results__head {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  gap: #{mixins.vw(32px)};
+  min-width: 0;
+
+  @include mixins.mobile {
+    flex-direction: column;
+    align-items: stretch;
+    gap: #{mixins.mvw(28px)};
+  }
+}
+
+.mediahub-results__head .mediahub-results__intro {
+  flex: 0 0 auto;
+  max-width: min(#{mixins.vw(380px)}, 100%);
+  min-width: 0;
+
+  @include mixins.mobile {
+    max-width: 100%;
+  }
+}
+
+.mediahub-results__head-cards {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: #{mixins.vw(32px)};
+  min-width: 0;
+
+  @include mixins.mobile {
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+    gap: #{mixins.mvw(24px)};
+  }
+}
+
+.mediahub-results__head-cards > .mediahub-results__cell--card {
+  flex: 0 1 #{mixins.vw(325px)};
+  max-width: #{mixins.vw(325px)};
+
+  @include mixins.mobile {
+    flex: 1 1 auto;
+    max-width: 100%;
+  }
+}
+
 .mediahub-results__layout {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -425,25 +479,6 @@
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
-  }
-}
-
-/* Останній ряд із двох карток — у колонках 2–3 (як «у кінці рядка»); на mobile скидається */
-.mediahub-results__layout > .mediahub-results__cell--card:nth-child(4) {
-  grid-column: 2;
-  grid-row: 2;
-}
-
-.mediahub-results__layout > .mediahub-results__cell--card:nth-child(5) {
-  grid-column: 3;
-  grid-row: 2;
-}
-
-@include mixins.mobile {
-  .mediahub-results__layout > .mediahub-results__cell--card:nth-child(4),
-  .mediahub-results__layout > .mediahub-results__cell--card:nth-child(5) {
-    grid-column: auto;
-    grid-row: auto;
   }
 }
 
