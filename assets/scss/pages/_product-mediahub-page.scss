@@ -482,7 +482,7 @@
   }
 }
 
-/* Нижній ряд: 1 | 2 | (порожня колонка) | 3 — остання картка біля правого краю як у верхньому ряду */
+/* Нижній ряд: 1 | 2 | (порожня колонка) | 3 — без justify-self: end, щоб лівий край збігався з другою карткою верхнього ряду */
 .mediahub-results__layout > .mediahub-results__cell--card:nth-child(1) {
   grid-column: 1;
 }
@@ -493,7 +493,6 @@
 
 .mediahub-results__layout > .mediahub-results__cell--card:nth-child(3) {
   grid-column: 4;
-  justify-self: end;
 }
 
 @include mixins.mobile {
@@ -501,7 +500,6 @@
   .mediahub-results__layout > .mediahub-results__cell--card:nth-child(2),
   .mediahub-results__layout > .mediahub-results__cell--card:nth-child(3) {
     grid-column: auto;
-    justify-self: stretch;
   }
 }
 
