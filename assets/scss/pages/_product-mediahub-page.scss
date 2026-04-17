@@ -383,8 +383,9 @@
 
 /* ------------------------------------------------------------------
    Results — «В результаті використання MediaHub»
-   Одна grid на __inner (через display: contents): колонки intro | 1fr | картка | картка —
-   ряд 1: інтро, порожній слот, к1, к2; ряд 2: к3, к4, порожньо, к5 (к5 у тій самій колонці, що к2).
+   Плоский __inner: інтро + 5 карток. Desktop grid 4×2 як у макеті:
+   ряд1: [заголовок col 1–2] [к1 col3] [к2 col4]
+   ряд2: [к3 col1] [к4 col2] [порожньо col3] [к5 col4]
    ------------------------------------------------------------------ */
 
 .mediahub-results {
@@ -410,75 +411,8 @@
   @include mixins.mobile {
     display: flex;
     flex-direction: column;
-    gap: #{mixins.mvw(40px)};
-    width: min(100% - #{mixins.mvw(32px)}, 100%);
-  }
-}
-
-.mediahub-results__head {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
-  gap: #{mixins.vw(32px)};
-  min-width: 0;
-
-  @include mixins.mobile {
-    flex-direction: column;
-    align-items: stretch;
     gap: #{mixins.mvw(28px)};
-  }
-}
-
-.mediahub-results__head .mediahub-results__intro {
-  flex: 0 0 auto;
-  max-width: min(#{mixins.vw(380px)}, 100%);
-  min-width: 0;
-
-  @include mixins.mobile {
-    max-width: 100%;
-  }
-}
-
-.mediahub-results__head-cards {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  justify-content: flex-end;
-  gap: #{mixins.vw(32px)};
-  min-width: 0;
-
-  @include mixins.mobile {
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    width: 100%;
-    gap: #{mixins.mvw(24px)};
-  }
-}
-
-.mediahub-results__head-cards > .mediahub-results__cell--card {
-  flex: 0 1 #{mixins.vw(325px)};
-  max-width: #{mixins.vw(325px)};
-
-  @include mixins.mobile {
-    flex: 1 1 auto;
-    max-width: 100%;
-  }
-}
-
-.mediahub-results__layout {
-  display: flex;
-  flex-direction: column;
-  gap: #{mixins.mvw(24px)};
-  margin: 0;
-  padding: 0;
-  border: 0;
-
-  @include mixins.mobile {
-    gap: #{mixins.mvw(24px)};
+    width: min(100% - #{mixins.mvw(32px)}, 100%);
   }
 }
 
@@ -495,20 +429,12 @@
     align-items: start;
   }
 
-  .mediahub-results__head,
-  .mediahub-results__head-cards,
-  .mediahub-results__layout {
-    display: contents;
-  }
-
-  .mediahub-results__layout {
-    gap: 0;
-  }
-
   .mediahub-results__inner > .mediahub-results__intro {
-    grid-column: 1;
+    grid-column: 1 / span 2;
     grid-row: 1;
-    max-width: min(#{mixins.vw(380px)}, 100%);
+    align-self: start;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .mediahub-results__inner > .mediahub-results__cell--card:nth-child(2) {
@@ -534,6 +460,11 @@
   .mediahub-results__inner > .mediahub-results__cell--card:nth-child(6) {
     grid-column: 4;
     grid-row: 2;
+  }
+
+  .mediahub-results__inner > .mediahub-results__intro .mediahub-results__title {
+    width: min(#{mixins.vw(520px)}, 100%);
+    max-width: 100%;
   }
 }
 

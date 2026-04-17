@@ -41,95 +41,56 @@ $mediahub_results_cards = [
         'text_modifier' => '',
     ],
 ];
-
-$mediahub_results_cards_head = array_slice($mediahub_results_cards, 0, 2);
-$mediahub_results_cards_rest = array_slice($mediahub_results_cards, 2);
 ?>
 <section class="mediahub-results" aria-labelledby="mediahub-results-title">
     <div class="mediahub-results__inner">
-        <div class="mediahub-results__head">
-            <header class="mediahub-results__intro">
-                <div class="mediahub-results__eyebrow">
-                    <img
-                        class="mediahub-results__eyebrow-icon"
-                        src="<?php echo esc_url($mediahub_results_eyebrow_icon_url); ?>"
-                        alt=""
-                        width="29"
-                        height="32"
-                        aria-hidden="true"
-                        loading="eager"
-                        decoding="async"
-                    >
-                    <p class="mediahub-results__eyebrow-text">Переваги</p>
-                </div>
-                <h2 id="mediahub-results-title" class="mediahub-results__title">
-                    В результаті використання MediaHub
-                </h2>
-            </header>
-
-            <div class="mediahub-results__head-cards">
-                <?php foreach ($mediahub_results_cards_head as $card) : ?>
-                    <?php
-                    $img_url = graffit_product_mediahub_result_image_url((int) $card['image']);
-                    $text_classes = ['mediahub-results__card-text'];
-                    if ($card['text_modifier'] !== '') {
-                        $text_classes[] = $card['text_modifier'];
-                    }
-                    ?>
-                    <div class="mediahub-results__cell mediahub-results__cell--card">
-                        <article class="mediahub-results__card">
-                            <div class="mediahub-results__card-head">
-                                <img
-                                    class="mediahub-results__flag"
-                                    src="<?php echo esc_url($img_url); ?>"
-                                    alt=""
-                                    width="64"
-                                    height="90"
-                                    loading="lazy"
-                                    decoding="async"
-                                    aria-hidden="true"
-                                >
-                            </div>
-                            <h3 class="mediahub-results__card-title"><?php echo esc_html($card['title']); ?></h3>
-                            <p class="<?php echo esc_attr(implode(' ', $text_classes)); ?>">
-                                <?php echo esc_html($card['text']); ?>
-                            </p>
-                        </article>
-                    </div>
-                <?php endforeach; ?>
+        <header class="mediahub-results__intro">
+            <div class="mediahub-results__eyebrow">
+                <img
+                    class="mediahub-results__eyebrow-icon"
+                    src="<?php echo esc_url($mediahub_results_eyebrow_icon_url); ?>"
+                    alt=""
+                    width="29"
+                    height="32"
+                    aria-hidden="true"
+                    loading="eager"
+                    decoding="async"
+                >
+                <p class="mediahub-results__eyebrow-text">Переваги</p>
             </div>
-        </div>
+            <h2 id="mediahub-results-title" class="mediahub-results__title">
+                В результаті використання MediaHub
+            </h2>
+        </header>
 
-        <div class="mediahub-results__layout">
-            <?php foreach ($mediahub_results_cards_rest as $card) : ?>
-                <?php
-                $img_url = graffit_product_mediahub_result_image_url((int) $card['image']);
-                $text_classes = ['mediahub-results__card-text'];
-                if ($card['text_modifier'] !== '') {
-                    $text_classes[] = $card['text_modifier'];
-                }
-                ?>
-                <div class="mediahub-results__cell mediahub-results__cell--card">
-                    <article class="mediahub-results__card">
-                        <div class="mediahub-results__card-head">
-                            <img
-                                class="mediahub-results__flag"
-                                src="<?php echo esc_url($img_url); ?>"
-                                alt=""
-                                width="64"
-                                height="90"
-                                loading="lazy"
-                                decoding="async"
-                                aria-hidden="true"
-                            >
-                        </div>
-                        <h3 class="mediahub-results__card-title"><?php echo esc_html($card['title']); ?></h3>
-                        <p class="<?php echo esc_attr(implode(' ', $text_classes)); ?>">
-                            <?php echo esc_html($card['text']); ?>
-                        </p>
-                    </article>
-                </div>
-            <?php endforeach; ?>
-        </div>
+        <?php foreach ($mediahub_results_cards as $card) : ?>
+            <?php
+            $img_url = graffit_product_mediahub_result_image_url((int) $card['image']);
+            $text_classes = ['mediahub-results__card-text'];
+            if ($card['text_modifier'] !== '') {
+                $text_classes[] = $card['text_modifier'];
+            }
+            ?>
+            <div class="mediahub-results__cell mediahub-results__cell--card">
+                <article class="mediahub-results__card">
+                    <div class="mediahub-results__card-head">
+                        <img
+                            class="mediahub-results__flag"
+                            src="<?php echo esc_url($img_url); ?>"
+                            alt=""
+                            width="64"
+                            height="90"
+                            loading="lazy"
+                            decoding="async"
+                            aria-hidden="true"
+                        >
+                    </div>
+                    <h3 class="mediahub-results__card-title"><?php echo esc_html($card['title']); ?></h3>
+                    <p class="<?php echo esc_attr(implode(' ', $text_classes)); ?>">
+                        <?php echo esc_html($card['text']); ?>
+                    </p>
+                </article>
+            </div>
+        <?php endforeach; ?>
     </div>
 </section>
