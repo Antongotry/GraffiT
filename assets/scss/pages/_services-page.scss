@@ -3677,24 +3677,6 @@
   overflow: hidden;
   isolation: isolate;
   background: #000102;
-
-  &::before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: #{mixins.vw(1000px)};
-    aspect-ratio: 1687 / 2560;
-    background: var(--services-projects-bg-image) center top / 100% 100% no-repeat;
-    content: "";
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  @include mixins.mobile {
-    &::before {
-      width: #{mixins.mvw(260px)};
-    }
-  }
 }
 
 .services-projects__viewport {
@@ -3707,10 +3689,27 @@
   min-height: 0;
   padding: #{mixins.vw(96px)} 0 #{mixins.vw(16px)};
   box-sizing: border-box;
+  overflow: hidden;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: #{mixins.vw(1000px)};
+    aspect-ratio: 1687 / 2560;
+    background: var(--services-projects-bg-image) center top / 100% 100% no-repeat;
+    content: "";
+    pointer-events: none;
+    z-index: -1;
+  }
 
   @include mixins.mobile {
     display: block;
     padding: #{mixins.mvw(48px)} 0 #{mixins.mvw(56px)};
+
+    &::before {
+      width: #{mixins.mvw(260px)};
+    }
   }
 }
 
