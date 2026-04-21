@@ -39,6 +39,12 @@
   min-height: auto;
 }
 
+/* Верхній «шпиль» CTA — легкий overlap з блоком над ним (process / ін.). */
+.site-main--services .services-final-cta,
+.site-main--products .services-final-cta {
+  margin-top: -1px;
+}
+
 .services-hero {
   position: relative;
   min-height: 100svh;
@@ -4666,11 +4672,11 @@
     radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 28%),
     radial-gradient(circle at 84% 18%, rgba(255, 255, 255, 0.44) 0%, rgba(255, 255, 255, 0) 24%),
     linear-gradient(180deg, #edf0f4 0%, #cfd4db 100%);
-  /* Низ — «шпиль» як у .services-clients__viewport (bow-tie до футера). */
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+  /* Повний bow-tie як на головній / .services-clients__viewport (верх + низ). */
+  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
 
   @include mixins.mobile {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 96%, 0 100%);
+    clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 50% 96%, 0 100%);
   }
 }
 

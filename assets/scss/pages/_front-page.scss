@@ -804,8 +804,8 @@ html.is-projects-pinned .site-header {
  */
 .home-faq + .services-final-cta {
   z-index: 3;
-  /* 1px hairline між секціями (субпіксель / clip) — легкий overlap. */
-  margin-top: -1px;
+  /* Після верхнього «шпиля» clip-path — трохи більший overlap з FAQ. */
+  margin-top: -2px;
   background: linear-gradient(180deg, #edf0f4 0%, #cfd4db 100%);
 }
 

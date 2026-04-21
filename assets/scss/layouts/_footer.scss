@@ -19,12 +19,13 @@
  * щоб трикутник заповнювався #000102, а не кольором main.
  */
 .site-main:has(.services-final-cta) ~ .site-footer {
-  margin-top: #{mixins.vw(-52px)};
-  padding-top: calc(#{mixins.vw(38px)} + #{mixins.vw(52px)});
+  /* Трохи більший overlap після повного bow-tie + прибрати субпіксельну щілину. */
+  margin-top: #{mixins.vw(-56px)};
+  padding-top: calc(#{mixins.vw(38px)} + #{mixins.vw(56px)});
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(-36px)};
-    padding-top: calc(#{mixins.mvw(24px)} + #{mixins.mvw(36px)});
+    margin-top: #{mixins.mvw(-40px)};
+    padding-top: calc(#{mixins.mvw(24px)} + #{mixins.mvw(40px)});
   }
 }
 
