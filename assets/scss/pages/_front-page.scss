@@ -61,6 +61,10 @@
   }
 }
 
+.home-chaos-about-flow #home-about .services-clients__viewport {
+  z-index: 60;
+}
+
 .home-hero {
   position: relative;
   min-height: 100svh;
