@@ -2200,9 +2200,7 @@
 }
 
 .hex-reasons--home {
-  background:
-    var(--hex-reasons-home-bg, none) center top / cover no-repeat,
-    #000102;
+  background: transparent;
 
   .hex-reasons__eyebrow {
     width: #{mixins.vw(118px)};
