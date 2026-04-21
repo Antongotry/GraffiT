@@ -785,7 +785,7 @@
 // Front page: three service cards (FiCSS idle #353e4d; hover matches shared gradient)
 .services-overview--home-directions {
   position: relative;
-  margin-top: #{mixins.vw(132px)};
+  margin-top: 0;
   margin-bottom: #{mixins.vw(-220px)};
   padding-bottom: 0;
   overflow: visible;
