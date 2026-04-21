@@ -2269,8 +2269,8 @@
   }
 
   .hex-reasons__hex--card {
-    background: #353e4d;
-    transition: background-color 320ms cubic-bezier(0.22, 1, 0.36, 1);
+    background: var(--hex-card-bg) center / 100% 100% no-repeat;
+    transition: background-image 320ms cubic-bezier(0.22, 1, 0.36, 1);
     transform: none;
     filter: none;
   }
@@ -2278,7 +2278,7 @@
   .hex-reasons__hex--card:hover,
   .hex-reasons__hex--card:focus-visible,
   .hex-reasons__hex--card:focus-within {
-    background: #0073e6;
+    background: var(--hex-card-bg-hover, var(--hex-card-bg)) center / 100% 100% no-repeat;
     transform: none;
     filter: none;
   }

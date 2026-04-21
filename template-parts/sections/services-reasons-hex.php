@@ -70,7 +70,13 @@ $hex_mobile_row4_composite_url = 'https://lavenderblush-bat-855084.hostingersite
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
 $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['stack'] ) );
-$home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home' ? '' : $stack_style;
+$home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
+    ? sprintf(
+        "--hex-card-bg: url('%s'); --hex-card-bg-hover: url('%s');",
+        esc_url_raw($hex_card_images['stack']),
+        esc_url_raw($hex_card_images['primary'])
+    )
+    : $stack_style;
 ?>
 <section class="<?php echo esc_attr( $reasons_section_classes ); ?>" aria-labelledby="<?php echo esc_attr( (string) $reasons_hex['title_id'] ); ?>">
     <div class="hex-reasons__head">
