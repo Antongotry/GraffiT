@@ -277,9 +277,6 @@
     content: "";
     pointer-events: none;
     transform: translateY(-22%);
-    -webkit-backdrop-filter: blur(#{mixins.vw(26px)});
-    backdrop-filter: blur(#{mixins.vw(26px)});
-    filter: blur(#{mixins.vw(10px)});
   }
 
   @include mixins.mobile {
@@ -289,9 +286,6 @@
     &::before {
       height: #{mixins.mvw(240px)};
       transform: translateY(-18%);
-      -webkit-backdrop-filter: blur(#{mixins.mvw(20px)});
-      backdrop-filter: blur(#{mixins.mvw(20px)});
-      filter: blur(#{mixins.mvw(10px)});
     }
   }
 }
