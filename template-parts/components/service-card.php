@@ -64,7 +64,7 @@ if (! empty($args['image_position'])) {
         <?php endif; ?>
     </div>
 
-    <?php if (! empty($args['button_label']) && ($args['layout'] ?? 'default') !== 'low') : ?>
+    <?php if (! empty($args['button_label'])) : ?>
         <a class="service-card__cta" href="<?php echo esc_url((string) $args['button_url']); ?>">
             <?php echo esc_html((string) $args['button_label']); ?>
         </a>

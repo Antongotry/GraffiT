@@ -513,6 +513,28 @@
   }
 }
 
+/* Сторінка «Послуги»: CTA лише при hover / focus-within (обидві картки, включно з low-copy). */
+.site-main--services .services-overview:not(.services-overview--home-directions) {
+  .service-card__cta {
+    transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .service-card:not(:hover):not(:focus-within) .service-card__cta {
+    opacity: 0;
+  }
+
+  .service-card:hover .service-card__cta,
+  .service-card:focus-within .service-card__cta {
+    opacity: 1;
+  }
+
+  @include mixins.mobile {
+    .service-card:not(:hover):not(:focus-within) .service-card__cta {
+      opacity: 1;
+    }
+  }
+}
+
 .service-card {
   position: relative;
   // 463px @ 1440px artboard (keep calc() in output for inspectability)
@@ -678,13 +700,21 @@
   }
 }
 
-// Second card: no CTA — pin title + copy to the bottom band (same inset as .service-card__cta).
+// Low-copy: контент знизу; якщо є CTA — піднімаємо блок, щоб не перекривався з кнопкою.
 .service-card--low-copy .service-card__content {
   top: auto;
   bottom: #{mixins.vw(24px)};
 
   @include mixins.mobile {
     margin-top: auto;
+  }
+}
+
+.service-card--low-copy:has(.service-card__cta) .service-card__content {
+  bottom: calc(#{mixins.vw(24px)} + #{mixins.vw(48px)} + #{mixins.vw(16px)});
+
+  @include mixins.mobile {
+    bottom: auto;
   }
 }
 
