@@ -2268,17 +2268,9 @@
     }
   }
 
-  .hex-reasons__scene {
-    --hex-box: #{mixins.vw(411px)};
-    --hex-step-x: #{mixins.vw(404px)};
-    --hex-step-y: #{mixins.vw(328px)};
-    --hex-r0y: #{mixins.vw(258px)};
-    min-height: #{mixins.vw(925px)};
-    height: #{mixins.vw(925px)};
-  }
-
   .hex-reasons__hex--card {
-    transition: none;
+    background: #353e4d;
+    transition: background-color 320ms cubic-bezier(0.22, 1, 0.36, 1);
     transform: none;
     filter: none;
   }
@@ -2286,9 +2278,14 @@
   .hex-reasons__hex--card:hover,
   .hex-reasons__hex--card:focus-visible,
   .hex-reasons__hex--card:focus-within {
-    background: var(--hex-card-bg-hover, var(--hex-card-bg)) center / 100% 100% no-repeat;
+    background: #0073e6;
     transform: none;
     filter: none;
+  }
+
+  .hex-reasons__hex--r0c2 .hex-reasons__hex-heading--narrow {
+    max-width: #{mixins.vw(218px)};
+    font-size: #{mixins.vw(19.2px)};
   }
 
   @include mixins.mobile {
