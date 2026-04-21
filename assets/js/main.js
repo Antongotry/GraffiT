@@ -255,7 +255,8 @@
       }
 
       var isProductsProjects = section.classList.contains('products-projects');
-      var startOffset = isProductsProjects ? 360 : 100;
+      var isHomeProjects = section.id === 'services-projects';
+      var startOffset = isProductsProjects ? 360 : (isHomeProjects ? 0 : 100);
 
       if (!viewport || !stage || !track || cards.length === 0) {
         return;

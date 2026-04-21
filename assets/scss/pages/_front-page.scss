@@ -786,12 +786,22 @@ html.is-projects-pinned .site-header {
   position: relative;
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
-  padding: calc(#{mixins.vw(112px)} + #{mixins.vw(96px)}) 0 #{mixins.vw(132px)};
+  /* Компенсація overlap + додатковий відступ від «шпиля» до контенту FAQ */
+  padding: calc(#{mixins.vw(112px)} + #{mixins.vw(96px)} + #{mixins.vw(72px)}) 0 #{mixins.vw(132px)};
   text-align: center;
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
-    padding: calc(#{mixins.mvw(64px)} + #{mixins.mvw(40px)}) 0 #{mixins.mvw(72px)};
+    padding: calc(#{mixins.mvw(64px)} + #{mixins.mvw(40px)} + #{mixins.mvw(48px)}) 0 #{mixins.mvw(72px)};
+  }
+}
+
+/* Повітря перед стиком із home-faq (лише головна, не сторінка продуктів). */
+.site-main--home .services-process:not(.products-process) .services-process__container {
+  padding-bottom: calc(#{mixins.vw(120px)} + #{mixins.vw(72px)});
+
+  @include mixins.mobile {
+    padding-bottom: calc(#{mixins.mvw(64px)} + #{mixins.mvw(40px)});
   }
 }
 
