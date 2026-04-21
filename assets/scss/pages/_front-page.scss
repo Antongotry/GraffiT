@@ -769,20 +769,29 @@ html.is-projects-pinned .site-header {
 
 .home-faq {
   position: relative;
+  z-index: 2;
+  /* Стик із .services-process: той самий «шпиль», що в bow-tie (cta-band / services-clients). */
+  margin-top: #{mixins.vw(-96px)};
   overflow: hidden;
   background: linear-gradient(180deg, #bfc6d0 0%, #ffffff 100%);
+  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%);
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(-40px)};
+    clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 0 100%);
+  }
 }
 
 .home-faq__container {
   position: relative;
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
-  padding: #{mixins.vw(112px)} 0 #{mixins.vw(132px)};
+  padding: calc(#{mixins.vw(112px)} + #{mixins.vw(96px)}) 0 #{mixins.vw(132px)};
   text-align: center;
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
-    padding: #{mixins.mvw(64px)} 0 #{mixins.mvw(72px)};
+    padding: calc(#{mixins.mvw(64px)} + #{mixins.mvw(40px)}) 0 #{mixins.mvw(72px)};
   }
 }
 
