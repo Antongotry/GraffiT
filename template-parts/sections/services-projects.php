@@ -92,6 +92,7 @@ $project_cases = [
     style="--services-projects-bg-image: url('<?php echo esc_url($projects_background_image); ?>')"
 >
     <div class="services-projects__viewport">
+        <span class="services-projects__bg" aria-hidden="true"></span>
         <div class="services-projects__container">
             <div class="services-projects__header">
                 <div class="services-projects__eyebrow">

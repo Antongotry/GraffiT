@@ -3690,28 +3690,28 @@
   padding: #{mixins.vw(96px)} 0 #{mixins.vw(16px)};
   box-sizing: border-box;
 
-  /* Фон кріпиться саме до pinned-вьюпорту, щоб не «від'їжджав» при скролі.
-     right:calc(50% - 50vw) дотягує праву кромку картинки до правого краю вікна,
-     незалежно від того, що __viewport має max-width: 1365px і центрується. */
-  &::before {
-    position: absolute;
-    top: 0;
-    right: calc(50% - 50vw);
-    width: #{mixins.vw(1000px)};
-    aspect-ratio: 1687 / 2560;
-    background: var(--services-projects-bg-image) center top / 100% 100% no-repeat;
-    content: "";
-    pointer-events: none;
-    z-index: -1;
-  }
-
   @include mixins.mobile {
     display: block;
     padding: #{mixins.mvw(48px)} 0 #{mixins.mvw(56px)};
+  }
+}
 
-    &::before {
-      width: #{mixins.mvw(260px)};
-    }
+/* Фонова картинка «пришита» до pinned-вьюпорту — не їде при скролі.
+   right:calc(50% - 50vw) дотягує праву кромку до правого краю вікна,
+   незважаючи на те, що __viewport має max-width:1365px і центрується. */
+.services-projects__bg {
+  position: absolute;
+  top: 0;
+  right: calc(50% - 50vw);
+  width: #{mixins.vw(1000px)};
+  aspect-ratio: 1687 / 2560;
+  background: var(--services-projects-bg-image) center top / 100% 100% no-repeat;
+  pointer-events: none;
+  z-index: 0;
+  display: block;
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(260px)};
   }
 }
 
