@@ -781,15 +781,13 @@ html.is-projects-pinned .site-header {
   /* Стик із .services-process: той самий «шпиль», що в bow-tie (cta-band / services-clients). */
   margin-top: #{mixins.vw(-96px)};
   overflow: hidden;
-  /*
-   * Нижня зона підводиться до #edf0f4 (верх .services-final-cta), щоб не було різкої смуги
-   * після білого кінця старого градієнта.
-   */
+  /* Низ — суцільний #edf0f4, як верх фінального CTA (без «світлішої» смуги). */
   background: linear-gradient(
     180deg,
     #bfc6d0 0%,
-    #d9dee6 22%,
-    #eef0f4 52%,
+    #d9dee6 20%,
+    #e5e9ef 44%,
+    #edf0f4 58%,
     #edf0f4 100%
   );
   clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%);
@@ -800,14 +798,13 @@ html.is-projects-pinned .site-header {
   }
 }
 
-/* Легкий overlap з CTA — той самий колір + накладення прибирають субпіксельний стик. */
+/*
+ * Головна: той самий базовий фон, що й низ FAQ — без радіалів зверху (вони давали світліший стик).
+ * На services/products лишається повний фон з _services-page.scss.
+ */
 .home-faq + .services-final-cta {
   z-index: 3;
-  margin-top: #{mixins.vw(-36px)};
-
-  @include mixins.mobile {
-    margin-top: #{mixins.mvw(-24px)};
-  }
+  background: linear-gradient(180deg, #edf0f4 0%, #cfd4db 100%);
 }
 
 .home-faq__container {
