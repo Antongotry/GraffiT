@@ -61,8 +61,18 @@
   }
 }
 
+.home-chaos-about-flow #home-about {
+  position: relative;
+  z-index: 200;
+}
+
+.home-chaos-about-flow #home-about .pin-spacer {
+  position: relative;
+  z-index: 200;
+}
+
 .home-chaos-about-flow #home-about .services-clients__viewport {
-  z-index: 60;
+  z-index: 200;
 }
 
 .home-hero {
