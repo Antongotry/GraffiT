@@ -388,8 +388,12 @@
   overflow: hidden;
   padding: #{mixins.vw(120px)} 0 #{mixins.vw(164px)};
   background:
-    radial-gradient(circle at 0% 54%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0) 24%),
-    radial-gradient(circle at 100% 54%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 24%),
+    radial-gradient(circle at -6% 12%, rgba(0, 115, 230, 0.36) 0%, rgba(0, 115, 230, 0.22) 18%, rgba(0, 115, 230, 0) 46%),
+    radial-gradient(circle at 106% 12%, rgba(0, 115, 230, 0.36) 0%, rgba(0, 115, 230, 0.22) 18%, rgba(0, 115, 230, 0) 46%),
+    radial-gradient(circle at -10% 54%, rgba(0, 115, 230, 0.28) 0%, rgba(0, 115, 230, 0.16) 22%, rgba(0, 115, 230, 0) 58%),
+    radial-gradient(circle at 110% 54%, rgba(0, 115, 230, 0.28) 0%, rgba(0, 115, 230, 0.16) 22%, rgba(0, 115, 230, 0) 58%),
+    radial-gradient(circle at -4% 88%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0.14) 20%, rgba(0, 115, 230, 0) 54%),
+    radial-gradient(circle at 104% 88%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0.14) 20%, rgba(0, 115, 230, 0) 54%),
     #000203;
 
   &::before {
@@ -402,6 +406,15 @@
     background: linear-gradient(180deg, #010814 0%, rgba(1, 8, 20, 0.82) 24%, rgba(1, 8, 20, 0.34) 56%, rgba(1, 8, 20, 0) 100%);
     content: "";
     pointer-events: none;
+  }
+
+  @include mixins.mobile {
+    background:
+      radial-gradient(circle at -18% 18%, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0.2) 22%, rgba(0, 115, 230, 0) 58%),
+      radial-gradient(circle at 118% 18%, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0.2) 22%, rgba(0, 115, 230, 0) 58%),
+      radial-gradient(circle at -18% 72%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0.14) 24%, rgba(0, 115, 230, 0) 62%),
+      radial-gradient(circle at 118% 72%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0.14) 24%, rgba(0, 115, 230, 0) 62%),
+      #000203;
   }
 }
 
