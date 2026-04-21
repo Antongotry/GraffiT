@@ -68,7 +68,9 @@
 
   &::before {
     position: absolute;
-    inset: 0 auto 0 0;
+    top: 0;
+    left: 0;
+    height: #{mixins.vw(2350px)};
     width: #{mixins.vw(1060px)};
     z-index: 0;
     pointer-events: none;
@@ -92,6 +94,12 @@
 .home-hex-projects-flow .services-inquiry {
   position: relative;
   z-index: 4;
+}
+
+.home-hex-projects-flow .services-overview--home-directions,
+.home-hex-projects-flow .hex-reasons--home,
+.home-hex-projects-flow .services-inquiry.cta-band--light {
+  background: transparent;
 }
 
 .home-hex-projects-flow .services-projects {
