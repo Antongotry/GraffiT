@@ -3701,8 +3701,8 @@
    незважаючи на те, що __viewport має max-width:1365px і центрується. */
 .services-projects__bg {
   position: absolute;
-  /* −20px (макет) від попереднього top */
-  top: #{mixins.vw(286px)};
+  /* Ще +40% вгору: top × (1 − 0.4) від 286px макета */
+  top: #{mixins.vw(172px)};
   right: calc(50% - 50vw);
   /* Половина від ~56vw (1075px у макеті) */
   width: #{mixins.vw(538px)};
@@ -3721,7 +3721,7 @@
   display: block;
 
   @include mixins.mobile {
-    top: calc(10.5vw * 2560 / 1687 - #{mixins.mvw(20px)});
+    top: calc(6.3vw * 2560 / 1687 - #{mixins.mvw(12px)});
     width: 28vw;
     background-size: 230% auto;
   }
