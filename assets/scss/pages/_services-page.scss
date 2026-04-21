@@ -3705,7 +3705,7 @@
   align-items: stretch;
   // Content-height pin — avoid a tall empty band under the carousel (was min-height: 100svh).
   min-height: 0;
-  padding: #{mixins.vw(24px)} 0 #{mixins.vw(16px)};
+  padding: #{mixins.vw(96px)} 0 #{mixins.vw(16px)};
   box-sizing: border-box;
 
   @include mixins.mobile {
