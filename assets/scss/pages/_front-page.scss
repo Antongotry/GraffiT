@@ -116,12 +116,17 @@
 }
 
 .home-hex-projects-flow .services-projects__viewport {
-  z-index: 70;
+  z-index: 70 !important;
 }
 
 .home-hex-projects-flow #services-projects .pin-spacer {
   position: relative;
   z-index: 70 !important;
+}
+
+/* Коли GSAP активно пінить карусель — хедер ховається за нею */
+html.is-projects-pinned .site-header {
+  z-index: 1 !important;
 }
 
 .home-chaos-about-flow #home-about {

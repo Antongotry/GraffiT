@@ -287,11 +287,11 @@
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onToggle: function (self) {
-            if (!isProductsProjects) {
-              return;
+            if (isProductsProjects) {
+              section.classList.toggle('is-projects-active', self.isActive);
             }
 
-            section.classList.toggle('is-projects-active', self.isActive);
+            document.documentElement.classList.toggle('is-projects-pinned', self.isActive);
           },
           onUpdate: function (self) {
             currentIndex = Math.round(self.progress * getMaxIndex());
