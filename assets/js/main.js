@@ -10,7 +10,8 @@
     }
 
     var lenis = new window.Lenis({
-      duration: 1.1,
+      /* Коротша дистанція до immediate scroll від ScrollTrigger — менше «гуми» на межі pin. */
+      duration: 0.75,
       smoothWheel: true,
       smoothTouch: false,
       wheelMultiplier: 1
@@ -307,19 +308,8 @@
         return Math.max(cards.length - 1, 0);
       }
 
-      function scheduleLenisResizeAndScrollTriggerUpdate() {
-        window.requestAnimationFrame(function () {
-          if (window.__graffitLenis && typeof window.__graffitLenis.resize === 'function') {
-            window.__graffitLenis.resize();
-          }
-
-          if (window.ScrollTrigger && typeof window.ScrollTrigger.update === 'function') {
-            window.ScrollTrigger.update();
-          }
-        });
-      }
-
-      if (typeof ResizeObserver === 'function') {
+      /* На головній refresh під час pin давав ривок; RO лишаємо для інших .js-projects-scroller (картки з async-зображеннями). */
+      if (!isHomeProjects && typeof ResizeObserver === 'function') {
         var projectsResizeTimer;
 
         function scheduleProjectsScrollTriggerRefresh() {
@@ -341,13 +331,16 @@
         },
         ease: 'none',
         scrollTrigger: {
-          /* Як у benefits/catalog/clients: один елемент не одночасно trigger+pin — стабільніше з pin-spacer. */
           trigger: section,
           start: isHomeProjects ? 'top top' : ('top+=' + startOffset + ' top'),
           end: function () {
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
           },
-          pin: viewport,
+          /*
+           * Головна: pin на всю секцію — фон, __bg і ::before рухаються одним шаром з контентом
+           * (раніше pin тільки на viewport + translateY на .__container зсував текст відносно фону).
+           */
+          pin: isHomeProjects ? section : viewport,
           scrub: true,
           anticipatePin: 0,
           invalidateOnRefresh: true,
@@ -362,8 +355,6 @@
             if (header) {
               header.classList.toggle('is-hidden-by-pin', self.isActive);
             }
-
-            scheduleLenisResizeAndScrollTriggerUpdate();
           },
           onUpdate: function (self) {
             currentIndex = Math.round(self.progress * getMaxIndex());
@@ -1673,4 +1664,14 @@
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
   runInit(initFaqAccordion, 'faq-accordion');
   runInit(initAboutStackMobileVisual, 'about-stack-mobile-visual');
+
+  window.addEventListener(
+    'load',
+    function () {
+      if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+        window.ScrollTrigger.refresh();
+      }
+    },
+    { once: true }
+  );
 })();

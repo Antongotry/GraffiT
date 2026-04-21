@@ -117,9 +117,12 @@
 
 .home-hex-projects-flow .services-projects__viewport {
   z-index: 70 !important;
+  /* Декор (::before, __bg) не обрізаємо; overflow на секції вже visible на головній. */
+  overflow: visible;
 }
 
-.home-hex-projects-flow #services-projects .pin-spacer {
+/* Pin-spacer обгортає #services-projects, коли pin на section — селектор #services-projects .pin-spacer не спрацьовує. */
+.home-hex-projects-flow .pin-spacer {
   position: relative;
   z-index: 70 !important;
 }
@@ -127,22 +130,6 @@
 /* На головній не перемикаємо overflow при pin (hidden→visible) — це дає ривок layout/paint разом з Lenis. */
 .home-hex-projects-flow #services-projects.services-projects {
   overflow: visible;
-}
-
-/*
- * Пін проєктів: підтягуємо контент лише через transform — padding/margin/height блоку НЕ змінюємо,
- * щоб висота в’юпорта в потоці лишалась стабільною для ScrollTrigger + Lenis (без стрибка).
- */
-html.is-projects-pinned #services-projects .services-projects__viewport {
-  overflow: visible;
-}
-
-html.is-projects-pinned #services-projects .services-projects__container {
-  transform: translateY(calc(-1 * (#{mixins.vw(96px)} + #{mixins.vw(96px)})));
-
-  @include mixins.mobile {
-    transform: translateY(calc(-1 * (#{mixins.mvw(48px)} + #{mixins.mvw(56px)})));
-  }
 }
 
 /* М’яка «сфера» градієнта справа: Vector-346, ширина 400px макета — проєкти + блок процесу (головна). */
