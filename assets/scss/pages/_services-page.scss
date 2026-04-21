@@ -4601,10 +4601,30 @@
     radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 28%),
     radial-gradient(circle at 84% 18%, rgba(255, 255, 255, 0.44) 0%, rgba(255, 255, 255, 0) 24%),
     linear-gradient(180deg, #edf0f4 0%, #cfd4db 100%);
+
+  /* Плавний перехід до фону .site-footer (#000102), без різкої горизонтальної лінії. */
+  &::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    height: #{mixins.vw(140px)};
+    background: linear-gradient(180deg, rgba(0, 1, 2, 0) 0%, rgba(0, 1, 2, 0.35) 38%, #000102 100%);
+    content: "";
+    pointer-events: none;
+  }
+
+  @include mixins.mobile {
+    &::after {
+      height: #{mixins.mvw(96px)};
+    }
+  }
 }
 
 .services-final-cta__container {
   position: relative;
+  z-index: 1;
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
   padding: #{mixins.vw(132px)} 0 #{mixins.vw(132px)};
