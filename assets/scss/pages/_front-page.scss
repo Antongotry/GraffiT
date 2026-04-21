@@ -124,8 +124,8 @@
   z-index: 70 !important;
 }
 
-/* Під час pin transform від GSAP + overflow:hidden на секції інколи обрізають/мигає декор */
-html.is-projects-pinned #services-projects.services-projects {
+/* На головній не перемикаємо overflow при pin (hidden→visible) — це дає ривок layout/paint разом з Lenis. */
+.home-hex-projects-flow #services-projects.services-projects {
   overflow: visible;
 }
 

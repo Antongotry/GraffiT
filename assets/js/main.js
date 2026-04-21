@@ -75,7 +75,8 @@
               document.documentElement.scrollHeight
             );
           },
-          pinType: document.body.style.transform ? 'transform' : 'fixed'
+          /* Фіксований pin: умова body.style.transform давала змішаний режим і ривки з Lenis. */
+          pinType: 'fixed'
         });
       }
     }
@@ -306,22 +307,50 @@
         return Math.max(cards.length - 1, 0);
       }
 
+      function scheduleLenisResizeAndScrollTriggerUpdate() {
+        window.requestAnimationFrame(function () {
+          if (window.__graffitLenis && typeof window.__graffitLenis.resize === 'function') {
+            window.__graffitLenis.resize();
+          }
+
+          if (window.ScrollTrigger && typeof window.ScrollTrigger.update === 'function') {
+            window.ScrollTrigger.update();
+          }
+        });
+      }
+
+      if (typeof ResizeObserver === 'function') {
+        var projectsResizeTimer;
+
+        function scheduleProjectsScrollTriggerRefresh() {
+          window.clearTimeout(projectsResizeTimer);
+          projectsResizeTimer = window.setTimeout(function () {
+            if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+              window.ScrollTrigger.refresh();
+            }
+          }, 100);
+        }
+
+        var projectsResizeObserver = new ResizeObserver(scheduleProjectsScrollTriggerRefresh);
+        projectsResizeObserver.observe(track);
+      }
+
       var tween = window.gsap.to(track, {
         x: function () {
           return -(track.scrollWidth - stage.clientWidth);
         },
         ease: 'none',
         scrollTrigger: {
-          trigger: isHomeProjects ? viewport : section,
+          /* Як у benefits/catalog/clients: один елемент не одночасно trigger+pin — стабільніше з pin-spacer. */
+          trigger: section,
           start: isHomeProjects ? 'top top' : ('top+=' + startOffset + ' top'),
           end: function () {
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
           },
           pin: viewport,
           scrub: true,
-          anticipatePin: 1,
+          anticipatePin: 0,
           invalidateOnRefresh: true,
-          preventOverlaps: true,
           onToggle: function (self) {
             if (isProductsProjects) {
               section.classList.toggle('is-projects-active', self.isActive);
@@ -333,6 +362,8 @@
             if (header) {
               header.classList.toggle('is-hidden-by-pin', self.isActive);
             }
+
+            scheduleLenisResizeAndScrollTriggerUpdate();
           },
           onUpdate: function (self) {
             currentIndex = Math.round(self.progress * getMaxIndex());
