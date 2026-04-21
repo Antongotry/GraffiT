@@ -3701,17 +3701,29 @@
    незважаючи на те, що __viewport має max-width:1365px і центрується. */
 .services-projects__bg {
   position: absolute;
-  top: 0;
+  /* Вирівнюємо шар із заголовком h2: padding-top + ряд «Проєкти» + margin-top .__top-row */
+  top: #{mixins.vw(144px)};
   right: calc(50% - 50vw);
-  width: #{mixins.vw(1000px)};
+  /* 768/1920 — рівно 40vw у шкалі макета */
+  width: #{mixins.vw(768px)};
   aspect-ratio: 1687 / 2560;
-  background: var(--services-projects-bg-image) center top / 100% 100% no-repeat;
+  /* Картинка 1687×2560 має велике «поле» зверху: верх файлу ≠ верх графіки.
+     100% 100% тягнуло бітмап і лишало чорну смугу; center зміщував горизонтально.
+     Масштаб >100% + прив’язка right bottom обрізає верх (поле), без дірки знизу. */
+  background-color: transparent;
+  background-image: var(--services-projects-bg-image);
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  /* Підбір масштабу: більше % — більше обрізається верх файлу (чорне «поле»). +40 п.п. до попереднього 162%. */
+  background-size: 202% auto;
   pointer-events: none;
   z-index: 0;
   display: block;
 
   @include mixins.mobile {
-    width: #{mixins.mvw(260px)};
+    top: #{mixins.mvw(86px)};
+    width: 40vw;
+    background-size: 190% auto;
   }
 }
 
