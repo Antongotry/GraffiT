@@ -124,6 +124,53 @@
   z-index: 70 !important;
 }
 
+/* М’яка «сфера» градієнта справа: Vector-346, ширина 400px макета — проєкти + блок процесу (головна). */
+$home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Vector-346_result-scaled.webp";
+
+.home-hex-projects-flow #services-projects .services-projects__viewport::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(50% - 50vw);
+  z-index: 0;
+  width: #{mixins.vw(400px)};
+  background-image: url(#{$home-gradient-sphere-url});
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: #{mixins.vw(400px)} auto;
+  pointer-events: none;
+  content: "";
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(240px)};
+    background-size: #{mixins.mvw(240px)} auto;
+  }
+}
+
+.site-main--home .services-process::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  width: #{mixins.vw(400px)};
+  background-image: url(#{$home-gradient-sphere-url});
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: #{mixins.vw(400px)} auto;
+  pointer-events: none;
+  content: "";
+
+  @include mixins.mobile {
+    width: #{mixins.mvw(240px)};
+    background-size: #{mixins.mvw(240px)} auto;
+  }
+}
+
+.site-main--home .services-process__container {
+  z-index: 1;
+}
+
 /* Коли GSAP активно пінить карусель — хедер ховається повністю.
    z-index сам по собі не працює через `isolation: isolate` на контейнері,
    тому використовуємо visibility + pointer-events. */

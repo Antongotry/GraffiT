@@ -3729,6 +3729,7 @@
 
 /* Тільки де є декоративний шар — опускаємо текст/карусель, фон лишається зверху в’юпорту */
 .services-projects:has(.services-projects__bg) .services-projects__container {
+  z-index: 1;
   margin-top: #{mixins.vw(96px)};
 
   @include mixins.mobile {
