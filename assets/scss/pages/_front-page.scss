@@ -121,6 +121,24 @@
   z-index: 200;
 }
 
+.home-chaos-about-flow #home-about .services-clients__container {
+  @include mixins.mobile {
+    width: min(100% - #{mixins.mvw(20px)}, 100%);
+  }
+}
+
+.home-chaos-about-flow #home-about .services-clients__copy {
+  @include mixins.mobile {
+    width: 100%;
+  }
+}
+
+.home-chaos-about-flow #home-about .services-clients__text {
+  @include mixins.mobile {
+    width: min(100%, #{mixins.mvw(355px)});
+  }
+}
+
 .home-hero {
   position: relative;
   min-height: 100svh;
