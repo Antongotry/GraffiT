@@ -14,6 +14,20 @@
   }
 }
 
+/*
+ * Під `.services-final-cta` (clip-path «шпиль» знизу): підтягуємо фон футера в виріз,
+ * щоб трикутник заповнювався #000102, а не кольором main.
+ */
+.site-main:has(.services-final-cta) ~ .site-footer {
+  margin-top: #{mixins.vw(-52px)};
+  padding-top: calc(#{mixins.vw(38px)} + #{mixins.vw(52px)});
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(-36px)};
+    padding-top: calc(#{mixins.mvw(24px)} + #{mixins.mvw(36px)});
+  }
+}
+
 .site-footer__container {
   @include mixins.container;
 }
