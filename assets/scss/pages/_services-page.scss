@@ -2202,6 +2202,7 @@
 
 .hex-reasons--home {
   background: transparent;
+  padding-bottom: 0;
 
   .hex-reasons__eyebrow {
     width: #{mixins.vw(118px)};
@@ -2261,6 +2262,8 @@
   }
 
   @include mixins.mobile {
+    padding-bottom: #{mixins.mvw(88px)};
+
     .hex-reasons__eyebrow {
       width: 100%;
       max-width: 100vw;
