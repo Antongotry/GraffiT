@@ -3416,6 +3416,10 @@
     font-weight: 700;
   }
 
+  .services-clients__title-line {
+    display: block;
+  }
+
   @include mixins.mobile {
     width: min(100%, #{mixins.mvw(343px)});
     margin-top: #{mixins.mvw(24px)};
@@ -3423,6 +3427,10 @@
     font-size: #{mixins.mvw(22px)};
     line-height: 1.4;
     text-align: center;
+
+    .services-clients__title-line {
+      display: inline;
+    }
   }
 }
 

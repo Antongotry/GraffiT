@@ -52,7 +52,12 @@ $trust_cards = [
                     </div>
 
                     <h2 class="services-clients__title" id="home-about-title">
-                        <strong>GraffIT</strong> — команда, що вийшла з великого внутрішнього ІТ-департаменту, який десятиліттями будував інфраструктуру для торговельних мереж, логістичних компаній, сервісного та виробничого бізнесу.
+                        <span class="services-clients__title-line"><strong>GraffIT</strong> — команда, що вийшла з </span>
+                        <span class="services-clients__title-line">великого внутрішнього ІТ-департаменту, </span>
+                        <span class="services-clients__title-line">який десятиліттями будував </span>
+                        <span class="services-clients__title-line">інфраструктуру для торговельних </span>
+                        <span class="services-clients__title-line">мереж, логістичних компаній, </span>
+                        <span class="services-clients__title-line">сервісного та виробничого бізнесу.</span>
                     </h2>
 
                     <p class="services-clients__text">
