@@ -125,7 +125,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
         <!-- ═ row 0 · col 1 — «Ми не нав'язуємо готову коробку» ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r0c1"
-            style="<?php echo esc_attr( $primary_style ); ?>"
+            style="<?php echo esc_attr( $home_card_style ); ?>"
             role="listitem"
             aria-label="Ми не нав'язуємо готову коробку"
         >
