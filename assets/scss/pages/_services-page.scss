@@ -785,48 +785,20 @@
 .services-overview--home-directions {
   position: relative;
   margin-top: #{mixins.vw(132px)};
-  margin-bottom: #{mixins.vw(-186px)};
+  margin-bottom: 0;
+  padding-bottom: #{mixins.vw(84px)};
   overflow: visible;
   z-index: 4;
 
   &::before,
   &::after {
-    position: absolute;
-    width: #{mixins.vw(600px)};
-    height: #{mixins.vw(600px)};
-    background: radial-gradient(circle, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0) 74%);
-    filter: blur(40px);
-    content: "";
-    pointer-events: none;
-  }
-
-  &::before {
-    inset: #{mixins.vw(-120px)} #{mixins.vw(-240px)} auto auto;
-  }
-
-  &::after {
-    inset: #{mixins.vw(-120px)} auto auto #{mixins.vw(-240px)};
+    display: none;
   }
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(76px)};
     margin-bottom: 0;
-    padding-bottom: #{mixins.mvw(96px)};
-
-    &::before,
-    &::after {
-      width: #{mixins.mvw(300px)};
-      height: #{mixins.mvw(300px)};
-      filter: blur(24px);
-    }
-
-    &::before {
-      inset: #{mixins.mvw(-40px)} #{mixins.mvw(-140px)} auto auto;
-    }
-
-    &::after {
-      inset: #{mixins.mvw(-40px)} auto auto #{mixins.mvw(-140px)};
-    }
+    padding-bottom: #{mixins.mvw(64px)};
   }
 
   .services-overview__eyebrow {
@@ -874,6 +846,7 @@
 
   .services-overview__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
     gap: #{mixins.vw(20px)};
     margin-top: #{mixins.vw(82px)};
     max-width: none;

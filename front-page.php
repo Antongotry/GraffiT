@@ -19,7 +19,6 @@ get_header();
         <?php get_template_part('template-parts/sections/home', 'about'); ?>
     </div>
     <div class="home-hex-projects-flow">
-        <div class="home-hex-projects-flow__left-glow" aria-hidden="true"></div>
         <?php
         get_template_part(
             'template-parts/sections/services-reasons-hex',

@@ -62,26 +62,34 @@
 
 .home-hex-projects-flow {
   position: relative;
-}
-
-.home-hex-projects-flow__left-glow {
-  position: absolute;
-  top: #{mixins.vw(282px)};
-  left: 0;
-  bottom: 0;
-  width: #{mixins.vw(400px)};
-  z-index: 3;
-  pointer-events: none;
-  background: url("https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Vector-315_result-scaled.webp") left top / 100% 100% no-repeat;
-
-  @include mixins.mobile {
-    display: none;
-  }
+  overflow: visible;
 }
 
 .home-hex-projects-flow .hex-reasons--home {
   position: relative;
   z-index: 2;
+}
+
+.home-hex-projects-flow .hex-reasons__scene--desktop {
+  isolation: isolate;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: #{mixins.vw(-280px)};
+    width: #{mixins.vw(1060px)};
+    z-index: 0;
+    pointer-events: none;
+    background: url("https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Vector-315_result-scaled.webp") left top / 100% 100% no-repeat;
+    content: "";
+  }
+
+  @include mixins.mobile {
+    &::before {
+      display: none;
+    }
+  }
 }
 
 .home-hex-projects-flow .services-overview,
