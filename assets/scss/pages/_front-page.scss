@@ -64,21 +64,11 @@
   position: relative;
   overflow: visible;
   background: #000102;
-}
-
-.home-hex-projects-flow .hex-reasons--home {
-  position: relative;
-  z-index: 2;
-}
-
-.home-hex-projects-flow .hex-reasons__scene--desktop {
   isolation: isolate;
 
   &::before {
     position: absolute;
-    top: 0;
-    left: 0;
-    bottom: #{mixins.vw(-280px)};
+    inset: 0 auto 0 0;
     width: #{mixins.vw(1060px)};
     z-index: 0;
     pointer-events: none;
@@ -91,6 +81,11 @@
       display: none;
     }
   }
+}
+
+.home-hex-projects-flow .hex-reasons--home {
+  position: relative;
+  z-index: 2;
 }
 
 .home-hex-projects-flow .services-overview,
