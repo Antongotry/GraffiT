@@ -59,7 +59,7 @@
               lenis.scrollTo(value, { immediate: true });
             }
 
-            return typeof lenis.actualScroll === 'number' ? lenis.actualScroll : lenis.scroll;
+            return typeof lenis.scroll === 'number' ? lenis.scroll : window.scrollY || 0;
           },
           getBoundingClientRect: function () {
             return {
@@ -68,6 +68,12 @@
               width: window.innerWidth,
               height: window.innerHeight
             };
+          },
+          scrollHeight: function () {
+            return Math.max(
+              document.body ? document.body.scrollHeight : 0,
+              document.documentElement.scrollHeight
+            );
           },
           pinType: document.body.style.transform ? 'transform' : 'fixed'
         });
@@ -312,9 +318,10 @@
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
           },
           pin: viewport,
-          scrub: 1,
-          anticipatePin: isHomeProjects ? 0 : 1,
+          scrub: true,
+          anticipatePin: 1,
           invalidateOnRefresh: true,
+          preventOverlaps: true,
           onToggle: function (self) {
             if (isProductsProjects) {
               section.classList.toggle('is-projects-active', self.isActive);
@@ -325,14 +332,6 @@
             var header = document.querySelector('.site-header');
             if (header) {
               header.classList.toggle('is-hidden-by-pin', self.isActive);
-            }
-
-            if (isHomeProjects && window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
-              window.requestAnimationFrame(function () {
-                window.requestAnimationFrame(function () {
-                  window.ScrollTrigger.refresh();
-                });
-              });
             }
           },
           onUpdate: function (self) {

@@ -129,47 +129,19 @@ html.is-projects-pinned #services-projects.services-projects {
   overflow: visible;
 }
 
-/* Пін проєктів: максимум висоти під карусель — прибираємо «подушки» (без :has, щоб точно застосувалось). */
+/*
+ * Пін проєктів: підтягуємо контент лише через transform — padding/margin/height блоку НЕ змінюємо,
+ * щоб висота в’юпорта в потоці лишалась стабільною для ScrollTrigger + Lenis (без стрибка).
+ */
 html.is-projects-pinned #services-projects .services-projects__viewport {
-  padding-top: 0 !important;
-
-  @include mixins.mobile {
-    padding-top: 0 !important;
-  }
+  overflow: visible;
 }
 
 html.is-projects-pinned #services-projects .services-projects__container {
-  margin-top: 0 !important;
-  padding-top: 0;
+  transform: translateY(calc(-1 * (#{mixins.vw(96px)} + #{mixins.vw(96px)})));
 
   @include mixins.mobile {
-    margin-top: 0 !important;
-    padding-top: 0;
-  }
-}
-
-html.is-projects-pinned #services-projects .services-projects__top-row {
-  margin-top: #{mixins.vw(8px)};
-
-  @include mixins.mobile {
-    margin-top: #{mixins.mvw(8px)};
-  }
-}
-
-html.is-projects-pinned #services-projects .services-projects__nav {
-  top: #{mixins.vw(8px)};
-
-  @include mixins.mobile {
-    top: #{mixins.mvw(8px)};
-  }
-}
-
-/* Під пін менший «запас» під хедер у висоті стейджа — більше місця карткам */
-html.is-projects-pinned #services-projects .services-projects__stage {
-  height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(120px)}));
-
-  @include mixins.mobile {
-    height: auto;
+    transform: translateY(calc(-1 * (#{mixins.mvw(48px)} + #{mixins.mvw(56px)})));
   }
 }
 
