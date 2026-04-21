@@ -78,7 +78,8 @@
 .products-hero__title {
   margin: 0;
   font-family: "Involve", sans-serif;
-  font-size: #{mixins.vw(55.058px)};
+  /* Desktop −10% від макетного 55.058px */
+  font-size: #{mixins.vw(49.552px)};
   font-weight: 400;
   line-height: 1;
   color: #ffffff;
