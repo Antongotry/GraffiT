@@ -781,12 +781,32 @@ html.is-projects-pinned .site-header {
   /* Стик із .services-process: той самий «шпиль», що в bow-tie (cta-band / services-clients). */
   margin-top: #{mixins.vw(-96px)};
   overflow: hidden;
-  background: linear-gradient(180deg, #bfc6d0 0%, #ffffff 100%);
+  /*
+   * Нижня зона підводиться до #edf0f4 (верх .services-final-cta), щоб не було різкої смуги
+   * після білого кінця старого градієнта.
+   */
+  background: linear-gradient(
+    180deg,
+    #bfc6d0 0%,
+    #d9dee6 22%,
+    #eef0f4 52%,
+    #edf0f4 100%
+  );
   clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%);
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(-40px)};
     clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+/* Легкий overlap з CTA — той самий колір + накладення прибирають субпіксельний стик. */
+.home-faq + .services-final-cta {
+  z-index: 3;
+  margin-top: #{mixins.vw(-36px)};
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(-24px)};
   }
 }
 
