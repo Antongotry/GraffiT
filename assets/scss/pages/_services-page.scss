@@ -2286,6 +2286,7 @@
   .hex-reasons__hex--card:hover,
   .hex-reasons__hex--card:focus-visible,
   .hex-reasons__hex--card:focus-within {
+    background: var(--hex-card-bg-hover, var(--hex-card-bg)) center / 100% 100% no-repeat;
     transform: none;
     filter: none;
   }
