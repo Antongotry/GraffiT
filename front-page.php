@@ -18,25 +18,28 @@ get_header();
         <?php get_template_part('template-parts/sections/home', 'chaos'); ?>
         <?php get_template_part('template-parts/sections/home', 'about'); ?>
     </div>
-    <?php
-    get_template_part(
-        'template-parts/sections/services-reasons-hex',
-        null,
-        [
-            'section_extra_class' => 'hex-reasons--home',
-            'eyebrow_text' => 'Переваги',
-            'title_id' => 'home-hex-reasons-title',
-            'title_class_extra' => 'hex-reasons__title--home',
-            'custom_title_lines' => [
-                'Що це означає',
-                'для вас?',
-            ],
-        ]
-    );
-    ?>
-    <?php get_template_part('template-parts/sections/home-services-directions'); ?>
-    <?php get_template_part('template-parts/sections/home-inquiry'); ?>
-    <?php get_template_part('template-parts/sections/services', 'projects'); ?>
+    <div class="home-hex-projects-flow">
+        <div class="home-hex-projects-flow__left-glow" aria-hidden="true"></div>
+        <?php
+        get_template_part(
+            'template-parts/sections/services-reasons-hex',
+            null,
+            [
+                'section_extra_class' => 'hex-reasons--home',
+                'eyebrow_text' => 'Переваги',
+                'title_id' => 'home-hex-reasons-title',
+                'title_class_extra' => 'hex-reasons__title--home',
+                'custom_title_lines' => [
+                    'Що це означає',
+                    'для вас?',
+                ],
+            ]
+        );
+        ?>
+        <?php get_template_part('template-parts/sections/home-services-directions'); ?>
+        <?php get_template_part('template-parts/sections/home-inquiry'); ?>
+        <?php get_template_part('template-parts/sections/services', 'projects'); ?>
+    </div>
     <?php get_template_part('template-parts/sections/services', 'process'); ?>
     <?php get_template_part('template-parts/sections/home', 'faq'); ?>
     <?php get_template_part('template-parts/sections/services', 'final-cta'); ?>

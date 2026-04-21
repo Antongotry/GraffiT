@@ -2227,6 +2227,10 @@
 }
 
 .hex-reasons--home {
+  background:
+    var(--hex-reasons-home-bg, none) center top / cover no-repeat,
+    #000102;
+
   .hex-reasons__eyebrow {
     width: #{mixins.vw(118px)};
     max-width: min(100%, #{mixins.vw(118px)});
@@ -2262,6 +2266,28 @@
       box-sizing: border-box;
       overflow-x: hidden;
     }
+  }
+
+  .hex-reasons__scene {
+    --hex-box: #{mixins.vw(411px)};
+    --hex-step-x: #{mixins.vw(404px)};
+    --hex-step-y: #{mixins.vw(328px)};
+    --hex-r0y: #{mixins.vw(258px)};
+    min-height: #{mixins.vw(925px)};
+    height: #{mixins.vw(925px)};
+  }
+
+  .hex-reasons__hex--card {
+    transition: none;
+    transform: none;
+    filter: none;
+  }
+
+  .hex-reasons__hex--card:hover,
+  .hex-reasons__hex--card:focus-visible,
+  .hex-reasons__hex--card:focus-within {
+    transform: none;
+    filter: none;
   }
 
   @include mixins.mobile {
@@ -2466,13 +2492,6 @@
 }
 
 /* ─── Cursor Accent Image ─────────────────────── */
-.hex-reasons__cursor-img {
-  width: #{mixins.vw(28px)};
-  height: #{mixins.vw(26px)};
-  margin-top: #{mixins.vw(24px)};
-  object-fit: contain;
-}
-
 /* ─── Photo Image ─────────────────────────────── */
 .hex-reasons__hex-img {
   display: block;

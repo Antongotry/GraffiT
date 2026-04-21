@@ -58,7 +58,6 @@ $reasons_stack_icons = [
     'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/icon-6_result.webp',
 ];
 
-$reasons_cursor_icon = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/cursor-5.svg';
 $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
 /** Mobile row 2: single composite (three hexes in one asset). */
@@ -71,6 +70,7 @@ $hex_mobile_row4_composite_url = 'https://lavenderblush-bat-855084.hostingersite
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
 $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['stack'] ) );
+$home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home' ? $primary_style : $stack_style;
 ?>
 <section class="<?php echo esc_attr( $reasons_section_classes ); ?>" aria-labelledby="<?php echo esc_attr( (string) $reasons_hex['title_id'] ); ?>">
     <div class="hex-reasons__head">
@@ -132,7 +132,7 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
         <!-- ═ row 0 · col 2 — Enterprise stack ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r0c2"
-            style="<?php echo esc_attr( $stack_style ); ?>"
+            style="<?php echo esc_attr( $home_card_style ); ?>"
             role="listitem"
             aria-label="Працюємо в стеку, який сумісний з вимогами enterprise"
         >
@@ -176,29 +176,20 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
         <!-- ═ row 1 · col 0 — Складні кейси ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r1c0"
-            style="<?php echo esc_attr( $stack_style ); ?>"
+            style="<?php echo esc_attr( $home_card_style ); ?>"
             role="listitem"
             aria-label="Допомагаємо в складних кейсах"
         >
             <div class="hex-reasons__hex-body">
                 <h3 class="hex-reasons__hex-heading">Допомагаємо в складних кейсах,</h3>
                 <p class="hex-reasons__hex-sub">де інші кажуть "так не робиться"</p>
-                <img
-                    class="hex-reasons__cursor-img"
-                    src="<?php echo esc_url( $reasons_cursor_icon ); ?>"
-                    alt=""
-                    width="28"
-                    height="26"
-                    loading="lazy"
-                    decoding="async"
-                >
             </div>
         </article>
 
         <!-- ═ row 1 · col 1 — Інтеграція ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r1c1"
-            style="<?php echo esc_attr( $stack_style ); ?>"
+            style="<?php echo esc_attr( $home_card_style ); ?>"
             role="listitem"
             aria-label="Інтегруємось у вже існуючий ландшафт"
         >
@@ -211,7 +202,7 @@ $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_im
         <!-- ═ row 1 · col 2 — Документація ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r1c2"
-            style="<?php echo esc_attr( $stack_style ); ?>"
+            style="<?php echo esc_attr( $home_card_style ); ?>"
             role="listitem"
             aria-label="Даємо чітку документацію"
         >
