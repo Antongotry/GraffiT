@@ -15,17 +15,19 @@
 }
 
 /*
- * Під `.services-final-cta` (clip-path «шпиль» знизу): підтягуємо фон футера в виріз,
- * щоб трикутник заповнювався #000102, а не кольором main.
+ * Під `.services-final-cta` (bow-tie знизу): підтягуємо фон + верхній шпиль футера,
+ * щоб трикутник збігався з вирізом CTA (як на головній).
  */
 .site-main:has(.services-final-cta) ~ .site-footer {
-  /* Трохи більший overlap після повного bow-tie + прибрати субпіксельну щілину. */
   margin-top: #{mixins.vw(-56px)};
   padding-top: calc(#{mixins.vw(38px)} + #{mixins.vw(56px)});
+  /* Дзеркально до нижнього кута CTA (50% 93.5%): пік вгору по центру. */
+  clip-path: polygon(0 #{mixins.vw(48px)}, 50% 0, 100% #{mixins.vw(48px)}, 100% 100%, 0 100%);
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(-40px)};
     padding-top: calc(#{mixins.mvw(24px)} + #{mixins.mvw(40px)});
+    clip-path: polygon(0 #{mixins.mvw(30px)}, 50% 0, 100% #{mixins.mvw(30px)}, 100% 100%, 0 100%);
   }
 }
 
