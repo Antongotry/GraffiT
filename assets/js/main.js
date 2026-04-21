@@ -46,6 +46,34 @@
       }
     });
 
+    /* Pin + scrub мають знати про Lenis, інакше в кінці діапазону — стрибок скролу й артефакти фону. */
+    if (window.gsap && window.ScrollTrigger) {
+      if (typeof window.gsap.registerPlugin === 'function') {
+        window.gsap.registerPlugin(window.ScrollTrigger);
+      }
+
+      if (typeof window.ScrollTrigger.scrollerProxy === 'function') {
+        window.ScrollTrigger.scrollerProxy(document.documentElement, {
+          scrollTop: function (value) {
+            if (arguments.length) {
+              lenis.scrollTo(value, { immediate: true });
+            }
+
+            return typeof lenis.actualScroll === 'number' ? lenis.actualScroll : lenis.scroll;
+          },
+          getBoundingClientRect: function () {
+            return {
+              top: 0,
+              left: 0,
+              width: window.innerWidth,
+              height: window.innerHeight
+            };
+          },
+          pinType: document.body.style.transform ? 'transform' : 'fixed'
+        });
+      }
+    }
+
     window.__graffitLenis = lenis;
     if (window.gsap && window.gsap.ticker && typeof window.gsap.ticker.add === 'function') {
       window.gsap.ticker.add(function (time) {
@@ -285,7 +313,7 @@
           },
           pin: viewport,
           scrub: 1,
-          anticipatePin: 1,
+          anticipatePin: isHomeProjects ? 0 : 1,
           invalidateOnRefresh: true,
           onToggle: function (self) {
             if (isProductsProjects) {
@@ -297,6 +325,14 @@
             var header = document.querySelector('.site-header');
             if (header) {
               header.classList.toggle('is-hidden-by-pin', self.isActive);
+            }
+
+            if (isHomeProjects && window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+              window.requestAnimationFrame(function () {
+                window.requestAnimationFrame(function () {
+                  window.ScrollTrigger.refresh();
+                });
+              });
             }
           },
           onUpdate: function (self) {

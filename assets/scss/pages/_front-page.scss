@@ -124,6 +124,11 @@
   z-index: 70 !important;
 }
 
+/* Під час pin transform від GSAP + overflow:hidden на секції інколи обрізають/мигає декор */
+html.is-projects-pinned #services-projects.services-projects {
+  overflow: visible;
+}
+
 /* Пін проєктів: максимум висоти під карусель — прибираємо «подушки» (без :has, щоб точно застосувалось). */
 html.is-projects-pinned #services-projects .services-projects__viewport {
   padding-top: 0 !important;
