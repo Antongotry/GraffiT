@@ -785,8 +785,8 @@
 .services-overview--home-directions {
   position: relative;
   margin-top: #{mixins.vw(132px)};
-  margin-bottom: 0;
-  padding-bottom: #{mixins.vw(84px)};
+  margin-bottom: #{mixins.vw(-220px)};
+  padding-bottom: 0;
   overflow: visible;
   z-index: 4;
 
