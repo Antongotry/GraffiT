@@ -280,6 +280,7 @@
 
     document.querySelectorAll('.js-projects-scroller').forEach(function (section) {
       var viewport = section.querySelector('.services-projects__viewport');
+      var container = section.querySelector('.services-projects__container');
       var stage = section.querySelector('.js-projects-stage');
       var track = section.querySelector('.js-projects-track');
       var prevButton = section.querySelector('.js-projects-prev');
@@ -294,7 +295,7 @@
       var isHomeProjects = section.id === 'services-projects';
       var startOffset = isProductsProjects ? 360 : (isHomeProjects ? 0 : 100);
 
-      if (!viewport || !stage || !track || cards.length === 0) {
+      if (!viewport || !stage || !track || cards.length === 0 || (isHomeProjects && !container)) {
         return;
       }
 
@@ -331,7 +332,8 @@
         },
         ease: 'none',
         scrollTrigger: {
-          trigger: section,
+          /* Головна: scrub/pin лише коли .services-projects__container упирається у верх вікна. */
+          trigger: isHomeProjects ? container : section,
           start: isHomeProjects ? 'top top' : ('top+=' + startOffset + ' top'),
           end: function () {
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
