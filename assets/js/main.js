@@ -47,7 +47,17 @@
     });
 
     window.__graffitLenis = lenis;
-    window.requestAnimationFrame(raf);
+    if (window.gsap && window.gsap.ticker && typeof window.gsap.ticker.add === 'function') {
+      window.gsap.ticker.add(function (time) {
+        lenis.raf(time * 1000);
+      });
+
+      if (typeof window.gsap.ticker.lagSmoothing === 'function') {
+        window.gsap.ticker.lagSmoothing(0);
+      }
+    } else {
+      window.requestAnimationFrame(raf);
+    }
 
     return lenis;
   }
