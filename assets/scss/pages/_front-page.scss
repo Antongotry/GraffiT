@@ -1,5 +1,65 @@
 @use "../abstracts/mixins";
 
+.home-chaos-about-flow {
+  position: relative;
+  isolation: isolate;
+}
+
+.home-chaos-about-flow__spheres {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+
+  &::before,
+  &::after {
+    position: absolute;
+    top: #{mixins.vw(-140px)};
+    bottom: #{mixins.vw(-180px)};
+    content: "";
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: contain;
+    opacity: 0.98;
+  }
+
+  &::before {
+    left: 0;
+    width: #{mixins.vw(600px)};
+    background-image: url("https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/sphere-left_result-scaled.webp");
+    transform: translateX(#{mixins.vw(-70px)});
+  }
+
+  &::after {
+    right: 0;
+    width: #{mixins.vw(700px)};
+    background-image: url("https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/sphere-rught_result-scaled.webp");
+    transform: translateX(#{mixins.vw(90px)});
+  }
+
+  @include mixins.mobile {
+    overflow: visible;
+
+    &::before,
+    &::after {
+      top: #{mixins.mvw(-60px)};
+      bottom: #{mixins.mvw(-80px)};
+      opacity: 0.92;
+    }
+
+    &::before {
+      width: #{mixins.mvw(320px)};
+      transform: translateX(#{mixins.mvw(-140px)});
+    }
+
+    &::after {
+      width: #{mixins.mvw(360px)};
+      transform: translateX(#{mixins.mvw(160px)});
+    }
+  }
+}
+
 .home-hero {
   position: relative;
   min-height: 100svh;
@@ -388,10 +448,6 @@
   overflow: hidden;
   padding: #{mixins.vw(120px)} 0 #{mixins.vw(164px)};
   background:
-    radial-gradient(circle at -10% 56%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0.12) 24%, rgba(0, 115, 230, 0) 62%),
-    radial-gradient(circle at 110% 56%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0.12) 24%, rgba(0, 115, 230, 0) 62%),
-    radial-gradient(circle at -4% 88%, rgba(0, 115, 230, 0.14) 0%, rgba(0, 115, 230, 0.08) 22%, rgba(0, 115, 230, 0) 58%),
-    radial-gradient(circle at 104% 88%, rgba(0, 115, 230, 0.14) 0%, rgba(0, 115, 230, 0.08) 22%, rgba(0, 115, 230, 0) 58%),
     #000203;
 
   &::before {
@@ -407,20 +463,22 @@
   }
 
   @include mixins.mobile {
-    background:
-      radial-gradient(circle at -20% 62%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0.1) 24%, rgba(0, 115, 230, 0) 64%),
-      radial-gradient(circle at 120% 62%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0.1) 24%, rgba(0, 115, 230, 0) 64%),
-      #000203;
+    background: #000203;
   }
 }
 
 .home-chaos__inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.home-chaos__visual {
+  position: relative;
+  z-index: 0;
 }
 
 .home-chaos__display,

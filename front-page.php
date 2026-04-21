@@ -13,8 +13,11 @@ get_header();
 <main id="primary" class="site-main site-main--home" aria-label="<?php esc_attr_e('Front page', 'graffit'); ?>">
     <?php get_template_part('template-parts/sections/home', 'hero'); ?>
     <?php get_template_part('template-parts/sections/home', 'showcase'); ?>
-    <?php get_template_part('template-parts/sections/home', 'chaos'); ?>
-    <?php get_template_part('template-parts/sections/home', 'about'); ?>
+    <div class="home-chaos-about-flow">
+        <div class="home-chaos-about-flow__spheres" aria-hidden="true"></div>
+        <?php get_template_part('template-parts/sections/home', 'chaos'); ?>
+        <?php get_template_part('template-parts/sections/home', 'about'); ?>
+    </div>
     <?php
     get_template_part(
         'template-parts/sections/services-reasons-hex',
