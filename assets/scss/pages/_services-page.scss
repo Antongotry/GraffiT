@@ -3689,7 +3689,6 @@
   min-height: 0;
   padding: #{mixins.vw(96px)} 0 #{mixins.vw(16px)};
   box-sizing: border-box;
-  overflow: hidden;
 
   &::before {
     position: absolute;
