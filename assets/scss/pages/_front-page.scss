@@ -124,6 +124,23 @@
   z-index: 70 !important;
 }
 
+/* Пін проєктів: верх в’юпорта = верх екрана; прибираємо внутрішні відступи, щоб карусель вміщалась (до піна відступи лишаються). */
+html.is-projects-pinned #services-projects .services-projects__viewport {
+  padding-top: 0;
+
+  @include mixins.mobile {
+    padding-top: 0;
+  }
+}
+
+html.is-projects-pinned #services-projects.services-projects:has(.services-projects__bg) .services-projects__container {
+  margin-top: 0;
+
+  @include mixins.mobile {
+    margin-top: 0;
+  }
+}
+
 /* М’яка «сфера» градієнта справа: Vector-346, ширина 400px макета — проєкти + блок процесу (головна). */
 $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Vector-346_result-scaled.webp";
 

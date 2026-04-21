@@ -278,8 +278,8 @@
         },
         ease: 'none',
         scrollTrigger: {
-          trigger: section,
-          start: 'top+=' + startOffset + ' top',
+          trigger: isHomeProjects ? viewport : section,
+          start: isHomeProjects ? 'top top' : ('top+=' + startOffset + ' top'),
           end: function () {
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
           },
