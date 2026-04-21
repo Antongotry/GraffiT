@@ -8,6 +8,7 @@
 .home-chaos-about-flow__spheres {
   position: absolute;
   inset: 0;
+  top: #{mixins.vw(200px)};
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
