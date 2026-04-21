@@ -1186,7 +1186,7 @@
   &:hover,
   &:focus-visible {
     transform: translateY(#{mixins.vw(-2px)});
-    box-shadow: 0 #{mixins.vw(16px)} #{mixins.vw(36px)} rgba(0, 115, 230, 0.24);
+    box-shadow: none;
   }
 
   @include mixins.mobile {
@@ -3434,7 +3434,7 @@
   line-height: 1.36;
 
   @include mixins.mobile {
-    width: min(100%, #{mixins.mvw(335px)});
+    width: min(100%, #{mixins.mvw(355px)});
     margin-top: #{mixins.mvw(24px)};
     margin-inline: auto;
     font-size: #{mixins.mvw(14px)};
@@ -3451,14 +3451,18 @@
   // Bottom-only fade into the bow-tie; large solid band so cards stay fully visible while scrolling.
   mask-image: linear-gradient(
     to bottom,
-    #000 0,
+    transparent 0,
+    rgba(0, 0, 0, 0.5) #{mixins.vw(56px)},
+    #000 #{mixins.vw(128px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
-    #000 0,
+    transparent 0,
+    rgba(0, 0, 0, 0.5) #{mixins.vw(56px)},
+    #000 #{mixins.vw(128px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%
