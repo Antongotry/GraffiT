@@ -384,12 +384,25 @@
 
 .home-chaos {
   position: relative;
+  margin-top: -1px;
   overflow: hidden;
   padding: #{mixins.vw(120px)} 0 #{mixins.vw(164px)};
   background:
     radial-gradient(circle at 0% 54%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0) 24%),
     radial-gradient(circle at 100% 54%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 24%),
     #000203;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 0;
+    height: clamp(#{mixins.vw(200px)}, 28vh, #{mixins.vw(360px)});
+    background: linear-gradient(180deg, #010814 0%, rgba(1, 8, 20, 0.82) 24%, rgba(1, 8, 20, 0.34) 56%, rgba(1, 8, 20, 0) 100%);
+    content: "";
+    pointer-events: none;
+  }
 }
 
 .home-chaos__inner {
