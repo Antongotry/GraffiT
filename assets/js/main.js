@@ -292,6 +292,11 @@
             }
 
             document.documentElement.classList.toggle('is-projects-pinned', self.isActive);
+
+            var header = document.querySelector('.site-header');
+            if (header) {
+              header.classList.toggle('is-hidden-by-pin', self.isActive);
+            }
           },
           onUpdate: function (self) {
             currentIndex = Math.round(self.progress * getMaxIndex());
