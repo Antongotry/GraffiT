@@ -134,6 +134,8 @@
 }
 
 .home-chaos-about-flow #home-about .services-clients__text {
+  width: #{mixins.vw(560px)};
+
   @include mixins.mobile {
     width: min(100%, #{mixins.mvw(355px)});
   }
