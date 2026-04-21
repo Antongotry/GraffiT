@@ -4,6 +4,41 @@
   background: #000102;
 }
 
+/* Hex «Чому ми» на /services/ — як на головній: без градієнта секції, той самий Vector-315. */
+.site-main--services .hex-reasons.hex-reasons--home {
+  overflow-x: visible;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    height: #{mixins.vw(2350px)};
+    width: #{mixins.vw(1060px)};
+    pointer-events: none;
+    background: url("https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Vector-315_result-scaled.webp") left top / 100% 100% no-repeat;
+    content: "";
+
+    @include mixins.mobile {
+      display: none;
+    }
+  }
+
+  .hex-reasons__head,
+  .hex-reasons__scene,
+  .hex-reasons__mobi {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* Довший заголовок на сторінці послуг — не вужчий 381px як у 3-колонки на головній. */
+.site-main--services .hex-reasons.hex-reasons--home .hex-reasons__title--home {
+  width: min(100%, #{mixins.vw(901px)});
+  max-width: min(100%, #{mixins.vw(901px)});
+  min-height: auto;
+}
+
 .services-hero {
   position: relative;
   min-height: 100svh;

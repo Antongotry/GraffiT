@@ -14,7 +14,16 @@ get_header();
     <?php get_template_part('template-parts/sections/services', 'hero'); ?>
     <?php get_template_part('template-parts/sections/services', 'overview'); ?>
     <?php get_template_part('template-parts/sections/services', 'inquiry'); ?>
-    <?php get_template_part('template-parts/sections/services-reasons', 'hex'); ?>
+    <?php
+    get_template_part(
+        'template-parts/sections/services-reasons',
+        'hex',
+        [
+            'section_extra_class' => 'hex-reasons--home',
+            'title_class_extra' => 'hex-reasons__title--home',
+        ]
+    );
+    ?>
     <?php get_template_part('template-parts/sections/services', 'benefits'); ?>
     <?php get_template_part('template-parts/sections/services', 'clients'); ?>
     <?php get_template_part('template-parts/sections/services', 'projects'); ?>
