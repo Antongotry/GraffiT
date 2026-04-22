@@ -4690,6 +4690,16 @@
   }
 }
 
+.site-main--products .services-final-cta {
+  z-index: 2;
+  overflow: hidden;
+  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+
+  @include mixins.mobile {
+    clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 50% 96%, 0 100%);
+  }
+}
+
 .services-final-cta__container {
   position: relative;
   width: #{mixins.vw(1360px)};
