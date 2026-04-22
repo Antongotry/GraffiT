@@ -4290,30 +4290,6 @@
   background: var(--project-case-media-image) center / cover no-repeat;
 }
 
-.site-main--services .services-process {
-  z-index: 2;
-  overflow: visible;
-
-  &::before {
-    position: absolute;
-    top: #{mixins.vw(-96px)};
-    left: 0;
-    width: 100%;
-    height: #{mixins.vw(96px)};
-    background: var(--color-background);
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
-    content: "";
-    pointer-events: none;
-  }
-
-  @include mixins.mobile {
-    &::before {
-      top: #{mixins.mvw(-40px)};
-      height: #{mixins.mvw(40px)};
-    }
-  }
-}
-
 .services-process {
   position: relative;
   overflow: hidden;
@@ -4701,6 +4677,30 @@
 
   @include mixins.mobile {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 96%, 0 100%);
+  }
+}
+
+.site-main--services .services-final-cta {
+  z-index: 2;
+  overflow: visible;
+
+  &::before {
+    position: absolute;
+    top: #{mixins.vw(-96px)};
+    left: 0;
+    width: 100%;
+    height: #{mixins.vw(96px)};
+    background: var(--color-background);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    content: "";
+    pointer-events: none;
+  }
+
+  @include mixins.mobile {
+    &::before {
+      top: #{mixins.mvw(-40px)};
+      height: #{mixins.mvw(40px)};
+    }
   }
 }
 
