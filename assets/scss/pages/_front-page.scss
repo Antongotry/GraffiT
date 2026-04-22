@@ -806,6 +806,11 @@ html.is-projects-pinned .site-header {
   z-index: 3;
   margin-top: 0;
   background: linear-gradient(180deg, #edf0f4 0%, #cfd4db 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+
+  @include mixins.mobile {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 96%, 0 100%);
+  }
 }
 
 .home-faq__container {
