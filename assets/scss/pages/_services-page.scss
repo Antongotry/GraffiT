@@ -4296,7 +4296,7 @@
   background: var(--color-background);
 
   @include mixins.mobile {
-    overflow-x: visible;
+    overflow-x: clip;
     overflow-y: visible;
     background:
       radial-gradient(circle at 50% 0%, rgba(0, 115, 230, 0.14) 0%, rgba(0, 115, 230, 0) 42%),
@@ -4337,7 +4337,8 @@
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
     padding: #{mixins.mvw(48px)} 0 #{mixins.mvw(64px)};
-    overflow: visible;
+    overflow-x: clip;
+    overflow-y: visible;
   }
 }
 
@@ -4404,7 +4405,8 @@
     align-items: stretch;
     gap: 0;
     margin-top: #{mixins.mvw(32px)};
-    overflow: visible;
+    overflow-x: clip;
+    overflow-y: visible;
   }
 }
 
@@ -4606,15 +4608,14 @@
     order: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     flex-shrink: 0;
-    align-self: center;
-    // Смуга на всю ширину в’юпорта; контент вирівнюємо вправо (до краю екрана з урахуванням safe-area)
-    width: 100vw;
-    max-width: none;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    padding-right: env(safe-area-inset-right, 0);
+    align-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-right: 0;
     box-sizing: border-box;
     margin-top: #{mixins.mvw(40px)};
     left: auto;
@@ -4629,12 +4630,11 @@
   overflow: visible;
 
   @include mixins.mobile {
-    // 95% ширини смуги (−10% + 5%); блок прижато до правого краю
-    width: 95%;
-    max-width: 95%;
+    width: 100%;
+    max-width: #{mixins.mvw(340px)};
     height: auto;
     flex-shrink: 0;
-    margin: 0;
+    margin: 0 auto;
     overflow: visible;
     transform: none;
     border-radius: 0;
