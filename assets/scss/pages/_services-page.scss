@@ -3042,8 +3042,24 @@
   @include mixins.mobile {
     min-height: auto;
     padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(84px)};
-    overflow: hidden;
-    clip-path: polygon(0 0, 100% 0, 100% 96%, 50% 100%, 0 96%);
+    overflow: visible;
+  }
+
+  @include mixins.mobile {
+    &::after {
+      position: absolute;
+      right: 0;
+      bottom: #{mixins.mvw(-1px)};
+      left: 0;
+      height: #{mixins.mvw(36px)};
+      background:
+        radial-gradient(circle at 0% 112%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 34%),
+        linear-gradient(180deg, #000102 0%, #04101d 18%, #000102 42%, #000102 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
+      content: "";
+      pointer-events: none;
+      z-index: 0;
+    }
   }
 }
 
@@ -3375,7 +3391,7 @@
 
 .services-clients__viewport {
   position: relative;
-  z-index: 2;
+  z-index: 70;
   min-height: 100svh;
   padding: #{mixins.vw(48px)} 0 #{mixins.vw(48px)};
   isolation: isolate;
@@ -3423,6 +3439,11 @@
       opacity: 0.32;
     }
   }
+}
+
+.services-clients .pin-spacer {
+  position: relative;
+  z-index: 70 !important;
 }
 
 .services-clients__container {
