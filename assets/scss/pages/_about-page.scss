@@ -344,7 +344,7 @@
     max-width: 100%;
     min-height: auto;
     margin-top: #{mixins.mvw(28px)};
-    font-size: #{mixins.mvw(30px)};
+    font-size: #{mixins.mvw(27px)};
     line-height: 1;
   }
 
@@ -444,7 +444,7 @@
 
   @include mixins.mobile {
     width: 100%;
-    font-size: #{mixins.mvw(28px)};
+    font-size: #{mixins.mvw(25.2px)};
     line-height: 1.1;
   }
 }
