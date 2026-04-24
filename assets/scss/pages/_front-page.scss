@@ -170,8 +170,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   content: "";
 
   @include mixins.mobile {
-    width: #{mixins.mvw(240px)};
-    background-size: #{mixins.mvw(240px)} auto;
+    /* Vector-346 виглядає як градієнт; фон секції має лишатися суцільним. */
+    display: none;
   }
 }
 

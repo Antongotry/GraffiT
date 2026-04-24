@@ -4359,10 +4359,7 @@
 
   @include mixins.mobile {
     &::after {
-      right: #{mixins.mvw(12px)};
-      bottom: #{mixins.mvw(24px)};
-      width: #{mixins.mvw(120px)};
-      height: #{mixins.mvw(120px)};
+      display: none;
     }
   }
 }
