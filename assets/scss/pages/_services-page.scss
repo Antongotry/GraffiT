@@ -3428,7 +3428,7 @@
 
     &::after,
     &::before {
-      clip-path: polygon(0 0, 50% #{mixins.mvw(56px)}, 100% 0, 100% 100%, 0 100%);
+      clip-path: polygon(0 0, 50% #{mixins.mvw(36px)}, 100% 0, 100% 100%, 0 100%);
     }
 
     &::before {
