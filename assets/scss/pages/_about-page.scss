@@ -10,10 +10,24 @@
   z-index: 90;
   min-height: 100svh;
   height: 100svh;
-  margin-bottom: #{mixins.vw(-90px)};
-  padding-bottom: #{mixins.vw(90px)};
-  overflow: hidden;
+  overflow: visible;
   background: #000102;
+
+  @include mixins.mobile {
+    min-height: #{mixins.mvw(751px)};
+    height: auto;
+  }
+}
+
+.about-hero__backdrop {
+  position: absolute;
+  inset: 0 0 #{mixins.vw(-90px)};
+  z-index: 0;
+  background-color: #0073e6;
+  background-image: var(--about-hero-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   clip-path: polygon(
     0 0,
     100% 0,
@@ -21,37 +35,14 @@
     50% 100%,
     0 calc(100% - #{mixins.vw(90px)})
   );
-
-  @include mixins.mobile {
-    min-height: #{mixins.mvw(751px)};
-    height: auto;
-    margin-bottom: #{mixins.mvw(-40px)};
-    padding-bottom: #{mixins.mvw(40px)};
-    clip-path: polygon(
-      0 0,
-      100% 0,
-      100% calc(100% - #{mixins.mvw(40px)}),
-      50% 100%,
-      0 calc(100% - #{mixins.mvw(40px)})
-    );
-  }
-}
-
-.about-hero__backdrop {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-color: #0073e6;
-  background-image: var(--about-hero-image);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   pointer-events: none;
 
   @include mixins.mobile {
+    inset: 0;
     background-image: var(--about-hero-image-mobile, var(--about-hero-image));
     background-position: center top;
     background-size: cover;
+    clip-path: none;
   }
 }
 
@@ -627,6 +618,11 @@
     .services-clients__viewport {
       overflow: visible;
       padding-top: #{mixins.mvw(84px)};
+
+      &::before,
+      &::after {
+        clip-path: none;
+      }
     }
 
     .services-clients__copy {
