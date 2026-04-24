@@ -88,6 +88,15 @@
 .home-hex-projects-flow .hex-reasons--home {
   position: relative;
   z-index: 2;
+
+  @include mixins.mobile {
+    /*
+     * Вище за .services-inquiry (3), нижче за .services-overview--home-directions (6),
+     * щоб верхній «шпиль» світлого CTA не накладався на блок «Переваги».
+     */
+    z-index: 5;
+    background: #000102;
+  }
 }
 
 .home-hex-projects-flow .services-overview,
