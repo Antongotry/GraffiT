@@ -5,7 +5,7 @@
   top: #{mixins.vw(24px)};
   left: 0;
   width: 100%;
-  z-index: 40;
+  z-index: 120;
 
   @include mixins.mobile {
     top: #{mixins.mvw(20px)};
@@ -100,7 +100,7 @@
 .mobile-menu {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 140;
   display: none;
   pointer-events: none;
 
