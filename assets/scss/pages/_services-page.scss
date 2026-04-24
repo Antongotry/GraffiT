@@ -4339,9 +4339,7 @@
   @include mixins.mobile {
     overflow-x: clip;
     overflow-y: visible;
-    background:
-      radial-gradient(circle at 50% 0%, rgba(0, 115, 230, 0.14) 0%, rgba(0, 115, 230, 0) 42%),
-      linear-gradient(180deg, #03101f 0%, #000102 38%, #000102 100%);
+    background: var(--color-background);
   }
 
   &::after {
