@@ -13,8 +13,10 @@ get_header();
 <main id="primary" class="site-main site-main--about">
     <?php get_template_part('template-parts/sections/about', 'hero'); ?>
     <?php get_template_part('template-parts/sections/about', 'clients'); ?>
-    <?php get_template_part('template-parts/sections/about', 'stack'); ?>
-    <?php get_template_part('template-parts/sections/about', 'story'); ?>
+    <div class="about-dark-flow">
+        <?php get_template_part('template-parts/sections/about', 'stack'); ?>
+        <?php get_template_part('template-parts/sections/about', 'story'); ?>
+    </div>
     <?php get_template_part('template-parts/sections/about', 'industries'); ?>
     <?php
     get_template_part(
