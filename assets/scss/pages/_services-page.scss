@@ -3043,21 +3043,7 @@
     min-height: auto;
     padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(84px)};
     overflow: hidden;
-  }
-
-  @include mixins.mobile {
-    &::before {
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-      height: #{mixins.mvw(92px)};
-      background: #000102;
-      clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);
-      content: "";
-      pointer-events: none;
-      z-index: 0;
-    }
+    clip-path: polygon(0 0, 100% 0, 100% 96%, 50% 100%, 0 96%);
   }
 }
 
