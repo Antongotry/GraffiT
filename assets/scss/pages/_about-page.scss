@@ -38,11 +38,17 @@
   pointer-events: none;
 
   @include mixins.mobile {
-    inset: 0;
+    inset: 0 0 #{mixins.mvw(-40px)};
     background-image: var(--about-hero-image-mobile, var(--about-hero-image));
     background-position: center top;
     background-size: cover;
-    clip-path: none;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - #{mixins.mvw(40px)}),
+      50% 100%,
+      0 calc(100% - #{mixins.mvw(40px)})
+    );
   }
 }
 
