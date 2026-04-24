@@ -7,22 +7,24 @@
 .about-dark-flow {
   position: relative;
   overflow: clip;
-  background:
+  --about-dark-flow-background:
     radial-gradient(circle at 18% 24%, rgba(0, 115, 230, 0.16) 0%, rgba(0, 115, 230, 0) 28%),
     radial-gradient(circle at 82% 68%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 32%),
     radial-gradient(circle at 22% 84%, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0) 44%),
     radial-gradient(circle at 78% 18%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 40%),
     #000102;
+  --about-dark-flow-background-mobile:
+    linear-gradient(180deg, rgba(0, 1, 2, 0) 0%, rgba(0, 1, 2, 0.92) 18%, #000102 34%),
+    radial-gradient(circle at 18% 24%, rgba(0, 115, 230, 0.16) 0%, rgba(0, 115, 230, 0) 28%),
+    radial-gradient(circle at 82% 68%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 32%),
+    radial-gradient(circle at 22% 84%, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0) 44%),
+    radial-gradient(circle at 78% 18%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 40%),
+    #000102;
+  background: var(--about-dark-flow-background);
 
   @include mixins.mobile {
     overflow: visible;
-    background:
-      linear-gradient(180deg, rgba(0, 1, 2, 0) 0%, rgba(0, 1, 2, 0.92) 18%, #000102 34%),
-      radial-gradient(circle at 18% 24%, rgba(0, 115, 230, 0.16) 0%, rgba(0, 115, 230, 0) 28%),
-      radial-gradient(circle at 82% 68%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 32%),
-      radial-gradient(circle at 22% 84%, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0) 44%),
-      radial-gradient(circle at 78% 18%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 40%),
-      #000102;
+    background: var(--about-dark-flow-background-mobile);
   }
 }
 
@@ -379,12 +381,27 @@
   background: transparent;
 
   &::before {
-    display: none;
+    position: absolute;
+    top: #{mixins.vw(-90px)};
+    left: 0;
+    width: 100%;
+    height: #{mixins.vw(90px)};
+    z-index: 1;
+    background: var(--about-dark-flow-background);
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    content: "";
+    pointer-events: none;
   }
 
   @include mixins.mobile {
     margin-top: 0;
     padding: #{mixins.mvw(136px)} 0 0;
+
+    &::before {
+      top: #{mixins.mvw(-40px)};
+      height: #{mixins.mvw(40px)};
+      background: var(--about-dark-flow-background-mobile);
+    }
   }
 }
 
@@ -646,7 +663,7 @@
   position: relative;
   overflow: hidden;
   padding: #{mixins.vw(96px)} 0 #{mixins.vw(112px)};
-  background: #020914;
+  background: transparent;
   color: #ffffff;
 }
 
@@ -783,6 +800,8 @@
 /* Reuse front “three directions” + inquiry CTA under industries on /about/ */
 .site-main--about .services-overview--home-directions {
   margin-top: #{mixins.vw(64px)};
+  margin-bottom: 0;
+  padding-bottom: #{mixins.vw(112px)};
 }
 
 .site-main--about .services-overview--home-directions .services-overview__eyebrow {
@@ -801,6 +820,7 @@
 @include mixins.mobile {
   .site-main--about .services-overview--home-directions {
     margin-top: #{mixins.mvw(40px)};
+    padding-bottom: #{mixins.mvw(56px)};
   }
 
   .site-main--about .services-overview--home-directions .services-overview__eyebrow {
