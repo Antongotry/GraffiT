@@ -949,21 +949,14 @@
       }
 
       section.setAttribute('data-process-mobile', '1');
+      var activeIndex = 0;
+      var ticking = false;
 
       function updateLineFillHeight() {
         var h = line.offsetHeight;
 
         if (h <= 0) {
           return;
-        }
-
-        var activeIndex = 0;
-
-        for (var i = 0; i < steps.length; i++) {
-          if (steps[i].classList.contains('is-active')) {
-            activeIndex = i;
-            break;
-          }
         }
 
         var n = steps.length;
@@ -973,54 +966,74 @@
 
       function setActive(index) {
         var clamped = Math.max(0, Math.min(index, steps.length - 1));
+        var changed = clamped !== activeIndex;
+
+        activeIndex = clamped;
 
         for (var j = 0; j < steps.length; j++) {
           steps[j].classList.toggle('is-active', j === clamped);
         }
 
-        updateLineFillHeight();
+        if (changed) {
+          updateLineFillHeight();
+        }
       }
 
-      var observer = new IntersectionObserver(
-        function (entries) {
-          var visible = entries.filter(function (e) {
-            return e.isIntersecting;
-          });
+      function syncActiveStep() {
+        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        var focusY = viewportHeight * 0.38;
+        var bestIndex = 0;
+        var bestDistance = Number.POSITIVE_INFINITY;
 
-          if (visible.length === 0) {
-            return;
+        for (var i = 0; i < steps.length; i++) {
+          var rect = steps[i].getBoundingClientRect();
+          var stepCenter = rect.top + rect.height / 2;
+          var distance = Math.abs(stepCenter - focusY);
+
+          if (rect.top <= focusY && rect.bottom >= focusY) {
+            bestIndex = i;
+            bestDistance = -1;
+            break;
           }
 
-          visible.sort(function (a, b) {
-            return b.intersectionRatio - a.intersectionRatio;
-          });
-
-          var target = visible[0].target;
-          var idx = steps.indexOf(target);
-
-          if (idx >= 0) {
-            setActive(idx);
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            bestIndex = i;
           }
-        },
-        {
-          root: null,
-          threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
         }
-      );
 
-      steps.forEach(function (step) {
-        observer.observe(step);
-      });
+        setActive(bestIndex);
+      }
 
+      function requestSync() {
+        if (ticking) {
+          return;
+        }
+
+        ticking = true;
+
+        window.requestAnimationFrame(function () {
+          ticking = false;
+          syncActiveStep();
+        });
+      }
+
+      window.addEventListener('scroll', requestSync, { passive: true });
       window.addEventListener(
         'resize',
         function () {
-          window.requestAnimationFrame(updateLineFillHeight);
+          window.requestAnimationFrame(function () {
+            syncActiveStep();
+            updateLineFillHeight();
+          });
         },
         { passive: true }
       );
 
-      window.requestAnimationFrame(updateLineFillHeight);
+      window.requestAnimationFrame(function () {
+        syncActiveStep();
+        updateLineFillHeight();
+      });
     });
   }
 
