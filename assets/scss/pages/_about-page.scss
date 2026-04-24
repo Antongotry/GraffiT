@@ -7,19 +7,8 @@
 .about-dark-flow {
   position: relative;
   overflow: clip;
-  --about-dark-flow-background:
-    radial-gradient(circle at 18% 24%, rgba(0, 115, 230, 0.16) 0%, rgba(0, 115, 230, 0) 28%),
-    radial-gradient(circle at 82% 68%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 32%),
-    radial-gradient(circle at 22% 84%, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0) 44%),
-    radial-gradient(circle at 78% 18%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 40%),
-    #000102;
-  --about-dark-flow-background-mobile:
-    linear-gradient(180deg, rgba(0, 1, 2, 0) 0%, rgba(0, 1, 2, 0.92) 18%, #000102 34%),
-    radial-gradient(circle at 18% 24%, rgba(0, 115, 230, 0.16) 0%, rgba(0, 115, 230, 0) 28%),
-    radial-gradient(circle at 82% 68%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 32%),
-    radial-gradient(circle at 22% 84%, rgba(0, 115, 230, 0.34) 0%, rgba(0, 115, 230, 0) 44%),
-    radial-gradient(circle at 78% 18%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 40%),
-    #000102;
+  --about-dark-flow-background: #000102;
+  --about-dark-flow-background-mobile: #000102;
   background: var(--about-dark-flow-background);
 
   @include mixins.mobile {
