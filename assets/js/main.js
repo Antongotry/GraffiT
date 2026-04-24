@@ -998,7 +998,7 @@
         activeIndex = clamped;
 
         for (var j = 0; j < steps.length; j++) {
-          steps[j].classList.toggle('is-active', j === clamped);
+          steps[j].classList.toggle('is-active', j <= clamped);
         }
 
         if (changed) {
