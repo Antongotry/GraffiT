@@ -798,6 +798,7 @@
       var viewport = section.querySelector('.services-clients__viewport');
       var stage = section.querySelector('.js-clients-stage');
       var track = section.querySelector('.js-clients-track');
+      var shouldHideHeader = section.id === 'about-clients';
 
       if (!viewport || !stage || !track) {
         return;
@@ -829,7 +830,20 @@
           },
           pin: viewport,
           scrub: 1,
-          invalidateOnRefresh: true
+          invalidateOnRefresh: true,
+          onToggle: function (self) {
+            var header;
+
+            if (!shouldHideHeader) {
+              return;
+            }
+
+            header = document.querySelector('.site-header');
+
+            if (header) {
+              header.classList.toggle('is-hidden-by-pin', self.isActive);
+            }
+          }
         }
       });
     });
