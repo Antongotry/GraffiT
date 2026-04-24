@@ -6,15 +6,11 @@
 
 .about-dark-flow {
   position: relative;
-  overflow: clip;
+  overflow: visible;
   --about-dark-flow-background: #000102;
   --about-dark-flow-background-mobile: #000102;
   background: var(--about-dark-flow-background);
-
-  @include mixins.mobile {
-    overflow: visible;
-    background: var(--about-dark-flow-background-mobile);
-  }
+  background: var(--about-dark-flow-background-mobile);
 }
 
 .about-hero {
