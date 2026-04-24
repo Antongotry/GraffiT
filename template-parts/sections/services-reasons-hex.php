@@ -242,7 +242,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
                     <article class="hex-reasons__m-card-tile">
                         <img
                             class="hex-reasons__m-card-bg"
-                            src="<?php echo esc_url( $hex_card_images['primary'] ); ?>"
+                            src="<?php echo esc_url( $hex_card_images['stack'] ); ?>"
                             alt=""
                             width="374"
                             height="374"
