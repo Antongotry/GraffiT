@@ -37,6 +37,12 @@
   width: min(100%, #{mixins.vw(901px)});
   max-width: min(100%, #{mixins.vw(901px)});
   min-height: auto;
+
+  @include mixins.mobile {
+    width: 100%;
+    max-width: 100%;
+    font-size: #{mixins.mvw(21px)};
+  }
 }
 
 /* Верхній «шпиль» CTA — легкий overlap з блоком над ним (process / ін.). */
