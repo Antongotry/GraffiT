@@ -7,14 +7,33 @@
 .about-hero {
   position: relative;
   isolation: isolate;
+  z-index: 90;
   min-height: 100svh;
   height: 100svh;
+  margin-bottom: #{mixins.vw(-90px)};
+  padding-bottom: #{mixins.vw(90px)};
   overflow: hidden;
   background: #000102;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - #{mixins.vw(90px)}),
+    50% 100%,
+    0 calc(100% - #{mixins.vw(90px)})
+  );
 
   @include mixins.mobile {
     min-height: #{mixins.mvw(751px)};
     height: auto;
+    margin-bottom: #{mixins.mvw(-40px)};
+    padding-bottom: #{mixins.mvw(40px)};
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - #{mixins.mvw(40px)}),
+      50% 100%,
+      0 calc(100% - #{mixins.mvw(40px)})
+    );
   }
 }
 
