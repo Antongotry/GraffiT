@@ -951,17 +951,44 @@
       section.setAttribute('data-process-mobile', '1');
       var activeIndex = 0;
       var ticking = false;
+      var tags = steps.map(function (step) {
+        return step.querySelector('.process-step__tag');
+      }).filter(Boolean);
+
+      function getFocusY() {
+        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        return viewportHeight * 0.38;
+      }
 
       function updateLineFillHeight() {
-        var h = line.offsetHeight;
+        var lineRect = line.getBoundingClientRect();
 
-        if (h <= 0) {
+        if (lineRect.height <= 0) {
           return;
         }
 
-        var n = steps.length;
-        var pct = (activeIndex + 1) / n;
-        lineFill.style.height = Math.round(h * pct) + 'px';
+        if (tags.length < 2) {
+          var fallbackHeight = lineRect.height * ((activeIndex + 1) / steps.length);
+          lineFill.style.height = Math.round(fallbackHeight) + 'px';
+          return;
+        }
+
+        var focusY = getFocusY();
+        var firstRect = tags[0].getBoundingClientRect();
+        var lastRect = tags[tags.length - 1].getBoundingClientRect();
+        var firstCenter = firstRect.top + firstRect.height / 2;
+        var lastCenter = lastRect.top + lastRect.height / 2;
+        var clampedFocus = Math.min(Math.max(focusY, firstCenter), lastCenter);
+        var startOffset = Math.max(firstCenter - lineRect.top, 0);
+        var endOffset = Math.min(lastCenter - lineRect.top, lineRect.height);
+        var fillHeight = startOffset;
+
+        if (lastCenter > firstCenter) {
+          var progress = (clampedFocus - firstCenter) / (lastCenter - firstCenter);
+          fillHeight = startOffset + (endOffset - startOffset) * progress;
+        }
+
+        lineFill.style.height = Math.round(Math.max(fillHeight, 0)) + 'px';
       }
 
       function setActive(index) {
@@ -980,8 +1007,7 @@
       }
 
       function syncActiveStep() {
-        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-        var focusY = viewportHeight * 0.38;
+        var focusY = getFocusY();
         var bestIndex = 0;
         var bestDistance = Number.POSITIVE_INFINITY;
 
@@ -1015,6 +1041,7 @@
         window.requestAnimationFrame(function () {
           ticking = false;
           syncActiveStep();
+          updateLineFillHeight();
         });
       }
 
