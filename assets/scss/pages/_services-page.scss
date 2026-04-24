@@ -3384,19 +3384,6 @@
 
   @include mixins.mobile {
     overflow: visible;
-
-    &::before {
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-      height: #{mixins.mvw(92px)};
-      background: #000102;
-      clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);
-      content: "";
-      pointer-events: none;
-      z-index: 1;
-    }
   }
 }
 
@@ -3437,8 +3424,12 @@
   @include mixins.mobile {
     min-height: auto;
     padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(40px)};
-    // clip-path ламає position:sticky для карток; на мобілці без вирізу
     clip-path: none;
+
+    &::after,
+    &::before {
+      clip-path: polygon(0 0, 50% #{mixins.mvw(56px)}, 100% 0, 100% 100%, 0 100%);
+    }
 
     &::before {
       background-size: #{mixins.mvw(260px)} auto;
