@@ -3380,6 +3380,7 @@
 .services-clients {
   position: relative;
   isolation: isolate;
+  z-index: 70;
   background: #000102;
   color: #000102;
   overflow: hidden;
