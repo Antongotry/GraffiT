@@ -8,15 +8,11 @@
   position: relative;
   z-index: 90;
   overflow: visible;
-  margin-top: #{mixins.vw(-90px)};
-  padding-top: #{mixins.vw(90px)};
   --about-dark-flow-background: #000102;
   --about-dark-flow-background-mobile: #000102;
   background: var(--about-dark-flow-background);
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(-40px)};
-    padding-top: #{mixins.mvw(40px)};
     background: var(--about-dark-flow-background-mobile);
   }
 }
