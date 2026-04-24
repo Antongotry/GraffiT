@@ -3384,6 +3384,19 @@
 
   @include mixins.mobile {
     overflow: visible;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: #{mixins.mvw(92px)};
+      background: #000102;
+      clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);
+      content: "";
+      pointer-events: none;
+      z-index: 1;
+    }
   }
 }
 
