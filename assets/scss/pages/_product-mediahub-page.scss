@@ -1110,3 +1110,38 @@
     font-size: #{mixins.mvw(14px)};
   }
 }
+
+/* «Про нас» — той самий патерн, що .home-chaos-about-flow #home-about на головній */
+.home-chaos-about-flow--product-mediahub #mediahub-about {
+  position: relative;
+  z-index: 200;
+}
+
+.home-chaos-about-flow--product-mediahub #mediahub-about .pin-spacer {
+  position: relative;
+  z-index: 200;
+}
+
+.home-chaos-about-flow--product-mediahub #mediahub-about .services-clients__viewport {
+  z-index: 200;
+}
+
+.home-chaos-about-flow--product-mediahub #mediahub-about .services-clients__container {
+  @include mixins.mobile {
+    width: min(100% - #{mixins.mvw(20px)}, 100%);
+  }
+}
+
+.home-chaos-about-flow--product-mediahub #mediahub-about .services-clients__copy {
+  @include mixins.mobile {
+    width: 100%;
+  }
+}
+
+.home-chaos-about-flow--product-mediahub #mediahub-about .services-clients__text {
+  width: #{mixins.vw(560px)};
+
+  @include mixins.mobile {
+    width: min(100%, #{mixins.mvw(355px)});
+  }
+}
