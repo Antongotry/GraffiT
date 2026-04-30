@@ -887,9 +887,18 @@
 
         var timelineRect = timeline.getBoundingClientRect();
         var firstRect = tags[0].getBoundingClientRect();
-        var lastRect = tags[tags.length - 1].getBoundingClientRect();
         var start = firstRect.top - timelineRect.top + firstRect.height * 0.5;
-        var end = lastRect.top - timelineRect.top + lastRect.height * 0.5;
+        var note = timeline.querySelector('.mediahub-process__note');
+        var end;
+
+        if (note) {
+          var noteRect = note.getBoundingClientRect();
+          end = noteRect.bottom - timelineRect.top;
+        } else {
+          var lastRect = tags[tags.length - 1].getBoundingClientRect();
+          end = lastRect.top - timelineRect.top + lastRect.height * 0.5;
+        }
+
         var lineHeight = Math.max(end - start, 0);
 
         line.style.top = start + 'px';
@@ -989,9 +998,16 @@
 
         var focusY = getFocusY();
         var firstRect = tags[0].getBoundingClientRect();
+        var note = section.querySelector('.mediahub-process__note');
         var lastRect = tags[tags.length - 1].getBoundingClientRect();
-        var firstCenter = firstRect.top + firstRect.height / 2;
         var lastCenter = lastRect.top + lastRect.height / 2;
+
+        if (note) {
+          var noteRect = note.getBoundingClientRect();
+          lastCenter = noteRect.top + noteRect.height / 2;
+        }
+
+        var firstCenter = firstRect.top + firstRect.height / 2;
         var clampedFocus = Math.min(Math.max(focusY, firstCenter), lastCenter);
         var startOffset = Math.max(firstCenter - lineRect.top, 0);
         var endOffset = Math.min(lastCenter - lineRect.top, lineRect.height);

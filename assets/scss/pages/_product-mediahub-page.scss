@@ -952,6 +952,9 @@
 
   .process-step__title {
     max-width: none;
+    font-size: #{mixins.vw(16px)};
+    font-weight: 400;
+    line-height: 1.36;
   }
 
   .process-step__text {
@@ -1041,7 +1044,13 @@
       gap: #{mixins.mvw(28px)};
     }
 
-    .process-step__title,
+    .process-step__title {
+      max-width: #{mixins.mvw(280px)};
+      font-size: #{mixins.mvw(16px)};
+      font-weight: 400;
+      line-height: 1.36;
+    }
+
     .process-step__text,
     .process-step__result {
       max-width: #{mixins.mvw(280px)};
