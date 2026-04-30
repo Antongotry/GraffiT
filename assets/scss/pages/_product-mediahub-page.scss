@@ -903,7 +903,7 @@
 
   .services-process__container {
     width: #{mixins.vw(1360px)};
-    padding: #{mixins.vw(112px)} 0 #{mixins.vw(236px)};
+    padding: #{mixins.vw(112px)} 0 #{mixins.vw(120px)};
     overflow: visible;
   }
 
@@ -1111,10 +1111,12 @@
   }
 }
 
-/* «Про нас»: standalone-секція у потоці після процесу; pin viewport через GSAP. */
+/* «Про нас»: standalone-секція без bow-tie (попередня секція — flat-низ).
+   Pin viewport через GSAP, але клін-пас вимкнений як на /pro-nas/. */
 .mediahub-about {
   position: relative;
   overflow: visible;
+  z-index: 80;
 }
 
 .mediahub-about .pin-spacer {
@@ -1122,18 +1124,42 @@
 }
 
 .mediahub-about .services-clients__viewport {
+  min-height: 100svh;
+  padding-top: 0;
+  padding-bottom: #{mixins.vw(48px)};
   overflow: visible;
+  clip-path: none;
+
+  &::after,
+  &::before {
+    clip-path: none;
+  }
+
+  @include mixins.mobile {
+    padding-top: #{mixins.mvw(48px)};
+    padding-bottom: #{mixins.mvw(40px)};
+  }
+}
+
+.mediahub-about .services-clients__layout {
+  padding-top: #{mixins.vw(96px)};
+
+  @include mixins.mobile {
+    padding-top: 0;
+  }
+}
+
+.mediahub-about .services-clients__copy {
+  padding-top: 0;
+
+  @include mixins.mobile {
+    width: 100%;
+  }
 }
 
 .mediahub-about .services-clients__container {
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(20px)}, 100%);
-  }
-}
-
-.mediahub-about .services-clients__copy {
-  @include mixins.mobile {
-    width: 100%;
   }
 }
 
