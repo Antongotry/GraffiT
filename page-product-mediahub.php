@@ -14,8 +14,8 @@ get_header();
     <?php get_template_part('template-parts/sections/product-mediahub', 'hero'); ?>
     <?php get_template_part('template-parts/sections/product-mediahub', 'audience'); ?>
     <?php get_template_part('template-parts/sections/product-mediahub', 'results'); ?>
-    <?php get_template_part('template-parts/sections/product-mediahub', 'process'); ?>
     <?php get_template_part('template-parts/sections/product-mediahub', 'capabilities'); ?>
+    <?php get_template_part('template-parts/sections/product-mediahub', 'process'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php
