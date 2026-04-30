@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-$mediahub_capabilities_eyebrow_icon = get_template_directory_uri() . '/assets/images/mediahub-benefits-eyebrow.svg';
+$mediahub_capabilities_eyebrow_icon = content_url('uploads/2026/04/Group-86942.svg');
 $mediahub_capabilities_nav_l = content_url('uploads/2026/04/l.svg');
 $mediahub_capabilities_nav_r = content_url('uploads/2026/04/r.svg');
 $mediahub_capabilities_logo = content_url('uploads/2026/04/Group-8695.svg');
