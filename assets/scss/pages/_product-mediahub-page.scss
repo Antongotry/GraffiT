@@ -1111,10 +1111,18 @@
   }
 }
 
-/* «Про нас» — той самий патерн, що .home-chaos-about-flow #home-about на головній */
+/* Обгортка «хаос + про нас»: не ріжемо pin (Lenis + GSAP), як на головній у межах flow */
+.home-chaos-about-flow--product-mediahub {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+/* «Про нас»: overflow як у .about-clients — fixed-pin не ламається; z-index як #home-about */
 .home-chaos-about-flow--product-mediahub #mediahub-about {
   position: relative;
   z-index: 200;
+  overflow: visible;
 }
 
 .home-chaos-about-flow--product-mediahub #mediahub-about .pin-spacer {
@@ -1124,6 +1132,7 @@
 
 .home-chaos-about-flow--product-mediahub #mediahub-about .services-clients__viewport {
   z-index: 200;
+  overflow: visible;
 }
 
 .home-chaos-about-flow--product-mediahub #mediahub-about .services-clients__container {

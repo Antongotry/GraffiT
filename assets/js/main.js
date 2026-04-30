@@ -795,6 +795,10 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-clients-scroller').forEach(function (section) {
+      if (section.getAttribute('data-clients-scroller-init') === '1') {
+        return;
+      }
+
       var viewport = section.querySelector('.services-clients__viewport');
       var stage = section.querySelector('.js-clients-stage');
       var track = section.querySelector('.js-clients-track');
@@ -803,6 +807,8 @@
       if (!viewport || !stage || !track) {
         return;
       }
+
+      section.setAttribute('data-clients-scroller-init', '1');
 
       function clientsTrackScrollDistance() {
         var overflow = track.scrollHeight - stage.clientHeight;
@@ -830,6 +836,7 @@
           },
           pin: viewport,
           scrub: 1,
+          anticipatePin: 1,
           invalidateOnRefresh: true,
           onToggle: function (self) {
             var header;
@@ -846,6 +853,21 @@
           }
         }
       });
+
+      if (typeof ResizeObserver === 'function') {
+        var clientsResizeTimer;
+
+        var clientsResizeObserver = new ResizeObserver(function () {
+          window.clearTimeout(clientsResizeTimer);
+          clientsResizeTimer = window.setTimeout(function () {
+            if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+              window.ScrollTrigger.refresh();
+            }
+          }, 120);
+        });
+
+        clientsResizeObserver.observe(track);
+      }
     });
 
     window.ScrollTrigger.refresh();
