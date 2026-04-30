@@ -890,7 +890,8 @@
 
 .mediahub-process {
   position: relative;
-  overflow: hidden;
+  overflow-x: visible;
+  overflow-y: visible;
   background:
     radial-gradient(ellipse #{mixins.vw(520px)} #{mixins.vw(420px)} at 0 0, rgba(0, 115, 230, 0.14) 0%, rgba(0, 115, 230, 0) 62%),
     radial-gradient(ellipse #{mixins.vw(480px)} #{mixins.vw(380px)} at 100% 100%, rgba(0, 115, 230, 0.12) 0%, rgba(0, 115, 230, 0) 58%),
@@ -910,10 +911,20 @@
     width: #{mixins.vw(860px)};
   }
 
+  /* Ліва колонка — 379px @ 1440; права — зображення 1000px; вертикальне центрування двох колонок */
   .services-process__layout {
-    grid-template-columns: #{mixins.vw(563px)} #{mixins.vw(640px)};
-    column-gap: #{mixins.vw(86px)};
+    grid-template-columns: #{mixins.vw(379px)} #{mixins.vw(1000px)};
+    justify-content: space-between;
+    align-items: center;
+    column-gap: #{mixins.vw(24px)};
     margin-top: #{mixins.vw(84px)};
+  }
+
+  .services-process__timeline {
+    box-sizing: border-box;
+    width: #{mixins.vw(379px)};
+    max-width: 100%;
+    min-width: 0;
   }
 
   .services-process__line {
@@ -924,38 +935,62 @@
     gap: #{mixins.vw(42px)};
   }
 
+  .process-step {
+    min-width: 0;
+  }
+
+  .process-step__content {
+    min-width: 0;
+  }
+
   .process-step__title {
-    max-width: #{mixins.vw(420px)};
+    max-width: none;
   }
 
   .process-step__text {
-    max-width: #{mixins.vw(371px)};
+    max-width: none;
   }
 
   .process-step__result {
-    max-width: #{mixins.vw(345px)};
+    max-width: none;
   }
 
   .services-process__visual {
     position: relative;
-    top: 0;
-    align-self: start;
+    top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
     justify-self: end;
-    width: #{mixins.vw(760px)};
-    margin-right: #{mixins.vw(-78px)};
+    width: #{mixins.vw(1000px)};
+    max-width: 100%;
+    margin-right: 0;
   }
 
   .services-process__visual-frame {
-    width: #{mixins.vw(768px)};
-    height: #{mixins.vw(833px)};
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: #{mixins.vw(1000px)};
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
     overflow: visible;
   }
 
   .services-process__visual-photo {
-    right: #{mixins.vw(-18px)};
-    bottom: #{mixins.vw(-56px)};
-    width: #{mixins.vw(854px)};
+    position: static;
+    display: block;
+    width: #{mixins.vw(1000px)};
+    max-width: 100%;
     height: auto;
+    margin: 0;
+    object-fit: contain;
+    object-position: center;
+    pointer-events: none;
   }
 
   @include mixins.mobile {
@@ -970,7 +1005,15 @@
     }
 
     .services-process__layout {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
       margin-top: #{mixins.mvw(32px)};
+    }
+
+    .services-process__timeline {
+      width: 100%;
+      max-width: 100%;
     }
 
     .services-process__steps {
@@ -987,6 +1030,7 @@
       position: relative;
       margin-top: #{mixins.mvw(36px)};
       width: 100%;
+      max-width: 100%;
       margin-right: 0;
     }
 
@@ -999,16 +1043,18 @@
     .services-process__visual-photo {
       position: static;
       width: 100%;
+      max-width: 100%;
       height: auto;
     }
   }
 }
 
 .mediahub-process__note {
-  width: #{mixins.vw(563px)};
+  box-sizing: border-box;
+  width: 100%;
   min-height: #{mixins.vw(142px)};
   margin-top: #{mixins.vw(40px)};
-  margin-left: #{mixins.vw(99px)};
+  margin-left: 0;
   padding: #{mixins.vw(16px)};
   border-radius: #{mixins.vw(8px)};
   background: #0073e6;

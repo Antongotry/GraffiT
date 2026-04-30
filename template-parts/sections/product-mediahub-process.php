@@ -89,8 +89,8 @@ $mediahub_process_steps = [
                         class="services-process__visual-photo"
                         src="<?php echo esc_url($mediahub_process_visual); ?>"
                         alt=""
-                        width="1440"
-                        height="900"
+                        width="1000"
+                        height="780"
                         loading="eager"
                         decoding="async"
                     >
