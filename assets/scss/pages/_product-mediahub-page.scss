@@ -1111,43 +1111,33 @@
   }
 }
 
-/* Обгортка «хаос + про нас»: не ріжемо pin (Lenis + GSAP), як на головній у межах flow */
-.home-chaos-about-flow--product-mediahub {
+/* «Про нас»: standalone-секція у потоці після процесу; pin viewport через GSAP. */
+.mediahub-about {
   position: relative;
-  z-index: 1;
   overflow: visible;
 }
 
-/* «Про нас»: overflow як у .about-clients — fixed-pin не ламається; z-index як #home-about */
-.home-chaos-about-flow--product-mediahub #mediahub-about {
+.mediahub-about .pin-spacer {
   position: relative;
-  z-index: 200;
+}
+
+.mediahub-about .services-clients__viewport {
   overflow: visible;
 }
 
-.home-chaos-about-flow--product-mediahub #mediahub-about .pin-spacer {
-  position: relative;
-  z-index: 200;
-}
-
-.home-chaos-about-flow--product-mediahub #mediahub-about .services-clients__viewport {
-  z-index: 200;
-  overflow: visible;
-}
-
-.home-chaos-about-flow--product-mediahub #mediahub-about .services-clients__container {
+.mediahub-about .services-clients__container {
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(20px)}, 100%);
   }
 }
 
-.home-chaos-about-flow--product-mediahub #mediahub-about .services-clients__copy {
+.mediahub-about .services-clients__copy {
   @include mixins.mobile {
     width: 100%;
   }
 }
 
-.home-chaos-about-flow--product-mediahub #mediahub-about .services-clients__text {
+.mediahub-about .services-clients__text {
   width: #{mixins.vw(560px)};
 
   @include mixins.mobile {
