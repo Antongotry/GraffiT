@@ -484,7 +484,7 @@
     display: flex;
     align-items: center;
     gap: #{mixins.mvw(8px)};
-    margin-top: #{mixins.mvw(26px)};
+    margin-top: #{mixins.mvw(8px)};
   }
 }
 
@@ -593,7 +593,7 @@
 
   @include mixins.mobile {
     height: auto;
-    margin-top: #{mixins.mvw(96px)};
+    margin-top: #{mixins.mvw(28px)};
     overflow-x: auto;
     overflow-y: visible;
     scroll-snap-type: x mandatory;
@@ -845,18 +845,19 @@
   margin-top: 0;
 
   @include mixins.mobile {
+    &.services-inquiry {
+      overflow: visible;
+      padding: #{mixins.mvw(152px)} 0 #{mixins.mvw(84px)};
+    }
+
     &.cta-band--light {
       background: linear-gradient(180deg, #f5f6f8 0%, #d3d6db 100%);
+      overflow: visible;
 
       &::before,
       &::after {
         clip-path: none;
       }
-    }
-
-    /* Products /catalog: overlap under catalog cards — push copy + CTA lower on narrow screens */
-    &.services-inquiry {
-      padding: #{mixins.mvw(152px)} 0 #{mixins.mvw(84px)};
     }
   }
 }
