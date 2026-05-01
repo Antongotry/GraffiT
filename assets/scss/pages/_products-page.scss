@@ -847,7 +847,7 @@
   @include mixins.mobile {
     &.services-inquiry {
       overflow: visible;
-      padding: #{mixins.mvw(152px)} 0 #{mixins.mvw(84px)};
+      padding: #{mixins.mvw(228px)} 0 #{mixins.mvw(84px)};
     }
 
     &.cta-band--light {
