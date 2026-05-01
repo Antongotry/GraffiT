@@ -846,18 +846,8 @@
 
   @include mixins.mobile {
     &.services-inquiry {
-      overflow: visible;
+      overflow: hidden;
       padding: #{mixins.mvw(296px)} 0 #{mixins.mvw(84px)};
-    }
-
-    &.cta-band--light {
-      background: linear-gradient(180deg, #f5f6f8 0%, #d3d6db 100%);
-      overflow: visible;
-
-      &::before,
-      &::after {
-        clip-path: none;
-      }
     }
   }
 }
