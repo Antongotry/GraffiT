@@ -853,6 +853,11 @@
         clip-path: none;
       }
     }
+
+    /* Products /catalog: overlap under catalog cards — push copy + CTA lower on narrow screens */
+    &.services-inquiry {
+      padding: #{mixins.mvw(152px)} 0 #{mixins.mvw(84px)};
+    }
   }
 }
 
