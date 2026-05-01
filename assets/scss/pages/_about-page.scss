@@ -707,7 +707,7 @@
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: #{mixins.vw(32px)} #{mixins.vw(40px)};
   margin-top: 0;
-  padding-top: #{mixins.vw(104px)};
+  padding-top: #{mixins.vw(144px)};
 }
 
 .about-industries__cell {
