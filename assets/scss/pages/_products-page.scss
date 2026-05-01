@@ -392,15 +392,23 @@
   }
 
   @include mixins.mobile {
-    margin-bottom: 0;
-    overflow: hidden;
-    background:
-      radial-gradient(circle at 0% 42%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 24%),
-      radial-gradient(circle at 100% 0%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
-      #000102;
+    margin-bottom: #{mixins.mvw(-168px)};
+    overflow: visible;
+    background: transparent;
 
     &::before {
-      content: none;
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: #{mixins.mvw(200px)};
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 0% 42%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 24%),
+        radial-gradient(circle at 100% 0%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
+        #000102;
     }
   }
 }
@@ -414,7 +422,7 @@
   box-sizing: border-box;
 
   @include mixins.mobile {
-    padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(86px)};
+    padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(120px)};
   }
 }
 
@@ -510,6 +518,8 @@
   display: none;
 
   @include mixins.mobile {
+    position: relative;
+    z-index: 4;
     display: inline-flex;
   }
 }
@@ -583,7 +593,7 @@
 
   @include mixins.mobile {
     height: auto;
-    margin-top: #{mixins.mvw(28px)};
+    margin-top: #{mixins.mvw(72px)};
     overflow-x: auto;
     overflow-y: visible;
     scroll-snap-type: x mandatory;
@@ -610,6 +620,8 @@
   @include mixins.mobile {
     gap: #{mixins.mvw(18px)};
     height: auto;
+    position: relative;
+    z-index: 3;
   }
 }
 
@@ -653,6 +665,7 @@
       linear-gradient(180deg, #0f1011 0%, #0f1011 0.01%, #000102 0%, #0073e6 100%),
       #353e4d;
     box-shadow: inset 0 0 0 1px #0073e6;
+    z-index: 3;
   }
 }
 
