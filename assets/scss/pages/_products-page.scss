@@ -392,7 +392,7 @@
   }
 
   @include mixins.mobile {
-    margin-bottom: #{mixins.mvw(-168px)};
+    margin-bottom: #{mixins.mvw(-280px)};
     overflow: visible;
     background: transparent;
 
@@ -402,7 +402,7 @@
       left: 0;
       right: 0;
       top: 0;
-      bottom: #{mixins.mvw(200px)};
+      bottom: #{mixins.mvw(320px)};
       z-index: 0;
       pointer-events: none;
       background:
@@ -422,7 +422,7 @@
   box-sizing: border-box;
 
   @include mixins.mobile {
-    padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(120px)};
+    padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(64px)};
   }
 }
 
@@ -510,7 +510,7 @@
     gap: #{mixins.mvw(16px)};
     justify-content: flex-start;
     width: 100%;
-    margin-top: #{mixins.mvw(30px)};
+    margin-top: #{mixins.mvw(12px)};
   }
 }
 
@@ -593,7 +593,7 @@
 
   @include mixins.mobile {
     height: auto;
-    margin-top: #{mixins.mvw(72px)};
+    margin-top: #{mixins.mvw(96px)};
     overflow-x: auto;
     overflow-y: visible;
     scroll-snap-type: x mandatory;
