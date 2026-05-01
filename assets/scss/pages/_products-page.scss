@@ -371,18 +371,35 @@
 
 .products-catalog {
   position: relative;
-  margin-bottom: #{mixins.vw(-186px)};
-  overflow: hidden;
-  z-index: 4;
-  background:
-    radial-gradient(circle at 0% 42%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 24%),
-    radial-gradient(circle at 100% 0%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
-    #000102;
+  margin-bottom: #{mixins.vw(-288px)};
+  overflow: visible;
+  z-index: 5;
+  background: transparent;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: #{mixins.vw(280px)};
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 0% 42%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 24%),
+      radial-gradient(circle at 100% 0%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
+      #000102;
+  }
 
   @include mixins.mobile {
     margin-bottom: 0;
+    overflow: hidden;
     background:
       linear-gradient(180deg, #000102 0%, #000102 72%, #e3e6eb 100%);
+
+    &::before {
+      content: none;
+    }
   }
 }
 
@@ -390,7 +407,8 @@
   position: relative;
   z-index: 1;
   min-height: 0;
-  padding: #{mixins.vw(24px)} 0 #{mixins.vw(48px)};
+  overflow: visible;
+  padding: #{mixins.vw(24px)} 0 #{mixins.vw(160px)};
   box-sizing: border-box;
 
   @include mixins.mobile {
@@ -557,6 +575,10 @@
   margin-top: #{mixins.vw(24px)};
   overflow: hidden;
 
+  @media (min-width: 1025px) {
+    margin-top: #{mixins.vw(128px)};
+  }
+
   @include mixins.mobile {
     height: auto;
     margin-top: #{mixins.mvw(28px)};
@@ -580,6 +602,8 @@
   gap: #{mixins.vw(20px)};
   width: max-content;
   height: 100%;
+  position: relative;
+  z-index: 2;
 
   @include mixins.mobile {
     gap: #{mixins.mvw(18px)};
@@ -801,6 +825,8 @@
 }
 
 .products-inquiry {
+  position: relative;
+  z-index: 2;
   margin-top: 0;
 
   @include mixins.mobile {
