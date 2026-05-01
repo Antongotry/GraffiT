@@ -395,7 +395,9 @@
     margin-bottom: 0;
     overflow: hidden;
     background:
-      linear-gradient(180deg, #000102 0%, #000102 72%, #e3e6eb 100%);
+      radial-gradient(circle at 0% 42%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 24%),
+      radial-gradient(circle at 100% 0%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
+      #000102;
 
     &::before {
       content: none;
