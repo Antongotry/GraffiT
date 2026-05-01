@@ -706,7 +706,8 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: #{mixins.vw(32px)} #{mixins.vw(40px)};
-  margin-top: #{mixins.vw(104px)};
+  margin-top: 0;
+  padding-top: #{mixins.vw(104px)};
 }
 
 .about-industries__cell {
@@ -768,7 +769,8 @@
   .about-industries__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: #{mixins.mvw(42px)} #{mixins.mvw(14px)};
-    margin-top: #{mixins.mvw(34px)};
+    margin-top: 0;
+    padding-top: #{mixins.mvw(34px)};
   }
 
   .about-industries__cell-rule {
