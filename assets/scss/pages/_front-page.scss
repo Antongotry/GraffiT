@@ -231,7 +231,15 @@ html.is-projects-pinned .site-header {
  *      match the canvas colour, hiding the seam.
  */
 #home-about.services-clients {
-  background: transparent;
+  /*
+   * #020914 = exact canvas dark background colour.
+   * Transparent was leaking the canvas through the pin-spacer area
+   * BELOW the pinned viewport (the extra GSAP scroll space), making
+   * the animation visible at the bottom of the screen.
+   * Using the matching dark colour keeps the top seam seamless AND
+   * blocks the canvas at the bottom.
+   */
+  background: #020914;
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
