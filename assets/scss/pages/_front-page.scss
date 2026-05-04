@@ -2,6 +2,13 @@
 
 .home-chaos-about-flow {
   position: relative;
+  /*
+   * Must be positive z-index so this wrapper renders ABOVE home-hex-projects-flow
+   * (which comes later in the DOM and would otherwise paint on top, burying the
+   * bow-tie's light-grey wings at the bottom of the viewport).
+   * Matches the same pattern as .about-dark-flow { z-index: 90 } on the About page.
+   */
+  z-index: 90;
 }
 
 .home-chaos-about-flow__spheres {
