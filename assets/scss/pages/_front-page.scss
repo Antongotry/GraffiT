@@ -232,25 +232,37 @@ html.is-projects-pinned .site-header {
  */
 #home-about.services-clients {
   /*
-   * #020914 = exact canvas dark background colour.
-   * Transparent was leaking the canvas through the pin-spacer area
-   * BELOW the pinned viewport (the extra GSAP scroll space), making
-   * the animation visible at the bottom of the screen.
-   * Using the matching dark colour keeps the top seam seamless AND
-   * blocks the canvas at the bottom.
+   * background-attachment: fixed makes the gradient relative to the SCREEN,
+   * not the scrolling element.
+   *
+   * Top notch (at ~0–7vh on screen):  transparent → canvas animation shows ✓
+   * Bottom notch (at ~93.5–100vh):    #d3d6db   → canvas is hidden          ✓
+   * Pin-spacer below viewport:        covered by the same solid #d3d6db     ✓
+   *
+   * The gradient seamlessly bridges canvas dark colour (#020914 start
+   * in viewport ::after) at the top and the section light grey at the bottom.
    */
-  background: #020914;
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 88vh,
+    #d3d6db 94vh
+  );
+  background-attachment: fixed;
+
+  @include mixins.mobile {
+    /* background-attachment: fixed is unreliable on iOS Safari;
+       use matching dark colour instead — no clip-path notch on mobile anyway. */
+    background: #020914;
+    background-attachment: scroll;
+  }
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 200;
 
-  /*
-   * Top triangle → shows live canvas animation through the cutout.
-   * Bottom triangle → REMOVED (flat bottom) so the canvas does NOT
-   * bleed through the lower bow-tie cutout.
-   */
-  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%) !important;
+  /* Full bow-tie — both triangles restored */
+  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%) !important;
 
   &::after,
   &::before {
@@ -263,8 +275,9 @@ html.is-projects-pinned .site-header {
   }
 
   /*
-   * Clean dark → light gradient only — no radial glows that cause the
-   * muddy / dirty appearance in the transition zone.
+   * Clean dark → light gradient. Top (#020914) matches the canvas colour
+   * seen through the top notch → seamless blend. Bottom (#d3d6db) matches
+   * the fixed section background visible through the bottom notch → seamless.
    */
   &::after {
     background: linear-gradient(
@@ -278,7 +291,8 @@ html.is-projects-pinned .site-header {
   }
 
   @include mixins.mobile {
-    clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 0 100%) !important;
+    /* On mobile clip-path: none is the standard (same as services page) */
+    clip-path: none !important;
 
     &::after {
       background: linear-gradient(
