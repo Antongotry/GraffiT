@@ -213,25 +213,50 @@ html.is-projects-pinned .site-header {
  * ::before creates a smooth animation → card section fade-in instead.
  */
 /*
- * Homepage: the fixed canvas must show through the bow-tie triangle.
- * The section itself has `background: #000102` (from .services-clients)
- * which was blocking the canvas — set it transparent so the canvas is
- * visible behind the viewport.  The bow-tie clip-path on the viewport
- * is left at its default so the triangular opening frames the animation.
- * Remove the dark-gradient ::before veil (it was the "dark transition"
- * the user complained about); the default SVG-pattern ::before remains.
+ * Homepage: replicate the about-page hero→clients dark-to-light visual.
+ *
+ * On the about page the hero section (dark photo) fills the top corners
+ * of the bow-tie viewport and the triangle cutout shows the same dark
+ * background — creating a seamless single dark area that transitions to
+ * the light card section below.
+ *
+ * Here the canvas animation plays the role of the "hero photo".
+ * The canvas colour is #020914, so we:
+ *   1. Keep the bow-tie clip-path on the viewport (triangle cutout shows
+ *      the live canvas animation).
+ *   2. Make the section background transparent so the canvas is visible
+ *      through the cutout.
+ *   3. Override ::after to START with #020914 and transition to the
+ *      normal light-grey gradient — this makes the bow-tie top-corners
+ *      match the canvas colour, hiding the seam.
  */
 #home-about.services-clients {
   background: transparent;
 }
 
-/* Ensure mobile pseudo-element clip-paths don't block the triangle. */
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 200;
 
+  /* Kill any clip-path that the mobile base styles add to pseudo-elements */
   &::after,
   &::before {
     clip-path: none !important;
+  }
+
+  /* Dark-to-light gradient: top matches canvas (#020914), fades to the
+     original light-grey section colour so only the lower card area is light */
+  &::after {
+    background:
+      radial-gradient(circle at 0% 68%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0.12) 22%, rgba(0, 115, 230, 0) 52%),
+      radial-gradient(circle at 100% 68%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0.12) 22%, rgba(0, 115, 230, 0) 52%),
+      linear-gradient(
+        180deg,
+        #020914 0%,
+        #06101d 7%,
+        #162231 14%,
+        #bfc8d2 30%,
+        #d3d6db 100%
+      );
   }
 }
 
