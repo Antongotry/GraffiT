@@ -212,16 +212,16 @@ html.is-projects-pinned .site-header {
  * gray shape at the seam with the animation.  A dark gradient veil on
  * ::before creates a smooth animation → card section fade-in instead.
  */
-.home-chaos-about-flow #home-about .services-clients__viewport {
+/* Use !important on clip-path to guarantee it beats the base bow-tie rule
+   regardless of specificity edge cases or CDN caching of older CSS. */
+.home-chaos-about-flow #home-about .services-clients__viewport,
+#home-about.services-clients .services-clients__viewport {
   z-index: 200;
-  /* Remove bow-tie — no geometric seam on the homepage */
-  clip-path: none;
+  clip-path: none !important;
 
-  /* ::after and ::before on mobile have their own clip-path in the base styles;
-     override them to none here so they don't add unwanted shapes. */
   &::after,
   &::before {
-    clip-path: none;
+    clip-path: none !important;
   }
 
   &::before {
@@ -735,7 +735,7 @@ html.is-projects-pinned .site-header {
   margin-top: #{mixins.vw(400px)};
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(20px)};
+    margin-top: #{mixins.mvw(80px)};
   }
 }
 
