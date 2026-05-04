@@ -301,21 +301,25 @@ html.is-projects-pinned .site-header {
 }
 
 /*
- * No top fade — cards are fully opaque all the way to the top edge of
- * the stage and clip cleanly via overflow:hidden when they exit.
- * Bottom fade is kept so incoming cards appear smoothly from below.
+ * padding-top creates a ~32px "gap" above the first card.
+ * Cards start fully opaque, scroll into the gap, and fade only there —
+ * so the card exits at the top while visibly fading, not hard-clipping.
  */
 .home-chaos-about-flow #home-about .services-clients__cards-stage {
+  padding-top: #{mixins.vw(32px)};
+
   mask-image: linear-gradient(
     to bottom,
-    #000 0,
+    transparent 0,
+    #000 #{mixins.vw(32px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
-    #000 0,
+    transparent 0,
+    #000 #{mixins.vw(32px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%
@@ -789,7 +793,7 @@ html.is-projects-pinned .site-header {
   margin-top: #{mixins.vw(400px)};
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(80px)};
+    margin-top: #{mixins.mvw(112px)};
   }
 }
 
