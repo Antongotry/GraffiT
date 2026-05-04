@@ -251,8 +251,8 @@ html.is-projects-pinned .site-header {
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 200;
 
-  /* Full bow-tie — both triangles restored */
-  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 50% 93.5%, 0 100%) !important;
+  /* No bow-tie on homepage — clean rectangle, like .about-clients */
+  clip-path: none !important;
 
   &::after,
   &::before {
