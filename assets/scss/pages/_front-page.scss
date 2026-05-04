@@ -208,26 +208,33 @@ html.is-projects-pinned .site-header {
 }
 
 /*
- * Homepage: animation canvas flows through the bow-tie triangle at the top.
- * Keep the original bow-tie clip-path so the canvas is visible in the
- * triangular opening.  Replace the default SVG-pattern ::before with a
- * dark → transparent gradient that softens the dark-frame → card transition.
+ * Homepage: remove the bow-tie clip-path so there is no visible geometric
+ * gray shape at the seam with the animation.  A dark gradient veil on
+ * ::before creates a smooth animation → card section fade-in instead.
  */
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 200;
-  /* bow-tie clip-path is preserved (no override); animation shows through */
+  /* Remove bow-tie — no geometric seam on the homepage */
+  clip-path: none;
+
+  /* ::after and ::before on mobile have their own clip-path in the base styles;
+     override them to none here so they don't add unwanted shapes. */
+  &::after,
+  &::before {
+    clip-path: none;
+  }
 
   &::before {
-    /* override: tall gradient veil instead of the SVG repeating pattern */
+    /* Tall dark → transparent veil replaces the SVG-pattern overlay */
     inset: 0 0 auto 0;
-    height: #{mixins.vw(260px)};
+    height: #{mixins.vw(300px)};
     z-index: 2;
     background-image: none;
     background: linear-gradient(
       to bottom,
-      rgba(2, 9, 20, 0.94) 0%,
-      rgba(2, 9, 20, 0.60) 38%,
-      rgba(2, 9, 20, 0.18) 72%,
+      rgba(2, 9, 20, 0.96) 0%,
+      rgba(2, 9, 20, 0.62) 35%,
+      rgba(2, 9, 20, 0.18) 68%,
       transparent 100%
     );
     background-size: auto;
@@ -237,26 +244,26 @@ html.is-projects-pinned .site-header {
 
   @include mixins.mobile {
     &::before {
-      height: #{mixins.mvw(120px)};
+      height: #{mixins.mvw(140px)};
     }
   }
 }
 
-/* Tighten the cards-stage top-fade on the homepage so card text
-   is visible earlier rather than being swallowed by the mask. */
+/* Very subtle top-fade on the cards-stage — cards are almost fully
+   visible from the start; only the first ~20px is softly transparent. */
 .home-chaos-about-flow #home-about .services-clients__cards-stage {
   mask-image: linear-gradient(
     to bottom,
-    transparent 0,
-    #000 #{mixins.vw(48px)},
-    #000 calc(100% - #{mixins.vw(240px)}),
+    rgba(0, 0, 0, 0.55) 0,
+    #000 #{mixins.vw(20px)},
+    #000 calc(100% - #{mixins.vw(220px)}),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
-    transparent 0,
-    #000 #{mixins.vw(48px)},
-    #000 calc(100% - #{mixins.vw(240px)}),
+    rgba(0, 0, 0, 0.55) 0,
+    #000 #{mixins.vw(20px)},
+    #000 calc(100% - #{mixins.vw(220px)}),
     transparent 100%
   );
 }
