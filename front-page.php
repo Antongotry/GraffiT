@@ -15,10 +15,10 @@ get_header();
         <canvas class="home-scroll-film__canvas js-home-scroll-film-canvas" aria-hidden="true"></canvas>
         <?php get_template_part('template-parts/sections/home', 'hero'); ?>
         <?php get_template_part('template-parts/sections/home', 'showcase'); ?>
+        <?php get_template_part('template-parts/sections/home', 'chaos'); ?>
     </div>
     <div class="home-chaos-about-flow">
         <div class="home-chaos-about-flow__spheres" aria-hidden="true"></div>
-        <?php get_template_part('template-parts/sections/home', 'chaos'); ?>
         <?php get_template_part('template-parts/sections/home', 'about'); ?>
     </div>
     <div class="home-hex-projects-flow">

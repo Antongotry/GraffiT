@@ -1750,25 +1750,29 @@
       return;
     }
 
-    var FRAME_COUNT = 211;
     var BASE_URL = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
-    var images = new Array(FRAME_COUNT).fill(null);
-    var currentFrame = 0;
 
-    function getFrameUrl(index) {
-      var n = String(index + 1).padStart(3, '0');
-      return BASE_URL + 'ezgif-frame-' + n + '_result.webp';
-    }
+    /* Phase 1 — hero + showcase: frames ezgif-frame-001_result.webp … 211 */
+    var P1_COUNT = 211;
+    var p1Images = new Array(P1_COUNT).fill(null);
+
+    /* Phase 2 — chaos: frames ezgif-frame-028_result-1.webp … 181 */
+    var P2_FIRST = 28;
+    var P2_LAST = 181;
+    var P2_COUNT = P2_LAST - P2_FIRST + 1;
+    var p2Images = new Array(P2_COUNT).fill(null);
+
+    /* Active set pointer: 1 = phase-1 images, 2 = phase-2 images */
+    var activePhase = 1;
+    var currentIndex = 0;
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      renderFrame(currentFrame);
+      renderCurrent();
     }
 
-    function renderFrame(index) {
-      var img = images[index];
-
+    function drawImage(img) {
       if (!img || !img.complete || !img.naturalWidth) {
         return;
       }
@@ -1778,33 +1782,41 @@
 
       ctx.clearRect(0, 0, cw, ch);
 
-      /* object-fit: cover */
       var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
       var w = img.naturalWidth * scale;
       var h = img.naturalHeight * scale;
-      var x = (cw - w) / 2;
-      var y = (ch - h) / 2;
 
-      ctx.drawImage(img, x, y, w, h);
+      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    }
+
+    function renderCurrent() {
+      var img = activePhase === 1 ? p1Images[currentIndex] : p2Images[currentIndex];
+      drawImage(img);
     }
 
     resizeCanvas();
 
-    /* Preload all frames; draw first frame as soon as it arrives. */
-    for (var fi = 0; fi < FRAME_COUNT; fi++) {
-      (function (frameIndex) {
+    /* Preload phase 1 */
+    for (var i1 = 0; i1 < P1_COUNT; i1++) {
+      (function (idx) {
         var img = new Image();
-
         img.onload = function () {
-          images[frameIndex] = img;
-
-          if (frameIndex === 0) {
-            renderFrame(0);
+          p1Images[idx] = img;
+          if (idx === 0 && activePhase === 1) {
+            drawImage(img);
           }
         };
+        img.src = BASE_URL + 'ezgif-frame-' + String(idx + 1).padStart(3, '0') + '_result.webp';
+      })(i1);
+    }
 
-        img.src = getFrameUrl(frameIndex);
-      })(fi);
+    /* Preload phase 2 */
+    for (var i2 = 0; i2 < P2_COUNT; i2++) {
+      (function (idx) {
+        var img = new Image();
+        img.onload = function () { p2Images[idx] = img; };
+        img.src = BASE_URL + 'ezgif-frame-' + String(P2_FIRST + idx).padStart(3, '0') + '_result-1.webp';
+      })(i2);
     }
 
     if (!window.gsap || !window.ScrollTrigger) {
@@ -1813,137 +1825,63 @@
 
     window.gsap.registerPlugin(window.ScrollTrigger);
 
-    var state = { frame: 0 };
+    var showcase = container.querySelector('.home-showcase');
+    var chaos = container.querySelector('.home-chaos');
 
-    window.gsap.to(state, {
-      frame: FRAME_COUNT - 1,
+    /* Phase 1 ScrollTrigger: hero top → showcase bottom */
+    var st1State = { frame: 0 };
+
+    window.gsap.to(st1State, {
+      frame: P1_COUNT - 1,
       ease: 'none',
       scrollTrigger: {
         trigger: container,
         start: 'top top',
+        endTrigger: showcase || container,
         end: 'bottom bottom',
         scrub: 0.5,
         invalidateOnRefresh: true
       },
       onUpdate: function () {
-        var next = Math.round(state.frame);
-
-        if (next !== currentFrame) {
-          currentFrame = next;
-          renderFrame(currentFrame);
+        var next = Math.round(st1State.frame);
+        activePhase = 1;
+        if (next !== currentIndex || activePhase !== 1) {
+          currentIndex = next;
+          renderCurrent();
         }
       }
     });
+
+    /* Phase 2 ScrollTrigger: chaos section enters → exits viewport */
+    if (chaos) {
+      var st2State = { frame: 0 };
+
+      window.gsap.to(st2State, {
+        frame: P2_COUNT - 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: chaos,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.5,
+          invalidateOnRefresh: true
+        },
+        onUpdate: function () {
+          var next = Math.round(st2State.frame);
+          activePhase = 2;
+          if (next !== currentIndex) {
+            currentIndex = next;
+          }
+          renderCurrent();
+        }
+      });
+    }
 
     window.addEventListener('resize', resizeCanvas, { passive: true });
   }
 
   function initHomeChaosFilm() {
-    if (window.innerWidth <= 1024) {
-      return;
-    }
-
-    var section = document.querySelector('.home-chaos');
-    var canvas = document.querySelector('.js-home-chaos-canvas');
-
-    if (!section || !canvas) {
-      return;
-    }
-
-    var ctx = canvas.getContext('2d');
-
-    if (!ctx) {
-      return;
-    }
-
-    var FIRST_FRAME = 28;
-    var LAST_FRAME = 181;
-    var FRAME_COUNT = LAST_FRAME - FIRST_FRAME + 1;
-    var BASE_URL = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
-    var images = new Array(FRAME_COUNT).fill(null);
-    var currentFrame = 0;
-
-    function getFrameUrl(index) {
-      var n = String(FIRST_FRAME + index).padStart(3, '0');
-      return BASE_URL + 'ezgif-frame-' + n + '_result-1.webp';
-    }
-
-    function syncCanvasSize() {
-      canvas.width = section.offsetWidth;
-      canvas.height = section.offsetHeight;
-    }
-
-    function renderFrame(index) {
-      var img = images[index];
-
-      if (!img || !img.complete || !img.naturalWidth) {
-        return;
-      }
-
-      var cw = canvas.width;
-      var ch = canvas.height;
-
-      ctx.clearRect(0, 0, cw, ch);
-
-      var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-      var w = img.naturalWidth * scale;
-      var h = img.naturalHeight * scale;
-      var x = (cw - w) / 2;
-      var y = (ch - h) / 2;
-
-      ctx.drawImage(img, x, y, w, h);
-    }
-
-    syncCanvasSize();
-
-    for (var fi = 0; fi < FRAME_COUNT; fi++) {
-      (function (frameIndex) {
-        var img = new Image();
-
-        img.onload = function () {
-          images[frameIndex] = img;
-
-          if (frameIndex === 0) {
-            renderFrame(0);
-          }
-        };
-
-        img.src = getFrameUrl(frameIndex);
-      })(fi);
-    }
-
-    if (!window.gsap || !window.ScrollTrigger) {
-      return;
-    }
-
-    window.gsap.registerPlugin(window.ScrollTrigger);
-
-    var state = { frame: 0 };
-
-    window.gsap.to(state, {
-      frame: FRAME_COUNT - 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 0.5,
-        invalidateOnRefresh: true
-      },
-      onUpdate: function () {
-        var next = Math.round(state.frame);
-
-        if (next !== currentFrame) {
-          currentFrame = next;
-          renderFrame(currentFrame);
-        }
-      }
-    });
-
-    window.addEventListener('resize', function () {
-      syncCanvasSize();
-      renderFrame(currentFrame);
-    }, { passive: true });
+    /* Replaced by two-phase logic inside initHomeScrollFilm. */
   }
 
   function runInit(initFn, name) {

@@ -622,34 +622,19 @@ html.is-projects-pinned .site-header {
 
 .home-chaos {
   position: relative;
-  margin-top: -1px;
   overflow: hidden;
   padding: #{mixins.vw(120px)} 0 #{mixins.vw(164px)};
-  background:
-    #000203;
+  /* Desktop: transparent — shared scroll-film canvas is the background. */
+  background: transparent;
+  z-index: 1;
 
-  /* Top blend gradient removed — chaos section has its own canvas background. */
   &::before {
     content: none;
   }
 
   @include mixins.mobile {
     background: #000203;
-  }
-}
-
-.home-chaos__canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-
-  @include mixins.mobile {
-    display: none;
+    z-index: auto;
   }
 }
 
