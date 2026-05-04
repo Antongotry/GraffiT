@@ -301,22 +301,21 @@ html.is-projects-pinned .site-header {
 }
 
 /*
- * Top fade starts only at the very top of the stage (last 48px before the
- * edge) — cards scroll almost to the top, then fade just as they exit.
+ * No top fade — cards are fully opaque all the way to the top edge of
+ * the stage and clip cleanly via overflow:hidden when they exit.
+ * Bottom fade is kept so incoming cards appear smoothly from below.
  */
 .home-chaos-about-flow #home-about .services-clients__cards-stage {
   mask-image: linear-gradient(
     to bottom,
-    transparent 0,
-    #000 #{mixins.vw(48px)},
+    #000 0,
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
-    transparent 0,
-    #000 #{mixins.vw(48px)},
+    #000 0,
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%
