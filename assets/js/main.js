@@ -1837,6 +1837,10 @@
      */
     var st1State = { frame: 0 };
 
+    /*
+     * Phase 1 — hero + showcase, ending exactly at the chaos centre (= Phase 2
+     * start) so there is zero gap and no "jump" to the third animation.
+     */
     window.gsap.to(st1State, {
       frame: P1_COUNT - 1,
       ease: 'none',
@@ -1844,16 +1848,20 @@
       scrollTrigger: {
         trigger: container,
         start: 'top top',
-        endTrigger: showcase || container,
-        end: 'bottom bottom',
+        endTrigger: chaos || showcase || container,
+        end: 'center center',
         scrub: true,
         invalidateOnRefresh: true,
         onRefresh: function (self) {
           var f = Math.round(self.progress * (P1_COUNT - 1));
           st1State.frame = f;
-          activePhase    = 1;
-          currentIndex   = f;
-          renderCurrent();
+          /* Phase 1 always updates unless Phase 2 has already claimed ownership
+           * (self.progress === 1 means we're at or past the Phase 2 boundary). */
+          if (self.progress < 1 || activePhase !== 2) {
+            activePhase  = 1;
+            currentIndex = f;
+            renderCurrent();
+          }
         }
       },
       onUpdate: function () {
@@ -1869,7 +1877,10 @@
 
     /*
      * Phase 2 — chaos section pinned at viewport centre.
-     * Same scrub: true + immediateRender: false + onRefresh pattern.
+     * Extended to 500 vh so each of the 154 frames has ~3.25 vh of scroll —
+     * the same comfortable pace as Phase 1.
+     * onRefresh uses self.progress > 0 so it only takes ownership when the
+     * user has actually scrolled into Phase 2 territory.
      */
     if (chaos) {
       var st2State = { frame: 0 };
@@ -1881,7 +1892,7 @@
         scrollTrigger: {
           trigger: chaos,
           start: 'center center',
-          end: '+=200vh',
+          end: '+=500vh',
           pin: true,
           scrub: true,
           invalidateOnRefresh: true,
@@ -1889,7 +1900,8 @@
             var f = Math.round(self.progress * (P2_COUNT - 1));
             st2State.frame = f;
 
-            if (activePhase === 2) {
+            if (self.progress > 0) {
+              activePhase  = 2;
               currentIndex = f;
               renderCurrent();
             }
