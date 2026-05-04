@@ -689,7 +689,7 @@ html.is-projects-pinned .site-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: #{mixins.vw(66px)};
+  margin-top: #{mixins.vw(400px)};
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(20px)};
