@@ -1838,6 +1838,114 @@
     window.addEventListener('resize', resizeCanvas, { passive: true });
   }
 
+  function initHomeChaosFilm() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    var section = document.querySelector('.home-chaos');
+    var canvas = document.querySelector('.js-home-chaos-canvas');
+
+    if (!section || !canvas) {
+      return;
+    }
+
+    var ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+      return;
+    }
+
+    var FIRST_FRAME = 28;
+    var LAST_FRAME = 181;
+    var FRAME_COUNT = LAST_FRAME - FIRST_FRAME + 1;
+    var BASE_URL = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
+    var images = new Array(FRAME_COUNT).fill(null);
+    var currentFrame = 0;
+
+    function getFrameUrl(index) {
+      var n = String(FIRST_FRAME + index).padStart(3, '0');
+      return BASE_URL + 'ezgif-frame-' + n + '_result-1.webp';
+    }
+
+    function syncCanvasSize() {
+      canvas.width = section.offsetWidth;
+      canvas.height = section.offsetHeight;
+    }
+
+    function renderFrame(index) {
+      var img = images[index];
+
+      if (!img || !img.complete || !img.naturalWidth) {
+        return;
+      }
+
+      var cw = canvas.width;
+      var ch = canvas.height;
+
+      ctx.clearRect(0, 0, cw, ch);
+
+      var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      var w = img.naturalWidth * scale;
+      var h = img.naturalHeight * scale;
+      var x = (cw - w) / 2;
+      var y = (ch - h) / 2;
+
+      ctx.drawImage(img, x, y, w, h);
+    }
+
+    syncCanvasSize();
+
+    for (var fi = 0; fi < FRAME_COUNT; fi++) {
+      (function (frameIndex) {
+        var img = new Image();
+
+        img.onload = function () {
+          images[frameIndex] = img;
+
+          if (frameIndex === 0) {
+            renderFrame(0);
+          }
+        };
+
+        img.src = getFrameUrl(frameIndex);
+      })(fi);
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    var state = { frame: 0 };
+
+    window.gsap.to(state, {
+      frame: FRAME_COUNT - 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 0.5,
+        invalidateOnRefresh: true
+      },
+      onUpdate: function () {
+        var next = Math.round(state.frame);
+
+        if (next !== currentFrame) {
+          currentFrame = next;
+          renderFrame(currentFrame);
+        }
+      }
+    });
+
+    window.addEventListener('resize', function () {
+      syncCanvasSize();
+      renderFrame(currentFrame);
+    }, { passive: true });
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -1852,6 +1960,7 @@
   runInit(initRequestPopup, 'request-popup');
   runInit(initLenis, 'lenis');
   runInit(initHomeScrollFilm, 'home-scroll-film');
+  runInit(initHomeChaosFilm, 'home-chaos-film');
   runInit(initHomeShowcaseParallax, 'home-showcase-parallax');
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
