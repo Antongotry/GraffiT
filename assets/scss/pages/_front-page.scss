@@ -72,6 +72,12 @@
   overflow: visible;
   background: #000102;
   isolation: isolate;
+  /*
+   * z-index: 91 — one step above home-chaos-about-flow (z-index: 90) so
+   * the dark ::after triangle renders on top of the clients viewport,
+   * creating the same stitch as .about-stack::before on the About page.
+   */
+  z-index: 91;
 
   &::before {
     position: absolute;
@@ -85,9 +91,28 @@
     content: "";
   }
 
+  /* Dark upward-pointing triangle — mirrors .about-stack::before */
+  &::after {
+    position: absolute;
+    top: #{mixins.vw(-90px)};
+    left: 0;
+    width: 100%;
+    height: #{mixins.vw(90px)};
+    z-index: 1;
+    background: #000102;
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    content: "";
+    pointer-events: none;
+  }
+
   @include mixins.mobile {
     &::before {
       display: none;
+    }
+
+    &::after {
+      top: #{mixins.mvw(-40px)};
+      height: #{mixins.mvw(40px)};
     }
   }
 }
