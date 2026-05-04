@@ -237,26 +237,51 @@ html.is-projects-pinned .site-header {
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 200;
 
-  /* Kill any clip-path that the mobile base styles add to pseudo-elements */
+  /*
+   * Top triangle → shows live canvas animation through the cutout.
+   * Bottom triangle → REMOVED (flat bottom) so the canvas does NOT
+   * bleed through the lower bow-tie cutout.
+   */
+  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%) !important;
+
   &::after,
   &::before {
     clip-path: none !important;
   }
 
-  /* Dark-to-light gradient: top matches canvas (#020914), fades to the
-     original light-grey section colour so only the lower card area is light */
+  /* Hide the SVG-pattern ::before — over the dark gradient it looks dirty */
+  &::before {
+    display: none;
+  }
+
+  /*
+   * Clean dark → light gradient only — no radial glows that cause the
+   * muddy / dirty appearance in the transition zone.
+   */
   &::after {
-    background:
-      radial-gradient(circle at 0% 68%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0.12) 22%, rgba(0, 115, 230, 0) 52%),
-      radial-gradient(circle at 100% 68%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0.12) 22%, rgba(0, 115, 230, 0) 52%),
-      linear-gradient(
+    background: linear-gradient(
+      180deg,
+      #020914 0%,
+      #07111f 8%,
+      #172535 16%,
+      #b8c4d0 32%,
+      #d3d6db 100%
+    );
+  }
+
+  @include mixins.mobile {
+    clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 0 100%) !important;
+
+    &::after {
+      background: linear-gradient(
         180deg,
         #020914 0%,
-        #06101d 7%,
-        #162231 14%,
-        #bfc8d2 30%,
+        #07111f 10%,
+        #172535 20%,
+        #b8c4d0 38%,
         #d3d6db 100%
       );
+    }
   }
 }
 
