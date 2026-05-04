@@ -1733,10 +1733,7 @@
   }
 
   function initHomeScrollFilm() {
-    if (window.innerWidth <= 1024) {
-      return;
-    }
-
+    /* Runs on all screen sizes — canvas is now enabled on mobile too. */
     var container = document.querySelector('.js-home-scroll-film');
     var canvas = document.querySelector('.js-home-scroll-film-canvas');
 
@@ -1752,22 +1749,21 @@
 
     var BASE_URL = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
 
-    /* Phase 1 — hero + showcase: frames ezgif-frame-001_result.webp … 211 */
+    /* Phase 1 — hero + showcase: frames 001–211 (_result.webp) */
     var P1_COUNT = 211;
     var p1Images = new Array(P1_COUNT).fill(null);
 
-    /* Phase 2 — chaos: frames ezgif-frame-028_result-1.webp … 181 */
+    /* Phase 2 — chaos: frames 028–181 (_result-1.webp) */
     var P2_FIRST = 28;
-    var P2_LAST = 181;
+    var P2_LAST  = 181;
     var P2_COUNT = P2_LAST - P2_FIRST + 1;
     var p2Images = new Array(P2_COUNT).fill(null);
 
-    /* Active set pointer: 1 = phase-1 images, 2 = phase-2 images */
-    var activePhase = 1;
+    var activePhase  = 1;
     var currentIndex = 0;
 
     function resizeCanvas() {
-      canvas.width = window.innerWidth;
+      canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
       renderCurrent();
     }
@@ -1794,15 +1790,36 @@
       drawImage(img);
     }
 
+    function setPhase1Frame(progress) {
+      var frame = Math.max(0, Math.min(P1_COUNT - 1, Math.round(progress * (P1_COUNT - 1))));
+
+      if (activePhase !== 1 || frame !== currentIndex) {
+        activePhase  = 1;
+        currentIndex = frame;
+        renderCurrent();
+      }
+    }
+
+    function setPhase2Frame(progress) {
+      var frame = Math.max(0, Math.min(P2_COUNT - 1, Math.round(progress * (P2_COUNT - 1))));
+
+      if (activePhase !== 2 || frame !== currentIndex) {
+        activePhase  = 2;
+        currentIndex = frame;
+        renderCurrent();
+      }
+    }
+
     resizeCanvas();
 
-    /* Preload phase 1 */
+    /* Preload phase 1 — draw first frame the moment it arrives */
     for (var i1 = 0; i1 < P1_COUNT; i1++) {
       (function (idx) {
         var img = new Image();
         img.onload = function () {
           p1Images[idx] = img;
-          if (idx === 0 && activePhase === 1) {
+
+          if (idx === 0 && activePhase === 1 && currentIndex === 0) {
             drawImage(img);
           }
         };
@@ -1826,59 +1843,36 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     var showcase = container.querySelector('.home-showcase');
-    var chaos = container.querySelector('.home-chaos');
+    var chaos    = container.querySelector('.home-chaos');
 
-    /* Phase 1 ScrollTrigger: hero top → showcase bottom */
-    var st1State = { frame: 0 };
-
-    window.gsap.to(st1State, {
-      frame: P1_COUNT - 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: container,
-        start: 'top top',
-        endTrigger: showcase || container,
-        end: 'bottom bottom',
-        scrub: 0.5,
-        invalidateOnRefresh: true
-      },
-      onUpdate: function () {
-        var next = Math.round(st1State.frame);
-        activePhase = 1;
-        if (next !== currentIndex || activePhase !== 1) {
-          currentIndex = next;
-          renderCurrent();
-        }
-      }
+    /*
+     * Phase 1 — ScrollTrigger.create() instead of gsap.to() + scrub.
+     * Using direct progress → frame mapping eliminates the "last-frame
+     * flash" glitch caused by scrub tweens firing during ST refresh.
+     */
+    window.ScrollTrigger.create({
+      trigger: container,
+      start: 'top top',
+      endTrigger: showcase || container,
+      end: 'bottom bottom',
+      invalidateOnRefresh: true,
+      onUpdate:  function (self) { setPhase1Frame(self.progress); },
+      onRefresh: function (self) { setPhase1Frame(self.progress); }
     });
 
     /*
-     * Phase 2 — chaos section is pinned at viewport center while the
-     * animation plays through all 154 frames. After the last frame the
-     * pin releases and normal scroll continues.
+     * Phase 2 — chaos section pinned at viewport center; animation plays
+     * through all 154 frames, then pin releases and scroll continues.
      */
     if (chaos) {
-      var st2State = { frame: 0 };
-
-      window.gsap.to(st2State, {
-        frame: P2_COUNT - 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: chaos,
-          start: 'center center',
-          end: '+=200vh',
-          pin: true,
-          scrub: 0.8,
-          invalidateOnRefresh: true
-        },
-        onUpdate: function () {
-          var next = Math.round(st2State.frame);
-          activePhase = 2;
-          if (next !== currentIndex) {
-            currentIndex = next;
-          }
-          renderCurrent();
-        }
+      window.ScrollTrigger.create({
+        trigger: chaos,
+        start: 'center center',
+        end: '+=200vh',
+        pin: true,
+        invalidateOnRefresh: true,
+        onUpdate:  function (self) { setPhase2Frame(self.progress); },
+        onRefresh: function (self) { setPhase2Frame(self.progress); }
       });
     }
 
