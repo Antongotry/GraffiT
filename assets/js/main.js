@@ -1852,7 +1852,11 @@
       }
     });
 
-    /* Phase 2 ScrollTrigger: chaos section enters → exits viewport */
+    /*
+     * Phase 2 — chaos section is pinned at viewport center while the
+     * animation plays through all 154 frames. After the last frame the
+     * pin releases and normal scroll continues.
+     */
     if (chaos) {
       var st2State = { frame: 0 };
 
@@ -1861,9 +1865,10 @@
         ease: 'none',
         scrollTrigger: {
           trigger: chaos,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.5,
+          start: 'center center',
+          end: '+=200vh',
+          pin: true,
+          scrub: 0.8,
           invalidateOnRefresh: true
         },
         onUpdate: function () {

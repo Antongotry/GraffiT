@@ -568,16 +568,7 @@ html.is-projects-pinned .site-header {
 
   &::after {
     position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
-    height: clamp(#{mixins.vw(180px)}, 26vh, #{mixins.vw(280px)});
-    background: linear-gradient(180deg, rgba(0, 2, 3, 0) 0%, rgba(0, 2, 3, 0.14) 28%, rgba(0, 2, 3, 0.42) 58%, #000203 100%);
-    filter: blur(#{mixins.vw(16px)});
-    content: "";
-    pointer-events: none;
-    transform: translateY(28%);
+    content: none;
   }
 }
 
