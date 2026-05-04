@@ -1732,6 +1732,112 @@
     });
   }
 
+  function initHomeScrollFilm() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    var container = document.querySelector('.js-home-scroll-film');
+    var canvas = document.querySelector('.js-home-scroll-film-canvas');
+
+    if (!container || !canvas) {
+      return;
+    }
+
+    var ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+      return;
+    }
+
+    var FRAME_COUNT = 211;
+    var BASE_URL = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
+    var images = new Array(FRAME_COUNT).fill(null);
+    var currentFrame = 0;
+
+    function getFrameUrl(index) {
+      var n = String(index + 1).padStart(3, '0');
+      return BASE_URL + 'ezgif-frame-' + n + '_result.webp';
+    }
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      renderFrame(currentFrame);
+    }
+
+    function renderFrame(index) {
+      var img = images[index];
+
+      if (!img || !img.complete || !img.naturalWidth) {
+        return;
+      }
+
+      var cw = canvas.width;
+      var ch = canvas.height;
+
+      ctx.clearRect(0, 0, cw, ch);
+
+      /* object-fit: cover */
+      var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      var w = img.naturalWidth * scale;
+      var h = img.naturalHeight * scale;
+      var x = (cw - w) / 2;
+      var y = (ch - h) / 2;
+
+      ctx.drawImage(img, x, y, w, h);
+    }
+
+    resizeCanvas();
+
+    /* Preload all frames; draw first frame as soon as it arrives. */
+    for (var fi = 0; fi < FRAME_COUNT; fi++) {
+      (function (frameIndex) {
+        var img = new Image();
+
+        img.onload = function () {
+          images[frameIndex] = img;
+
+          if (frameIndex === 0) {
+            renderFrame(0);
+          }
+        };
+
+        img.src = getFrameUrl(frameIndex);
+      })(fi);
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    var state = { frame: 0 };
+
+    window.gsap.to(state, {
+      frame: FRAME_COUNT - 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: container,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.5,
+        invalidateOnRefresh: true
+      },
+      onUpdate: function () {
+        var next = Math.round(state.frame);
+
+        if (next !== currentFrame) {
+          currentFrame = next;
+          renderFrame(currentFrame);
+        }
+      }
+    });
+
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -1745,6 +1851,7 @@
   runInit(initMobileMenu, 'mobile-menu');
   runInit(initRequestPopup, 'request-popup');
   runInit(initLenis, 'lenis');
+  runInit(initHomeScrollFilm, 'home-scroll-film');
   runInit(initHomeShowcaseParallax, 'home-showcase-parallax');
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');

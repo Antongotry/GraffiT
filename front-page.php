@@ -11,8 +11,11 @@ get_header();
 ?>
 <?php get_template_part('template-parts/layout/site', 'header'); ?>
 <main id="primary" class="site-main site-main--home" aria-label="<?php esc_attr_e('Front page', 'graffit'); ?>">
-    <?php get_template_part('template-parts/sections/home', 'hero'); ?>
-    <?php get_template_part('template-parts/sections/home', 'showcase'); ?>
+    <div class="home-scroll-film js-home-scroll-film">
+        <canvas class="home-scroll-film__canvas js-home-scroll-film-canvas" aria-hidden="true"></canvas>
+        <?php get_template_part('template-parts/sections/home', 'hero'); ?>
+        <?php get_template_part('template-parts/sections/home', 'showcase'); ?>
+    </div>
     <div class="home-chaos-about-flow">
         <div class="home-chaos-about-flow__spheres" aria-hidden="true"></div>
         <?php get_template_part('template-parts/sections/home', 'chaos'); ?>

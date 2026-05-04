@@ -231,17 +231,46 @@ html.is-projects-pinned .site-header {
   }
 }
 
+/* ========================================================================
+   home-scroll-film — shared scroll-driven frame animation for hero + showcase
+   Canvas is position:fixed behind both sections; JS drives frame via ScrollTrigger.
+   ======================================================================== */
+
+.home-scroll-film {
+  position: relative;
+}
+
+.home-scroll-film__canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #020914;
+  pointer-events: none;
+
+  @include mixins.mobile {
+    display: none;
+  }
+}
+
 .home-hero {
   position: relative;
   min-height: 100svh;
   height: 100svh;
   overflow: hidden;
   isolation: isolate;
-  background: #020914;
+  /* Desktop: transparent so the scroll-film canvas shows through. */
+  background: transparent;
+  z-index: 1;
 
   @include mixins.mobile {
     min-height: 100svh;
     height: auto;
+    background: #020914;
+    z-index: auto;
   }
 }
 
@@ -488,7 +517,14 @@ html.is-projects-pinned .site-header {
   min-height: 100svh;
   height: 100svh;
   overflow: hidden;
-  background: #010814;
+  /* Desktop: transparent — scroll-film canvas provides the background. */
+  background: transparent;
+  z-index: 1;
+
+  @include mixins.mobile {
+    background: #010814;
+    z-index: auto;
+  }
 
   &::before {
     position: absolute;
