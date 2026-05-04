@@ -1790,26 +1790,6 @@
       drawImage(img);
     }
 
-    function setPhase1Frame(progress) {
-      var frame = Math.max(0, Math.min(P1_COUNT - 1, Math.round(progress * (P1_COUNT - 1))));
-
-      if (activePhase !== 1 || frame !== currentIndex) {
-        activePhase  = 1;
-        currentIndex = frame;
-        renderCurrent();
-      }
-    }
-
-    function setPhase2Frame(progress) {
-      var frame = Math.max(0, Math.min(P2_COUNT - 1, Math.round(progress * (P2_COUNT - 1))));
-
-      if (activePhase !== 2 || frame !== currentIndex) {
-        activePhase  = 2;
-        currentIndex = frame;
-        renderCurrent();
-      }
-    }
-
     resizeCanvas();
 
     /* Preload phase 1 — draw first frame the moment it arrives */
@@ -1846,33 +1826,84 @@
     var chaos    = container.querySelector('.home-chaos');
 
     /*
-     * Phase 1 — ScrollTrigger.create() instead of gsap.to() + scrub.
-     * Using direct progress → frame mapping eliminates the "last-frame
-     * flash" glitch caused by scrub tweens firing during ST refresh.
+     * Phase 1 — hero + showcase.
+     *
+     * scrub: true   → frame updates on every GSAP tick (60 fps on all devices,
+     *                  no lag/trailing) while keeping perfect scroll sync.
+     * immediateRender: false → suppresses the "last-frame flash" that happens
+     *                  when ScrollTrigger calls refresh() during initialisation.
+     * onRefresh     → after any layout recalc (resize, init) snap to the exact
+     *                  frame matching the current scroll position.
      */
-    window.ScrollTrigger.create({
-      trigger: container,
-      start: 'top top',
-      endTrigger: showcase || container,
-      end: 'bottom bottom',
-      invalidateOnRefresh: true,
-      onUpdate:  function (self) { setPhase1Frame(self.progress); },
-      onRefresh: function (self) { setPhase1Frame(self.progress); }
+    var st1State = { frame: 0 };
+
+    window.gsap.to(st1State, {
+      frame: P1_COUNT - 1,
+      ease: 'none',
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: container,
+        start: 'top top',
+        endTrigger: showcase || container,
+        end: 'bottom bottom',
+        scrub: true,
+        invalidateOnRefresh: true,
+        onRefresh: function (self) {
+          var f = Math.round(self.progress * (P1_COUNT - 1));
+          st1State.frame = f;
+          activePhase    = 1;
+          currentIndex   = f;
+          renderCurrent();
+        }
+      },
+      onUpdate: function () {
+        var f = Math.round(st1State.frame);
+
+        if (activePhase !== 1 || f !== currentIndex) {
+          activePhase  = 1;
+          currentIndex = f;
+          renderCurrent();
+        }
+      }
     });
 
     /*
-     * Phase 2 — chaos section pinned at viewport center; animation plays
-     * through all 154 frames, then pin releases and scroll continues.
+     * Phase 2 — chaos section pinned at viewport centre.
+     * Same scrub: true + immediateRender: false + onRefresh pattern.
      */
     if (chaos) {
-      window.ScrollTrigger.create({
-        trigger: chaos,
-        start: 'center center',
-        end: '+=200vh',
-        pin: true,
-        invalidateOnRefresh: true,
-        onUpdate:  function (self) { setPhase2Frame(self.progress); },
-        onRefresh: function (self) { setPhase2Frame(self.progress); }
+      var st2State = { frame: 0 };
+
+      window.gsap.to(st2State, {
+        frame: P2_COUNT - 1,
+        ease: 'none',
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: chaos,
+          start: 'center center',
+          end: '+=200vh',
+          pin: true,
+          scrub: true,
+          invalidateOnRefresh: true,
+          onRefresh: function (self) {
+            var f = Math.round(self.progress * (P2_COUNT - 1));
+            st2State.frame = f;
+
+            if (activePhase === 2) {
+              currentIndex = f;
+              renderCurrent();
+            }
+          }
+        },
+        onUpdate: function () {
+          var f = Math.round(st2State.frame);
+
+          if (activePhase !== 2 || f !== currentIndex) {
+            activePhase  = 2;
+            currentIndex = f;
+            renderCurrent();
+          }
+        }
       });
     }
 

@@ -207,8 +207,40 @@ html.is-projects-pinned .site-header {
   z-index: 200;
 }
 
+/*
+ * On the homepage the canvas animation flows visually into the about block.
+ * Remove the top-centre triangular indentation from the bow-tie clip-path
+ * so the dark canvas doesn't show through as a "floating dark triangle".
+ * A matching dark triangle ::before points downward from the chaos section
+ * into the viewport top — mirroring the about-page hero→stack transition.
+ */
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 200;
+  /* flat top, original pointed bottom */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: #{mixins.vw(90px)};
+    z-index: 1;
+    /* matches the canvas / chaos dark background */
+    background: #020914;
+    /* downward-pointing triangle: covers the transition seam */
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    content: "";
+    pointer-events: none;
+  }
+
+  @include mixins.mobile {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 96%, 0 100%);
+
+    &::before {
+      height: #{mixins.mvw(48px)};
+    }
+  }
 }
 
 .home-chaos-about-flow #home-about .services-clients__container {
