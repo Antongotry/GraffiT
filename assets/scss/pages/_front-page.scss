@@ -215,105 +215,64 @@ html.is-projects-pinned .site-header {
 }
 
 /*
- * Homepage: remove the bow-tie clip-path so there is no visible geometric
- * gray shape at the seam with the animation.  A dark gradient veil on
- * ::before creates a smooth animation → card section fade-in instead.
+ * Homepage #home-about — mirror .about-clients from the About page exactly.
+ * Uses all default services-clients styles; only text sizing is adjusted.
  */
-/*
- * Homepage: replicate the about-page hero→clients dark-to-light visual.
- *
- * On the about page the hero section (dark photo) fills the top corners
- * of the bow-tie viewport and the triangle cutout shows the same dark
- * background — creating a seamless single dark area that transitions to
- * the light card section below.
- *
- * Here the canvas animation plays the role of the "hero photo".
- * The canvas colour is #020914, so we:
- *   1. Keep the bow-tie clip-path on the viewport (triangle cutout shows
- *      the live canvas animation).
- *   2. Make the section background transparent so the canvas is visible
- *      through the cutout.
- *   3. Override ::after to START with #020914 and transition to the
- *      normal light-grey gradient — this makes the bow-tie top-corners
- *      match the canvas colour, hiding the seam.
- */
-#home-about.services-clients {
-  /*
-   * #020914 matches the canvas dark background exactly.
-   * Both bow-tie notches (top + bottom) show this dark solid colour —
-   * no canvas animation bleeds through anywhere.
-   * Top corners look seamless (same dark as the canvas behind it).
-   * Bottom corners are a clean dark triangle, consistent with the design.
-   */
-  background: #020914;
+.home-chaos-about-flow #home-about {
+  overflow: visible;
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 200;
-
-  /* No bow-tie on homepage — clean rectangle, like .about-clients */
+  overflow: visible;
   clip-path: none !important;
 
-  &::after,
-  &::before {
-    clip-path: none !important;
-  }
-
-  /* Hide the SVG-pattern ::before — over the dark gradient it looks dirty */
-  &::before {
-    display: none;
-  }
-
-  /*
-   * Clean dark → light gradient. Top (#020914) matches the canvas colour
-   * seen through the top notch → seamless blend. Bottom (#d3d6db) matches
-   * the fixed section background visible through the bottom notch → seamless.
-   */
-  &::after {
-    background: linear-gradient(
-      180deg,
-      #020914 0%,
-      #07111f 8%,
-      #172535 16%,
-      #b8c4d0 32%,
-      #d3d6db 100%
-    );
-  }
-
+  /* Mobile: also no clip-path on pseudo-elements (same as .about-clients) */
   @include mixins.mobile {
-    /* On mobile clip-path: none is the standard (same as services page) */
     clip-path: none !important;
+    padding-top: #{mixins.mvw(84px)};
 
+    &::before,
     &::after {
-      background: linear-gradient(
-        180deg,
-        #020914 0%,
-        #07111f 10%,
-        #172535 20%,
-        #b8c4d0 38%,
-        #d3d6db 100%
-      );
+      clip-path: none;
     }
   }
 }
 
-/* Very subtle top-fade on the cards-stage — cards are almost fully
-   visible from the start; only the first ~20px is softly transparent. */
-.home-chaos-about-flow #home-about .services-clients__cards-stage {
-  mask-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.55) 0,
-    #000 #{mixins.vw(20px)},
-    #000 calc(100% - #{mixins.vw(220px)}),
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.55) 0,
-    #000 #{mixins.vw(20px)},
-    #000 calc(100% - #{mixins.vw(220px)}),
-    transparent 100%
-  );
+/* Match .about-clients title sizing */
+.home-chaos-about-flow #home-about .services-clients__eyebrow-text {
+  color: #000102;
+}
+
+.home-chaos-about-flow #home-about .services-clients__title {
+  width: #{mixins.vw(788px)};
+  margin-top: #{mixins.vw(64px)};
+  font-size: #{mixins.vw(32px)};
+  line-height: 1.48;
+
+  @include mixins.mobile {
+    width: 100%;
+    margin-top: #{mixins.mvw(24px)};
+    font-size: #{mixins.mvw(22px)};
+    line-height: 1.36;
+  }
+}
+
+.home-chaos-about-flow #home-about .services-clients__text {
+  width: #{mixins.vw(598px)};
+  margin-top: #{mixins.vw(156px)};
+  color: rgba(0, 1, 2, 0.92);
+
+  @include mixins.mobile {
+    width: 100%;
+    margin-top: #{mixins.mvw(24px)};
+  }
+}
+
+.home-chaos-about-flow #home-about .services-clients__copy {
+  @include mixins.mobile {
+    padding-top: #{mixins.mvw(10px)};
+  }
 }
 
 .home-chaos-about-flow #home-about .services-clients__container {
