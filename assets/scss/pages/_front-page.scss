@@ -212,40 +212,26 @@ html.is-projects-pinned .site-header {
  * gray shape at the seam with the animation.  A dark gradient veil on
  * ::before creates a smooth animation → card section fade-in instead.
  */
-/* Use !important on clip-path to guarantee it beats the base bow-tie rule
-   regardless of specificity edge cases or CDN caching of older CSS. */
-.home-chaos-about-flow #home-about .services-clients__viewport,
-#home-about.services-clients .services-clients__viewport {
+/*
+ * Homepage: the fixed canvas must show through the bow-tie triangle.
+ * The section itself has `background: #000102` (from .services-clients)
+ * which was blocking the canvas — set it transparent so the canvas is
+ * visible behind the viewport.  The bow-tie clip-path on the viewport
+ * is left at its default so the triangular opening frames the animation.
+ * Remove the dark-gradient ::before veil (it was the "dark transition"
+ * the user complained about); the default SVG-pattern ::before remains.
+ */
+#home-about.services-clients {
+  background: transparent;
+}
+
+/* Ensure mobile pseudo-element clip-paths don't block the triangle. */
+.home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 200;
-  clip-path: none !important;
 
   &::after,
   &::before {
     clip-path: none !important;
-  }
-
-  &::before {
-    /* Tall dark → transparent veil replaces the SVG-pattern overlay */
-    inset: 0 0 auto 0;
-    height: #{mixins.vw(300px)};
-    z-index: 2;
-    background-image: none;
-    background: linear-gradient(
-      to bottom,
-      rgba(2, 9, 20, 0.96) 0%,
-      rgba(2, 9, 20, 0.62) 35%,
-      rgba(2, 9, 20, 0.18) 68%,
-      transparent 100%
-    );
-    background-size: auto;
-    background-repeat: no-repeat;
-    opacity: 1;
-  }
-
-  @include mixins.mobile {
-    &::before {
-      height: #{mixins.mvw(140px)};
-    }
   }
 }
 
