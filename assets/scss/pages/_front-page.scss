@@ -310,6 +310,25 @@ html.is-projects-pinned .site-header {
 
   mask-image: linear-gradient(
     to bottom,
+    #000 0,
+    #000 #{mixins.vw(32px)},
+    #000 calc(100% - #{mixins.vw(280px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 #{mixins.vw(32px)},
+    #000 calc(100% - #{mixins.vw(280px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    transparent 100%
+  );
+}
+
+.home-chaos-about-flow #home-about.is-clients-scrolled .services-clients__cards-stage {
+  mask-image: linear-gradient(
+    to bottom,
     transparent 0,
     #000 #{mixins.vw(32px)},
     #000 calc(100% - #{mixins.vw(280px)}),

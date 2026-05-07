@@ -809,6 +809,7 @@
       }
 
       section.setAttribute('data-clients-scroller-init', '1');
+      section.classList.remove('is-clients-scrolled');
 
       function clientsTrackScrollDistance() {
         var overflow = track.scrollHeight - stage.clientHeight;
@@ -838,8 +839,15 @@
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onUpdate: function (self) {
+            section.classList.toggle('is-clients-scrolled', self.progress > 0.001);
+          },
           onToggle: function (self) {
             var header;
+
+            if (!self.isActive && self.progress <= 0.001) {
+              section.classList.remove('is-clients-scrolled');
+            }
 
             if (!shouldHideHeader) {
               return;

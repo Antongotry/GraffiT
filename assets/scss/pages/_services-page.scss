@@ -3570,11 +3570,10 @@
   height: #{mixins.vw(899px)};
   overflow: hidden;
   z-index: 1;
-  // Bottom-only fade into the bow-tie; large solid band so cards stay fully visible while scrolling.
+  // Start with a solid top so the first cards are fully visible before scroll progress begins.
   mask-image: linear-gradient(
     to bottom,
-    transparent 0,
-    rgba(0, 0, 0, 0.5) #{mixins.vw(56px)},
+    #000 0,
     #000 #{mixins.vw(128px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
@@ -3582,8 +3581,7 @@
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
-    transparent 0,
-    rgba(0, 0, 0, 0.5) #{mixins.vw(56px)},
+    #000 0,
     #000 #{mixins.vw(128px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
@@ -3633,6 +3631,32 @@
   @include mixins.mobile {
     height: auto;
     overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+
+.services-clients.is-clients-scrolled .services-clients__cards-stage {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgba(0, 0, 0, 0.5) #{mixins.vw(56px)},
+    #000 #{mixins.vw(128px)},
+    #000 calc(100% - #{mixins.vw(280px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgba(0, 0, 0, 0.5) #{mixins.vw(56px)},
+    #000 #{mixins.vw(128px)},
+    #000 calc(100% - #{mixins.vw(280px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    transparent 100%
+  );
+
+  @include mixins.mobile {
     mask-image: none;
     -webkit-mask-image: none;
   }
