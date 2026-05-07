@@ -809,7 +809,6 @@
       }
 
       section.setAttribute('data-clients-scroller-init', '1');
-      section.classList.remove('is-clients-scrolled');
 
       function clientsTrackScrollDistance() {
         var overflow = track.scrollHeight - stage.clientHeight;
@@ -822,17 +821,6 @@
         var extra = Math.round((200 / 1440) * w);
         extra = Math.min(Math.max(extra, 120), 280);
         return overflow + extra;
-      }
-
-      function clientsTopFadeOffset() {
-        var w = window.innerWidth || 1440;
-        var offset = Math.round((20 / 1440) * w);
-        return Math.min(Math.max(offset, 16), 28);
-      }
-
-      function updateClientsTopFade(progress) {
-        var scrolledDistance = clientsTrackScrollDistance() * progress;
-        section.classList.toggle('is-clients-scrolled', scrolledDistance > clientsTopFadeOffset());
       }
 
       window.gsap.to(track, {
@@ -850,15 +838,8 @@
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onUpdate: function (self) {
-            updateClientsTopFade(self.progress);
-          },
           onToggle: function (self) {
             var header;
-
-            if (!self.isActive && clientsTrackScrollDistance() * self.progress <= clientsTopFadeOffset()) {
-              section.classList.remove('is-clients-scrolled');
-            }
 
             if (!shouldHideHeader) {
               return;
