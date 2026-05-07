@@ -300,13 +300,7 @@ html.is-projects-pinned .site-header {
   }
 }
 
-/*
- * padding-top creates a ~32px "gap" above the first card.
- * Cards stay fully opaque, scroll into the gap, then leave through the clipped top edge.
- */
 .home-chaos-about-flow #home-about .services-clients__cards-stage {
-  padding-top: #{mixins.vw(32px)};
-
   mask-image: linear-gradient(
     to bottom,
     #000 0,
