@@ -3640,8 +3640,8 @@
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
-    rgba(0, 0, 0, 0.5) #{mixins.vw(56px)},
-    #000 #{mixins.vw(128px)},
+    rgba(0, 0, 0, 0.54) #{mixins.vw(14px)},
+    #000 #{mixins.vw(36px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%
@@ -3649,8 +3649,8 @@
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0,
-    rgba(0, 0, 0, 0.5) #{mixins.vw(56px)},
-    #000 #{mixins.vw(128px)},
+    rgba(0, 0, 0, 0.54) #{mixins.vw(14px)},
+    #000 #{mixins.vw(36px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%

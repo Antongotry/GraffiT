@@ -824,6 +824,17 @@
         return overflow + extra;
       }
 
+      function clientsTopFadeOffset() {
+        var w = window.innerWidth || 1440;
+        var offset = Math.round((20 / 1440) * w);
+        return Math.min(Math.max(offset, 16), 28);
+      }
+
+      function updateClientsTopFade(progress) {
+        var scrolledDistance = clientsTrackScrollDistance() * progress;
+        section.classList.toggle('is-clients-scrolled', scrolledDistance > clientsTopFadeOffset());
+      }
+
       window.gsap.to(track, {
         y: function () {
           return -clientsTrackScrollDistance();
@@ -840,12 +851,12 @@
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: function (self) {
-            section.classList.toggle('is-clients-scrolled', self.progress > 0.001);
+            updateClientsTopFade(self.progress);
           },
           onToggle: function (self) {
             var header;
 
-            if (!self.isActive && self.progress <= 0.001) {
+            if (!self.isActive && clientsTrackScrollDistance() * self.progress <= clientsTopFadeOffset()) {
               section.classList.remove('is-clients-scrolled');
             }
 

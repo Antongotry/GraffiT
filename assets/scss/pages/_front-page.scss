@@ -330,6 +330,7 @@ html.is-projects-pinned .site-header {
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
+    rgba(0, 0, 0, 0.54) #{mixins.vw(12px)},
     #000 #{mixins.vw(32px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
@@ -338,6 +339,7 @@ html.is-projects-pinned .site-header {
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0,
+    rgba(0, 0, 0, 0.54) #{mixins.vw(12px)},
     #000 #{mixins.vw(32px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
