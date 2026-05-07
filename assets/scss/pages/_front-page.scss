@@ -319,12 +319,6 @@ html.is-projects-pinned .site-header {
   );
 }
 
-.home-chaos-about-flow #home-about.is-clients-top-fade .services-clients__cards-stage {
-  &::after {
-    opacity: 1;
-  }
-}
-
 .home-chaos-about-flow #home-about .services-clients__container {
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(20px)}, 100%);

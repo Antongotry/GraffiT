@@ -809,7 +809,6 @@
       }
 
       section.setAttribute('data-clients-scroller-init', '1');
-      section.classList.remove('is-clients-top-fade');
 
       function clientsTrackScrollDistance() {
         var overflow = track.scrollHeight - stage.clientHeight;
@@ -822,17 +821,6 @@
         var extra = Math.round((200 / 1440) * w);
         extra = Math.min(Math.max(extra, 120), 280);
         return overflow + extra;
-      }
-
-      function clientsTopFadeStartPx() {
-        var w = window.innerWidth || 1440;
-        var offset = Math.round((24 / 1440) * w);
-        return Math.min(Math.max(offset, 20), 30);
-      }
-
-      function updateClientsTopFade(progress) {
-        var distance = clientsTrackScrollDistance() * progress;
-        section.classList.toggle('is-clients-top-fade', distance > clientsTopFadeStartPx());
       }
 
       window.gsap.to(track, {
@@ -850,15 +838,8 @@
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onUpdate: function (self) {
-            updateClientsTopFade(self.progress);
-          },
           onToggle: function (self) {
             var header;
-
-            if (!self.isActive && self.progress <= 0.001) {
-              section.classList.remove('is-clients-top-fade');
-            }
 
             if (!shouldHideHeader) {
               return;
