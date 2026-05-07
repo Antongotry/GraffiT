@@ -3573,8 +3573,7 @@
   // Keep the top solid: cards must stay clean/readable until they are clipped by the stage.
   mask-image: linear-gradient(
     to bottom,
-    transparent 0,
-    rgba(0, 0, 0, 0.5) #{mixins.vw(120px)},
+    #000 0,
     #000 #{mixins.vw(280px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
@@ -3582,8 +3581,7 @@
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
-    transparent 0,
-    rgba(0, 0, 0, 0.5) #{mixins.vw(120px)},
+    #000 0,
     #000 #{mixins.vw(280px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
@@ -3637,6 +3635,27 @@
     mask-image: none;
     -webkit-mask-image: none;
   }
+}
+
+.services-clients.is-clients-top-fade .services-clients__cards-stage {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgba(0, 0, 0, 0.5) #{mixins.vw(120px)},
+    #000 #{mixins.vw(280px)},
+    #000 calc(100% - #{mixins.vw(280px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgba(0, 0, 0, 0.5) #{mixins.vw(120px)},
+    #000 #{mixins.vw(280px)},
+    #000 calc(100% - #{mixins.vw(280px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    transparent 100%
+  );
 }
 
 .services-clients__cards-track {
