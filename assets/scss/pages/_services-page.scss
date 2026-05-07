@@ -3628,11 +3628,34 @@
     }
   }
 
+  // Top fade overlay is separate from mask to avoid compositing seams on moving cards.
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: #{mixins.vw(44px)};
+    pointer-events: none;
+    content: "";
+    background: linear-gradient(
+      to bottom,
+      rgba(229, 234, 241, 1) 0%,
+      rgba(229, 234, 241, 0) 100%
+    );
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
   @include mixins.mobile {
     height: auto;
     overflow: visible;
     mask-image: none;
     -webkit-mask-image: none;
+
+    &::after {
+      display: none;
+    }
   }
 }
 
@@ -3654,28 +3677,8 @@
 }
 
 .services-clients.is-clients-top-fade .services-clients__cards-stage {
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0,
-    rgba(0, 0, 0, 0.45) #{mixins.vw(14px)},
-    #000 #{mixins.vw(32px)},
-    #000 calc(100% - #{mixins.vw(280px)}),
-    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0,
-    rgba(0, 0, 0, 0.45) #{mixins.vw(14px)},
-    #000 #{mixins.vw(32px)},
-    #000 calc(100% - #{mixins.vw(280px)}),
-    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
-    transparent 100%
-  );
-
-  @include mixins.mobile {
-    mask-image: none;
-    -webkit-mask-image: none;
+  &::after {
+    opacity: 1;
   }
 }
 
