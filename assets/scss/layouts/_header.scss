@@ -13,6 +13,7 @@
 }
 
 .site-header__inner {
+  box-sizing: border-box;
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
   display: flex;
@@ -20,6 +21,7 @@
   justify-content: space-between;
   min-height: #{mixins.vw(56px)};
   gap: #{mixins.vw(32px)};
+  padding-inline: #{mixins.vw(28px)};
   border: 1px solid transparent;
   border-radius: 0;
   transition:
@@ -32,6 +34,7 @@
     width: min(100% - #{mixins.mvw(32px)}, 100%);
     gap: #{mixins.mvw(18px)};
     min-height: #{mixins.mvw(56px)};
+    padding-inline: #{mixins.mvw(20px)};
   }
 }
 
