@@ -10,10 +10,36 @@
   @include mixins.mobile {
     top: #{mixins.mvw(20px)};
   }
+
+  /* Повноширинний «скло» під контентом сітки — блюр на всю ширину вʼюпорту. */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    background-color: rgba(0, 1, 2, 0.52);
+    box-shadow: 0 #{mixins.vw(10px)} #{mixins.vw(36px)} rgba(0, 0, 0, 0.32);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px) saturate(1.15);
+    -webkit-backdrop-filter: blur(18px) saturate(1.15);
+    transition: opacity 0.28s ease;
+
+    @include mixins.mobile {
+      box-shadow: 0 #{mixins.mvw(8px)} #{mixins.mvw(28px)} rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  &.site-header--scrolled::before {
+    opacity: 1;
+  }
 }
 
 .site-header__inner {
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
   display: flex;
@@ -21,34 +47,11 @@
   justify-content: space-between;
   min-height: #{mixins.vw(56px)};
   gap: #{mixins.vw(32px)};
-  padding-inline: #{mixins.vw(28px)};
-  border: 1px solid transparent;
-  border-radius: 0;
-  transition:
-    background-color 0.28s ease,
-    box-shadow 0.28s ease,
-    border-color 0.28s ease,
-    border-radius 0.28s ease;
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
     gap: #{mixins.mvw(18px)};
     min-height: #{mixins.mvw(56px)};
-    padding-inline: #{mixins.mvw(20px)};
-  }
-}
-
-.site-header--scrolled .site-header__inner {
-  background-color: rgba(0, 1, 2, 0.58);
-  border-radius: #{mixins.vw(16px)};
-  box-shadow: 0 #{mixins.vw(10px)} #{mixins.vw(40px)} rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(18px) saturate(1.15);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
-
-  @include mixins.mobile {
-    border-radius: #{mixins.mvw(14px)};
-    box-shadow: 0 #{mixins.mvw(8px)} #{mixins.mvw(28px)} rgba(0, 0, 0, 0.38);
   }
 }
 
