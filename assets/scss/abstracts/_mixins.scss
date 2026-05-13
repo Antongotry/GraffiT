@@ -9,7 +9,7 @@ $breakpoints: (
 );
 
 @function vw($value, $base: variables.$design-width-desktop) {
-  @return math.div($value, $base) * 100vw;
+  @return calc(#{$value} * min(100vw, #{$base}) / #{$base});
 }
 
 @function mvw($value, $base: variables.$design-width-mobile) {
@@ -40,4 +40,3 @@ $breakpoints: (
     width: min(100% - #{mvw(32px)}, 100%);
   }
 }
-
