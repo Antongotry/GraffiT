@@ -3815,6 +3815,16 @@
   background: #000102;
 }
 
+@media (min-width: 1025px) {
+  .site-main--services #services-projects.services-projects {
+    overflow: visible;
+  }
+
+  .site-main--services #services-projects .services-projects__stage {
+    overflow: visible;
+  }
+}
+
 .services-projects__viewport {
   position: relative;
   z-index: 1;
