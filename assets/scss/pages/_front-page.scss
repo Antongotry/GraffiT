@@ -131,6 +131,27 @@
   }
 }
 
+/* Ultra-wide desktop: keep 1440-based hex cards, but rebalance right-side photos and
+   center the whole composition to avoid an empty gap on 1920+ screens. */
+@media (min-width: 1600px) {
+  .home-hex-projects-flow .hex-reasons--home .hex-reasons__scene {
+    left: auto;
+    width: min(100%, 1764px);
+    margin-inline: auto;
+    transform: none;
+  }
+
+  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--plg {
+    left: clamp(990px, calc(990px + (100vw - 1440px) * 0.32), 1140px) !important;
+    top: -96px !important;
+  }
+
+  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--psm {
+    right: clamp(-128px, calc(-128px + (100vw - 1440px) * 0.48), 92px);
+    top: 470px;
+  }
+}
+
 .home-hex-projects-flow .services-overview,
 .home-hex-projects-flow .services-inquiry {
   position: relative;
