@@ -1978,6 +1978,129 @@
     /* Replaced by two-phase logic inside initHomeScrollFilm. */
   }
 
+  function initBrowserDiagnostics() {
+    function cssSupports(property, value) {
+      if (!window.CSS || typeof window.CSS.supports !== 'function') {
+        return null;
+      }
+
+      try {
+        return window.CSS.supports(property, value);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function countCssRules(sheet) {
+      try {
+        return sheet && sheet.cssRules ? sheet.cssRules.length : 0;
+      } catch (error) {
+        return -1;
+      }
+    }
+
+    function getMainStylesheetMeta() {
+      var link = document.querySelector('link[href*="/assets/css/main.css"]');
+      var href = link ? link.href : '';
+      var loaded = false;
+      var rules = 0;
+
+      if (link && link.sheet) {
+        rules = countCssRules(link.sheet);
+        loaded = rules > 0 || rules === -1;
+      }
+
+      return {
+        found: !!link,
+        href: href,
+        loaded: loaded,
+        rules: rules
+      };
+    }
+
+    function computedSummary() {
+      var bodyStyle = window.getComputedStyle(document.body);
+      var header = document.querySelector('.site-header');
+      var headerStyle = header ? window.getComputedStyle(header) : null;
+
+      return {
+        'body.backgroundColor': bodyStyle ? bodyStyle.backgroundColor : '',
+        'body.fontSize': bodyStyle ? bodyStyle.fontSize : '',
+        'site-header.exists': !!header,
+        'site-header.position': headerStyle ? headerStyle.position : '(відсутній)',
+        'site-header.top': headerStyle ? headerStyle.top : '(відсутній)'
+      };
+    }
+
+    function featureSummary() {
+      return {
+        'min()': cssSupports('width', 'min(100%, 1440px)'),
+        'clamp()': cssSupports('width', 'clamp(10px, 2vw, 20px)'),
+        'flex gap': cssSupports('gap', '1rem'),
+        'margin-inline': cssSupports('margin-inline', '1px'),
+        'overflow: clip': cssSupports('overflow', 'clip')
+      };
+    }
+
+    function buildReport() {
+      var mainStylesheet = getMainStylesheetMeta();
+
+      return {
+        timestamp: new Date().toISOString(),
+        page: window.location.href,
+        viewport: window.innerWidth + 'x' + window.innerHeight,
+        dpr: window.devicePixelRatio || 1,
+        userAgent: window.navigator.userAgent,
+        language: window.navigator.language || '',
+        stylesheet: mainStylesheet,
+        features: featureSummary(),
+        computed: computedSummary()
+      };
+    }
+
+    window.graffitDebugReport = buildReport;
+    window.graffitDebugPrint = function () {
+      var report = buildReport();
+      var main = report.stylesheet;
+
+      if (window.console && typeof window.console.groupCollapsed === 'function') {
+        window.console.groupCollapsed('GraffiT діагностика');
+      }
+
+      if (window.console && typeof window.console.log === 'function') {
+        window.console.log('Сторінка:', report.page);
+        window.console.log('Час:', report.timestamp);
+        window.console.log('Viewport:', report.viewport, 'DPR:', report.dpr);
+        window.console.log('Мова браузера:', report.language);
+        window.console.log('User-Agent:', report.userAgent);
+        window.console.log('main.css знайдено:', main.found);
+        window.console.log('main.css URL:', main.href || '(не знайдено)');
+        window.console.log('main.css завантажено:', main.loaded, '| к-сть правил:', main.rules);
+      }
+
+      if (window.console && typeof window.console.table === 'function') {
+        window.console.table(report.features);
+        window.console.table(report.computed);
+      }
+
+      if (window.console && typeof window.console.groupEnd === 'function') {
+        window.console.groupEnd();
+      }
+
+      return report;
+    };
+
+    if (window.console && typeof window.console.info === 'function') {
+      window.console.info('GraffiT: для звіту виконайте у консолі `window.graffitDebugPrint()`');
+    }
+
+    if (window.location.search.indexOf('graffit-debug=1') !== -1) {
+      window.setTimeout(function () {
+        window.graffitDebugPrint();
+      }, 400);
+    }
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -2007,6 +2130,7 @@
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
   runInit(initFaqAccordion, 'faq-accordion');
   runInit(initAboutStackMobileVisual, 'about-stack-mobile-visual');
+  runInit(initBrowserDiagnostics, 'browser-diagnostics');
 
   window.addEventListener(
     'load',
