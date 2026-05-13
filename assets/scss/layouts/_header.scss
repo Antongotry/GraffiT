@@ -6,6 +6,7 @@
   left: 0;
   width: 100%;
   z-index: 120;
+  transition: top 0.28s ease, padding-bottom 0.28s ease;
   /* Як зверху до краю вʼюпорту — так само «повітря» під рядком шапки (прозоро). */
   padding-bottom: #{mixins.vw(24px)};
 
@@ -37,15 +38,20 @@
   }
 
   /* Смуга блюру симетрично вгору в зазор під top і вниз у padding-bottom. */
+  &.site-header--scrolled {
+    top: 0;
+    padding-bottom: 0;
+  }
+
   &.site-header--scrolled::before {
     opacity: 1;
-    top: -#{mixins.vw(24px)};
+    top: 0;
     right: 0;
     bottom: 0;
     left: 0;
 
     @include mixins.mobile {
-      top: -#{mixins.mvw(20px)};
+      top: 0;
     }
   }
 }
