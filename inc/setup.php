@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 if (! defined('GRAFFIT_THEME_VERSION')) {
-    define('GRAFFIT_THEME_VERSION', '0.1.0');
+    define('GRAFFIT_THEME_VERSION', '0.1.1');
 }
 
 /**
@@ -52,7 +52,11 @@ function graffit_asset_version(string $relative_path): string
 
     $modified_time = filemtime($file_path);
 
-    return $modified_time ? (string) $modified_time : GRAFFIT_THEME_VERSION;
+    if (! $modified_time) {
+        return GRAFFIT_THEME_VERSION;
+    }
+
+    return GRAFFIT_THEME_VERSION . '-' . (string) $modified_time;
 }
 
 /**
