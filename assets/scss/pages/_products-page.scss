@@ -1000,6 +1000,7 @@
 
 .products-projects {
   position: relative;
+  overflow: visible;
   isolation: isolate;
   z-index: 1;
 
@@ -1008,6 +1009,7 @@
     visibility: visible;
     display: block;
     min-height: 0;
+    overflow: visible;
     padding-bottom: #{mixins.vw(80px)};
   }
 
