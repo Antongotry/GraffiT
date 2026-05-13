@@ -426,6 +426,12 @@
   }
 }
 
+@media (min-width: 1025px) {
+  .site-main--products .products-catalog__stage {
+    overflow: visible;
+  }
+}
+
 .products-catalog__container {
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
