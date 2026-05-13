@@ -464,69 +464,67 @@
       }
 
       section.setAttribute('data-products-projects-carousel', '1');
-      track.style.transform = '';
+      track.style.setProperty('transition', 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1)');
+      track.style.setProperty('will-change', 'transform');
+      track.style.setProperty('transform', 'translateX(0px)', 'important');
+      var currentIndex = 0;
 
       function getMaxIndex() {
         return Math.max(cards.length - 1, 0);
       }
 
-      function nearestIndex() {
-        var scrollLeft = stage.scrollLeft;
-        var best = 0;
-        var bestDistance = Infinity;
+      function cardOffset(index) {
+        var firstCard = cards[0];
+        var targetCard = cards[index];
 
-        for (var i = 0; i < cards.length; i++) {
-          var distance = Math.abs(cards[i].offsetLeft - scrollLeft);
-
-          if (distance < bestDistance) {
-            bestDistance = distance;
-            best = i;
-          }
+        if (!firstCard || !targetCard) {
+          return 0;
         }
 
-        return best;
+        return Math.max(targetCard.offsetLeft - firstCard.offsetLeft, 0);
+      }
+
+      function applyPosition() {
+        var offset = cardOffset(currentIndex);
+        track.style.setProperty('transform', 'translateX(' + -offset + 'px)', 'important');
       }
 
       function updateButtons() {
-        var index = nearestIndex();
-
         if (prevButton) {
-          prevButton.disabled = index <= 0;
+          prevButton.disabled = currentIndex <= 0;
         }
 
         if (nextButton) {
-          nextButton.disabled = index >= getMaxIndex();
+          nextButton.disabled = currentIndex >= getMaxIndex();
         }
       }
 
       function scrollToIndex(index) {
         var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
-        var card = cards[clampedIndex];
-
-        if (!card) {
-          return;
-        }
-
-        stage.scrollTo({
-          left: card.offsetLeft,
-          behavior: 'smooth'
-        });
-
-        window.setTimeout(updateButtons, 400);
+        currentIndex = clampedIndex;
+        applyPosition();
+        updateButtons();
       }
 
-      stage.addEventListener('scroll', updateButtons, { passive: true });
-      window.requestAnimationFrame(updateButtons);
+      window.addEventListener('resize', function () {
+        applyPosition();
+        updateButtons();
+      }, { passive: true });
+
+      window.requestAnimationFrame(function () {
+        applyPosition();
+        updateButtons();
+      });
 
       if (prevButton) {
         prevButton.addEventListener('click', function () {
-          scrollToIndex(nearestIndex() - 1);
+          scrollToIndex(currentIndex - 1);
         });
       }
 
       if (nextButton) {
         nextButton.addEventListener('click', function () {
-          scrollToIndex(nearestIndex() + 1);
+          scrollToIndex(currentIndex + 1);
         });
       }
     });

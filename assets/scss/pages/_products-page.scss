@@ -1027,11 +1027,7 @@
 
   .services-projects__stage {
     height: #{mixins.vw(618px)};
-    overflow-x: auto;
-    overflow-y: visible;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
+    overflow: visible;
   }
 
   .services-projects__stage::-webkit-scrollbar {
@@ -1039,7 +1035,7 @@
   }
 
   .services-projects__track {
-    transform: none !important;
+    transform: none;
   }
 
   @include mixins.mobile {
