@@ -173,6 +173,11 @@
   overflow: visible;
 }
 
+/* На головній стрічка кейсів може виходити за межі stage без обрізання. */
+.home-hex-projects-flow #services-projects .services-projects__stage {
+  overflow: visible;
+}
+
 /* М’яка «сфера» градієнта справа: Vector-346, ширина 400px макета — проєкти + блок процесу (головна). */
 $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Vector-346_result-scaled.webp";
 
