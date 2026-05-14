@@ -613,7 +613,7 @@ html.is-projects-pinned .site-header {
   width: #{mixins.vw(484px)};
   margin-left: #{mixins.vw(230px)};
   font-size: #{mixins.vw(48.176px)};
-  font-weight: 400;
+  font-weight: 600;
 
   @include mixins.mobile {
     width: 100%;
@@ -628,7 +628,7 @@ html.is-projects-pinned .site-header {
   position: relative;
   display: inline-block;
   margin-right: #{mixins.vw(8px)};
-  font-weight: 600;
+  font-weight: 700;
   text-shadow:
     0 0 #{mixins.vw(10px)} rgba(255, 255, 255, 0.52),
     0 0 #{mixins.vw(28px)} rgba(255, 255, 255, 0.18);
@@ -658,7 +658,7 @@ html.is-projects-pinned .site-header {
 
 .home-hero__title-copy {
   position: relative;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 .home-showcase {
@@ -787,7 +787,6 @@ html.is-projects-pinned .site-header {
 .home-chaos__display,
 .home-chaos__headline {
   margin-inline: auto;
-  font-weight: 500;
   color: #ffffff;
   text-align: center;
 }
@@ -795,6 +794,7 @@ html.is-projects-pinned .site-header {
 .home-chaos__display {
   width: #{mixins.vw(501px)};
   font-size: #{mixins.vw(76px)};
+  font-weight: 700;
   line-height: 0.85;
   letter-spacing: -0.03em;
 
@@ -811,6 +811,7 @@ html.is-projects-pinned .site-header {
   width: 100%;
   max-width: min(100%, #{mixins.vw(574px)});
   font-size: #{mixins.vw(48px)};
+  font-weight: 600;
   line-height: 1;
   letter-spacing: -0.03em;
   white-space: normal;
