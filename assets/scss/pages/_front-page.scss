@@ -619,8 +619,8 @@ html.is-projects-pinned .site-header {
   font-size: #{mixins.vw(48.176px)};
   font-weight: 600;
   text-shadow:
-    0 #{mixins.vw(2px)} #{mixins.vw(12px)} rgba(0, 0, 0, 0.22),
-    0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.18);
+    0 #{mixins.vw(3px)} #{mixins.vw(22px)} rgba(0, 0, 0, 0.34),
+    0 #{mixins.vw(2px)} #{mixins.vw(7px)} rgba(0, 0, 0, 0.28);
 
   @include mixins.mobile {
     width: 100%;
@@ -630,8 +630,8 @@ html.is-projects-pinned .site-header {
     font-size: #{mixins.mvw(29px)};
     line-height: 1.02;
     text-shadow:
-      0 #{mixins.mvw(2px)} #{mixins.mvw(10px)} rgba(0, 0, 0, 0.22),
-      0 #{mixins.mvw(1px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.18);
+      0 #{mixins.mvw(3px)} #{mixins.mvw(18px)} rgba(0, 0, 0, 0.34),
+      0 #{mixins.mvw(2px)} #{mixins.mvw(6px)} rgba(0, 0, 0, 0.28);
   }
 }
 
@@ -642,18 +642,18 @@ html.is-projects-pinned .site-header {
   font-weight: 700;
   white-space: nowrap;
   text-shadow:
-    0 0 #{mixins.vw(10px)} rgba(255, 255, 255, 0.52),
-    0 0 #{mixins.vw(28px)} rgba(255, 255, 255, 0.18),
-    0 #{mixins.vw(2px)} #{mixins.vw(12px)} rgba(0, 0, 0, 0.22),
-    0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.18);
+    0 0 #{mixins.vw(14px)} rgba(255, 255, 255, 0.62),
+    0 0 #{mixins.vw(38px)} rgba(255, 255, 255, 0.26),
+    0 #{mixins.vw(3px)} #{mixins.vw(22px)} rgba(0, 0, 0, 0.34),
+    0 #{mixins.vw(2px)} #{mixins.vw(7px)} rgba(0, 0, 0, 0.28);
 
   @include mixins.mobile {
     margin-right: #{mixins.mvw(6px)};
     text-shadow:
-      0 0 #{mixins.mvw(10px)} rgba(255, 255, 255, 0.54),
-      0 0 #{mixins.mvw(28px)} rgba(255, 255, 255, 0.18),
-      0 #{mixins.mvw(2px)} #{mixins.mvw(10px)} rgba(0, 0, 0, 0.22),
-      0 #{mixins.mvw(1px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.18);
+      0 0 #{mixins.mvw(14px)} rgba(255, 255, 255, 0.6),
+      0 0 #{mixins.mvw(34px)} rgba(255, 255, 255, 0.24),
+      0 #{mixins.mvw(3px)} #{mixins.mvw(18px)} rgba(0, 0, 0, 0.34),
+      0 #{mixins.mvw(2px)} #{mixins.mvw(6px)} rgba(0, 0, 0, 0.28);
   }
 
   &::before {
@@ -676,13 +676,13 @@ html.is-projects-pinned .site-header {
   position: relative;
   font-weight: 600;
   text-shadow:
-    0 #{mixins.vw(2px)} #{mixins.vw(12px)} rgba(0, 0, 0, 0.22),
-    0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.18);
+    0 #{mixins.vw(3px)} #{mixins.vw(22px)} rgba(0, 0, 0, 0.34),
+    0 #{mixins.vw(2px)} #{mixins.vw(7px)} rgba(0, 0, 0, 0.28);
 
   @include mixins.mobile {
     text-shadow:
-      0 #{mixins.mvw(2px)} #{mixins.mvw(10px)} rgba(0, 0, 0, 0.22),
-      0 #{mixins.mvw(1px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.18);
+      0 #{mixins.mvw(3px)} #{mixins.mvw(18px)} rgba(0, 0, 0, 0.34),
+      0 #{mixins.mvw(2px)} #{mixins.mvw(6px)} rgba(0, 0, 0, 0.28);
   }
 }
 
@@ -823,8 +823,8 @@ html.is-projects-pinned .site-header {
   line-height: 0.85;
   letter-spacing: -0.03em;
   text-shadow:
-    0 #{mixins.vw(3px)} #{mixins.vw(14px)} rgba(0, 0, 0, 0.24),
-    0 #{mixins.vw(1px)} #{mixins.vw(5px)} rgba(0, 0, 0, 0.18);
+    0 #{mixins.vw(4px)} #{mixins.vw(28px)} rgba(0, 0, 0, 0.36),
+    0 #{mixins.vw(2px)} #{mixins.vw(9px)} rgba(0, 0, 0, 0.3);
 
   @include mixins.mobile {
     width: #{mixins.mvw(355px)};
@@ -833,8 +833,8 @@ html.is-projects-pinned .site-header {
     line-height: 1;
     letter-spacing: 0;
     text-shadow:
-      0 #{mixins.mvw(2px)} #{mixins.mvw(12px)} rgba(0, 0, 0, 0.24),
-      0 #{mixins.mvw(1px)} #{mixins.mvw(4px)} rgba(0, 0, 0, 0.18);
+      0 #{mixins.mvw(3px)} #{mixins.mvw(22px)} rgba(0, 0, 0, 0.36),
+      0 #{mixins.mvw(2px)} #{mixins.mvw(7px)} rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -848,8 +848,8 @@ html.is-projects-pinned .site-header {
   white-space: normal;
   overflow-wrap: break-word;
   text-shadow:
-    0 #{mixins.vw(2px)} #{mixins.vw(12px)} rgba(0, 0, 0, 0.22),
-    0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.18);
+    0 #{mixins.vw(3px)} #{mixins.vw(22px)} rgba(0, 0, 0, 0.34),
+    0 #{mixins.vw(2px)} #{mixins.vw(7px)} rgba(0, 0, 0, 0.28);
 
   @include mixins.mobile {
     width: #{mixins.mvw(355px)};
@@ -859,8 +859,8 @@ html.is-projects-pinned .site-header {
     line-height: 1;
     letter-spacing: 0;
     text-shadow:
-      0 #{mixins.mvw(2px)} #{mixins.mvw(10px)} rgba(0, 0, 0, 0.22),
-      0 #{mixins.mvw(1px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.18);
+      0 #{mixins.mvw(3px)} #{mixins.mvw(18px)} rgba(0, 0, 0, 0.34),
+      0 #{mixins.mvw(2px)} #{mixins.mvw(6px)} rgba(0, 0, 0, 0.28);
   }
 }
 
