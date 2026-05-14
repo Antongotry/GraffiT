@@ -134,7 +134,7 @@
     flex-direction: column;
     align-items: stretch;
     box-sizing: border-box;
-    padding-top: #{mixins.mvw(108px)};
+    padding-top: #{mixins.mvw(128px)};
     padding-bottom: #{mixins.mvw(28px)};
   }
 }
@@ -145,7 +145,8 @@
   grid-template-columns: #{mixins.vw(839px)} #{mixins.vw(282px)};
   justify-content: space-between;
   align-items: start;
-  padding-top: #{mixins.vw(99px)};
+  /* Було 99px — заголовок високо над «тілом» фото; більший відступ опускає типографіку нижче на кадр. */
+  padding-top: #{mixins.vw(172px)};
   height: 100%;
 
   @include mixins.mobile {
