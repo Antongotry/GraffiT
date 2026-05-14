@@ -4024,8 +4024,8 @@
 
 .services-projects__nav {
   position: absolute;
-  /* Було 52px (під шапку); 112px занадто низько — ~−30% від приросту → 94px. */
-  top: #{mixins.vw(94px)};
+  /* Було 52px (під шапку); 112 → 94; ще ~−20% від залишку до 52 → 86px. */
+  top: #{mixins.vw(86px)};
   right: #{mixins.vw(116px)};
   z-index: 2;
   display: inline-flex;
