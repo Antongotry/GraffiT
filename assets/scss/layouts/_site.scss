@@ -9,6 +9,67 @@
   min-height: 100vh;
 }
 
+.site-main:not(.site-main--home) {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.site-main:not(.site-main--home)::before,
+.site-main:not(.site-main--home)::after {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.site-main:not(.site-main--home)::before {
+  background:
+    radial-gradient(42% 42% at 18% 24%, rgba(196, 232, 255, 0.16) 0%, rgba(196, 232, 255, 0) 100%),
+    radial-gradient(36% 36% at 84% 78%, rgba(199, 255, 225, 0.14) 0%, rgba(199, 255, 225, 0) 100%);
+  animation: inner-page-bg-drift-a 24s ease-in-out infinite alternate;
+}
+
+.site-main:not(.site-main--home)::after {
+  background:
+    radial-gradient(40% 40% at 82% 22%, rgba(255, 229, 182, 0.11) 0%, rgba(255, 229, 182, 0) 100%),
+    radial-gradient(32% 32% at 22% 82%, rgba(205, 217, 255, 0.12) 0%, rgba(205, 217, 255, 0) 100%);
+  animation: inner-page-bg-drift-b 32s ease-in-out infinite alternate;
+}
+
+.site-main:not(.site-main--home) > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes inner-page-bg-drift-a {
+  0% {
+    transform: translate3d(-1.4%, -0.8%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(1.6%, 1%, 0) scale(1.03);
+  }
+}
+
+@keyframes inner-page-bg-drift-b {
+  0% {
+    transform: translate3d(1.2%, -0.6%, 0) scale(1.01);
+  }
+  100% {
+    transform: translate3d(-1.5%, 0.9%, 0) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-main:not(.site-main--home)::before,
+  .site-main:not(.site-main--home)::after {
+    animation: none;
+    transform: none;
+  }
+}
+
 .site-main--blank-front {
   min-height: 100vh;
   background: #ffffff;
