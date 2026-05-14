@@ -21,7 +21,7 @@
   position: absolute;
   inset: -12%;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
   will-change: transform;
 }
 
@@ -37,11 +37,6 @@
     radial-gradient(40% 40% at 82% 22%, rgba(255, 229, 182, 0.11) 0%, rgba(255, 229, 182, 0) 100%),
     radial-gradient(32% 32% at 22% 82%, rgba(205, 217, 255, 0.12) 0%, rgba(205, 217, 255, 0) 100%);
   animation: inner-page-bg-drift-b 32s ease-in-out infinite alternate;
-}
-
-.site-main:not(.site-main--home) > * {
-  position: relative;
-  z-index: 1;
 }
 
 @keyframes inner-page-bg-drift-a {
