@@ -4024,7 +4024,8 @@
 
 .services-projects__nav {
   position: absolute;
-  top: #{mixins.vw(52px)};
+  /* Було 52px — під fixed .site-header (~24+56+24) стрілки зникали; опускаємо під зону шапки. */
+  top: #{mixins.vw(112px)};
   right: #{mixins.vw(116px)};
   z-index: 2;
   display: inline-flex;
