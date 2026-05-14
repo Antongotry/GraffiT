@@ -438,6 +438,10 @@ body.graffit-popup-open {
   flex-direction: column;
 }
 
+.request-popup__field[data-field-wrap="message"] {
+  grid-column: 1 / -1;
+}
+
 .request-popup__field-label {
   margin-bottom: #{mixins.vw(10px)};
   color: rgba(255, 255, 255, 0.72);

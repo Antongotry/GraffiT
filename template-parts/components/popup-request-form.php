@@ -42,11 +42,6 @@ $args = wp_parse_args(
                         <span class="request-popup__field-error" data-field-error="phone"></span>
                     </label>
 
-                    <label class="request-popup__field" data-field-wrap="email">
-                        <input class="request-popup__input" type="email" name="email" inputmode="email" autocomplete="email" placeholder="E-mail*" required>
-                        <span class="request-popup__field-error" data-field-error="email"></span>
-                    </label>
-
                     <label class="request-popup__field" data-field-wrap="message">
                         <input class="request-popup__input" type="text" name="message" autocomplete="off" placeholder="Коментар*" required>
                         <span class="request-popup__field-error" data-field-error="message"></span>

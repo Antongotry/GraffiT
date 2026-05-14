@@ -1429,7 +1429,7 @@
         return;
       }
 
-      ['name', 'phone', 'email', 'message', 'consent'].forEach(function (name) {
+      ['name', 'phone', 'message', 'consent'].forEach(function (name) {
         setFieldState(name, '');
       });
     }
@@ -1475,18 +1475,6 @@
         return '';
       }
 
-      if (name === 'email') {
-        if (value === '') {
-          return 'Вкажіть e-mail.';
-        }
-
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          return 'Вкажіть коректний e-mail.';
-        }
-
-        return '';
-      }
-
       if (name === 'message') {
         if (value.length < 5) {
           return 'Коротко опишіть запит.';
@@ -1509,7 +1497,7 @@
         return {};
       }
 
-      var fieldNames = ['name', 'phone', 'email', 'message', 'consent'];
+      var fieldNames = ['name', 'phone', 'message', 'consent'];
       var errors = {};
 
       fieldNames.forEach(function (name) {

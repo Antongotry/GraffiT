@@ -483,7 +483,6 @@ function graffit_handle_request_submission(): void
 
     $name = sanitize_text_field(wp_unslash($_POST['name'] ?? ''));
     $phone = sanitize_text_field(wp_unslash($_POST['phone'] ?? ''));
-    $email = sanitize_email(wp_unslash($_POST['email'] ?? ''));
     $message = sanitize_text_field(wp_unslash($_POST['message'] ?? ''));
     $source = sanitize_key(wp_unslash($_POST['source'] ?? 'site'));
     $source_label = sanitize_text_field(wp_unslash($_POST['source_label'] ?? __('Сайт', 'graffit')));
@@ -498,10 +497,6 @@ function graffit_handle_request_submission(): void
 
     if (strlen((string) $phone_digits) < 10) {
         $errors['phone'] = __('Вкажіть коректний номер телефону.', 'graffit');
-    }
-
-    if ($email === '' || ! is_email($email)) {
-        $errors['email'] = __('Вкажіть коректний e-mail.', 'graffit');
     }
 
     if (mb_strlen($message) < 5) {
@@ -541,7 +536,6 @@ function graffit_handle_request_submission(): void
         sprintf(__('Джерело: %s', 'graffit'), $source_label !== '' ? $source_label : $source),
         sprintf(__('Імʼя: %s', 'graffit'), $name),
         sprintf(__('Телефон: %s', 'graffit'), $phone),
-        sprintf(__('E-mail: %s', 'graffit'), $email),
         '',
         __('Опис запиту:', 'graffit'),
         $message,
@@ -549,7 +543,7 @@ function graffit_handle_request_submission(): void
 
     $headers = [
         'Content-Type: text/plain; charset=UTF-8',
-        'Reply-To: ' . $name . ' <' . $email . '>',
+        'Reply-To: ' . (string) $recipient,
     ];
 
     $sent = wp_mail((string) $recipient, $subject, implode("\n", $lines), $headers);
