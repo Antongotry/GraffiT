@@ -10,7 +10,6 @@ declare(strict_types=1);
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
 $phone_display = '(056) 373 28 77';
 $phone_href = 'tel:+380563732877';
-$email = 'office@pc-service.ua';
 $address = '49000, Україна, м. Дніпро, пр.Науки, 40';
 ?>
 <section class="contacts" aria-labelledby="contacts-title">
@@ -41,10 +40,6 @@ $address = '49000, Україна, м. Дніпро, пр.Науки, 40';
                 <a class="contacts__value contacts__value--link" href="<?php echo esc_url($phone_href); ?>"><?php echo esc_html($phone_display); ?></a>
             </li>
             <li class="contacts__card">
-                <p class="contacts__label">E-mail</p>
-                <a class="contacts__value contacts__value--link" href="<?php echo esc_url('mailto:' . $email); ?>"><?php echo esc_html($email); ?></a>
-            </li>
-            <li class="contacts__card">
                 <p class="contacts__label">Адреса</p>
                 <p class="contacts__value"><?php echo esc_html($address); ?></p>
             </li>
@@ -53,7 +48,7 @@ $address = '49000, Україна, м. Дніпро, пр.Науки, 40';
         <div class="contacts__actions">
             <a
                 class="contacts__cta"
-                href="<?php echo esc_url('mailto:' . $email . '?subject=' . rawurlencode('Залишити заявку')); ?>"
+                href="#"
                 data-popup-open="request"
                 data-popup-source="contacts-page"
                 data-popup-source-label="Контакти · Залишити заявку"

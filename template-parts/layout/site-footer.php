@@ -50,18 +50,13 @@ $projects_url = ($is_front_page || $current_path === 'services')
                     </div>
 
                     <div class="site-footer__contact-group">
-                        <p class="site-footer__label">E-mail</p>
-                        <a class="site-footer__contact-link" href="mailto:office@pc-service.ua">office@pc-service.ua</a>
-                    </div>
-
-                    <div class="site-footer__contact-group">
                         <p class="site-footer__label">Адреса</p>
                         <p class="site-footer__contact-text">49000, Україна, м. Дніпро, пр.Науки, 40</p>
                     </div>
                 </div>
 
                 <div class="site-footer__aside">
-                    <a class="site-footer__cta" href="mailto:office@pc-service.ua?subject=%D0%97%D0%B0%D0%BB%D0%B8%D1%88%D0%B8%D1%82%D0%B8%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D1%83" data-popup-open="request" data-popup-source="site-footer" data-popup-source-label="Footer · Залишити заявку">Залишити заявку</a>
+                    <a class="site-footer__cta" href="#" data-popup-open="request" data-popup-source="site-footer" data-popup-source-label="Footer · Залишити заявку">Залишити заявку</a>
 
                     <div class="site-footer__socials">
                         <p class="site-footer__label">Соц. мережі</p>

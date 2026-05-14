@@ -114,10 +114,6 @@ if ($current_path === 'products') {
                 <a class="mobile-menu__contact-link" href="tel:+380563732877">(056) 373 28 77</a>
             </div>
             <div class="mobile-menu__contact-group">
-                <p class="mobile-menu__label">E-mail</p>
-                <a class="mobile-menu__contact-link" href="mailto:office@pc-service.ua">office@pc-service.ua</a>
-            </div>
-            <div class="mobile-menu__contact-group">
                 <p class="mobile-menu__label">Адреса</p>
                 <p class="mobile-menu__contact-text">49000, Україна, м. Дніпро, пр.Науки, 40</p>
             </div>
