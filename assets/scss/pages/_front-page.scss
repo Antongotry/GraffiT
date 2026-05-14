@@ -571,12 +571,13 @@ html.is-projects-pinned .site-header {
 .home-hero__title-wrap {
   position: absolute;
   left: #{mixins.vw(40px)};
+  right: #{mixins.vw(40px)};
   bottom: #{mixins.vw(74px)};
-  /* Room for bold + shadow on one line before tagline wraps (was 760px). */
-  width: #{mixins.vw(960px)};
+  width: auto;
 
   @include mixins.mobile {
     left: 0;
+    right: 0;
     bottom: #{mixins.mvw(18px)};
     width: 100%;
   }
@@ -611,7 +612,9 @@ html.is-projects-pinned .site-header {
 }
 
 .home-hero__title-line--secondary {
-  width: #{mixins.vw(484px)};
+  /* Was fixed 484px — forced a 3rd line (“ідеї” alone). Use fluid width under title-wrap. */
+  width: auto;
+  max-width: calc(100% - #{mixins.vw(230px)});
   margin-left: #{mixins.vw(230px)};
   font-size: #{mixins.vw(48.176px)};
   font-weight: 600;
@@ -621,6 +624,7 @@ html.is-projects-pinned .site-header {
 
   @include mixins.mobile {
     width: 100%;
+    max-width: none;
     margin-left: 0;
     margin-top: #{mixins.mvw(2px)};
     font-size: #{mixins.mvw(29px)};
