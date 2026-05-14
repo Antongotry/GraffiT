@@ -10,6 +10,9 @@ declare(strict_types=1);
 $current_path = graffit_current_request_path();
 $is_front_page = $current_path === '';
 
+$home_link_classes = ['site-header__nav-link'];
+$mobile_home_link_classes = ['mobile-menu__nav-link'];
+
 $services_link_classes = ['site-header__nav-link'];
 $mobile_services_link_classes = ['mobile-menu__nav-link'];
 
@@ -27,6 +30,13 @@ $contacts_url = home_url('/contacts/');
 $projects_url = ($is_front_page || $current_path === 'services')
     ? '#services-projects'
     : home_url('/#services-projects');
+
+$home_url = home_url('/');
+
+if ($is_front_page) {
+    $home_link_classes[] = 'is-active';
+    $mobile_home_link_classes[] = 'is-active';
+}
 
 if ($current_path === 'about') {
     $about_link_classes[] = 'is-active';
@@ -63,6 +73,7 @@ if ($current_path === 'products') {
         </a>
 
         <nav class="site-header__nav" aria-label="<?php esc_attr_e('Primary', 'graffit'); ?>">
+            <a class="<?php echo esc_attr(implode(' ', $home_link_classes)); ?>" href="<?php echo esc_url($home_url); ?>">Головна</a>
             <a class="<?php echo esc_attr(implode(' ', $about_link_classes)); ?>" href="<?php echo esc_url($about_url); ?>">Про нас</a>
             <a class="<?php echo esc_attr(implode(' ', $services_link_classes)); ?>" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
             <a class="<?php echo esc_attr(implode(' ', $products_link_classes)); ?>" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
@@ -89,6 +100,7 @@ if ($current_path === 'products') {
         </div>
 
         <nav class="mobile-menu__nav" aria-label="<?php esc_attr_e('Mobile', 'graffit'); ?>">
+            <a class="<?php echo esc_attr(implode(' ', $mobile_home_link_classes)); ?>" href="<?php echo esc_url($home_url); ?>">Головна</a>
             <a class="<?php echo esc_attr(implode(' ', $mobile_about_link_classes)); ?>" href="<?php echo esc_url($about_url); ?>">Про нас</a>
             <a class="<?php echo esc_attr(implode(' ', $mobile_services_link_classes)); ?>" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
             <a class="<?php echo esc_attr(implode(' ', $mobile_products_link_classes)); ?>" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
