@@ -134,7 +134,7 @@
     flex-direction: column;
     align-items: stretch;
     box-sizing: border-box;
-    padding-top: #{mixins.mvw(128px)};
+    padding-top: #{mixins.mvw(156px)};
     padding-bottom: #{mixins.mvw(28px)};
   }
 }
@@ -145,8 +145,8 @@
   grid-template-columns: #{mixins.vw(839px)} #{mixins.vw(282px)};
   justify-content: space-between;
   align-items: start;
-  /* Було 99px — заголовок високо над «тілом» фото; більший відступ опускає типографіку нижче на кадр. */
-  padding-top: #{mixins.vw(172px)};
+  /* Ще нижче на кадрі: +96px до попереднього 172px. */
+  padding-top: #{mixins.vw(268px)};
   height: 100%;
 
   @include mixins.mobile {
@@ -346,7 +346,8 @@
 .services-hero__experience {
   position: absolute;
   left: #{mixins.vw(870px)};
-  top: #{mixins.vw(320px)};
+  /* Синхронно з опусканням заголовка (__layout padding-top). */
+  top: #{mixins.vw(418px)};
   width: #{mixins.vw(230px)};
   height: #{mixins.vw(247px)};
   display: flex;
@@ -368,7 +369,7 @@
     align-self: flex-end;
     width: #{mixins.mvw(218px)};
     height: #{mixins.mvw(234px)};
-    margin: 0 #{mixins.mvw(-4px)} 0 auto;
+    margin: #{mixins.mvw(20px)} #{mixins.mvw(-4px)} 0 auto;
     padding: #{mixins.mvw(48px)} #{mixins.mvw(20px)} #{mixins.mvw(20px)};
     transform: none;
     z-index: 3;
