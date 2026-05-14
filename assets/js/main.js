@@ -2089,6 +2089,72 @@
     }
   }
 
+  function initInnerPageReveal() {
+    var main = document.querySelector('.site-main:not(.site-main--home)');
+
+    if (!main) {
+      return;
+    }
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    var selectors = [
+      'h1, h2, h3',
+      '.services-overview__eyebrow, .services-overview__title, .services-overview__text',
+      '.service-card, .benefit-card, .trust-card, .project-case-card, .mediahub-capability-card',
+      '.services-process__step, .products-catalog__item, .contacts__item',
+      '.cta-band, .services-final-cta, .products-final-cta'
+    ];
+
+    var elements = Array.prototype.slice.call(main.querySelectorAll(selectors.join(',')));
+    var seen = new WeakSet();
+
+    elements.forEach(function (element, index) {
+      if (!element || seen.has(element)) {
+        return;
+      }
+
+      seen.add(element);
+
+      var isTitle = element.matches('h1, h2, h3, .services-overview__title');
+      var prefersLeft = index % 2 === 0;
+      var offsetX = window.innerWidth <= 1024 ? 0 : (prefersLeft ? -26 : 26);
+      var offsetY = isTitle ? 18 : 22;
+
+      window.gsap.fromTo(
+        element,
+        {
+          autoAlpha: 0,
+          x: offsetX,
+          y: offsetY
+        },
+        {
+          autoAlpha: 1,
+          x: 0,
+          y: 0,
+          duration: isTitle ? 0.85 : 0.75,
+          ease: 'power2.out',
+          clearProps: 'opacity,visibility,transform',
+          scrollTrigger: {
+            trigger: element,
+            start: 'top 86%',
+            once: true
+          }
+        }
+      );
+    });
+
+    window.ScrollTrigger.refresh();
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -2118,6 +2184,7 @@
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
   runInit(initFaqAccordion, 'faq-accordion');
   runInit(initAboutStackMobileVisual, 'about-stack-mobile-visual');
+  runInit(initInnerPageReveal, 'inner-page-reveal');
   runInit(initBrowserDiagnostics, 'browser-diagnostics');
 
   window.addEventListener(
