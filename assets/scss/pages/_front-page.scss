@@ -572,7 +572,8 @@ html.is-projects-pinned .site-header {
   position: absolute;
   left: #{mixins.vw(40px)};
   bottom: #{mixins.vw(74px)};
-  width: #{mixins.vw(760px)};
+  /* Room for bold + shadow on one line before tagline wraps (was 760px). */
+  width: #{mixins.vw(960px)};
 
   @include mixins.mobile {
     left: 0;
@@ -635,6 +636,7 @@ html.is-projects-pinned .site-header {
   display: inline-block;
   margin-right: #{mixins.vw(8px)};
   font-weight: 700;
+  white-space: nowrap;
   text-shadow:
     0 0 #{mixins.vw(10px)} rgba(255, 255, 255, 0.52),
     0 0 #{mixins.vw(28px)} rgba(255, 255, 255, 0.18),
