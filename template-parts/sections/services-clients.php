@@ -7,6 +7,20 @@
 
 declare(strict_types=1);
 
+$extra_class = trim((string) ($args['section_extra_class'] ?? ''));
+$enable_scroller = $args['enable_scroller'] ?? true;
+$section_id = trim((string) ($args['section_id'] ?? ''));
+
+$section_classes = ['services-clients'];
+
+if ($enable_scroller) {
+    $section_classes[] = 'js-clients-scroller';
+}
+
+if ($extra_class !== '') {
+    $section_classes[] = $extra_class;
+}
+
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
 
 $trust_cards = [
@@ -32,7 +46,11 @@ $trust_cards = [
     ],
 ];
 ?>
-<section class="services-clients js-clients-scroller" aria-labelledby="services-clients-title">
+<section
+    class="<?php echo esc_attr(implode(' ', $section_classes)); ?>"
+    <?php if ($section_id !== '') : ?>id="<?php echo esc_attr($section_id); ?>"<?php endif; ?>
+    aria-labelledby="services-clients-title"
+>
     <div class="services-clients__viewport">
         <div class="services-clients__container">
             <div class="services-clients__layout">

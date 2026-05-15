@@ -16,7 +16,17 @@ get_header();
     <?php get_template_part('template-parts/sections/product-mediahub', 'results'); ?>
     <?php get_template_part('template-parts/sections/product-mediahub', 'capabilities'); ?>
     <?php get_template_part('template-parts/sections/product-mediahub', 'process'); ?>
-    <?php get_template_part('template-parts/sections/services', 'clients'); ?>
+    <?php
+    get_template_part(
+        'template-parts/sections/services',
+        'clients',
+        [
+            'section_extra_class' => 'mediahub-about',
+            'section_id' => 'mediahub-clients',
+            'enable_scroller' => false,
+        ]
+    );
+    ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php

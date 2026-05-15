@@ -877,6 +877,14 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-clients-scroller').forEach(function (section) {
+      // Product MediaHub page: this section is rendered as a static follow-up block.
+      // Guard against stale cached HTML that may still contain js-clients-scroller.
+      if (section.closest('.site-main--product-mediahub')) {
+        section.classList.remove('js-clients-scroller');
+        section.classList.remove('is-clients-top-fade');
+        return;
+      }
+
       if (section.getAttribute('data-clients-scroller-init') === '1') {
         return;
       }
