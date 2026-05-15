@@ -1135,18 +1135,6 @@
   isolation: isolate;
 }
 
-@media (min-width: 1025px) {
-  .mediahub-about.js-mediahub-clients-motion {
-    --mediahub-clients-lock-span: 0px;
-    min-height: calc(100svh + var(--mediahub-clients-lock-span));
-  }
-
-  .mediahub-about.js-mediahub-clients-motion .services-clients__viewport {
-    position: sticky;
-    top: 0;
-  }
-}
-
 .mediahub-about .pin-spacer {
   position: relative;
   z-index: 75 !important;
@@ -1154,6 +1142,7 @@
 
 .mediahub-about .services-clients__viewport {
   z-index: 75;
+  min-height: 100dvh;
   min-height: 100svh;
   padding-top: 0;
   padding-bottom: #{mixins.vw(48px)};

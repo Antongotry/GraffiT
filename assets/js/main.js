@@ -878,16 +878,6 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-clients-scroller').forEach(function (section) {
-      if (section.id === 'mediahub-clients') {
-        section.classList.remove('is-clients-top-fade');
-
-        var mediahubTrack = section.querySelector('.js-clients-track');
-        if (mediahubTrack) {
-          mediahubTrack.style.transform = 'translate3d(0px, 0px, 0px)';
-        }
-        return;
-      }
-
       // Product MediaHub page: allow only the dedicated #mediahub-clients section
       // to use the standard clients pin flow; skip any stale/extra client sections.
       if (section.closest('.site-main--product-mediahub') && section.id !== 'mediahub-clients') {
@@ -950,6 +940,7 @@
           pin: viewport,
           scrub: 1,
           anticipatePin: 1,
+          refreshPriority: section.id === 'mediahub-clients' ? -5 : 0,
           invalidateOnRefresh: true,
           onUpdate: function (self) {
             updateClientsTopFade(self.progress);
@@ -991,100 +982,6 @@
     });
 
     window.ScrollTrigger.refresh();
-  }
-
-  function initMediahubClientsMotion() {
-    if (window.innerWidth <= 1024) {
-      return;
-    }
-
-    var section = document.querySelector('.js-mediahub-clients-motion');
-
-    if (!section || section.getAttribute('data-mediahub-clients-motion-init') === '1') {
-      return;
-    }
-
-    var stage = section.querySelector('.js-clients-stage');
-    var track = section.querySelector('.js-clients-track');
-
-    if (!stage || !track) {
-      return;
-    }
-
-    section.setAttribute('data-mediahub-clients-motion-init', '1');
-
-    var ticking = false;
-    var travel = 0;
-    var lockSpan = 0;
-
-    function computeTravel() {
-      return Math.max(track.scrollHeight - stage.clientHeight, 0);
-    }
-
-    function computeLockSpan() {
-      var overflow = computeTravel();
-
-      if (overflow <= 0) {
-        return 0;
-      }
-
-      var w = window.innerWidth || 1440;
-      var extra = Math.round((200 / 1440) * w);
-      extra = Math.min(Math.max(extra, 120), 280);
-
-      return overflow + extra;
-    }
-
-    function updateGeometry() {
-      travel = computeTravel();
-      lockSpan = computeLockSpan();
-      section.style.setProperty('--mediahub-clients-lock-span', lockSpan + 'px');
-    }
-
-    function sync() {
-      ticking = false;
-
-      if (lockSpan <= 0 || travel <= 0) {
-        track.style.transform = 'translate3d(0px, 0px, 0px)';
-        return;
-      }
-
-      var rect = section.getBoundingClientRect();
-      var sectionTopAbs = (window.scrollY || window.pageYOffset || 0) + rect.top;
-      var currentScroll = window.scrollY || window.pageYOffset || 0;
-      var progress = (currentScroll - sectionTopAbs) / lockSpan;
-
-      progress = Math.min(Math.max(progress, 0), 1);
-
-      var y = -Math.round(travel * progress);
-      track.style.transform = 'translate3d(0px, ' + y + 'px, 0px)';
-    }
-
-    function requestSync() {
-      if (ticking) {
-        return;
-      }
-
-      ticking = true;
-      window.requestAnimationFrame(sync);
-    }
-
-    function requestRecalc() {
-      updateGeometry();
-      requestSync();
-    }
-
-    window.addEventListener('scroll', requestSync, { passive: true });
-    window.addEventListener('resize', requestRecalc, { passive: true });
-
-    if (typeof ResizeObserver === 'function') {
-      var mediahubResizeObserver = new ResizeObserver(requestRecalc);
-      mediahubResizeObserver.observe(track);
-      mediahubResizeObserver.observe(stage);
-    }
-
-    updateGeometry();
-    window.requestAnimationFrame(sync);
   }
 
   function initProcessTimeline() {
@@ -2337,9 +2234,8 @@
   runInit(initHomeShowcaseParallax, 'home-showcase-parallax');
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
-  runInit(initClientsScroller, 'clients-scroller');
-  runInit(initMediahubClientsMotion, 'mediahub-clients-motion');
   runInit(initProjectsScroller, 'projects-scroller');
+  runInit(initClientsScroller, 'clients-scroller');
   runInit(initProductsProjectsCarousel, 'products-projects-carousel');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
   runInit(initProductsCatalogScroller, 'products-catalog-scroller');
