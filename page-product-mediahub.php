@@ -27,6 +27,7 @@ get_header();
         ]
     );
     ?>
+    <?php get_template_part('template-parts/sections/product-mediahub', 'faq'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php

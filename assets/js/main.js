@@ -1742,7 +1742,7 @@
 
     items.forEach(function (details) {
       var summary = details.querySelector('summary');
-      var answer = details.querySelector('.home-faq__answer');
+      var answer = details.querySelector('.home-faq__answer, .js-faq-answer');
       if (!summary || !answer) return;
 
       var isAnimating = false;
