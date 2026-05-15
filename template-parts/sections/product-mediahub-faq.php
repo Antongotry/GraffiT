@@ -39,11 +39,11 @@ $faq_right = [
     ],
 ];
 ?>
-<section class="home-faq home-faq--mediahub" id="mediahub-faq" aria-labelledby="mediahub-faq-title">
-    <div class="home-faq__container">
-        <div class="home-faq__eyebrow">
+<section class="mediahub-faq" id="mediahub-faq" aria-labelledby="mediahub-faq-title">
+    <div class="mediahub-faq__container">
+        <div class="mediahub-faq__eyebrow">
             <img
-                class="home-faq__eyebrow-icon"
+                class="mediahub-faq__eyebrow-icon"
                 src="<?php echo esc_url($faq_icon_url); ?>"
                 alt=""
                 width="28"
@@ -52,34 +52,34 @@ $faq_right = [
                 loading="lazy"
                 decoding="async"
             >
-            <p class="home-faq__eyebrow-text">FAQ</p>
+            <p class="mediahub-faq__eyebrow-text">FAQ</p>
         </div>
 
-        <h2 class="home-faq__title" id="mediahub-faq-title">Нас часто запитують</h2>
+        <h2 class="mediahub-faq__title" id="mediahub-faq-title">Нас часто запитують</h2>
 
-        <div class="home-faq__grid">
-            <div class="home-faq__column">
+        <div class="mediahub-faq__grid">
+            <div class="mediahub-faq__column">
                 <?php foreach ($faq_left as $item) : ?>
-                    <details class="home-faq__item js-faq-item">
-                        <summary class="home-faq__question">
-                            <span class="home-faq__question-text"><?php echo esc_html($item['question']); ?></span>
+                    <details class="mediahub-faq__item js-faq-item">
+                        <summary class="mediahub-faq__question">
+                            <span class="mediahub-faq__question-text"><?php echo esc_html($item['question']); ?></span>
                             <span class="mediahub-faq__chevron" aria-hidden="true"></span>
                         </summary>
-                        <div class="home-faq__answer js-faq-answer">
+                        <div class="mediahub-faq__answer js-faq-answer">
                             <p><?php echo esc_html($item['answer']); ?></p>
                         </div>
                     </details>
                 <?php endforeach; ?>
             </div>
 
-            <div class="home-faq__column">
+            <div class="mediahub-faq__column">
                 <?php foreach ($faq_right as $item) : ?>
-                    <details class="home-faq__item js-faq-item">
-                        <summary class="home-faq__question">
-                            <span class="home-faq__question-text"><?php echo esc_html($item['question']); ?></span>
+                    <details class="mediahub-faq__item js-faq-item">
+                        <summary class="mediahub-faq__question">
+                            <span class="mediahub-faq__question-text"><?php echo esc_html($item['question']); ?></span>
                             <span class="mediahub-faq__chevron" aria-hidden="true"></span>
                         </summary>
-                        <div class="home-faq__answer js-faq-answer">
+                        <div class="mediahub-faq__answer js-faq-answer">
                             <p><?php echo esc_html($item['answer']); ?></p>
                         </div>
                     </details>
