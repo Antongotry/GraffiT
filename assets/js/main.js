@@ -1014,31 +1014,43 @@
     section.setAttribute('data-mediahub-clients-motion-init', '1');
 
     var ticking = false;
+    var lockSpan = 0;
 
-    function maxOffset() {
-      return Math.max(track.scrollHeight - stage.clientHeight, 0);
+    function computeLockSpan() {
+      var overflow = Math.max(track.scrollHeight - stage.clientHeight, 0);
+
+      if (overflow <= 0) {
+        return 0;
+      }
+
+      var w = window.innerWidth || 1440;
+      var extra = Math.round((200 / 1440) * w);
+      extra = Math.min(Math.max(extra, 120), 280);
+
+      return overflow + extra;
+    }
+
+    function updateGeometry() {
+      lockSpan = computeLockSpan();
+      section.style.setProperty('--mediahub-clients-lock-span', lockSpan + 'px');
     }
 
     function sync() {
       ticking = false;
 
-      var rect = section.getBoundingClientRect();
-      var vh = window.innerHeight || document.documentElement.clientHeight || 1;
-      var travel = maxOffset();
-
-      if (travel <= 0) {
+      if (lockSpan <= 0) {
         track.style.transform = 'translate3d(0px, 0px, 0px)';
         return;
       }
 
-      var startBand = vh * 0.72;
-      var endBand = vh * 0.18;
+      var rect = section.getBoundingClientRect();
       var sectionTopAbs = (window.scrollY || window.pageYOffset || 0) + rect.top;
-      var sectionRange = Math.max(rect.height + (startBand - endBand), 1);
-      var current = ((window.scrollY || window.pageYOffset || 0) + startBand) - sectionTopAbs;
-      var progress = Math.min(Math.max(current / sectionRange, 0), 1);
-      var y = -Math.round(travel * progress);
+      var currentScroll = window.scrollY || window.pageYOffset || 0;
+      var progress = (currentScroll - sectionTopAbs) / lockSpan;
 
+      progress = Math.min(Math.max(progress, 0), 1);
+
+      var y = -Math.round(lockSpan * progress);
       track.style.transform = 'translate3d(0px, ' + y + 'px, 0px)';
     }
 
@@ -1051,8 +1063,21 @@
       window.requestAnimationFrame(sync);
     }
 
+    function requestRecalc() {
+      updateGeometry();
+      requestSync();
+    }
+
     window.addEventListener('scroll', requestSync, { passive: true });
-    window.addEventListener('resize', requestSync, { passive: true });
+    window.addEventListener('resize', requestRecalc, { passive: true });
+
+    if (typeof ResizeObserver === 'function') {
+      var mediahubResizeObserver = new ResizeObserver(requestRecalc);
+      mediahubResizeObserver.observe(track);
+      mediahubResizeObserver.observe(stage);
+    }
+
+    updateGeometry();
     window.requestAnimationFrame(sync);
   }
 
