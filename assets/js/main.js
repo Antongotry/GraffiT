@@ -1030,13 +1030,14 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          start: 'top top',
+          // Delay pin slightly so it doesn't visually grab while previous section is still resolving.
+          start: 'top+=72 top',
           end: function () {
             return '+=' + mediahubClientsDistance();
           },
           pin: viewport,
           scrub: 1,
-          anticipatePin: 1,
+          anticipatePin: 0,
           invalidateOnRefresh: true,
           onRefreshInit: function () {
             window.gsap.set(track, { y: 0 });

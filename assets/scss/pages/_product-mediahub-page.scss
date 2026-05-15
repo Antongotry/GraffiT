@@ -1116,14 +1116,16 @@
 .mediahub-about {
   position: relative;
   overflow: visible;
-  z-index: 80;
+  z-index: 2;
 }
 
 .mediahub-about .pin-spacer {
   position: relative;
+  z-index: 2 !important;
 }
 
 .mediahub-about .services-clients__viewport {
+  z-index: 2;
   min-height: 100svh;
   padding-top: 0;
   padding-bottom: #{mixins.vw(48px)};
