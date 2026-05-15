@@ -1,5 +1,54 @@
 /* Theme scripts entry point. */
 (function () {
+  function initCriticalCssFallback() {
+    if (window.__graffitCssFallbackChecked) {
+      return;
+    }
+
+    window.__graffitCssFallbackChecked = true;
+
+    var expectedMarker = '2026-05-15-v1';
+    var rootStyle = window.getComputedStyle(document.documentElement);
+    var marker = (rootStyle.getPropertyValue('--graffit-css-ready') || '').trim();
+
+    if (marker.indexOf(expectedMarker) !== -1) {
+      return;
+    }
+
+    var primaryLink = document.getElementById('graffit-main-css');
+
+    if (!primaryLink) {
+      return;
+    }
+
+    var href = primaryLink.getAttribute('href') || '';
+
+    if (!href) {
+      return;
+    }
+
+    var retryToken = String(Date.now());
+    var cleanHref = href.split('?')[0];
+    var themeRoot = cleanHref.split('/assets/css/')[0];
+    var fallbackCandidates = [
+      cleanHref + '?retry=' + retryToken,
+      themeRoot + '/assets/css/main.css?retry=' + retryToken
+    ];
+
+    fallbackCandidates.forEach(function (candidateHref, index) {
+      var fallback = document.createElement('link');
+      fallback.rel = 'stylesheet';
+      fallback.href = candidateHref;
+      fallback.media = 'all';
+      fallback.setAttribute('data-graffit-css-fallback', String(index + 1));
+      document.head.appendChild(fallback);
+    });
+
+    if (window.console && typeof window.console.warn === 'function') {
+      window.console.warn('GraffiT: primary CSS appears incomplete, fallback stylesheet requested.');
+    }
+  }
+
   function initLenis() {
     if (typeof window.Lenis !== 'function') {
       return null;
@@ -2165,6 +2214,7 @@
     }
   }
 
+  runInit(initCriticalCssFallback, 'critical-css-fallback');
   runInit(initMobileMenu, 'mobile-menu');
   runInit(initRequestPopup, 'request-popup');
   runInit(initLenis, 'lenis');
