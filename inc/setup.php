@@ -393,9 +393,13 @@ function graffit_enqueue_assets(): void
 
     wp_enqueue_style(
         'graffit-main',
-        get_template_directory_uri() . '/assets/css/main.css',
+        file_exists(get_template_directory() . '/assets/css/main.v2.css')
+            ? get_template_directory_uri() . '/assets/css/main.v2.css'
+            : get_template_directory_uri() . '/assets/css/main.css',
         ['graffit-style'],
-        graffit_asset_version('/assets/css/main.css')
+        file_exists(get_template_directory() . '/assets/css/main.v2.css')
+            ? graffit_asset_version('/assets/css/main.v2.css')
+            : graffit_asset_version('/assets/css/main.css')
     );
 
     $lenis_local_path = '/assets/vendor/lenis/lenis.min.js';
