@@ -16,7 +16,6 @@ get_header();
     <?php get_template_part('template-parts/sections/product-mediahub', 'results'); ?>
     <?php get_template_part('template-parts/sections/product-mediahub', 'capabilities'); ?>
     <?php get_template_part('template-parts/sections/product-mediahub', 'process'); ?>
-    <?php get_template_part('template-parts/sections/product-mediahub', 'about'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>
 <?php
