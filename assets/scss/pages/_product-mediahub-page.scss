@@ -740,7 +740,25 @@
   right: #{mixins.vw(32px)};
 
   @include mixins.mobile {
+    position: relative;
     right: auto;
+    z-index: 5;
+    display: inline-flex;
+    margin-top: #{mixins.mvw(16px)};
+  }
+}
+
+@include mixins.mobile {
+  .mediahub-capabilities .services-projects__stage {
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+
+  .mediahub-capabilities .mediahub-capability-card {
+    scroll-snap-align: start;
   }
 }
 
