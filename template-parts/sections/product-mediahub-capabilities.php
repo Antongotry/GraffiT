@@ -37,7 +37,7 @@ $mediahub_capabilities_cards = [
 ];
 ?>
 <section
-    class="services-projects mediahub-capabilities js-projects-scroller products-projects"
+    class="services-projects mediahub-capabilities js-projects-scroller"
     id="mediahub-capabilities"
     aria-labelledby="mediahub-capabilities-title"
     style="--services-projects-bg-image: url('<?php echo esc_url($mediahub_capabilities_bg); ?>')"
