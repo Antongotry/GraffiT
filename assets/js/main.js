@@ -1030,16 +1030,15 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          // Delay pin slightly so it doesn't visually grab while previous section is still resolving.
-          start: 'top+=72 top',
-          end: function () {
-            return '+=' + mediahubClientsDistance();
-          },
-          pin: viewport,
+          // Safe mode: no pin-spacer, only scroll-linked movement of cards track.
+          start: 'top 78%',
+          end: 'bottom top',
           scrub: 1,
-          anticipatePin: 0,
           invalidateOnRefresh: true,
           onRefreshInit: function () {
+            window.gsap.set(track, { y: 0 });
+          },
+          onLeaveBack: function () {
             window.gsap.set(track, { y: 0 });
           }
         }
@@ -2314,6 +2313,7 @@
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initClientsScroller, 'clients-scroller');
+  runInit(initMediahubClientsScroller, 'mediahub-clients-scroller');
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProductsProjectsCarousel, 'products-projects-carousel');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
