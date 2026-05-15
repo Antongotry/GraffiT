@@ -375,13 +375,26 @@
 }
 
 .mediahub-audience__card--tall-head .mediahub-audience__card-text {
-  max-width: #{mixins.vw(270px)};
+  display: block;
+  width: 100%;
+  max-width: 100%;
 }
 
 @include mixins.mobile {
   .mediahub-audience__card--tall-head .mediahub-audience__card-title {
     margin-top: #{mixins.mvw(31px)};
     min-height: #{mixins.mvw(96px)};
+    max-width: 100%;
+    width: 100%;
+    font-size: #{mixins.mvw(20px)};
+  }
+
+  .mediahub-audience__card--tall-head .mediahub-audience__card-text {
+    display: block;
+    max-width: none !important;
+    width: 100% !important;
+    font-size: #{mixins.mvw(14px)};
+    align-self: stretch;
   }
 
   .mediahub-audience__grid > .mediahub-audience__cell:nth-child(5) {
