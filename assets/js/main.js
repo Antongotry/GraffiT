@@ -377,9 +377,10 @@
 
       var isProductsProjects = section.classList.contains('products-projects');
       var isHomeProjects = section.id === 'services-projects';
-      var startOffset = isProductsProjects ? 360 : (isHomeProjects ? 0 : 100);
+      var isMediahubProjects = section.id === 'mediahub-capabilities';
+      var startOffset = isProductsProjects ? 360 : ((isHomeProjects || isMediahubProjects) ? 0 : 100);
 
-      if (!viewport || !stage || !track || cards.length === 0 || (isHomeProjects && !container)) {
+      if (!viewport || !stage || !track || cards.length === 0 || ((isHomeProjects || isMediahubProjects) && !container)) {
         return;
       }
 
@@ -417,8 +418,8 @@
         ease: 'none',
         scrollTrigger: {
           /* Головна: scrub/pin лише коли .services-projects__container упирається у верх вікна. */
-          trigger: isHomeProjects ? container : section,
-          start: isHomeProjects ? 'top top' : ('top+=' + startOffset + ' top'),
+          trigger: (isHomeProjects || isMediahubProjects) ? container : section,
+          start: (isHomeProjects || isMediahubProjects) ? 'top top' : ('top+=' + startOffset + ' top'),
           end: function () {
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
           },
@@ -426,7 +427,7 @@
            * Головна: pin на всю секцію — фон, __bg і ::before рухаються одним шаром з контентом
            * (раніше pin тільки на viewport + translateY на .__container зсував текст відносно фону).
            */
-          pin: isHomeProjects ? section : viewport,
+          pin: (isHomeProjects || isMediahubProjects) ? section : viewport,
           scrub: true,
           anticipatePin: 0,
           invalidateOnRefresh: true,

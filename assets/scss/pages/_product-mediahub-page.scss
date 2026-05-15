@@ -637,9 +637,22 @@
    ------------------------------------------------------------------ */
 
 .mediahub-capabilities.services-projects {
+  position: relative;
+  z-index: 70;
+  overflow: visible;
+
   &::before {
     opacity: 0.14;
   }
+}
+
+.mediahub-capabilities .services-projects__viewport {
+  z-index: 70 !important;
+  overflow: visible;
+}
+
+.mediahub-capabilities .services-projects__stage {
+  overflow: visible;
 }
 
 .mediahub-capabilities .services-projects__container {
