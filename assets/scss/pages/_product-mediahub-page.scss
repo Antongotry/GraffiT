@@ -1214,7 +1214,7 @@
   }
 
   @include mixins.mobile {
-    padding-top: #{mixins.mvw(48px)};
+    padding-top: #{mixins.mvw(84px)};
     padding-bottom: #{mixins.mvw(40px)};
   }
 }
@@ -1231,6 +1231,7 @@
   padding-top: 0;
 
   @include mixins.mobile {
+    padding-top: #{mixins.mvw(10px)};
     width: 100%;
   }
 }
@@ -1243,8 +1244,10 @@
 
 .mediahub-about .services-clients__text {
   width: #{mixins.vw(560px)};
+  margin-top: #{mixins.vw(156px)};
 
   @include mixins.mobile {
+    margin-top: #{mixins.mvw(24px)};
     width: min(100%, #{mixins.mvw(355px)});
   }
 }
