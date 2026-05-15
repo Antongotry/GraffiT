@@ -1116,25 +1116,34 @@
 .mediahub-about {
   position: relative;
   overflow: visible;
-  z-index: 2;
+  z-index: 75;
+  isolation: isolate;
 }
 
 .mediahub-about .pin-spacer {
   position: relative;
-  z-index: 2 !important;
+  z-index: 75 !important;
 }
 
 .mediahub-about .services-clients__viewport {
-  z-index: 2;
+  z-index: 75;
   min-height: 100svh;
   padding-top: 0;
   padding-bottom: #{mixins.vw(48px)};
   overflow: visible;
   clip-path: none;
+  background: linear-gradient(180deg, #d5e1f0 0%, #c3d3e8 100%);
 
   &::after,
   &::before {
     clip-path: none;
+  }
+
+  &::after {
+    background:
+      radial-gradient(circle at 0% 58%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 58%),
+      radial-gradient(circle at 100% 58%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 58%),
+      linear-gradient(180deg, #d5e1f0 0%, #c3d3e8 100%);
   }
 
   @include mixins.mobile {
