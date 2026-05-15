@@ -1252,6 +1252,43 @@
   }
 }
 
+@include mixins.mobile {
+  .mediahub-about .services-clients__cards-stage {
+    height: auto;
+    overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .mediahub-about .services-clients__cards-track {
+    display: flex;
+    flex-direction: column;
+    gap: #{mixins.mvw(20px)};
+    width: min(100%, #{mixins.mvw(355px)});
+    margin-inline: auto;
+    margin-top: 0;
+    padding-top: #{mixins.mvw(16px)};
+    padding-bottom: #{mixins.mvw(56px)};
+  }
+
+  .mediahub-about .services-clients__cards-track .trust-card {
+    position: sticky;
+    top: #{mixins.mvw(64px)};
+    display: flex;
+    flex-direction: column;
+    height: #{mixins.mvw(240px)};
+    min-height: #{mixins.mvw(240px)};
+    max-height: #{mixins.mvw(240px)};
+  }
+
+  @for $i from 1 through 8 {
+    .mediahub-about .services-clients__cards-track .trust-card:nth-child(#{$i}) {
+      z-index: 10 + $i;
+      top: #{mixins.mvw(64px + ($i - 1) * 6px)};
+    }
+  }
+}
+
 .mediahub-faq {
   position: relative;
   z-index: 4;
