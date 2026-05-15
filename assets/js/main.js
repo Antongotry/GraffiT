@@ -1015,11 +1015,7 @@
         return 0;
       }
 
-      var w = window.innerWidth || 1440;
-      var extra = Math.round((140 / 1440) * w);
-      extra = Math.min(Math.max(extra, 90), 220);
-
-      return overflow + extra;
+      return overflow;
     }
 
     window.gsap.to(track, {
@@ -1029,12 +1025,9 @@
       ease: 'none',
       scrollTrigger: {
         trigger: section,
-        // Starts later than generic clients block to avoid overlap with previous pinned section.
-        start: 'top+=120 top',
-        end: function () {
-          return '+=' + mediahubClientsDistance();
-        },
-        pin: viewport,
+        // No pin for MediaHub clients: avoids pin-spacer gaps/conflicts after capabilities section.
+        start: 'top 72%',
+        end: 'bottom top',
         scrub: 1,
         anticipatePin: 0,
         invalidateOnRefresh: true
