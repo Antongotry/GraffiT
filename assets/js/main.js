@@ -982,6 +982,82 @@
     window.ScrollTrigger.refresh();
   }
 
+  function initMediahubClientsScroller() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    var section = document.getElementById('mediahub-clients');
+
+    if (!section || section.getAttribute('data-mediahub-clients-init') === '1') {
+      return;
+    }
+
+    var viewport = section.querySelector('.services-clients__viewport');
+    var stage = section.querySelector('.js-clients-stage');
+    var track = section.querySelector('.js-clients-track');
+
+    if (!viewport || !stage || !track) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+    section.setAttribute('data-mediahub-clients-init', '1');
+
+    function mediahubClientsDistance() {
+      var overflow = track.scrollHeight - stage.clientHeight;
+
+      if (overflow <= 0) {
+        return 0;
+      }
+
+      var w = window.innerWidth || 1440;
+      var extra = Math.round((140 / 1440) * w);
+      extra = Math.min(Math.max(extra, 90), 220);
+
+      return overflow + extra;
+    }
+
+    window.gsap.to(track, {
+      y: function () {
+        return -mediahubClientsDistance();
+      },
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        // Starts later than generic clients block to avoid overlap with previous pinned section.
+        start: 'top+=120 top',
+        end: function () {
+          return '+=' + mediahubClientsDistance();
+        },
+        pin: viewport,
+        scrub: 1,
+        anticipatePin: 0,
+        invalidateOnRefresh: true
+      }
+    });
+
+    if (typeof ResizeObserver === 'function') {
+      var mediahubResizeTimer;
+      var mediahubResizeObserver = new ResizeObserver(function () {
+        window.clearTimeout(mediahubResizeTimer);
+        mediahubResizeTimer = window.setTimeout(function () {
+          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+            window.ScrollTrigger.refresh();
+          }
+        }, 120);
+      });
+
+      mediahubResizeObserver.observe(track);
+    }
+
+    window.ScrollTrigger.refresh();
+  }
+
   function initProcessTimeline() {
     if (window.innerWidth <= 1024) {
       return;
@@ -2233,6 +2309,7 @@
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initClientsScroller, 'clients-scroller');
+  runInit(initMediahubClientsScroller, 'mediahub-clients-scroller');
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProductsProjectsCarousel, 'products-projects-carousel');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
