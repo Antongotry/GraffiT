@@ -398,27 +398,27 @@ function graffit_enqueue_assets(): void
         graffit_asset_version('/assets/css/main.css')
     );
 
-    wp_enqueue_script(
-        'graffit-lenis',
-        'https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js',
-        [],
-        '1.3.11',
-        true
-    );
+    $lenis_local_path = '/assets/vendor/lenis/lenis.min.js';
+    $gsap_local_path = '/assets/vendor/gsap/gsap.min.js';
+    $scrolltrigger_local_path = '/assets/vendor/gsap/ScrollTrigger.min.js';
 
-    wp_enqueue_script(
-        'graffit-gsap',
-        'https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js',
-        [],
-        '3.13.0',
-        true
-    );
+    $lenis_src = file_exists(get_template_directory() . $lenis_local_path)
+        ? get_template_directory_uri() . $lenis_local_path
+        : 'https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js';
+    $gsap_src = file_exists(get_template_directory() . $gsap_local_path)
+        ? get_template_directory_uri() . $gsap_local_path
+        : 'https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js';
+    $scrolltrigger_src = file_exists(get_template_directory() . $scrolltrigger_local_path)
+        ? get_template_directory_uri() . $scrolltrigger_local_path
+        : 'https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js';
 
+    wp_enqueue_script('graffit-lenis', $lenis_src, [], graffit_asset_version($lenis_local_path), true);
+    wp_enqueue_script('graffit-gsap', $gsap_src, [], graffit_asset_version($gsap_local_path), true);
     wp_enqueue_script(
         'graffit-scrolltrigger',
-        'https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js',
+        $scrolltrigger_src,
         ['graffit-gsap'],
-        '3.13.0',
+        graffit_asset_version($scrolltrigger_local_path),
         true
     );
 
