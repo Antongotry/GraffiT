@@ -394,16 +394,12 @@ function graffit_enqueue_assets(): void
     $main_css_path = '/assets/css/main.css';
     $main_v2_css_path = '/assets/css/main.v2.css';
     $main_css_abs = get_template_directory() . $main_css_path;
-    $main_v2_css_abs = get_template_directory() . $main_v2_css_path;
     $main_css_to_use = $main_css_path;
 
-    if (file_exists($main_v2_css_abs)) {
-        $main_css_mtime = file_exists($main_css_abs) ? (int) filemtime($main_css_abs) : 0;
-        $main_v2_css_mtime = (int) filemtime($main_v2_css_abs);
-
-        if ($main_v2_css_mtime >= $main_css_mtime) {
-            $main_css_to_use = $main_v2_css_path;
-        }
+    // Keep stylesheet source deterministic: main.css is canonical.
+    // Fall back to main.v2.css only when main.css is missing.
+    if (! file_exists($main_css_abs) && file_exists(get_template_directory() . $main_v2_css_path)) {
+        $main_css_to_use = $main_v2_css_path;
     }
 
     wp_enqueue_style(
