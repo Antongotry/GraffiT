@@ -24,7 +24,6 @@ get_header();
             'section_extra_class' => 'mediahub-about',
             'section_id' => 'mediahub-clients',
             'enable_scroller' => false,
-            'section_js_class' => 'js-mediahub-clients-scroller',
         ]
     );
     ?>

@@ -2314,7 +2314,6 @@
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initClientsScroller, 'clients-scroller');
-  runInit(initMediahubClientsScroller, 'mediahub-clients-scroller');
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProductsProjectsCarousel, 'products-projects-carousel');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
