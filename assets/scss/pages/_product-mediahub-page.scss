@@ -1214,6 +1214,7 @@
   }
 
   @include mixins.mobile {
+    min-height: auto;
     padding-top: #{mixins.mvw(84px)};
     padding-bottom: #{mixins.mvw(40px)};
   }
@@ -1269,6 +1270,9 @@
     margin-top: 0;
     padding-top: #{mixins.mvw(16px)};
     padding-bottom: #{mixins.mvw(56px)};
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
   }
 
   .mediahub-about .services-clients__cards-track .trust-card {
@@ -1279,6 +1283,9 @@
     height: #{mixins.mvw(240px)};
     min-height: #{mixins.mvw(240px)};
     max-height: #{mixins.mvw(240px)};
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
   }
 
   @for $i from 1 through 8 {

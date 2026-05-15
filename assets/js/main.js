@@ -984,6 +984,63 @@
     window.ScrollTrigger.refresh();
   }
 
+  function resetMediahubClientsLegacyState() {
+    var section = document.getElementById('mediahub-clients');
+
+    if (!section) {
+      return;
+    }
+
+    // Cleanup legacy experimental motion hook if it appears from stale JS.
+    section.classList.remove('js-mediahub-clients-motion');
+    section.removeAttribute('data-mediahub-clients-motion-init');
+    section.style.removeProperty('--mediahub-clients-lock-span');
+
+    if (window.innerWidth > 1024) {
+      return;
+    }
+
+    var viewport = section.querySelector('.services-clients__viewport');
+    var stage = section.querySelector('.js-clients-stage');
+    var track = section.querySelector('.js-clients-track');
+    var spacer = section.querySelector('.pin-spacer');
+
+    [viewport, stage, track].forEach(function (node) {
+      if (!node) {
+        return;
+      }
+
+      node.style.removeProperty('translate');
+      node.style.removeProperty('rotate');
+      node.style.removeProperty('scale');
+      node.style.removeProperty('transform');
+      node.style.removeProperty('opacity');
+      node.style.removeProperty('visibility');
+      node.style.removeProperty('will-change');
+    });
+
+    if (!spacer) {
+      return;
+    }
+
+    [
+      'height',
+      'min-height',
+      'max-height',
+      'padding-top',
+      'padding-bottom',
+      'margin-top',
+      'margin-bottom',
+      'top',
+      'left',
+      'right',
+      'bottom',
+      'inset'
+    ].forEach(function (property) {
+      spacer.style.removeProperty(property);
+    });
+  }
+
   function initProcessTimeline() {
     if (window.innerWidth <= 1024) {
       return;
@@ -2249,6 +2306,7 @@
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initProjectsScroller, 'projects-scroller');
+  runInit(resetMediahubClientsLegacyState, 'mediahub-clients-legacy-reset');
   runInit(initClientsScroller, 'clients-scroller');
   runInit(initProductsProjectsCarousel, 'products-projects-carousel');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
