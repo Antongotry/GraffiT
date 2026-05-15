@@ -400,6 +400,13 @@
   .mediahub-audience__grid > .mediahub-audience__cell:nth-child(5) {
     grid-column: 2;
   }
+
+  .mediahub-audience__card--head-wide .mediahub-audience__card-title {
+    width: 100%;
+    max-width: 100%;
+    font-size: #{mixins.mvw(18px)};
+    line-height: 1.2;
+  }
 }
 
 /* ------------------------------------------------------------------
