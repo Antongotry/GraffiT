@@ -206,9 +206,10 @@
   margin-top: #{mixins.vw(56px)};
 
   @include mixins.mobile {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: none;
-    row-gap: #{mixins.mvw(20px)};
+    column-gap: #{mixins.mvw(10px)};
+    row-gap: #{mixins.mvw(10px)};
     margin-top: #{mixins.mvw(36px)};
   }
 }
@@ -250,10 +251,9 @@
   @include mixins.mobile {
     flex: 0 1 auto;
     width: 100%;
-    height: auto;
-    min-height: 0;
-    padding: #{mixins.mvw(24px)};
-    border-radius: #{mixins.mvw(12px)};
+    min-height: #{mixins.mvw(332px)};
+    padding: #{mixins.mvw(12px)};
+    border-radius: #{mixins.mvw(8px)};
   }
 }
 
@@ -271,9 +271,9 @@
   background-size: cover;
 
   @include mixins.mobile {
-    width: 100%;
-    height: #{mixins.mvw(180px)};
-    border-radius: #{mixins.mvw(6px)};
+    width: #{mixins.mvw(80px)};
+    height: #{mixins.mvw(80px)};
+    border-radius: #{mixins.mvw(4px)};
   }
 }
 
@@ -309,10 +309,11 @@
   text-align: left;
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(20px)};
-    max-width: 100%;
-    min-height: 0;
+    margin-top: #{mixins.mvw(80px)};
+    max-width: #{mixins.mvw(148px)};
+    min-height: #{mixins.mvw(48px)};
     font-size: #{mixins.mvw(20px)};
+    line-height: 1.2;
   }
 }
 
@@ -324,8 +325,8 @@
   border-top: 1px solid rgba(255, 255, 255, 0.14);
 
   @include mixins.mobile {
-    max-width: 100%;
-    margin-top: #{mixins.mvw(14px)};
+    max-width: #{mixins.mvw(148px)};
+    margin-top: #{mixins.mvw(12px)};
   }
 }
 
@@ -343,8 +344,9 @@
   @include mixins.mobile {
     flex-grow: 0;
     margin-top: #{mixins.mvw(14px)};
-    max-width: 100%;
-    font-size: #{mixins.mvw(15px)};
+    max-width: #{mixins.mvw(148px)};
+    font-size: #{mixins.mvw(14px)};
+    line-height: 1.36;
   }
 }
 
@@ -378,8 +380,12 @@
 
 @include mixins.mobile {
   .mediahub-audience__card--tall-head .mediahub-audience__card-title {
-    margin-top: #{mixins.mvw(47px)};
-    min-height: 0;
+    margin-top: #{mixins.mvw(31px)};
+    min-height: #{mixins.mvw(96px)};
+  }
+
+  .mediahub-audience__grid > .mediahub-audience__cell:nth-child(5) {
+    grid-column: 2;
   }
 }
 
