@@ -19,7 +19,7 @@ body.graffit-popup-open {
   isolation: isolate;
 
   @include mixins.mobile {
-    align-items: flex-end;
+    align-items: center;
     padding: #{mixins.mvw(10px)};
   }
 }
