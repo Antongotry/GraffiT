@@ -1014,10 +1014,15 @@
     section.setAttribute('data-mediahub-clients-motion-init', '1');
 
     var ticking = false;
+    var travel = 0;
     var lockSpan = 0;
 
+    function computeTravel() {
+      return Math.max(track.scrollHeight - stage.clientHeight, 0);
+    }
+
     function computeLockSpan() {
-      var overflow = Math.max(track.scrollHeight - stage.clientHeight, 0);
+      var overflow = computeTravel();
 
       if (overflow <= 0) {
         return 0;
@@ -1031,6 +1036,7 @@
     }
 
     function updateGeometry() {
+      travel = computeTravel();
       lockSpan = computeLockSpan();
       section.style.setProperty('--mediahub-clients-lock-span', lockSpan + 'px');
     }
@@ -1038,7 +1044,7 @@
     function sync() {
       ticking = false;
 
-      if (lockSpan <= 0) {
+      if (lockSpan <= 0 || travel <= 0) {
         track.style.transform = 'translate3d(0px, 0px, 0px)';
         return;
       }
@@ -1050,7 +1056,7 @@
 
       progress = Math.min(Math.max(progress, 0), 1);
 
-      var y = -Math.round(lockSpan * progress);
+      var y = -Math.round(travel * progress);
       track.style.transform = 'translate3d(0px, ' + y + 'px, 0px)';
     }
 

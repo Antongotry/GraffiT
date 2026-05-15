@@ -2,6 +2,8 @@
 
 .site-main--product-mediahub {
   background: #000102;
+  overflow: visible;
+  overflow-x: clip;
 }
 
 /* Hero: текст + кнопка, потім зображення на 100% ширини впритул */
