@@ -877,9 +877,9 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-clients-scroller').forEach(function (section) {
-      // Product MediaHub page: this section is rendered as a static follow-up block.
-      // Guard against stale cached HTML that may still contain js-clients-scroller.
-      if (section.closest('.site-main--product-mediahub')) {
+      // Product MediaHub page: allow only the dedicated #mediahub-clients section
+      // to use the standard clients pin flow; skip any stale/extra client sections.
+      if (section.closest('.site-main--product-mediahub') && section.id !== 'mediahub-clients') {
         section.classList.remove('js-clients-scroller');
         section.classList.remove('is-clients-top-fade');
         return;
@@ -978,86 +978,6 @@
         clientsResizeObserver.observe(track);
       }
     });
-
-    window.ScrollTrigger.refresh();
-  }
-
-  function initMediahubClientsScroller() {
-    if (window.innerWidth <= 1024) {
-      return;
-    }
-
-    if (!window.gsap || !window.ScrollTrigger) {
-      return;
-    }
-
-    var section = document.querySelector('.js-mediahub-clients-scroller');
-
-    if (!section || section.getAttribute('data-mediahub-clients-init') === '1') {
-      return;
-    }
-
-    var viewport = section.querySelector('.services-clients__viewport');
-    var stage = section.querySelector('.js-clients-stage');
-    var track = section.querySelector('.js-clients-track');
-
-    if (!viewport || !stage || !track) {
-      return;
-    }
-
-    window.gsap.registerPlugin(window.ScrollTrigger);
-    section.setAttribute('data-mediahub-clients-init', '1');
-
-    function mediahubClientsDistance() {
-      var overflow = track.scrollHeight - stage.clientHeight;
-
-      if (overflow <= 0) {
-        return 0;
-      }
-
-      return overflow;
-    }
-
-    window.gsap.set(track, { y: 0 });
-
-    window.gsap.fromTo(
-      track,
-      { y: 0 },
-      {
-        y: function () {
-          return -mediahubClientsDistance();
-        },
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          // Safe mode: no pin-spacer, only scroll-linked movement of cards track.
-          start: 'top 78%',
-          end: 'bottom top',
-          scrub: 1,
-          invalidateOnRefresh: true,
-          onRefreshInit: function () {
-            window.gsap.set(track, { y: 0 });
-          },
-          onLeaveBack: function () {
-            window.gsap.set(track, { y: 0 });
-          }
-        }
-      }
-    );
-
-    if (typeof ResizeObserver === 'function') {
-      var mediahubResizeTimer;
-      var mediahubResizeObserver = new ResizeObserver(function () {
-        window.clearTimeout(mediahubResizeTimer);
-        mediahubResizeTimer = window.setTimeout(function () {
-          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
-            window.ScrollTrigger.refresh();
-          }
-        }, 120);
-      });
-
-      mediahubResizeObserver.observe(track);
-    }
 
     window.ScrollTrigger.refresh();
   }
@@ -2313,7 +2233,6 @@
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initClientsScroller, 'clients-scroller');
-  runInit(initMediahubClientsScroller, 'mediahub-clients-scroller');
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProductsProjectsCarousel, 'products-projects-carousel');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
