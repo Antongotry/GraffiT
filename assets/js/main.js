@@ -2175,9 +2175,23 @@
 
     var elements = Array.prototype.slice.call(main.querySelectorAll(selectors.join(',')));
     var seen = new WeakSet();
+    // Do not apply generic reveal animation inside sections that already have
+    // dedicated pin/scroll-driven motion. Mixing both causes visual conflicts
+    // (hidden cards, early fade, broken sticky stack).
+    var revealMotionExclusionSelector = [
+      '.js-benefits-scroller',
+      '.js-projects-scroller',
+      '.js-clients-scroller',
+      '.js-process-section',
+      '.js-products-catalog-scroller'
+    ].join(', ');
 
     elements.forEach(function (element, index) {
       if (!element || seen.has(element)) {
+        return;
+      }
+
+      if (element.closest(revealMotionExclusionSelector)) {
         return;
       }
 
