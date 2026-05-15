@@ -991,7 +991,7 @@
       return;
     }
 
-    var section = document.getElementById('mediahub-clients');
+    var section = document.querySelector('.js-mediahub-clients-scroller');
 
     if (!section || section.getAttribute('data-mediahub-clients-init') === '1') {
       return;
@@ -1018,21 +1018,32 @@
       return overflow;
     }
 
-    window.gsap.to(track, {
-      y: function () {
-        return -mediahubClientsDistance();
-      },
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        // No pin for MediaHub clients: avoids pin-spacer gaps/conflicts after capabilities section.
-        start: 'top 72%',
-        end: 'bottom top',
-        scrub: 1,
-        anticipatePin: 0,
-        invalidateOnRefresh: true
+    window.gsap.set(track, { y: 0 });
+
+    window.gsap.fromTo(
+      track,
+      { y: 0 },
+      {
+        y: function () {
+          return -mediahubClientsDistance();
+        },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: function () {
+            return '+=' + mediahubClientsDistance();
+          },
+          pin: viewport,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onRefreshInit: function () {
+            window.gsap.set(track, { y: 0 });
+          }
+        }
       }
-    });
+    );
 
     if (typeof ResizeObserver === 'function') {
       var mediahubResizeTimer;

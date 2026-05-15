@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 $extra_class = trim((string) ($args['section_extra_class'] ?? ''));
 $enable_scroller = $args['enable_scroller'] ?? true;
+$section_js_class = trim((string) ($args['section_js_class'] ?? ''));
 $section_id = trim((string) ($args['section_id'] ?? ''));
 
 $section_classes = ['services-clients'];
@@ -19,6 +20,10 @@ if ($enable_scroller) {
 
 if ($extra_class !== '') {
     $section_classes[] = $extra_class;
+}
+
+if ($section_js_class !== '') {
+    $section_classes[] = $section_js_class;
 }
 
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
