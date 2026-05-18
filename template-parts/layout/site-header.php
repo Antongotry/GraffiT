@@ -158,7 +158,7 @@ if ($current_path === 'products') {
                         aria-label="<?php esc_attr_e('Показати продукти в підменю Проєкти', 'graffit'); ?>"
                     >
                         <svg class="mobile-menu__nav-projects-chevron" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true" focusable="false">
-                            <path d="M1.5 2 6 6 10.5 2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M1.5 2L6 6L10.5 2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </button>
                 </div>

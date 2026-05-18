@@ -358,18 +358,31 @@
 .mobile-menu__nav-group--projects {
   display: flex;
   flex-direction: column;
-  gap: #{mixins.mvw(4px)};
+  gap: #{mixins.mvw(8px)};
 }
 
 .mobile-menu__nav-row {
   display: flex;
-  align-items: stretch;
-  gap: #{mixins.mvw(4px)};
+  align-items: center;
+  gap: #{mixins.mvw(6px)};
+  min-height: #{mixins.mvw(48px)};
+  padding: #{mixins.mvw(4px)} #{mixins.mvw(4px)} #{mixins.mvw(4px)} #{mixins.mvw(8px)};
+  border-radius: #{mixins.mvw(12px)};
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.mobile-menu__nav-group--projects.is-open .mobile-menu__nav-row {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .mobile-menu__nav-link--projects-main {
   flex: 1;
   min-width: 0;
+  margin: 0;
+  /* Узгоджено з кнопкою в одному ряду — без «подвійної» висоти. */
+  padding: #{mixins.mvw(10px)} #{mixins.mvw(10px)} #{mixins.mvw(10px)} #{mixins.mvw(8px)};
 }
 
 .mobile-menu__nav-projects-toggle {
@@ -377,7 +390,8 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: #{mixins.mvw(48px)};
+  width: #{mixins.mvw(44px)};
+  height: #{mixins.mvw(44px)};
   margin: 0;
   padding: 0;
   border: 0;
@@ -390,13 +404,13 @@
 
   &:hover {
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.08);
   }
 }
 
 .mobile-menu__nav-group--projects.is-open .mobile-menu__nav-projects-toggle {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .mobile-menu__nav-projects-chevron {
@@ -411,14 +425,29 @@
 .mobile-menu__subnav {
   display: flex;
   flex-direction: column;
-  gap: #{mixins.mvw(4px)};
-  padding: 0 0 #{mixins.mvw(4px)} #{mixins.mvw(8px)};
+  gap: #{mixins.mvw(6px)};
+  margin: 0 0 0 #{mixins.mvw(4px)};
+  padding: #{mixins.mvw(10px)} #{mixins.mvw(10px)} #{mixins.mvw(10px)} #{mixins.mvw(14px)};
+  border-radius: #{mixins.mvw(12px)};
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 1, 2, 0.35);
+  box-shadow: inset 3px 0 0 rgba(0, 115, 230, 0.55);
 }
 
 .mobile-menu__nav-link--sub {
-  padding: #{mixins.mvw(10px)} #{mixins.mvw(16px)};
+  margin: 0;
+  padding: #{mixins.mvw(12px)} #{mixins.mvw(14px)};
+  border-radius: #{mixins.mvw(10px)};
   font-size: #{mixins.mvw(16px)};
-  color: rgba(255, 255, 255, 0.62);
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.mobile-menu__nav-link--sub:hover,
+.mobile-menu__nav-link--sub.is-active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .mobile-menu__contacts {
