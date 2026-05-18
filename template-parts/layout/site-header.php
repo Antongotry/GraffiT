@@ -162,7 +162,7 @@ if ($current_path === 'products') {
                         </svg>
                     </button>
                 </div>
-                <div id="mobile-menu-projects-subnav" class="mobile-menu__subnav js-mobile-projects-panel" hidden>
+                <div id="mobile-menu-projects-subnav" class="mobile-menu__subnav js-mobile-projects-panel" aria-hidden="true">
                     <?php foreach ($projects_product_pages as $projects_product) : ?>
                         <?php
                         $sub_slug = (string) ($projects_product['slug'] ?? '');

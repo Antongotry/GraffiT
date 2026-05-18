@@ -1340,7 +1340,7 @@
         var open = !root.classList.contains('is-open');
         root.classList.toggle('is-open', open);
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        panel.hidden = !open;
+        panel.setAttribute('aria-hidden', open ? 'false' : 'true');
       });
     });
   }
@@ -1379,6 +1379,18 @@
       toggles.forEach(function (btn) {
         if (btn.getAttribute('aria-expanded') !== null) {
           btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      menu.querySelectorAll('.js-mobile-projects.is-open').forEach(function (root) {
+        root.classList.remove('is-open');
+        var subToggle = root.querySelector('.js-mobile-projects-toggle');
+        var subPanel = root.querySelector('.js-mobile-projects-panel');
+        if (subToggle) {
+          subToggle.setAttribute('aria-expanded', 'false');
+        }
+        if (subPanel) {
+          subPanel.setAttribute('aria-hidden', 'true');
         }
       });
 
