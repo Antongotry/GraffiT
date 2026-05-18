@@ -3621,12 +3621,12 @@
     background-attachment: scroll, scroll;
 
     @include mixins.mobile {
-      background-position:
-        0 0,
-        50% #{mixins.mvw(120px)};
-      background-size:
-        100% 100%,
-        #{mixins.mvw(240px)} auto;
+      // Desktop uses a light top gradient for depth inside the clipped stage; on
+      // mobile the stage mask is off, so that layer reads as an unwanted halo
+      // above the sticky card stack.
+      background-image: url('../images/union.svg');
+      background-position: 50% #{mixins.mvw(120px)};
+      background-size: #{mixins.mvw(240px)} auto;
     }
   }
 
@@ -3658,6 +3658,13 @@
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%
   );
+
+  @include mixins.mobile {
+    // Higher specificity than the base mobile reset; without this, the scroll
+    // top-fade mask stays active and looks like a glow above the cards.
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
 }
 
 .services-clients__cards-track {

@@ -364,6 +364,11 @@ html.is-projects-pinned .site-header {
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%
   );
+
+  @include mixins.mobile {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
 }
 
 .home-chaos-about-flow #home-about .services-clients__container {
