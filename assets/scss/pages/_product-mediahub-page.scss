@@ -1,6 +1,8 @@
 @use "../abstracts/mixins";
 
-.site-main--product-mediahub {
+/* Must beat `.site-main:not(.site-main--home)` (layouts/_site.scss), which sets
+   overflow: hidden and breaks mobile `position: sticky` stacking on trust cards. */
+.site-main.site-main--product-mediahub {
   background: #000102;
   overflow: visible;
   overflow-x: clip;
