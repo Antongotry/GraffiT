@@ -157,6 +157,33 @@
   }
 }
 
+.site-footer__nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: #{mixins.vw(8px)};
+
+  @include mixins.mobile {
+    gap: #{mixins.mvw(8px)};
+    align-items: center;
+    width: 100%;
+  }
+}
+
+.site-footer__nav-link--sub {
+  padding-left: #{mixins.vw(10px)};
+  font-size: #{mixins.vw(13px)};
+  color: rgba(255, 255, 255, 0.78);
+
+  @include mixins.mobile {
+    padding-left: 0;
+    font-size: #{mixins.mvw(13px)};
+  }
+}
+
+.site-footer__nav-link--sub:hover {
+  color: #fff;
+}
+
 .site-footer__nav-link,
 .site-footer__contact-link,
 .site-footer__contact-text {

@@ -31,6 +31,17 @@ $projects_url = ($is_front_page || $current_path === 'services')
     ? '#services-projects'
     : home_url('/#services-projects');
 
+$projects_product_pages = graffit_nav_projects_product_pages();
+$projects_product_slugs = array_column($projects_product_pages, 'slug');
+$is_on_projects_product = in_array($current_path, $projects_product_slugs, true);
+
+$projects_link_classes = ['site-header__nav-link'];
+$mobile_projects_link_classes = ['mobile-menu__nav-link'];
+if ($current_path === 'services' || $is_on_projects_product) {
+    $projects_link_classes[] = 'is-active';
+    $mobile_projects_link_classes[] = 'is-active';
+}
+
 $home_url = home_url('/');
 
 if ($is_front_page) {
@@ -77,7 +88,39 @@ if ($current_path === 'products') {
             <a class="<?php echo esc_attr(implode(' ', $about_link_classes)); ?>" href="<?php echo esc_url($about_url); ?>">Про нас</a>
             <a class="<?php echo esc_attr(implode(' ', $services_link_classes)); ?>" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
             <a class="<?php echo esc_attr(implode(' ', $products_link_classes)); ?>" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
-            <a class="site-header__nav-link" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
+            <div class="site-header__nav-item site-header__nav-item--projects js-header-projects">
+                <a class="<?php echo esc_attr(implode(' ', $projects_link_classes)); ?>" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
+                <button
+                    class="site-header__nav-projects-toggle js-header-projects-toggle"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="site-header-projects-subnav"
+                    aria-label="<?php esc_attr_e('Підменю продуктів (MediaHub тощо)', 'graffit'); ?>"
+                >
+                    <svg class="site-header__nav-projects-chevron" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false">
+                        <path d="M1 1.5L5 4.5L9 1.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <ul id="site-header-projects-subnav" class="site-header__subnav js-header-projects-panel" role="list">
+                    <?php foreach ($projects_product_pages as $projects_product) : ?>
+                        <?php
+                        $sub_slug = (string) ($projects_product['slug'] ?? '');
+                        $sub_label = (string) ($projects_product['label'] ?? '');
+                        if ($sub_slug === '' || $sub_label === '') {
+                            continue;
+                        }
+                        $sub_url = graffit_nav_projects_product_url($sub_slug);
+                        $sub_classes = ['site-header__subnav-link'];
+                        if ($current_path === $sub_slug) {
+                            $sub_classes[] = 'is-active';
+                        }
+                        ?>
+                        <li class="site-header__subnav-item">
+                            <a class="<?php echo esc_attr(implode(' ', $sub_classes)); ?>" href="<?php echo esc_url($sub_url); ?>"><?php echo esc_html($sub_label); ?></a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
             <a class="<?php echo esc_attr(implode(' ', $contacts_link_classes)); ?>" href="<?php echo esc_url($contacts_url); ?>">Контакти</a>
         </nav>
 
@@ -104,7 +147,39 @@ if ($current_path === 'products') {
             <a class="<?php echo esc_attr(implode(' ', $mobile_about_link_classes)); ?>" href="<?php echo esc_url($about_url); ?>">Про нас</a>
             <a class="<?php echo esc_attr(implode(' ', $mobile_services_link_classes)); ?>" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
             <a class="<?php echo esc_attr(implode(' ', $mobile_products_link_classes)); ?>" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
-            <a class="mobile-menu__nav-link" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
+            <div class="mobile-menu__nav-group mobile-menu__nav-group--projects js-mobile-projects">
+                <div class="mobile-menu__nav-row">
+                    <a class="<?php echo esc_attr(implode(' ', $mobile_projects_link_classes)); ?> mobile-menu__nav-link--projects-main" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
+                    <button
+                        class="mobile-menu__nav-projects-toggle js-mobile-projects-toggle"
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls="mobile-menu-projects-subnav"
+                        aria-label="<?php esc_attr_e('Показати продукти в підменю Проєкти', 'graffit'); ?>"
+                    >
+                        <svg class="mobile-menu__nav-projects-chevron" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true" focusable="false">
+                            <path d="M1.5 2 6 6 10.5 2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="mobile-menu-projects-subnav" class="mobile-menu__subnav js-mobile-projects-panel" hidden>
+                    <?php foreach ($projects_product_pages as $projects_product) : ?>
+                        <?php
+                        $sub_slug = (string) ($projects_product['slug'] ?? '');
+                        $sub_label = (string) ($projects_product['label'] ?? '');
+                        if ($sub_slug === '' || $sub_label === '') {
+                            continue;
+                        }
+                        $sub_url = graffit_nav_projects_product_url($sub_slug);
+                        $sub_classes = ['mobile-menu__nav-link', 'mobile-menu__nav-link--sub'];
+                        if ($current_path === $sub_slug) {
+                            $sub_classes[] = 'is-active';
+                        }
+                        ?>
+                        <a class="<?php echo esc_attr(implode(' ', $sub_classes)); ?>" href="<?php echo esc_url($sub_url); ?>"><?php echo esc_html($sub_label); ?></a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
             <a class="<?php echo esc_attr(implode(' ', $mobile_contacts_link_classes)); ?>" href="<?php echo esc_url($contacts_url); ?>">Контакти</a>
         </nav>
 

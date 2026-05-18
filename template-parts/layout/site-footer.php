@@ -14,6 +14,15 @@ $contacts_url = home_url('/contacts/');
 $projects_url = ($is_front_page || $current_path === 'services')
     ? '#services-projects'
     : home_url('/#services-projects');
+
+$projects_product_pages = graffit_nav_projects_product_pages();
+$projects_product_slugs = array_column($projects_product_pages, 'slug');
+$is_on_projects_product = in_array($current_path, $projects_product_slugs, true);
+
+$footer_projects_link_classes = ['site-footer__nav-link'];
+if ($current_path === 'services' || $is_on_projects_product) {
+    $footer_projects_link_classes[] = 'is-active';
+}
 ?>
 <footer class="site-footer" id="site-footer">
     <div class="site-footer__container">
@@ -38,7 +47,24 @@ $projects_url = ($is_front_page || $current_path === 'services')
                     <a class="site-footer__nav-link" href="<?php echo esc_url($about_url); ?>">Про нас</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
-                    <a class="site-footer__nav-link" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
+                    <div class="site-footer__nav-group site-footer__nav-group--projects">
+                        <a class="<?php echo esc_attr(implode(' ', $footer_projects_link_classes)); ?>" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
+                        <?php foreach ($projects_product_pages as $projects_product) : ?>
+                            <?php
+                            $sub_slug = (string) ($projects_product['slug'] ?? '');
+                            $sub_label = (string) ($projects_product['label'] ?? '');
+                            if ($sub_slug === '' || $sub_label === '') {
+                                continue;
+                            }
+                            $sub_url = graffit_nav_projects_product_url($sub_slug);
+                            $sub_classes = ['site-footer__nav-link', 'site-footer__nav-link--sub'];
+                            if ($current_path === $sub_slug) {
+                                $sub_classes[] = 'is-active';
+                            }
+                            ?>
+                            <a class="<?php echo esc_attr(implode(' ', $sub_classes)); ?>" href="<?php echo esc_url($sub_url); ?>"><?php echo esc_html($sub_label); ?></a>
+                        <?php endforeach; ?>
+                    </div>
                     <a class="site-footer__nav-link" href="<?php echo esc_url($contacts_url); ?>">Контакти</a>
                 </nav>
 

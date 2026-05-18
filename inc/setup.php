@@ -78,6 +78,28 @@ function graffit_current_request_path(): string
 }
 
 /**
+ * Standalone product pages linked under «Проєкти» (header / footer). Add rows as new pages ship.
+ *
+ * @return list<array{slug: string, label: string}>
+ */
+function graffit_nav_projects_product_pages(): array
+{
+    return [
+        ['slug' => 'product-mediahub', 'label' => 'MediaHub'],
+    ];
+}
+
+/**
+ * Permalink for a «Проєкти» child product page slug (e.g. product-mediahub).
+ */
+function graffit_nav_projects_product_url(string $slug): string
+{
+    $slug = trim($slug, '/');
+
+    return home_url('/' . $slug . '/');
+}
+
+/**
  * Services hero image URL.
  */
 function graffit_services_hero_image_url(): string
