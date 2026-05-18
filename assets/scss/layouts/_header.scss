@@ -164,7 +164,8 @@
 
 .site-header__subnav {
   position: absolute;
-  top: calc(100% + #{mixins.vw(10px)});
+  /* Flush with trigger row — any gap breaks :hover while moving the pointer to links. */
+  top: 100%;
   left: 50%;
   z-index: 130;
   min-width: #{mixins.vw(200px)};
@@ -178,11 +179,21 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translate(-50%, #{mixins.vw(4px)});
+  transform: translate(-50%, 0);
   transition:
     opacity 0.2s ease,
     visibility 0.2s ease,
     transform 0.2s ease;
+
+  /* Invisible hit-area above the panel (line-height / subpixel gaps). */
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    height: #{mixins.vw(14px)};
+  }
 }
 
 .site-header__nav-item--projects:hover .site-header__subnav,
