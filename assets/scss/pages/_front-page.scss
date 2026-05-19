@@ -796,9 +796,12 @@ html.is-projects-pinned .site-header {
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-  /* Taller stage so phase-2 pin + frame scrub has room (block 3), not a short snap. */
+  /* Full-viewport pin stage; copy is centred so phase-2 film plays over visible text. */
   min-height: 100svh;
-  padding: #{mixins.vw(120px)} 0 #{mixins.vw(164px)};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: #{mixins.vw(48px)} 0 #{mixins.vw(64px)};
   /* Desktop: transparent — shared scroll-film canvas is the background. */
   background: transparent;
   z-index: 1;
@@ -808,7 +811,9 @@ html.is-projects-pinned .site-header {
   }
 
   @include mixins.mobile {
-    min-height: auto;
+    min-height: 100svh;
+    align-items: flex-start;
+    padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(48px)};
   }
 }
 
@@ -819,6 +824,7 @@ html.is-projects-pinned .site-header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .home-chaos__visual {
@@ -885,10 +891,11 @@ html.is-projects-pinned .site-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: #{mixins.vw(400px)};
+  /* Was 400px — empty band above copy while phase-2 canvas scrubbed. */
+  margin-top: #{mixins.vw(40px)};
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(112px)};
+    margin-top: #{mixins.mvw(28px)};
   }
 }
 

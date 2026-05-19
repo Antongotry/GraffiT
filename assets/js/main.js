@@ -2150,6 +2150,7 @@
      */
     if (chaos) {
       var st2State = { frame: 0 };
+      var chaosStage = chaos.querySelector('.home-chaos__inner') || chaos;
 
       window.gsap.to(st2State, {
         frame: P2_COUNT - 1,
@@ -2157,10 +2158,11 @@
         immediateRender: false,
         scrollTrigger: {
           id: 'home-scroll-p2',
-          trigger: chaos,
-          start: 'top bottom',
+          trigger: chaosStage,
+          start: 'top top',
           end: homeScrollPhase2End,
-          pin: true,
+          pin: chaos,
+          pinSpacing: true,
           anticipatePin: 1,
           scrub: true,
           invalidateOnRefresh: true,
