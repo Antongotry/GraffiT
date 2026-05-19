@@ -10,11 +10,19 @@ $breakpoints: (
 
 @function vw($value, $base: variables.$design-width-desktop) {
   $ratio: math.div($value, $base) * 100;
+  @if $value < 0 {
+    @return max(#{$ratio}vw, #{$value});
+  }
+
   @return min(#{$ratio}vw, #{$value});
 }
 
 @function mvw($value, $base: variables.$design-width-mobile) {
   $ratio: math.div($value, $base) * 100;
+  @if $value < 0 {
+    @return max(#{$ratio}vw, #{$value});
+  }
+
   @return min(#{$ratio}vw, #{$value});
 }
 
