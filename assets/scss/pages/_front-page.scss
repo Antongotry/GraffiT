@@ -795,6 +795,9 @@ html.is-projects-pinned .site-header {
 .home-chaos {
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
+  /* Taller stage so phase-2 pin + frame scrub has room (block 3), not a short snap. */
+  min-height: 100svh;
   padding: #{mixins.vw(120px)} 0 #{mixins.vw(164px)};
   /* Desktop: transparent — shared scroll-film canvas is the background. */
   background: transparent;
@@ -804,6 +807,9 @@ html.is-projects-pinned .site-header {
     content: none;
   }
 
+  @include mixins.mobile {
+    min-height: auto;
+  }
 }
 
 .home-chaos__inner {

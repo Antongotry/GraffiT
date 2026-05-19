@@ -2085,18 +2085,20 @@
     var st1State = { frame: 0 };
 
     /*
-     * Phase 1 — hero + showcase, ending exactly at the chaos centre (= Phase 2
-     * start) so there is zero gap and no "jump" to the third animation.
+     * Phase 1 — hero + showcase only. Ending at chaos centre squeezed the last
+     * ~10% of frames into the short approach scroll and felt like a hard cut
+     * into block 3; showcase bottom gives an even frame spread for blocks 1→2.
      */
     window.gsap.to(st1State, {
       frame: P1_COUNT - 1,
       ease: 'none',
       immediateRender: false,
       scrollTrigger: {
+        id: 'home-scroll-p1',
         trigger: container,
         start: 'top top',
-        endTrigger: chaos || showcase || container,
-        end: 'center center',
+        endTrigger: showcase || container,
+        end: 'bottom bottom',
         scrub: true,
         invalidateOnRefresh: true,
         onRefresh: function (self) {
@@ -2122,12 +2124,30 @@
       }
     });
 
+    function homeScrollPhase2End() {
+      var p1 = window.ScrollTrigger.getById('home-scroll-p1');
+      var minSpan = window.innerHeight * 5.5;
+
+      if (!p1) {
+        return '+=' + Math.round(minSpan);
+      }
+
+      var p1Span = p1.end - p1.start;
+
+      if (p1Span <= 0) {
+        return '+=' + Math.round(minSpan);
+      }
+
+      /* Match phase-1 px/frame, then add headroom so chaos feels as calm as hero→showcase. */
+      var pxPerFrame = p1Span / (P1_COUNT - 1);
+      var p2Span = pxPerFrame * (P2_COUNT - 1) * 1.2;
+
+      return '+=' + Math.round(Math.max(p2Span, minSpan));
+    }
+
     /*
-     * Phase 2 — chaos section pinned at viewport centre.
-     * Extended to 500 vh so each of the 154 frames has ~3.25 vh of scroll —
-     * the same comfortable pace as Phase 1.
-     * onRefresh uses self.progress > 0 so it only takes ownership when the
-     * user has actually scrolled into Phase 2 territory.
+     * Phase 2 — chaos: starts as the section enters the viewport (not at centre),
+     * pinned with scroll span derived from phase 1 pace + scrub lag for smoothness.
      */
     if (chaos) {
       var st2State = { frame: 0 };
@@ -2137,11 +2157,13 @@
         ease: 'none',
         immediateRender: false,
         scrollTrigger: {
+          id: 'home-scroll-p2',
           trigger: chaos,
-          start: 'center center',
-          end: '+=500vh',
+          start: 'top bottom',
+          end: homeScrollPhase2End,
           pin: true,
-          scrub: true,
+          anticipatePin: 1,
+          scrub: 1,
           invalidateOnRefresh: true,
           onRefresh: function (self) {
             var f = Math.round(self.progress * (P2_COUNT - 1));
