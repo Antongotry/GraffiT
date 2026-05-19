@@ -2124,30 +2124,29 @@
       }
     });
 
-    function homeScrollPhase2End() {
+    function homeScrollPxPerFrame() {
       var p1 = window.ScrollTrigger.getById('home-scroll-p1');
-      var minSpan = window.innerHeight * 4.2;
 
-      if (!p1) {
-        return '+=' + Math.round(minSpan);
+      if (p1) {
+        var p1Span = p1.end - p1.start;
+
+        if (p1Span > 0) {
+          return p1Span / (P1_COUNT - 1);
+        }
       }
 
-      var p1Span = p1.end - p1.start;
+      /* Fallback before p1 is measured: ~2 viewports for hero + showcase. */
+      return (window.innerHeight * 2) / (P1_COUNT - 1);
+    }
 
-      if (p1Span <= 0) {
-        return '+=' + Math.round(minSpan);
-      }
+    function homeScrollPhase2End() {
+      var pxPerFrame = homeScrollPxPerFrame();
 
-      /* ~same pace as phase 1, slightly quicker than the previous 1.2× cushion. */
-      var pxPerFrame = p1Span / (P1_COUNT - 1);
-      var p2Span = pxPerFrame * (P2_COUNT - 1) * 0.92;
-
-      return '+=' + Math.round(Math.max(p2Span, minSpan));
+      return '+=' + Math.round(pxPerFrame * (P2_COUNT - 1));
     }
 
     /*
-     * Phase 2 — chaos: starts as the section enters the viewport (not at centre),
-     * pinned with scroll span derived from phase 1 pace + scrub lag for smoothness.
+     * Phase 2 — chaos: same px per frame as phase 1 so both sequences list at one speed.
      */
     if (chaos) {
       var st2State = { frame: 0 };
@@ -2163,7 +2162,7 @@
           end: homeScrollPhase2End,
           pin: true,
           anticipatePin: 1,
-          scrub: 0.65,
+          scrub: true,
           invalidateOnRefresh: true,
           onRefresh: function (self) {
             var f = Math.round(self.progress * (P2_COUNT - 1));
