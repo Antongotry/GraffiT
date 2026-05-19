@@ -9,11 +9,13 @@ $breakpoints: (
 );
 
 @function vw($value, $base: variables.$design-width-desktop) {
-  @return calc(#{$value} * min(100vw, #{$base}) / #{$base});
+  $ratio: math.div($value, $base) * 100;
+  @return min(#{$ratio}vw, #{$value});
 }
 
 @function mvw($value, $base: variables.$design-width-mobile) {
-  @return math.div($value, $base) * 100vw;
+  $ratio: math.div($value, $base) * 100;
+  @return min(#{$ratio}vw, #{$value});
 }
 
 @mixin respond-max($breakpoint) {
