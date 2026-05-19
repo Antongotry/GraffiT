@@ -935,7 +935,9 @@
           trigger: section,
           start: 'top top',
           end: function () {
-            return '+=' + clientsTrackScrollDistance();
+            // Clamp pin distance to the document scroll bounds so the spacer
+            // cannot create a blank tail after the footer on short pages.
+            return 'clamp(+=' + clientsTrackScrollDistance() + ')';
           },
           pin: viewport,
           scrub: 1,
