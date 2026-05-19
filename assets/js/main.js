@@ -894,6 +894,7 @@
       var stage = section.querySelector('.js-clients-stage');
       var track = section.querySelector('.js-clients-track');
       var shouldHideHeader = section.id === 'about-clients';
+      var shouldForceZeroBottomPadding = section.id === 'home-about';
 
       if (!viewport || !stage || !track) {
         return;
@@ -901,6 +902,14 @@
 
       section.setAttribute('data-clients-scroller-init', '1');
       section.classList.remove('is-clients-top-fade');
+
+      function enforceViewportBottomPadding() {
+        if (!shouldForceZeroBottomPadding || !viewport) {
+          return;
+        }
+
+        viewport.style.setProperty('padding-bottom', '0px');
+      }
 
       function clientsTrackScrollDistance() {
         var overflow = track.scrollHeight - stage.clientHeight;
@@ -963,9 +972,16 @@
             if (header) {
               header.classList.toggle('is-hidden-by-pin', self.isActive);
             }
+
+            enforceViewportBottomPadding();
+          },
+          onRefresh: function () {
+            enforceViewportBottomPadding();
           }
         }
       });
+
+      enforceViewportBottomPadding();
 
       if (typeof ResizeObserver === 'function') {
         var clientsResizeTimer;
