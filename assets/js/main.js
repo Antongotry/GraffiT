@@ -1980,11 +1980,14 @@
   }
 
   function initHomeScrollFilm() {
-    /* Runs on all screen sizes — canvas is now enabled on mobile too. */
     var container = document.querySelector('.js-home-scroll-film');
     var canvas = document.querySelector('.js-home-scroll-film-canvas');
 
     if (!container || !canvas) {
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
       return;
     }
 
@@ -1994,26 +1997,77 @@
       return;
     }
 
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
     var BASE_URL = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
-
-    /* Phase 1 — hero + showcase: frames 001–211 (_result.webp) */
-    var P1_COUNT = 211;
-    var p1Images = new Array(P1_COUNT).fill(null);
-
-    /* Phase 2 — chaos: frames 028–181 (_result-1.webp) */
+    var P1_LAST = 210;
+    var P1_COUNT = P1_LAST + 1;
     var P2_FIRST = 28;
-    var P2_LAST  = 181;
-    var P2_COUNT = P2_LAST - P2_FIRST + 1;
-    var p2Images = new Array(P2_COUNT).fill(null);
+    var P2_LAST_FRAME = 181;
+    var P2_COUNT = P2_LAST_FRAME - P2_FIRST + 1;
+    var P2_LAST = P2_COUNT - 1;
 
-    var activePhase  = 1;
+    var p1Images = container.__homeFilmP1Images;
+
+    if (!p1Images) {
+      p1Images = new Array(P1_COUNT).fill(null);
+      container.__homeFilmP1Images = p1Images;
+
+      for (var i1 = 0; i1 < P1_COUNT; i1++) {
+        (function (idx) {
+          var img = new Image();
+          img.onload = function () {
+            p1Images[idx] = img;
+          };
+          img.src = BASE_URL + 'ezgif-frame-' + String(idx + 1).padStart(3, '0') + '_result.webp';
+        })(i1);
+      }
+    }
+
+    var p2Images = container.__homeFilmP2Images;
+
+    if (!p2Images) {
+      p2Images = new Array(P2_COUNT).fill(null);
+      container.__homeFilmP2Images = p2Images;
+
+      for (var i2 = 0; i2 < P2_COUNT; i2++) {
+        (function (idx) {
+          var img = new Image();
+          img.onload = function () {
+            p2Images[idx] = img;
+          };
+          img.src = BASE_URL + 'ezgif-frame-' + String(P2_FIRST + idx).padStart(3, '0') + '_result-1.webp';
+        })(i2);
+      }
+    }
+
+    var activePhase = 1;
     var currentIndex = 0;
-    var phase2ScrollStart = null;
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function destroyHomeScrollFilmTriggers() {
+      ['home-scroll-p1', 'home-scroll-p2'].forEach(function (id) {
+        var st = window.ScrollTrigger.getById(id);
+
+        if (!st) {
+          return;
+        }
+
+        if (st.animation) {
+          st.animation.kill();
+        }
+
+        st.kill();
+      });
+    }
 
     function resizeCanvas() {
-      canvas.width  = window.innerWidth;
+      canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      renderCurrent();
+      syncHomeScrollFilmFrame();
     }
 
     function drawImage(img) {
@@ -2033,89 +2087,76 @@
       ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
     }
 
-    function renderCurrent() {
-      var img = activePhase === 1 ? p1Images[currentIndex] : p2Images[currentIndex];
-      drawImage(img);
-    }
+    function setFilmFrame(phase, index) {
+      var nextIndex = clamp(index, 0, phase === 1 ? P1_LAST : P2_LAST);
 
-    function phase2OwnsScroll() {
-      if (phase2ScrollStart === null) {
-        return false;
-      }
-
-      return window.scrollY >= phase2ScrollStart - 1;
-    }
-
-    function applyPhase1Frame(f) {
-      if (phase2OwnsScroll()) {
+      if (activePhase === phase && currentIndex === nextIndex) {
         return;
       }
 
-      activePhase = 1;
-      currentIndex = f;
-      renderCurrent();
+      activePhase = phase;
+      currentIndex = nextIndex;
+      drawImage(phase === 1 ? p1Images[currentIndex] : p2Images[currentIndex]);
     }
 
-    function applyPhase2Frame(f) {
-      activePhase = 2;
-      currentIndex = f;
-      renderCurrent();
+    function phase1PxPerFrame() {
+      var p1 = window.ScrollTrigger.getById('home-scroll-p1');
+
+      if (p1 && p1.end > p1.start) {
+        return (p1.end - p1.start) / P1_LAST;
+      }
+
+      return (window.innerHeight * 2) / P1_LAST;
     }
+
+    function phase2ScrollSpanPx() {
+      return phase1PxPerFrame() * P2_LAST;
+    }
+
+    /*
+     * One timeline: phase 1 until showcase end, then phase 2 from that point through
+     * chaos pin (including any DOM gap) — same px/frame, no frozen pause.
+     */
+    function syncHomeScrollFilmFrame() {
+      var p1 = window.ScrollTrigger.getById('home-scroll-p1');
+      var p2 = window.ScrollTrigger.getById('home-scroll-p2');
+
+      if (!p1) {
+        setFilmFrame(1, 0);
+        return;
+      }
+
+      var scroll = p1.scroll();
+      var p1Start = p1.start;
+      var p1End = p1.end;
+      var p1Span = Math.max(p1End - p1Start, 1);
+
+      if (!p2 || scroll <= p1End) {
+        var p1Progress = clamp((scroll - p1Start) / p1Span, 0, 1);
+        setFilmFrame(1, Math.round(p1Progress * P1_LAST));
+        return;
+      }
+
+      var phase2Span = Math.max(p2.end - p1End, 1);
+      var p2Progress = clamp((scroll - p1End) / phase2Span, 0, 1);
+      setFilmFrame(2, Math.round(p2Progress * P2_LAST));
+    }
+
+    function onFilmScrollChange() {
+      syncHomeScrollFilmFrame();
+    }
+
+    destroyHomeScrollFilmTriggers();
+
+    var showcase = container.querySelector('.home-showcase');
+    var chaos = container.querySelector('.home-chaos');
 
     resizeCanvas();
 
-    /* Preload phase 1 — draw first frame the moment it arrives */
-    for (var i1 = 0; i1 < P1_COUNT; i1++) {
-      (function (idx) {
-        var img = new Image();
-        img.onload = function () {
-          p1Images[idx] = img;
-
-          if (idx === 0 && activePhase === 1 && currentIndex === 0) {
-            drawImage(img);
-          }
-        };
-        img.src = BASE_URL + 'ezgif-frame-' + String(idx + 1).padStart(3, '0') + '_result.webp';
-      })(i1);
-    }
-
-    /* Preload phase 2 */
-    for (var i2 = 0; i2 < P2_COUNT; i2++) {
-      (function (idx) {
-        var img = new Image();
-        img.onload = function () { p2Images[idx] = img; };
-        img.src = BASE_URL + 'ezgif-frame-' + String(P2_FIRST + idx).padStart(3, '0') + '_result-1.webp';
-      })(i2);
-    }
-
-    if (!window.gsap || !window.ScrollTrigger) {
-      return;
-    }
-
-    window.gsap.registerPlugin(window.ScrollTrigger);
-
-    var showcase = container.querySelector('.home-showcase');
-    var chaos    = container.querySelector('.home-chaos');
-
-    /*
-     * Phase 1 — hero + showcase.
-     *
-     * scrub: true   → frame updates on every GSAP tick (60 fps on all devices,
-     *                  no lag/trailing) while keeping perfect scroll sync.
-     * immediateRender: false → suppresses the "last-frame flash" that happens
-     *                  when ScrollTrigger calls refresh() during initialisation.
-     * onRefresh     → after any layout recalc (resize, init) snap to the exact
-     *                  frame matching the current scroll position.
-     */
     var st1State = { frame: 0 };
 
-    /*
-     * Phase 1 — hero + showcase only. Ending at chaos centre squeezed the last
-     * ~10% of frames into the short approach scroll and felt like a hard cut
-     * into block 3; showcase bottom gives an even frame spread for blocks 1→2.
-     */
     window.gsap.to(st1State, {
-      frame: P1_COUNT - 1,
+      frame: P1_LAST,
       ease: 'none',
       immediateRender: false,
       scrollTrigger: {
@@ -2126,94 +2167,50 @@
         end: 'bottom bottom',
         scrub: true,
         invalidateOnRefresh: true,
-        onRefresh: function (self) {
-          var f = Math.round(self.progress * (P1_COUNT - 1));
-          st1State.frame = f;
-          applyPhase1Frame(f);
-        }
-      },
-      onUpdate: function () {
-        var f = Math.round(st1State.frame);
-
-        if (!phase2OwnsScroll() && (activePhase !== 1 || f !== currentIndex)) {
-          applyPhase1Frame(f);
-        }
+        onRefresh: onFilmScrollChange,
+        onUpdate: onFilmScrollChange
       }
     });
 
-    function homeScrollPxPerFrame() {
-      var p1 = window.ScrollTrigger.getById('home-scroll-p1');
-
-      if (p1) {
-        var p1Span = p1.end - p1.start;
-
-        if (p1Span > 0) {
-          return p1Span / (P1_COUNT - 1);
-        }
-      }
-
-      /* Fallback before p1 is measured: ~2 viewports for hero + showcase. */
-      return (window.innerHeight * 2) / (P1_COUNT - 1);
-    }
-
-    function homeScrollPhase2End() {
-      var pxPerFrame = homeScrollPxPerFrame();
-
-      return '+=' + Math.round(pxPerFrame * (P2_COUNT - 1));
-    }
-
-    /*
-     * Phase 2 — chaos: same px per frame as phase 1 so both sequences list at one speed.
-     */
     if (chaos) {
       var st2State = { frame: 0 };
 
-      /*
-       * Phase 2 starts at chaos top bottom — same scroll position as phase 1
-       * (showcase bottom bottom) when sections are stacked, so there is no dead
-       * scroll with a frozen last frame. Pin keeps copy on screen while frames run.
-       */
       window.gsap.to(st2State, {
-        frame: P2_COUNT - 1,
+        frame: P2_LAST,
         ease: 'none',
         immediateRender: false,
         scrollTrigger: {
           id: 'home-scroll-p2',
           trigger: chaos,
           start: 'top bottom',
-          end: homeScrollPhase2End,
+          end: function () {
+            return '+=' + Math.round(phase2ScrollSpanPx());
+          },
           pin: true,
           pinSpacing: true,
           anticipatePin: 1,
           scrub: true,
           invalidateOnRefresh: true,
-          onRefresh: function (self) {
-            phase2ScrollStart = self.start;
-            var f = Math.round(self.progress * (P2_COUNT - 1));
-            st2State.frame = f;
-
-            if (phase2OwnsScroll()) {
-              applyPhase2Frame(f);
-            }
-          }
-        },
-        onUpdate: function () {
-          var f = Math.round(st2State.frame);
-
-          if (activePhase !== 2 || f !== currentIndex) {
-            applyPhase2Frame(f);
-          }
+          onRefresh: onFilmScrollChange,
+          onUpdate: onFilmScrollChange
         }
       });
-
-      window.ScrollTrigger.addEventListener('refreshInit', function () {
-        phase2ScrollStart = null;
-      });
-
-      window.ScrollTrigger.refresh();
     }
 
-    window.addEventListener('resize', resizeCanvas, { passive: true });
+    if (!container.__homeFilmResizeBound) {
+      container.__homeFilmResizeBound = true;
+
+      window.addEventListener('resize', function () {
+        resizeCanvas();
+
+        if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+          window.ScrollTrigger.refresh();
+        }
+      }, { passive: true });
+    }
+
+    window.ScrollTrigger.refresh();
+    syncHomeScrollFilmFrame();
   }
 
   function initHomeChaosFilm() {
