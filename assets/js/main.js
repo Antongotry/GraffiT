@@ -2008,6 +2008,7 @@
 
     var activePhase  = 1;
     var currentIndex = 0;
+    var phase2ScrollStart = null;
 
     function resizeCanvas() {
       canvas.width  = window.innerWidth;
@@ -2035,6 +2036,30 @@
     function renderCurrent() {
       var img = activePhase === 1 ? p1Images[currentIndex] : p2Images[currentIndex];
       drawImage(img);
+    }
+
+    function phase2OwnsScroll() {
+      if (phase2ScrollStart === null) {
+        return false;
+      }
+
+      return window.scrollY >= phase2ScrollStart - 1;
+    }
+
+    function applyPhase1Frame(f) {
+      if (phase2OwnsScroll()) {
+        return;
+      }
+
+      activePhase = 1;
+      currentIndex = f;
+      renderCurrent();
+    }
+
+    function applyPhase2Frame(f) {
+      activePhase = 2;
+      currentIndex = f;
+      renderCurrent();
     }
 
     resizeCanvas();
@@ -2104,22 +2129,14 @@
         onRefresh: function (self) {
           var f = Math.round(self.progress * (P1_COUNT - 1));
           st1State.frame = f;
-          /* Phase 1 always updates unless Phase 2 has already claimed ownership
-           * (self.progress === 1 means we're at or past the Phase 2 boundary). */
-          if (self.progress < 1 || activePhase !== 2) {
-            activePhase  = 1;
-            currentIndex = f;
-            renderCurrent();
-          }
+          applyPhase1Frame(f);
         }
       },
       onUpdate: function () {
         var f = Math.round(st1State.frame);
 
-        if (activePhase !== 1 || f !== currentIndex) {
-          activePhase  = 1;
-          currentIndex = f;
-          renderCurrent();
+        if (!phase2OwnsScroll() && (activePhase !== 1 || f !== currentIndex)) {
+          applyPhase1Frame(f);
         }
       }
     });
@@ -2150,30 +2167,33 @@
      */
     if (chaos) {
       var st2State = { frame: 0 };
-      var chaosStage = chaos.querySelector('.home-chaos__inner') || chaos;
 
+      /*
+       * Phase 2 starts at chaos top bottom — same scroll position as phase 1
+       * (showcase bottom bottom) when sections are stacked, so there is no dead
+       * scroll with a frozen last frame. Pin keeps copy on screen while frames run.
+       */
       window.gsap.to(st2State, {
         frame: P2_COUNT - 1,
         ease: 'none',
         immediateRender: false,
         scrollTrigger: {
           id: 'home-scroll-p2',
-          trigger: chaosStage,
-          start: 'top top',
+          trigger: chaos,
+          start: 'top bottom',
           end: homeScrollPhase2End,
-          pin: chaos,
+          pin: true,
           pinSpacing: true,
           anticipatePin: 1,
           scrub: true,
           invalidateOnRefresh: true,
           onRefresh: function (self) {
+            phase2ScrollStart = self.start;
             var f = Math.round(self.progress * (P2_COUNT - 1));
             st2State.frame = f;
 
-            if (self.progress > 0) {
-              activePhase  = 2;
-              currentIndex = f;
-              renderCurrent();
+            if (phase2OwnsScroll()) {
+              applyPhase2Frame(f);
             }
           }
         },
@@ -2181,12 +2201,16 @@
           var f = Math.round(st2State.frame);
 
           if (activePhase !== 2 || f !== currentIndex) {
-            activePhase  = 2;
-            currentIndex = f;
-            renderCurrent();
+            applyPhase2Frame(f);
           }
         }
       });
+
+      window.ScrollTrigger.addEventListener('refreshInit', function () {
+        phase2ScrollStart = null;
+      });
+
+      window.ScrollTrigger.refresh();
     }
 
     window.addEventListener('resize', resizeCanvas, { passive: true });
