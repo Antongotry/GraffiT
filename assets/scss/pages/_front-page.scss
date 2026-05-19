@@ -280,11 +280,14 @@ html.is-projects-pinned .site-header {
   z-index: 80;
   overflow: visible;
   clip-path: none !important;
+  /* Remove the inherited bottom light strip before the next dark section. */
+  padding-bottom: 0;
 
   /* Mobile: also no clip-path on pseudo-elements (same as .about-clients) */
   @include mixins.mobile {
     clip-path: none !important;
     padding-top: #{mixins.mvw(84px)};
+    padding-bottom: 0;
 
     &::before,
     &::after {
