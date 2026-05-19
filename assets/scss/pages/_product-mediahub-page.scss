@@ -8,6 +8,14 @@
   overflow-x: clip;
 }
 
+/* Disable generic inner-page drifting pseudo-backgrounds for MediaHub.
+   With visible overflow on this page they can extend the scrollable area
+   and create a blank tail under the footer. */
+.site-main.site-main--product-mediahub::before,
+.site-main.site-main--product-mediahub::after {
+  content: none;
+}
+
 /* Hero: текст + кнопка, потім зображення на 100% ширини впритул */
 .mediahub-hero {
   background: #000102;
