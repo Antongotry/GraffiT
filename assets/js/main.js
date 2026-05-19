@@ -2126,7 +2126,7 @@
 
     function homeScrollPhase2End() {
       var p1 = window.ScrollTrigger.getById('home-scroll-p1');
-      var minSpan = window.innerHeight * 5.5;
+      var minSpan = window.innerHeight * 4.2;
 
       if (!p1) {
         return '+=' + Math.round(minSpan);
@@ -2138,9 +2138,9 @@
         return '+=' + Math.round(minSpan);
       }
 
-      /* Match phase-1 px/frame, then add headroom so chaos feels as calm as hero→showcase. */
+      /* ~same pace as phase 1, slightly quicker than the previous 1.2× cushion. */
       var pxPerFrame = p1Span / (P1_COUNT - 1);
-      var p2Span = pxPerFrame * (P2_COUNT - 1) * 1.2;
+      var p2Span = pxPerFrame * (P2_COUNT - 1) * 0.92;
 
       return '+=' + Math.round(Math.max(p2Span, minSpan));
     }
@@ -2163,7 +2163,7 @@
           end: homeScrollPhase2End,
           pin: true,
           anticipatePin: 1,
-          scrub: 1,
+          scrub: 0.65,
           invalidateOnRefresh: true,
           onRefresh: function (self) {
             var f = Math.round(self.progress * (P2_COUNT - 1));
