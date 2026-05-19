@@ -260,12 +260,12 @@ html.is-projects-pinned .site-header {
 
 .home-chaos-about-flow #home-about {
   position: relative;
-  z-index: 200;
+  z-index: 80;
 }
 
 .home-chaos-about-flow #home-about .pin-spacer {
   position: relative;
-  z-index: 200;
+  z-index: 80;
 }
 
 /*
@@ -277,7 +277,7 @@ html.is-projects-pinned .site-header {
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
-  z-index: 200;
+  z-index: 80;
   overflow: visible;
   clip-path: none !important;
 
