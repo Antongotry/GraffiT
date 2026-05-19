@@ -69,6 +69,9 @@
 
 .home-hex-projects-flow {
   position: relative;
+  /* Seam guard: when #home-about is pinned, subpixel rounding can reveal a
+     light gap between sections; pull this flow up by 1px to keep a hard stitch. */
+  margin-top: -1px;
   overflow: visible;
   background: #000102;
   isolation: isolate;
@@ -94,10 +97,10 @@
   /* Dark upward-pointing triangle — mirrors .about-stack::before */
   &::after {
     position: absolute;
-    top: #{mixins.vw(-90px)};
+    top: calc(#{mixins.vw(-90px)} - 1px);
     left: 0;
     width: 100%;
-    height: #{mixins.vw(90px)};
+    height: calc(#{mixins.vw(90px)} + 1px);
     z-index: 1;
     background: #000102;
     clip-path: polygon(0 100%, 50% 0, 100% 100%);
@@ -111,8 +114,8 @@
     }
 
     &::after {
-      top: #{mixins.mvw(-40px)};
-      height: #{mixins.mvw(40px)};
+      top: calc(#{mixins.mvw(-40px)} - 1px);
+      height: calc(#{mixins.mvw(40px)} + 1px);
     }
   }
 }
