@@ -419,6 +419,11 @@ html.is-projects-pinned .site-header {
 
 }
 
+/* Pin must not clip the top bow-tie notch (same idea as about-clients pin-spacer). */
+.home-scroll-film .pin-spacer-home-scroll-p2 {
+  overflow: visible;
+}
+
 .home-hero {
   position: relative;
   min-height: 100svh;
@@ -794,26 +799,43 @@ html.is-projects-pinned .site-header {
 
 .home-chaos {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   box-sizing: border-box;
-  /* Full-viewport pin stage; copy is centred so phase-2 film plays over visible text. */
+  /* Top bow-tie notch (about-hero / about-clients handoff): fixed canvas shows in the
+     side “wings”; overlap pulls the notch over the showcase film. Bottom stays flat. */
+  margin-top: #{mixins.vw(-90px)};
   min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: #{mixins.vw(48px)} 0 #{mixins.vw(64px)};
-  /* Desktop: transparent — shared scroll-film canvas is the background. */
+  padding: calc(#{mixins.vw(90px)} + #{mixins.vw(48px)}) 0 #{mixins.vw(64px)};
+  clip-path: polygon(
+    0 0,
+    50% #{mixins.vw(90px)},
+    100% 0,
+    100% 100%,
+    0 100%
+  );
+  isolation: isolate;
   background: transparent;
-  z-index: 1;
+  z-index: 2;
 
   &::before {
     content: none;
   }
 
   @include mixins.mobile {
+    margin-top: #{mixins.mvw(-40px)};
     min-height: 100svh;
     align-items: flex-start;
-    padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(48px)};
+    padding: calc(#{mixins.mvw(40px)} + #{mixins.mvw(56px)}) 0 #{mixins.mvw(48px)};
+    clip-path: polygon(
+      0 0,
+      50% #{mixins.mvw(40px)},
+      100% 0,
+      100% 100%,
+      0 100%
+    );
   }
 }
 
