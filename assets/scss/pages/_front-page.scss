@@ -164,6 +164,12 @@
   }
 }
 
+@media (min-width: 1520px) {
+  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--psm {
+    transform: translateX(-30%);
+  }
+}
+
 .home-hex-projects-flow .services-overview,
 .home-hex-projects-flow .services-inquiry {
   position: relative;
