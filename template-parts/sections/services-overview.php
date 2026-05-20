@@ -35,7 +35,7 @@ $cards = [
         'button_label' => 'Детальніше',
         'button_url' => '#',
         'highlighted' => false,
-        'layout' => 'low',
+        'layout' => 'default',
     ],
 ];
 ?>
