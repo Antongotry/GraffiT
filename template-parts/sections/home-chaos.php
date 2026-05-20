@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 ?>
-<section class="home-chaos" aria-label="<?php esc_attr_e('Коли бізнес росте — разом із ним хаос', 'graffit'); ?>">
+<section class="home-chaos" aria-label="<?php esc_attr_e('Коли бізнес росте – разом із ним хаос', 'graffit'); ?>">
     <div class="home-chaos__inner">
         <h2 class="home-chaos__display">
             Бізнес росте<br>

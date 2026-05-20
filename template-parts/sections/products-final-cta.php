@@ -14,7 +14,7 @@ declare(strict_types=1);
         </h2>
 
         <p class="services-final-cta__text">
-            Залиште заявку — ми покажемо демо, розповімо про можливості продукту і підберемо рішення, що реально працюватиме під ваш бізнес.
+            Залиште заявку – ми покажемо демо, розповімо про можливості продукту і підберемо рішення, що реально працюватиме під ваш бізнес.
         </p>
 
         <a class="services-final-cta__button" href="#site-footer" data-popup-open="request" data-popup-source="products-final-cta" data-popup-source-label="Products Final CTA · Залишити заявку">Залишити заявку</a>

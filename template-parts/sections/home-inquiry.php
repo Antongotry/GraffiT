@@ -1,6 +1,6 @@
 <?php
 /**
- * Front page (and About) inquiry CTA — same band as services page.
+ * Front page (and About) inquiry CTA – same band as services page.
  *
  * Optional `get_template_part` args: `button_source`, `button_source_label`.
  *
@@ -26,7 +26,7 @@ get_template_part(
             'Маєте комплексний',
             'або унікальний запит?',
         ],
-        'text' => 'Поділіться з нами деталями — ми допоможемо знайти правильне рішення, навіть якщо воно виходить за рамки стандартних послуг',
+        'text' => 'Поділіться з нами деталями – ми допоможемо знайти правильне рішення, навіть якщо воно виходить за рамки стандартних послуг',
         'button_label' => 'Залишити заявку',
         'button_url' => '#site-footer',
         'button_popup' => true,

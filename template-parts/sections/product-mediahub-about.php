@@ -1,6 +1,6 @@
 <?php
 /**
- * MediaHub product page — блок «Про нас» (як #home-about на головній).
+ * MediaHub product page – блок «Про нас» (як #home-about на головній).
  *
  * @package graffit
  */
@@ -28,7 +28,7 @@ $mediahub_about_trust_cards = [
     ],
     [
         'title' => 'Партнерство',
-        'text' => 'Не просто виконуємо завдання — підказуємо, як зробити ефективніше.',
+        'text' => 'Не просто виконуємо завдання – підказуємо, як зробити ефективніше.',
     ],
 ];
 ?>
@@ -56,7 +56,7 @@ $mediahub_about_trust_cards = [
                     </div>
 
                     <h2 class="services-clients__title" id="mediahub-about-title">
-                        <span class="services-clients__title-line"><strong>GraffIT</strong> — команда, що вийшла з </span>
+                        <span class="services-clients__title-line"><strong>GraffIT</strong> – команда, що вийшла з </span>
                         <span class="services-clients__title-line">великого внутрішнього ІТ-департаменту, </span>
                         <span class="services-clients__title-line">який десятиліттями будував </span>
                         <span class="services-clients__title-line">інфраструктуру для торговельних </span>

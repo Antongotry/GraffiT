@@ -14,7 +14,7 @@ $home_hero_cta_image = graffit_home_hero_cta_image_url() . '?v=home-cta-2';
     <div class="home-hero__container">
         <div class="home-hero__summary">
             <p class="home-hero__description">
-                Як графіт стає діамантом — так і ваш задум трансформується у точний, витончений і готовий до масштабування цифровий продукт.
+                Як графіт стає діамантом – так і ваш задум трансформується у точний, витончений і готовий до масштабування цифровий продукт.
             </p>
         </div>
 

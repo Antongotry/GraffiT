@@ -1,6 +1,6 @@
 <?php
 /**
- * Services reasons section — hex-grid v2.
+ * Services reasons section – hex-grid v2.
  *
  * Modular hex grid derived from original pixel positions:
  *
@@ -105,7 +105,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
                 }
             } else {
                 ?>
-            Ми не просто кодимо — ми глибоко занурюємось у бізнес клієнта, щоб
+            Ми не просто кодимо – ми глибоко занурюємось у бізнес клієнта, щоб
             створювати рішення, які не лише автоматизують, а й посилюють ефективність.
                 <?php
             }
@@ -115,14 +115,14 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
 
     <div class="hex-reasons__scene hex-reasons__scene--desktop" role="list" aria-label="Переваги GraffiT">
 
-        <!-- ═ row 0 · col 0 — decorative outline (half off-screen left) ═ -->
+        <!-- ═ row 0 · col 0 – decorative outline (half off-screen left) ═ -->
         <div
             class="hex-reasons__hex hex-reasons__hex--outline hex-reasons__hex--r0c0"
             style="<?php echo esc_attr( $cover_style ); ?>"
             aria-hidden="true"
         ></div>
 
-        <!-- ═ row 0 · col 1 — «Ми не нав'язуємо готову коробку» ═ -->
+        <!-- ═ row 0 · col 1 – «Ми не нав'язуємо готову коробку» ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r0c1"
             style="<?php echo esc_attr( $home_card_style ); ?>"
@@ -135,7 +135,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             </div>
         </article>
 
-        <!-- ═ row 0 · col 2 — Enterprise stack ═ -->
+        <!-- ═ row 0 · col 2 – Enterprise stack ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r0c2"
             style="<?php echo esc_attr( $home_card_style ); ?>"
@@ -163,7 +163,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             </div>
         </article>
 
-        <!-- ═ photo large — grid ~(3.227, −0.388) ═ -->
+        <!-- ═ photo large – grid ~(3.227, −0.388) ═ -->
         <div
             class="hex-reasons__hex hex-reasons__hex--photo hex-reasons__hex--photo-lg hex-reasons__hex--plg"
             aria-hidden="true"
@@ -179,7 +179,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             >
         </div>
 
-        <!-- ═ row 1 · col 0 — Складні кейси ═ -->
+        <!-- ═ row 1 · col 0 – Складні кейси ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r1c0"
             style="<?php echo esc_attr( $home_card_style ); ?>"
@@ -192,7 +192,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             </div>
         </article>
 
-        <!-- ═ row 1 · col 1 — Інтеграція ═ -->
+        <!-- ═ row 1 · col 1 – Інтеграція ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r1c1"
             style="<?php echo esc_attr( $home_card_style ); ?>"
@@ -205,7 +205,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             </div>
         </article>
 
-        <!-- ═ row 1 · col 2 — Документація ═ -->
+        <!-- ═ row 1 · col 2 – Документація ═ -->
         <article
             class="hex-reasons__hex hex-reasons__hex--card hex-reasons__hex--r1c2"
             style="<?php echo esc_attr( $home_card_style ); ?>"
@@ -218,7 +218,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             </div>
         </article>
 
-        <!-- ═ photo small — grid ~(3.431, 1.290) ═ -->
+        <!-- ═ photo small – grid ~(3.431, 1.290) ═ -->
         <div
             class="hex-reasons__hex hex-reasons__hex--photo hex-reasons__hex--photo-sm hex-reasons__hex--psm"
             aria-hidden="true"

@@ -5,8 +5,8 @@
  * Optional `get_template_part` args:
  * - `eyebrow_text` (string)
  * - `title_id` (string)
- * - `title_lines` (string[]) — if non-empty, multi-line title; else `title_text` or default
- * - `title_text` (string) — single-line title when `title_lines` empty
+ * - `title_lines` (string[]) – if non-empty, multi-line title; else `title_text` or default
+ * - `title_text` (string) – single-line title when `title_lines` empty
  *
  * @package graffit
  */

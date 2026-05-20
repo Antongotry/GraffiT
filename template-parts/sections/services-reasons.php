@@ -46,7 +46,7 @@ $stack_card_style   = sprintf("--reasons-card-image: url('%s');", esc_url_raw($r
         </div>
 
         <h2 class="services-reasons__summary" id="services-reasons-title">
-            Ми не просто кодимо — ми глибоко занурюємось у бізнес клієнта, щоб створювати рішення, які не лише автоматизують, а й посилюють ефективність.
+            Ми не просто кодимо – ми глибоко занурюємось у бізнес клієнта, щоб створювати рішення, які не лише автоматизують, а й посилюють ефективність.
         </h2>
 
         <div class="services-reasons__cluster" role="list" aria-label="Переваги GraffiT">

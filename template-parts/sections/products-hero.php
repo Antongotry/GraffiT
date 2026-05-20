@@ -1,6 +1,6 @@
 <?php
 /**
- * Products page — hero section.
+ * Products page – hero section.
  *
  * @package graffit
  */

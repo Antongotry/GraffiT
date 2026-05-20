@@ -193,7 +193,7 @@ function graffit_product_mediahub_audience_image_url(int $index): string
 }
 
 /**
- * MediaHub «результат» — іконки-прапорці (1–5), gN_result.webp.
+ * MediaHub «результат» – іконки-прапорці (1–5), gN_result.webp.
  */
 function graffit_product_mediahub_result_image_url(int $index): string
 {
@@ -460,7 +460,7 @@ add_action('wp_enqueue_scripts', 'graffit_enqueue_assets');
  * Optional: discourage caching of HTML (browser/CDN that respect response headers).
  *
  * Full-page plugins (e.g. LiteSpeed Cache on Hostinger) may still serve a stored
- * copy until you purge the cache in the panel or adjust the plugin — PHP headers
+ * copy until you purge the cache in the panel or adjust the plugin – PHP headers
  * alone do not always bypass that layer.
  *
  * In wp-config.php: define( 'GRAFFIT_DISABLE_HTML_CACHE', true );

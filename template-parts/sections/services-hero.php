@@ -35,7 +35,7 @@ declare(strict_types=1);
             </div>
 
             <div class="services-hero__aside">
-                <p class="services-hero__description">Ми допомагаємо компаніям наводити лад у процесах — від автоматизації обліку до створення масштабних систем управління.</p>
+                <p class="services-hero__description">Ми допомагаємо компаніям наводити лад у процесах – від автоматизації обліку до створення масштабних систем управління.</p>
                 <a class="services-hero__cta" href="#site-footer" data-popup-open="request" data-popup-source="services-hero" data-popup-source-label="Hero · Отримати консультацію">Отримати консультацію</a>
             </div>
         </div>

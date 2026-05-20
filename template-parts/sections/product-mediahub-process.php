@@ -1,6 +1,6 @@
 <?php
 /**
- * Product MediaHub — «Процес / Як це працює».
+ * Product MediaHub – «Процес / Як це працює».
  *
  * @package graffit
  */

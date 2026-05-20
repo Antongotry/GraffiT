@@ -1,6 +1,6 @@
 <?php
 /**
- * Product MediaHub page — hero (desktop-first, 1440 → vw).
+ * Product MediaHub page – hero (desktop-first, 1440 → vw).
  *
  * @package graffit
  */
@@ -13,7 +13,7 @@ $hero_img = graffit_product_mediahub_hero_image_url();
     <div class="mediahub-hero__container">
         <div class="mediahub-hero__content">
             <h1 class="mediahub-hero__title">
-                <span class="mediahub-hero__title-line">MediaHub — ваш контроль</span>
+                <span class="mediahub-hero__title-line">MediaHub – ваш контроль</span>
                 <span class="mediahub-hero__title-line">над рекламою на екранах</span>
             </h1>
 
