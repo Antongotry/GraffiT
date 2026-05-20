@@ -2006,6 +2006,13 @@
     var P2_LAST_FRAME = 181;
     var P2_COUNT = P2_LAST_FRAME - P2_FIRST + 1;
     var P2_LAST = P2_COUNT - 1;
+    var FIRST_FRAME_URL = BASE_URL + 'ezgif-frame-001_result.webp';
+
+    // Fallback poster to avoid black flash before first decoded frame.
+    canvas.style.backgroundImage = 'url("' + FIRST_FRAME_URL + '")';
+    canvas.style.backgroundSize = 'cover';
+    canvas.style.backgroundPosition = 'center';
+    canvas.style.backgroundRepeat = 'no-repeat';
 
     var p1Images = container.__homeFilmP1Images;
 
@@ -2018,6 +2025,9 @@
           var img = new Image();
           img.onload = function () {
             p1Images[idx] = img;
+            if (idx === 0) {
+              drawImage(img);
+            }
           };
           img.src = BASE_URL + 'ezgif-frame-' + String(idx + 1).padStart(3, '0') + '_result.webp';
         })(i1);
@@ -2085,6 +2095,7 @@
       var h = img.naturalHeight * scale;
 
       ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      canvas.style.backgroundImage = 'none';
     }
 
     function setFilmFrame(phase, index) {
