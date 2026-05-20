@@ -250,15 +250,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   z-index: 1;
 }
 
-/* Коли GSAP активно пінить карусель — хедер ховається повністю.
-   z-index сам по собі не працює через `isolation: isolate` на контейнері,
-   тому використовуємо visibility + pointer-events. */
-.site-header.is-hidden-by-pin,
-html.is-projects-pinned .site-header {
-  visibility: hidden;
-  pointer-events: none;
-}
-
 .home-chaos-about-flow #home-about {
   position: relative;
   z-index: 80;
