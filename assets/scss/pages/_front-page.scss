@@ -145,12 +145,12 @@
   }
 
   .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--plg {
-    left: clamp(990px, calc(990px + (100vw - 1440px) * 0.32), 1140px) !important;
+    left: clamp(960px, calc(960px + (100vw - 1440px) * 0.16), 1040px) !important;
     top: -96px !important;
   }
 
   .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--psm {
-    right: clamp(-128px, calc(-128px + (100vw - 1440px) * 0.48), 92px);
+    right: clamp(-168px, calc(-168px + (100vw - 1440px) * 0.2), -72px);
     top: 470px;
   }
 }
