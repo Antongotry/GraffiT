@@ -880,9 +880,10 @@ html.is-projects-pinned .site-header {
     left: 50%;
     top: 50%;
     z-index: -1;
-    width: 116%;
-    height: 132%;
-    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.58) 0%, rgba(0, 0, 0, 0.2) 52%, rgba(0, 0, 0, 0) 100%);
+    width: 142%;
+    height: 162%;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.36) 56%, rgba(0, 0, 0, 0) 100%);
+    filter: blur(#{mixins.vw(6px)});
     transform: translate(-50%, -50%);
     content: "";
     pointer-events: none;
@@ -901,8 +902,9 @@ html.is-projects-pinned .site-header {
       0 #{mixins.mvw(1px)} #{mixins.mvw(4px)} rgba(0, 0, 0, 0.72);
 
     &::before {
-      width: 122%;
-      height: 136%;
+      width: 148%;
+      height: 168%;
+      filter: blur(#{mixins.mvw(6px)});
     }
   }
 }
@@ -928,9 +930,10 @@ html.is-projects-pinned .site-header {
     left: 50%;
     top: 50%;
     z-index: -1;
-    width: 118%;
-    height: 138%;
-    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0.18) 52%, rgba(0, 0, 0, 0) 100%);
+    width: 146%;
+    height: 172%;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.34) 56%, rgba(0, 0, 0, 0) 100%);
+    filter: blur(#{mixins.vw(6px)});
     transform: translate(-50%, -50%);
     content: "";
     pointer-events: none;
@@ -950,8 +953,9 @@ html.is-projects-pinned .site-header {
       0 #{mixins.mvw(1px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.68);
 
     &::before {
-      width: 124%;
-      height: 142%;
+      width: 152%;
+      height: 178%;
+      filter: blur(#{mixins.mvw(6px)});
     }
   }
 }
