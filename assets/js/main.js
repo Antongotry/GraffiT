@@ -378,7 +378,7 @@
       var isProductsProjects = section.classList.contains('products-projects');
       var isHomeProjects = section.id === 'services-projects';
       var isMediahubProjects = section.id === 'mediahub-capabilities';
-      var startOffset = isProductsProjects ? 360 : ((isHomeProjects || isMediahubProjects) ? 96 : 100);
+      var startOffset = isProductsProjects ? 360 : ((isHomeProjects || isMediahubProjects) ? 180 : 100);
 
       if (!viewport || !stage || !track || cards.length === 0 || ((isHomeProjects || isMediahubProjects) && !container)) {
         return;
