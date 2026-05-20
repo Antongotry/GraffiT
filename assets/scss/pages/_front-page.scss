@@ -141,12 +141,23 @@
 }
 
 @media (min-width: 1501px) {
+  .home-hex-projects-flow .hex-reasons--home .hex-reasons__scene {
+    left: auto;
+    width: min(100%, 1764px);
+    margin-inline: auto;
+    transform: none;
+  }
+
   .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--plg {
-    transform: translateX(-12%);
+    left: 990px !important;
+    top: -96px !important;
+    transform: none;
   }
 
   .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--psm {
-    transform: translateX(-62%);
+    right: -128px;
+    top: 453px;
+    transform: none;
   }
 }
 
