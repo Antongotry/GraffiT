@@ -22,7 +22,7 @@ $cards = [
         'button_label' => 'Детальніше',
         'button_url' => '#',
         'highlighted' => false,
-        'layout' => 'default',
+        'layout' => 'low',
     ],
     [
         'title' => 'IT-аутсорсинг',
