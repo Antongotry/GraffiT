@@ -586,8 +586,8 @@
 
 .service-card {
   position: relative;
-  // 463px @ 1440px artboard (keep calc() in output for inspectability)
-  min-height: #{"calc(100vw * 463 / 1440)"};
+  // 463px @ 1440px artboard; cap on ultra-wide screens to avoid oversized cards.
+  min-height: min(#{"calc(100vw * 463 / 1440)"}, #{mixins.vw(463px)});
   border-radius: #{mixins.vw(20px)};
   background:
     linear-gradient(90deg, rgba(20, 23, 30, 0.5) 0%, rgba(20, 23, 30, 0) 38%),
