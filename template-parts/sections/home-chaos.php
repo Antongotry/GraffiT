@@ -12,13 +12,13 @@ declare(strict_types=1);
     <div class="home-chaos__inner">
         <h2 class="home-chaos__display">
             Бізнес росте<br>
-            — і разом<br>
+            - і разом<br>
             із ним хаос
         </h2>
 
         <div class="home-chaos__content">
             <p class="home-chaos__headline">
-                Коли шаблонні рішення не працюють — ми створюємо свої
+                Коли шаблонні рішення не працюють - ми створюємо свої
             </p>
 
             <p class="home-chaos__experience">&gt;18 років<br>досвіду</p>
