@@ -863,16 +863,30 @@ html.is-projects-pinned .site-header {
 }
 
 .home-chaos__display {
+  position: relative;
   width: #{mixins.vw(501px)};
   font-size: #{mixins.vw(76px)};
   font-weight: 700;
   line-height: 0.85;
   letter-spacing: -0.03em;
-  -webkit-text-stroke: #{mixins.vw(1.2px)} rgba(0, 0, 0, 0.55);
+  -webkit-text-stroke: #{mixins.vw(1.6px)} rgba(0, 0, 0, 0.68);
   text-shadow:
-    0 #{mixins.vw(18px)} #{mixins.vw(56px)} rgba(0, 0, 0, 0.78),
-    0 #{mixins.vw(6px)} #{mixins.vw(18px)} rgba(0, 0, 0, 0.62),
-    0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.72);
+      0 #{mixins.vw(18px)} #{mixins.vw(56px)} rgba(0, 0, 0, 0.78),
+      0 #{mixins.vw(6px)} #{mixins.vw(18px)} rgba(0, 0, 0, 0.62),
+      0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.72);
+
+  &::before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: -1;
+    width: 116%;
+    height: 132%;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.58) 0%, rgba(0, 0, 0, 0.2) 52%, rgba(0, 0, 0, 0) 100%);
+    transform: translate(-50%, -50%);
+    content: "";
+    pointer-events: none;
+  }
 
   @include mixins.mobile {
     width: #{mixins.mvw(355px)};
@@ -880,15 +894,21 @@ html.is-projects-pinned .site-header {
     font-size: #{mixins.mvw(48px)};
     line-height: 1;
     letter-spacing: 0;
-    -webkit-text-stroke: #{mixins.mvw(1px)} rgba(0, 0, 0, 0.55);
+    -webkit-text-stroke: #{mixins.mvw(1.4px)} rgba(0, 0, 0, 0.68);
     text-shadow:
       0 #{mixins.mvw(10px)} #{mixins.mvw(34px)} rgba(0, 0, 0, 0.78),
       0 #{mixins.mvw(3px)} #{mixins.mvw(12px)} rgba(0, 0, 0, 0.62),
       0 #{mixins.mvw(1px)} #{mixins.mvw(4px)} rgba(0, 0, 0, 0.72);
+
+    &::before {
+      width: 122%;
+      height: 136%;
+    }
   }
 }
 
 .home-chaos__headline {
+  position: relative;
   width: 100%;
   max-width: min(100%, #{mixins.vw(574px)});
   font-size: #{mixins.vw(48px)};
@@ -897,11 +917,24 @@ html.is-projects-pinned .site-header {
   letter-spacing: -0.03em;
   white-space: normal;
   overflow-wrap: break-word;
-  -webkit-text-stroke: #{mixins.vw(1px)} rgba(0, 0, 0, 0.52);
+  -webkit-text-stroke: #{mixins.vw(1.3px)} rgba(0, 0, 0, 0.66);
   text-shadow:
     0 #{mixins.vw(14px)} #{mixins.vw(44px)} rgba(0, 0, 0, 0.74),
     0 #{mixins.vw(5px)} #{mixins.vw(14px)} rgba(0, 0, 0, 0.58),
     0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.68);
+
+  &::before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: -1;
+    width: 118%;
+    height: 138%;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0.18) 52%, rgba(0, 0, 0, 0) 100%);
+    transform: translate(-50%, -50%);
+    content: "";
+    pointer-events: none;
+  }
 
   @include mixins.mobile {
     width: #{mixins.mvw(355px)};
@@ -910,11 +943,16 @@ html.is-projects-pinned .site-header {
     font-size: #{mixins.mvw(30px)};
     line-height: 1;
     letter-spacing: 0;
-    -webkit-text-stroke: #{mixins.mvw(0.8px)} rgba(0, 0, 0, 0.52);
+    -webkit-text-stroke: #{mixins.mvw(1.1px)} rgba(0, 0, 0, 0.66);
     text-shadow:
       0 #{mixins.mvw(8px)} #{mixins.mvw(28px)} rgba(0, 0, 0, 0.74),
       0 #{mixins.mvw(3px)} #{mixins.mvw(10px)} rgba(0, 0, 0, 0.58),
       0 #{mixins.mvw(1px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.68);
+
+    &::before {
+      width: 124%;
+      height: 142%;
+    }
   }
 }
 
