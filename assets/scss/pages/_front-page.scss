@@ -153,6 +153,15 @@
     right: clamp(-168px, calc(-168px + (100vw - 1440px) * 0.2), -72px);
     top: 470px;
   }
+
+  /* Ultra-wide: pull the right column cards a bit left to keep 1440-like composition density. */
+  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--r0c2 {
+    transform: translateX(clamp(-84px, calc((100vw - 1440px) * -0.12), -28px));
+  }
+
+  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--r1c2 {
+    transform: translateX(clamp(-108px, calc((100vw - 1440px) * -0.14), -36px));
+  }
 }
 
 .home-hex-projects-flow .services-overview,
