@@ -140,6 +140,13 @@
   z-index: 4;
 }
 
+@media (min-width: 1501px) {
+  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--plg,
+  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--psm {
+    transform: translateX(-29%);
+  }
+}
+
 .home-hex-projects-flow .services-overview--home-directions {
   z-index: 6;
 }
