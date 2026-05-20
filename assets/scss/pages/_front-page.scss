@@ -145,28 +145,13 @@
   }
 
   .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--plg {
-    left: clamp(960px, calc(960px + (100vw - 1440px) * 0.16), 1040px) !important;
+    left: clamp(990px, calc(990px + (100vw - 1440px) * 0.32), 1140px) !important;
     top: -96px !important;
   }
 
   .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--psm {
-    right: clamp(-168px, calc(-168px + (100vw - 1440px) * 0.2), -72px);
+    right: clamp(-128px, calc(-128px + (100vw - 1440px) * 0.48), 92px);
     top: 470px;
-  }
-
-  /* Ultra-wide: pull the right column cards a bit left to keep 1440-like composition density. */
-  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--r0c2 {
-    transform: translateX(clamp(-84px, calc((100vw - 1440px) * -0.12), -28px));
-  }
-
-  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--r1c2 {
-    transform: translateX(clamp(-108px, calc((100vw - 1440px) * -0.14), -36px));
-  }
-}
-
-@media (min-width: 1520px) {
-  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--psm {
-    transform: translateX(-30%);
   }
 }
 
