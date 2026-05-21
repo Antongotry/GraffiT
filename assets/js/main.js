@@ -230,7 +230,7 @@
           start: 'top top',
           end: function () {
             if (isServicesPageBenefits) {
-              return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage, 0.55) + ')';
+              return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage, 0.78) + ')';
             }
 
             return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage, 1.2) + ')';
@@ -1129,6 +1129,20 @@
         return overflow + extra;
       }
 
+      function clientsPinScrollDistance() {
+        var raw = clientsTrackScrollDistance();
+
+        if (section.id !== 'mediahub-clients') {
+          return raw;
+        }
+
+        // Enough scroll to finish the card stack; cap excess pin-spacer on the product page.
+        var minDistance = Math.round(window.innerHeight * 0.92);
+        var maxDistance = Math.round(window.innerHeight * 1.75);
+
+        return Math.min(Math.max(raw, minDistance), maxDistance);
+      }
+
       function clientsTopFadeStartPx() {
         var w = window.innerWidth || 1440;
         var offset = Math.round((24 / 1440) * w);
@@ -1151,7 +1165,7 @@
           end: function () {
             // Clamp pin distance to the document scroll bounds so the spacer
             // cannot create a blank tail after the footer on short pages.
-            return 'clamp(+=' + clientsTrackScrollDistance() + ')';
+            return 'clamp(+=' + clientsPinScrollDistance() + ')';
           },
           pin: viewport,
           scrub: 1,

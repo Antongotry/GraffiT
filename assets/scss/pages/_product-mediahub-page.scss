@@ -1187,52 +1187,39 @@
   }
 }
 
-/* «Про нас»: standalone-секція без bow-tie (попередня секція — flat-низ).
-   Pin viewport через GSAP, але клін-пас вимкнений як на /pro-nas/. */
+/* Клієнти: bow-tie стик із process (зверху) та FAQ (знизу), як на /services/. */
 .mediahub-about {
   position: relative;
+  margin-top: #{mixins.vw(-96px)};
   overflow: visible;
   z-index: 75;
   isolation: isolate;
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(-40px)};
+  }
 }
 
 .mediahub-about .pin-spacer {
   position: relative;
   z-index: 75 !important;
+  overflow: visible;
 }
 
 .mediahub-about .services-clients__viewport {
   z-index: 75;
-  min-height: 100dvh;
-  min-height: 100svh;
-  padding-top: 0;
-  padding-bottom: #{mixins.vw(48px)};
   overflow: visible;
-  clip-path: none;
-  background: linear-gradient(180deg, #d5e1f0 0%, #c3d3e8 100%);
+}
 
-  &::after,
-  &::before {
-    clip-path: none;
-  }
-
-  &::after {
-    background:
-      radial-gradient(circle at 0% 58%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 58%),
-      radial-gradient(circle at 100% 58%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 58%),
-      linear-gradient(180deg, #d5e1f0 0%, #c3d3e8 100%);
-  }
+.mediahub-about .services-clients__container {
+  padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(96px)});
 
   @include mixins.mobile {
-    min-height: auto;
-    padding-top: #{mixins.mvw(84px)};
-    padding-bottom: #{mixins.mvw(40px)};
+    padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
   }
 }
 
 .mediahub-about .services-clients__layout {
-  padding-top: #{mixins.vw(96px)};
-
   @include mixins.mobile {
     padding-top: 0;
   }
@@ -1308,22 +1295,29 @@
 
 .mediahub-faq {
   position: relative;
-  z-index: 4;
+  z-index: 76;
+  margin-top: #{mixins.vw(-96px)};
   overflow: hidden;
   background:
     radial-gradient(circle at 0% 58%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 44%),
     radial-gradient(circle at 100% 58%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 44%),
     #000102;
+  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%);
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(-40px)};
+    clip-path: polygon(0 0, 50% 4%, 100% 0, 100% 100%, 0 100%);
+  }
 }
 
 .mediahub-faq__container {
   width: min(100%, #{mixins.vw(1360px)});
   margin-inline: auto;
-  padding: #{mixins.vw(96px)} #{mixins.vw(28px)} #{mixins.vw(128px)};
+  padding: calc(#{mixins.vw(96px)} + #{mixins.vw(96px)}) #{mixins.vw(28px)} #{mixins.vw(128px)};
 
   @include mixins.mobile {
     width: 100%;
-    padding: #{mixins.mvw(56px)} #{mixins.mvw(16px)} #{mixins.mvw(72px)};
+    padding: calc(#{mixins.mvw(56px)} + #{mixins.mvw(40px)}) #{mixins.mvw(16px)} #{mixins.mvw(72px)};
   }
 }
 
