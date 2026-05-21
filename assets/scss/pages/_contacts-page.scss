@@ -5,10 +5,7 @@
   min-height: auto;
   padding-bottom: #{mixins.vw(96px)};
   overflow: clip;
-  background:
-    radial-gradient(circle at 18% 0%, rgba(0, 115, 230, 0.16) 0%, rgba(0, 115, 230, 0) 42%),
-    radial-gradient(circle at 100% 28%, rgba(0, 115, 230, 0.1) 0%, rgba(0, 115, 230, 0) 36%),
-    #000102;
+  background: #000102;
   color: #ffffff;
 
   &::after {
@@ -17,7 +14,7 @@
     bottom: 0;
     left: 0;
     height: #{mixins.vw(168px)};
-    background: linear-gradient(180deg, rgba(0, 1, 2, 0) 0%, #000102 76%);
+    background: none;
     content: "";
     pointer-events: none;
   }
