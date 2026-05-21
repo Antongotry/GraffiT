@@ -16,6 +16,11 @@
   content: none;
 }
 
+/* FAQ — суцільний низ; футер без підтягування ореолу з секції вище. */
+.site-main.site-main--product-mediahub ~ .site-footer {
+  margin-top: 0;
+}
+
 /* Hero: текст + кнопка, потім зображення на 100% ширини впритул */
 .mediahub-hero {
   background: #000102;
@@ -1309,20 +1314,37 @@
   z-index: 76;
   margin-top: #{mixins.vw(-96px)};
   overflow: hidden;
-  background:
-    radial-gradient(circle at 0% 58%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 44%),
-    radial-gradient(circle at 100% 58%, rgba(0, 115, 230, 0.22) 0%, rgba(0, 115, 230, 0) 44%),
-    #000102;
+  isolation: isolate;
+  background: #000102;
   /* Один шпиль вгору в світлу секцію (не виріз вниз). */
   clip-path: polygon(0 6.5%, 50% 0, 100% 6.5%, 100% 100%, 0 100%);
+
+  /* Бокове свічення лише у верхній частині — без синього ореолу над футером. */
+  &::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    content: "";
+    background:
+      radial-gradient(circle at 0% 36%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 40%),
+      radial-gradient(circle at 100% 36%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 40%);
+    clip-path: inset(0 0 22% 0);
+  }
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(-40px)};
     clip-path: polygon(0 4%, 50% 0, 100% 4%, 100% 100%, 0 100%);
+
+    &::before {
+      clip-path: inset(0 0 18% 0);
+    }
   }
 }
 
 .mediahub-faq__container {
+  position: relative;
+  z-index: 1;
   width: min(100%, #{mixins.vw(1360px)});
   margin-inline: auto;
   padding: calc(#{mixins.vw(96px)} + #{mixins.vw(96px)}) #{mixins.vw(28px)} #{mixins.vw(128px)};
