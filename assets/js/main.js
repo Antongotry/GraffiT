@@ -881,6 +881,14 @@
         return;
       }
 
+      aboutSection.classList.add('is-about-clients-stacked');
+      aboutSection.classList.remove('is-about-clients-stacked-desktop');
+      aboutSection.classList.remove('is-clients-top-fade');
+
+      if (window.innerWidth <= 1024) {
+        return;
+      }
+
       if (aboutSection.getAttribute('data-about-clients-stacked-init') === '1') {
         return;
       }
@@ -895,10 +903,6 @@
       }
 
       aboutSection.setAttribute('data-about-clients-stacked-init', '1');
-      aboutSection.classList.add('is-about-clients-stacked');
-      aboutSection.classList.remove('is-about-clients-stacked-desktop');
-      aboutSection.classList.remove('is-clients-top-fade');
-
       nodes = [
         aboutSection.querySelector('.services-clients__viewport'),
         aboutSection.querySelector('.js-clients-stage'),
