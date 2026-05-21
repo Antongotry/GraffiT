@@ -1478,8 +1478,16 @@
   function initProjectsNavDropdowns() {
     document.querySelectorAll('.js-header-projects').forEach(function (root) {
       var toggle = root.querySelector('.js-header-projects-toggle');
+      var mainLink = root.querySelector('.site-header__nav-link');
       if (!toggle) {
         return;
+      }
+
+      if (mainLink) {
+        mainLink.addEventListener('click', function () {
+          root.classList.remove('is-open');
+          toggle.setAttribute('aria-expanded', 'false');
+        });
       }
 
       toggle.addEventListener('click', function (e) {

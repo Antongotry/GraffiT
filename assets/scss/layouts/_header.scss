@@ -130,6 +130,8 @@
 }
 
 .site-header__nav-projects-toggle {
+  position: relative;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -163,8 +165,7 @@
   transition: transform 0.22s ease;
 }
 
-.site-header__nav-item--projects.is-open .site-header__nav-projects-chevron,
-.site-header__nav-item--projects:hover .site-header__nav-projects-chevron {
+.site-header__nav-item--projects.is-open .site-header__nav-projects-chevron {
   transform: rotate(180deg);
 }
 
@@ -191,7 +192,7 @@
     visibility 0.2s ease,
     transform 0.2s ease;
 
-  /* Invisible hit-area above the panel (line-height / subpixel gaps). */
+  /* Місток до панелі лише коли меню відкрите кнопкою (не перекриває клік по «Проєкти»). */
   &::before {
     content: "";
     position: absolute;
@@ -199,17 +200,21 @@
     left: 0;
     width: 100%;
     height: #{mixins.vw(14px)};
+    pointer-events: none;
   }
 }
 
-.site-header__nav-item--projects:hover .site-header__subnav,
-.site-header__nav-item--projects:focus-within .site-header__subnav,
+/* Підменю тільки по кліку на шеврон (.is-open), не по hover на весь пункт. */
 .site-header__nav-item--projects.is-open .site-header__subnav {
   z-index: 3;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   transform: translate(-50%, 0);
+
+  &::before {
+    pointer-events: auto;
+  }
 }
 
 .site-header__subnav-link {
