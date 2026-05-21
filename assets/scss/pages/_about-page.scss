@@ -2,9 +2,10 @@
 
 .site-main--about {
   background: #000102;
+  overflow: visible !important;
 
   @include mixins.mobile {
-    overflow: visible;
+    overflow: visible !important;
   }
 }
 
@@ -648,9 +649,16 @@
       .services-clients__cards-track .trust-card {
         position: relative;
         top: auto;
+        display: flex;
+        flex-direction: column;
+        height: #{mixins.vw(300px)};
         z-index: 1;
         opacity: 1 !important;
         visibility: visible !important;
+      }
+
+      .trust-card__content {
+        flex: 1;
       }
 
       @for $i from 1 through 8 {
