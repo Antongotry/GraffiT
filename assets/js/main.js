@@ -876,6 +876,7 @@
       var cards;
       var timeline;
       var nodes;
+      var spacer;
 
       if (!aboutSection) {
         return;
@@ -889,6 +890,9 @@
         stage = aboutSection.querySelector('.js-clients-stage');
         track = aboutSection.querySelector('.js-clients-track');
         cards = Array.prototype.slice.call(aboutSection.querySelectorAll('.trust-card'));
+        spacer = aboutSection.parentElement && aboutSection.parentElement.classList.contains('pin-spacer')
+          ? aboutSection.parentElement
+          : null;
 
         if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
           window.ScrollTrigger.getAll().forEach(function (trigger) {
@@ -900,7 +904,7 @@
 
         aboutSection.removeAttribute('data-about-clients-stacked-init');
         aboutSection.classList.remove('is-about-clients-stacked');
-        [viewport, stage, track].concat(cards).forEach(function (node) {
+        [aboutSection, spacer, viewport, stage, track].concat(cards).forEach(function (node) {
           if (!node) {
             return;
           }
@@ -910,6 +914,19 @@
             'rotate',
             'scale',
             'transform',
+            'width',
+            'height',
+            'min-height',
+            'max-height',
+            'padding-top',
+            'padding-bottom',
+            'margin-top',
+            'margin-bottom',
+            'top',
+            'left',
+            'right',
+            'bottom',
+            'inset',
             'opacity',
             'visibility',
             'will-change'
