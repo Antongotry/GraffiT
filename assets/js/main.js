@@ -881,11 +881,11 @@
         return;
       }
 
-      aboutSection.classList.add('is-about-clients-stacked');
       aboutSection.classList.remove('is-about-clients-stacked-desktop');
       aboutSection.classList.remove('is-clients-top-fade');
 
       if (window.innerWidth <= 1024) {
+        aboutSection.classList.remove('is-about-clients-stacked');
         return;
       }
 
@@ -903,6 +903,7 @@
       }
 
       aboutSection.setAttribute('data-about-clients-stacked-init', '1');
+      aboutSection.classList.add('is-about-clients-stacked');
       nodes = [
         aboutSection.querySelector('.services-clients__viewport'),
         aboutSection.querySelector('.js-clients-stage'),
