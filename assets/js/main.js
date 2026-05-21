@@ -227,7 +227,7 @@
           trigger: section,
           start: 'top top',
           end: function () {
-            return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
+            return 'clamp(+=' + Math.max(track.scrollWidth - stage.clientWidth, 0) + ')';
           },
           pin: viewport,
           scrub: 1,
@@ -710,7 +710,7 @@
           trigger: section,
           start: 'top top',
           end: function () {
-            return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
+            return 'clamp(+=' + Math.max(track.scrollWidth - stage.clientWidth, 0) + ')';
           },
           pin: viewport,
           scrub: 1,
@@ -1001,7 +1001,7 @@
           trigger: aboutSection,
           start: 'top top',
           end: function () {
-            return '+=' + aboutClientsPinDistance();
+            return 'clamp(+=' + aboutClientsPinDistance() + ')';
           },
           pin: viewport,
           scrub: 1,
