@@ -9,6 +9,12 @@
    * Matches the same pattern as .about-dark-flow { z-index: 90 } on the About page.
    */
   z-index: 90;
+  /* Стик із home-chaos: нижній шпиль chaos заходить у світлий #home-about. */
+  margin-top: #{mixins.vw(-90px)};
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(-40px)};
+  }
 }
 
 .home-chaos-about-flow__spheres {
@@ -272,19 +278,37 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 80;
   overflow: visible;
-  clip-path: none !important;
-  /* Remove the inherited bottom light strip before the next dark section. */
+  /* Верхній шпиль вгору в chaos (canvas лишається в «крилах» через прозорий chaos). */
+  clip-path: polygon(
+    0 #{mixins.vw(90px)},
+    50% 0,
+    100% #{mixins.vw(90px)},
+    100% 100%,
+    0 100%
+  ) !important;
+  padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(90px)});
   padding-bottom: 0;
 
-  /* Mobile: also no clip-path on pseudo-elements (same as .about-clients) */
   @include mixins.mobile {
-    clip-path: none !important;
-    padding-top: #{mixins.mvw(84px)};
+    clip-path: polygon(
+      0 #{mixins.mvw(40px)},
+      50% 0,
+      100% #{mixins.mvw(40px)},
+      100% 100%,
+      0 100%
+    ) !important;
+    padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
     padding-bottom: 0;
 
     &::before,
     &::after {
-      clip-path: none;
+      clip-path: polygon(
+        0 #{mixins.mvw(40px)},
+        50% 0,
+        100% #{mixins.mvw(40px)},
+        100% 100%,
+        0 100%
+      );
     }
   }
 }
@@ -412,7 +436,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 }
 
-/* Pin must not clip the top bow-tie notch (same idea as about-clients pin-spacer). */
+/* Pin chaos: не обрізати bow-tie / шпиль (анімація canvas лишається видимою). */
+.home-scroll-film .pin-spacer,
 .home-scroll-film .pin-spacer-home-scroll-p2 {
   overflow: visible;
 }
@@ -794,20 +819,20 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   position: relative;
   overflow: visible;
   box-sizing: border-box;
-  /* Top bow-tie notch (about-hero / about-clients handoff): fixed canvas shows in the
-     side “wings”; overlap pulls the notch over the showcase film. Bottom stays flat. */
+  /* Bow-tie: верхній виріз + нижній шпиль у #home-about; canvas видно в «крилах». */
   margin-top: #{mixins.vw(-90px)};
   min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: calc(#{mixins.vw(90px)} + #{mixins.vw(48px)}) 0 #{mixins.vw(64px)};
+  padding: calc(#{mixins.vw(90px)} + #{mixins.vw(48px)}) 0 calc(#{mixins.vw(64px)} + #{mixins.vw(90px)});
   clip-path: polygon(
     0 0,
     50% #{mixins.vw(90px)},
     100% 0,
-    100% 100%,
-    0 100%
+    100% calc(100% - #{mixins.vw(90px)}),
+    50% 100%,
+    0 calc(100% - #{mixins.vw(90px)})
   );
   isolation: isolate;
   background: transparent;
@@ -821,13 +846,14 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     margin-top: #{mixins.mvw(-40px)};
     min-height: 100svh;
     align-items: flex-start;
-    padding: calc(#{mixins.mvw(40px)} + #{mixins.mvw(56px)}) 0 #{mixins.mvw(48px)};
+    padding: calc(#{mixins.mvw(40px)} + #{mixins.mvw(56px)}) 0 calc(#{mixins.mvw(48px)} + #{mixins.mvw(40px)});
     clip-path: polygon(
       0 0,
       50% #{mixins.mvw(40px)},
       100% 0,
-      100% 100%,
-      0 100%
+      100% calc(100% - #{mixins.mvw(40px)}),
+      50% 100%,
+      0 calc(100% - #{mixins.mvw(40px)})
     );
   }
 }

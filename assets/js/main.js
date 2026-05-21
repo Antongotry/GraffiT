@@ -2436,6 +2436,7 @@
           },
           pin: true,
           pinSpacing: true,
+          pinClass: 'pin-spacer-home-scroll-p2',
           anticipatePin: 1,
           scrub: true,
           invalidateOnRefresh: true,
