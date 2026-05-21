@@ -378,7 +378,7 @@
       var isProductsProjects = section.classList.contains('products-projects');
       var isHomeProjects = section.id === 'services-projects';
       var isMediahubProjects = section.id === 'mediahub-capabilities';
-      var startOffset = isProductsProjects ? 360 : ((isHomeProjects || isMediahubProjects) ? 180 : 100);
+      var projectsStartOffset = 100;
 
       if (!viewport || !stage || !track || cards.length === 0 || ((isHomeProjects || isMediahubProjects) && !container)) {
         return;
@@ -419,7 +419,7 @@
         scrollTrigger: {
           /* Головна: scrub/pin лише коли .services-projects__container упирається у верх вікна. */
           trigger: (isHomeProjects || isMediahubProjects) ? container : section,
-          start: (isHomeProjects || isMediahubProjects) ? ('top+=' + startOffset + ' top') : ('top+=' + startOffset + ' top'),
+          start: 'top top+=' + projectsStartOffset,
           end: function () {
             return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
           },
