@@ -658,6 +658,13 @@
   }
 
   @include mixins.mobile {
+    .pin-spacer {
+      height: auto !important;
+      min-height: 0 !important;
+      padding: 0 !important;
+      transform: none !important;
+    }
+
     .services-clients__viewport {
       overflow: visible;
       padding-top: #{mixins.mvw(84px)};
@@ -682,6 +689,62 @@
     .services-clients__text {
       width: 100%;
       margin-top: #{mixins.mvw(24px)};
+    }
+
+    .services-clients__cards-stage {
+      height: auto !important;
+      overflow: visible !important;
+      mask-image: none !important;
+      -webkit-mask-image: none !important;
+    }
+
+    .services-clients__cards-track {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: #{mixins.mvw(20px)} !important;
+      width: min(100%, #{mixins.mvw(355px)}) !important;
+      margin-inline: auto !important;
+      margin-top: 0 !important;
+      padding-top: #{mixins.mvw(16px)} !important;
+      padding-bottom: #{mixins.mvw(56px)} !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+
+    .services-clients__cards-track .trust-card {
+      position: sticky !important;
+      top: #{mixins.mvw(64px)} !important;
+      display: flex !important;
+      flex-direction: column !important;
+      flex-shrink: 0 !important;
+      box-sizing: border-box !important;
+      height: #{mixins.mvw(240px)} !important;
+      min-height: #{mixins.mvw(240px)} !important;
+      max-height: #{mixins.mvw(240px)} !important;
+      padding: #{mixins.mvw(20px)} !important;
+      border-radius: #{mixins.mvw(12px)} !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+
+    .trust-card__content {
+      flex: 1;
+      min-height: 0;
+      padding-right: #{mixins.mvw(72px)};
+      box-sizing: border-box;
+    }
+
+    .trust-card__text {
+      margin-top: auto;
+    }
+
+    @for $i from 1 through 8 {
+      .services-clients__cards-track .trust-card:nth-child(#{$i}) {
+        z-index: 10 + $i;
+        top: #{mixins.mvw(64px + ($i - 1) * 6px)} !important;
+      }
     }
   }
 }

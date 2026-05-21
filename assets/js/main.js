@@ -885,7 +885,38 @@
       aboutSection.classList.remove('is-clients-top-fade');
 
       if (window.innerWidth <= 1024) {
+        viewport = aboutSection.querySelector('.services-clients__viewport');
+        stage = aboutSection.querySelector('.js-clients-stage');
+        track = aboutSection.querySelector('.js-clients-track');
+        cards = Array.prototype.slice.call(aboutSection.querySelectorAll('.trust-card'));
+
+        if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
+          window.ScrollTrigger.getAll().forEach(function (trigger) {
+            if (trigger.trigger === aboutSection || trigger.pin === viewport || trigger.trigger === viewport) {
+              trigger.kill(true);
+            }
+          });
+        }
+
+        aboutSection.removeAttribute('data-about-clients-stacked-init');
         aboutSection.classList.remove('is-about-clients-stacked');
+        [viewport, stage, track].concat(cards).forEach(function (node) {
+          if (!node) {
+            return;
+          }
+
+          [
+            'translate',
+            'rotate',
+            'scale',
+            'transform',
+            'opacity',
+            'visibility',
+            'will-change'
+          ].forEach(function (property) {
+            node.style.removeProperty(property);
+          });
+        });
         return;
       }
 
