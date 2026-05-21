@@ -100,6 +100,80 @@ function graffit_nav_projects_product_url(string $slug): string
 }
 
 /**
+ * Catalog filters for /projects/ (blog-style archive).
+ *
+ * @return list<array{slug: string, label: string}>
+ */
+function graffit_projects_catalog_filters(): array
+{
+    return [
+        ['slug' => '', 'label' => 'Усі проєкти'],
+        ['slug' => 'products', 'label' => 'Готові IT-продукти'],
+    ];
+}
+
+/**
+ * Project catalog cards (product landing pages and future product routes).
+ *
+ * @return list<array{slug: string, title: string, meta: string, tags: list<string>, categories: list<string>, image_url: string, url: string}>
+ */
+function graffit_projects_catalog_items(): array
+{
+    $uploads_base = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/';
+    $product_slugs = array_column(graffit_nav_projects_product_pages(), 'slug');
+
+    $items = [
+        [
+            'slug' => 'product-mediahub',
+            'title' => 'MediaHub – стабільне середовище для синхронізації контенту у всіх каналах',
+            'meta' => 'Готовий IT-продукт',
+            'tags' => ['MediaHub', 'Digital Signage'],
+            'categories' => ['products'],
+            'image_url' => $uploads_base . '4g_result.webp',
+        ],
+        [
+            'slug' => 'product-loyalty',
+            'title' => 'PCЛояльті – корпоративна система програм лояльності, перевірена в рітейлі',
+            'meta' => 'Готовий IT-продукт',
+            'tags' => ['PCЛояльті', 'Рітейл'],
+            'categories' => ['products'],
+            'image_url' => $uploads_base . '1g_result.webp',
+        ],
+        [
+            'slug' => 'product-caf',
+            'title' => 'CAF – надійне рішення для управління фінансовими процесами',
+            'meta' => 'Готовий IT-продукт',
+            'tags' => ['CAF', 'Фінанси'],
+            'categories' => ['products'],
+            'image_url' => $uploads_base . '2g_result.webp',
+        ],
+        [
+            'slug' => 'product-butler',
+            'title' => 'Butler – платформа управління процесами, побудована за enterprise-принципами',
+            'meta' => 'Готовий IT-продукт',
+            'tags' => ['Butler', 'Операції'],
+            'categories' => ['products'],
+            'image_url' => $uploads_base . '3g_result.webp',
+        ],
+    ];
+
+    return array_map(
+        static function (array $item) use ($product_slugs): array {
+            $slug = (string) ($item['slug'] ?? '');
+
+            if ($slug !== '' && in_array($slug, $product_slugs, true)) {
+                $item['url'] = graffit_nav_projects_product_url($slug);
+            } else {
+                $item['url'] = home_url('/products/');
+            }
+
+            return $item;
+        },
+        $items
+    );
+}
+
+/**
  * Services hero image URL.
  */
 function graffit_services_hero_image_url(): string
@@ -214,6 +288,7 @@ function graffit_static_route_title(): ?string
         'about' => 'Про нас',
         'contacts' => 'Контакти',
         'products' => 'Продукти',
+        'projects' => 'Проєкти',
         'product-mediahub' => 'Продукт - Медіахаб',
         default => null,
     };
@@ -754,3 +829,38 @@ function graffit_force_product_mediahub_route_template(): void
     }
 }
 add_action('template_redirect', 'graffit_force_product_mediahub_route_template', 0);
+
+/**
+ * Force /projects/ route to render static projects catalog template.
+ */
+function graffit_force_projects_route_template(): void
+{
+    if (is_admin() || wp_doing_ajax() || wp_doing_cron()) {
+        return;
+    }
+
+    if (graffit_current_request_path() !== 'projects') {
+        return;
+    }
+
+    global $wp_query;
+
+    if ($wp_query instanceof \WP_Query) {
+        $wp_query->is_404      = false;
+        $wp_query->is_page     = true;
+        $wp_query->is_singular = true;
+        $wp_query->is_home     = false;
+        $wp_query->is_archive  = false;
+    }
+
+    status_header(200);
+    nocache_headers();
+
+    $template = locate_template('page-projects.php');
+
+    if ($template) {
+        include $template;
+        exit;
+    }
+}
+add_action('template_redirect', 'graffit_force_projects_route_template', 0);

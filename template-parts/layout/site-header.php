@@ -27,9 +27,7 @@ $mobile_contacts_link_classes = ['mobile-menu__nav-link'];
 
 $about_url = home_url('/about/');
 $contacts_url = home_url('/contacts/');
-$projects_url = ($is_front_page || $current_path === 'services')
-    ? '#services-projects'
-    : home_url('/#services-projects');
+$projects_url = home_url('/projects/');
 
 $projects_product_pages = graffit_nav_projects_product_pages();
 $projects_product_slugs = array_column($projects_product_pages, 'slug');
@@ -37,7 +35,7 @@ $is_on_projects_product = in_array($current_path, $projects_product_slugs, true)
 
 $projects_link_classes = ['site-header__nav-link'];
 $mobile_projects_link_classes = ['mobile-menu__nav-link'];
-if ($current_path === 'services' || $is_on_projects_product) {
+if ($current_path === 'projects' || $current_path === 'services' || $is_on_projects_product) {
     $projects_link_classes[] = 'is-active';
     $mobile_projects_link_classes[] = 'is-active';
 }

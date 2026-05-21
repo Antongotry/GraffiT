@@ -2604,6 +2604,132 @@
     window.ScrollTrigger.refresh();
   }
 
+  function initBlogArchiveFilters() {
+    var filtersRoot = document.querySelector('.blog-page__filters');
+
+    if (!filtersRoot) {
+      return;
+    }
+
+    var filterLinks = filtersRoot.querySelectorAll('a, .blog-page__filter, [data-blog-filter]');
+    var posts = document.querySelectorAll('.blog-layout--archive .blog-post, [data-blog-post], .blog-post--featured, .blog-post--compact');
+
+    if (!filterLinks.length || !posts.length) {
+      return;
+    }
+
+    var emptyMessage = document.querySelector('[data-blog-filter-empty]');
+
+    if (!emptyMessage) {
+      emptyMessage = document.createElement('p');
+      emptyMessage.className = 'blog-section__empty';
+      emptyMessage.setAttribute('data-blog-filter-empty', '');
+      emptyMessage.textContent = 'За обраною категорією проєктів не знайдено.';
+      emptyMessage.hidden = true;
+
+      var archiveLayout = document.querySelector('.blog-layout--archive');
+
+      if (archiveLayout && archiveLayout.parentNode) {
+        archiveLayout.parentNode.insertBefore(emptyMessage, archiveLayout.nextSibling);
+      }
+    }
+
+    function normalizeLabel(value) {
+      return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    function getFilterSlug(filterNode) {
+      var byData = String(filterNode.getAttribute('data-blog-filter') || '').trim().toLowerCase();
+      var label = normalizeLabel(filterNode.textContent || '');
+
+      if (byData || filterNode.classList.contains('is-all') || label === 'усі рубрики' || label === 'усі проєкти') {
+        return byData;
+      }
+
+      return '';
+    }
+
+    function getPostCategories(postNode) {
+      var rawValue = String(postNode.getAttribute('data-blog-categories') || '').trim();
+
+      if (!rawValue) {
+        return [];
+      }
+
+      return rawValue.split(/\s+/).map(function (slug) {
+        return String(slug || '').trim().toLowerCase();
+      }).filter(Boolean);
+    }
+
+    function setActiveFilter(slug) {
+      filterLinks.forEach(function (link) {
+        var isActive = String(link.getAttribute('data-blog-filter') || '') === slug;
+        link.classList.toggle('is-active', isActive);
+
+        if (isActive) {
+          link.setAttribute('aria-current', 'true');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    function applyFilter(slug) {
+      var visibleCount = 0;
+
+      posts.forEach(function (postNode) {
+        var postCategories = getPostCategories(postNode);
+        var isVisible = !slug || postCategories.indexOf(slug) !== -1;
+
+        postNode.style.display = isVisible ? '' : 'none';
+        postNode.hidden = !isVisible;
+        postNode.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+
+        if (isVisible) {
+          visibleCount += 1;
+        }
+      });
+
+      if (emptyMessage) {
+        var hasVisiblePosts = visibleCount !== 0;
+        emptyMessage.style.display = hasVisiblePosts ? 'none' : '';
+        emptyMessage.hidden = hasVisiblePosts;
+      }
+    }
+
+    filterLinks.forEach(function (link) {
+      var slug = getFilterSlug(link);
+
+      if (!link.hasAttribute('data-blog-filter')) {
+        link.setAttribute('data-blog-filter', slug);
+      }
+    });
+
+    function onFilterClick(event) {
+      var eventNode = event.target;
+      var eventElement = eventNode && eventNode.nodeType === 1 ? eventNode : eventNode.parentElement;
+      var target = eventElement ? eventElement.closest('a, .blog-page__filter, [data-blog-filter]') : null;
+
+      if (!target || !filtersRoot.contains(target)) {
+        return;
+      }
+
+      var selectedSlug = getFilterSlug(target);
+
+      event.preventDefault();
+      setActiveFilter(selectedSlug);
+      applyFilter(selectedSlug);
+    }
+
+    document.addEventListener('click', onFilterClick, true);
+
+    var initialActive = filtersRoot.querySelector('.blog-page__filter.is-active, [data-blog-filter].is-active');
+    var initialSlug = initialActive ? getFilterSlug(initialActive) : '';
+
+    setActiveFilter(initialSlug);
+    applyFilter(initialSlug);
+  }
+
   function runInit(initFn, name) {
     try {
       initFn();
@@ -2637,6 +2763,7 @@
   runInit(initFaqAccordion, 'faq-accordion');
   runInit(initAboutStackMobileVisual, 'about-stack-mobile-visual');
   runInit(initInnerPageReveal, 'inner-page-reveal');
+  runInit(initBlogArchiveFilters, 'blog-archive-filters');
   runInit(initBrowserDiagnostics, 'browser-diagnostics');
 
   window.addEventListener(
