@@ -866,19 +866,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
       0 #{mixins.vw(6px)} #{mixins.vw(18px)} rgba(0, 0, 0, 0.62),
       0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.72);
 
-  &::before {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: -1;
-    width: 116%;
-    height: 132%;
-    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.58) 0%, rgba(0, 0, 0, 0.2) 52%, rgba(0, 0, 0, 0) 100%);
-    transform: translate(-50%, -50%);
-    content: "";
-    pointer-events: none;
-  }
-
   @include mixins.mobile {
     width: #{mixins.mvw(355px)};
     min-height: #{mixins.mvw(144px)};
@@ -890,11 +877,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
       0 #{mixins.mvw(10px)} #{mixins.mvw(34px)} rgba(0, 0, 0, 0.78),
       0 #{mixins.mvw(3px)} #{mixins.mvw(12px)} rgba(0, 0, 0, 0.62),
       0 #{mixins.mvw(1px)} #{mixins.mvw(4px)} rgba(0, 0, 0, 0.72);
-
-    &::before {
-      width: 122%;
-      height: 136%;
-    }
   }
 }
 
@@ -914,19 +896,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     0 #{mixins.vw(5px)} #{mixins.vw(14px)} rgba(0, 0, 0, 0.58),
     0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.68);
 
-  &::before {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: -1;
-    width: 118%;
-    height: 138%;
-    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0.18) 52%, rgba(0, 0, 0, 0) 100%);
-    transform: translate(-50%, -50%);
-    content: "";
-    pointer-events: none;
-  }
-
   @include mixins.mobile {
     width: #{mixins.mvw(355px)};
     max-width: #{mixins.mvw(355px)};
@@ -939,11 +908,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
       0 #{mixins.mvw(8px)} #{mixins.mvw(28px)} rgba(0, 0, 0, 0.74),
       0 #{mixins.mvw(3px)} #{mixins.mvw(10px)} rgba(0, 0, 0, 0.58),
       0 #{mixins.mvw(1px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.68);
-
-    &::before {
-      width: 124%;
-      height: 142%;
-    }
   }
 }
 
