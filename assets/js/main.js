@@ -888,6 +888,7 @@
       var viewport = section.querySelector('.services-clients__viewport');
       var stage = section.querySelector('.js-clients-stage');
       var track = section.querySelector('.js-clients-track');
+      var shouldUseStackedDesktopMode = section.id === 'about-clients' && window.innerWidth > 1024;
       var shouldHideHeader = section.id === 'about-clients';
       var shouldForceZeroBottomPadding = section.id === 'home-about';
 
@@ -897,6 +898,12 @@
 
       section.setAttribute('data-clients-scroller-init', '1');
       section.classList.remove('is-clients-top-fade');
+      section.classList.remove('is-about-clients-stacked-desktop');
+
+      if (shouldUseStackedDesktopMode) {
+        section.classList.add('is-about-clients-stacked-desktop');
+        return;
+      }
 
       function enforceViewportBottomPadding() {
         if (!shouldForceZeroBottomPadding || !viewport) {

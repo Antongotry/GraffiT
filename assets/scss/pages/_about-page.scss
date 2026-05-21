@@ -615,6 +615,40 @@
     color: rgba(0, 1, 2, 0.92);
   }
 
+  @media (min-width: 1025px) {
+    &.is-about-clients-stacked-desktop {
+      .services-clients__cards-stage {
+        height: auto;
+        overflow: visible;
+        mask-image: none;
+        -webkit-mask-image: none;
+      }
+
+      .services-clients__cards-track {
+        display: flex;
+        flex-direction: column;
+        gap: #{mixins.vw(20px)};
+        width: 100%;
+        margin-top: 0;
+        padding-top: #{mixins.vw(16px)};
+        padding-bottom: #{mixins.vw(56px)};
+      }
+
+      .services-clients__cards-track .trust-card {
+        position: sticky;
+        top: #{mixins.vw(96px)};
+        z-index: 1;
+      }
+
+      @for $i from 1 through 8 {
+        .services-clients__cards-track .trust-card:nth-child(#{$i}) {
+          z-index: 10 + $i;
+          top: #{mixins.vw(96px + ($i - 1) * 6px)};
+        }
+      }
+    }
+  }
+
   @include mixins.mobile {
     .services-clients__viewport {
       overflow: visible;
