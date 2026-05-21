@@ -900,8 +900,8 @@
   }
 
   .services-process__visual {
-    position: relative;
-    top: 0;
+    position: sticky;
+    top: var(--process-visual-sticky-top);
     align-self: start;
     justify-self: end;
     width: #{mixins.vw(760px)};

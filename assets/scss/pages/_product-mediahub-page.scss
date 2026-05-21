@@ -1042,12 +1042,12 @@
   }
 
   .services-process__visual {
-    position: relative;
-    top: auto;
+    position: sticky;
+    top: var(--process-visual-sticky-top);
     display: flex;
     align-items: center;
     justify-content: center;
-    align-self: center;
+    align-self: start;
     justify-self: end;
     width: #{mixins.vw(1000px)};
     max-width: 100%;

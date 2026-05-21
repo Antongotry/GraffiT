@@ -4395,6 +4395,7 @@
 }
 
 .services-process {
+  --process-visual-sticky-top: #{mixins.vw(122px)};
   position: relative;
   overflow: hidden;
   background: var(--color-background);
@@ -4698,7 +4699,7 @@
 
 .services-process__visual {
   position: sticky;
-  top: #{mixins.vw(122px)};
+  top: var(--process-visual-sticky-top);
   align-self: end;
 
   @include mixins.mobile {
