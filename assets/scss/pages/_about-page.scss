@@ -667,7 +667,9 @@
 
     .services-clients__viewport {
       overflow: visible;
+      clip-path: none !important;
       padding-top: #{mixins.mvw(84px)};
+      padding-bottom: 0;
 
       &::before,
       &::after {
@@ -677,6 +679,7 @@
 
     .services-clients__copy {
       padding-top: #{mixins.mvw(10px)};
+      width: 100%;
     }
 
     .services-clients__title {
@@ -687,8 +690,12 @@
     }
 
     .services-clients__text {
-      width: 100%;
+      width: min(100%, #{mixins.mvw(355px)});
       margin-top: #{mixins.mvw(24px)};
+    }
+
+    .services-clients__container {
+      width: min(100% - #{mixins.mvw(20px)}, 100%);
     }
 
     .services-clients__cards-stage {
