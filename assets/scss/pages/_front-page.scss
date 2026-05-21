@@ -9,8 +9,8 @@
    * Matches the same pattern as .about-dark-flow { z-index: 90 } on the About page.
    */
   z-index: 90;
-  /* Стик із home-chaos: нижній шпиль chaos заходить у світлий #home-about. */
-  margin-top: #{mixins.vw(-90px)};
+  /* Стик із home-chaos: нижній шпиль chaos у верхній виріз #home-about (−90px = глибина шпиля). */
+  margin-top: calc(#{mixins.vw(-90px)} - 1px);
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(-40px)};
@@ -273,16 +273,21 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
  */
 .home-chaos-about-flow #home-about {
   overflow: visible;
+  /* Не #000102 між chaos і viewport — інакше чорна смуга в стику. */
+  background: transparent;
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 80;
   overflow: visible;
-  /* Верхній шпиль вгору в chaos (canvas лишається в «крилах» через прозорий chaos). */
+  /*
+   * Верхній виріз (як services-clients / скрин 2): тёмний шпиль chaos входить у «долину».
+   * НЕ шпиль вгору — пара піків давала чорну смугу між секціями.
+   */
   clip-path: polygon(
-    0 #{mixins.vw(90px)},
-    50% 0,
-    100% #{mixins.vw(90px)},
+    0 0,
+    50% #{mixins.vw(90px)},
+    100% 0,
     100% 100%,
     0 100%
   ) !important;
@@ -291,9 +296,9 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
   @include mixins.mobile {
     clip-path: polygon(
-      0 #{mixins.mvw(40px)},
-      50% 0,
-      100% #{mixins.mvw(40px)},
+      0 0,
+      50% #{mixins.mvw(40px)},
+      100% 0,
       100% 100%,
       0 100%
     ) !important;
@@ -303,9 +308,9 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     &::before,
     &::after {
       clip-path: polygon(
-        0 #{mixins.mvw(40px)},
-        50% 0,
-        100% #{mixins.mvw(40px)},
+        0 0,
+        50% #{mixins.mvw(40px)},
+        100% 0,
         100% 100%,
         0 100%
       );
