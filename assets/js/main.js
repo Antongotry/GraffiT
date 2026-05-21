@@ -218,6 +218,8 @@
 
       setActiveState(0);
 
+      var isServicesPageBenefits = !!section.closest('.site-main--services');
+
       window.gsap.to(track, {
         x: function () {
           return -(track.scrollWidth - stage.clientWidth);
@@ -227,11 +229,15 @@
           trigger: section,
           start: 'top top',
           end: function () {
+            if (isServicesPageBenefits) {
+              return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage, 0.55) + ')';
+            }
+
             return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage, 1.2) + ')';
           },
-          pin: viewport,
+          pin: isServicesPageBenefits ? false : viewport,
           scrub: 1,
-          anticipatePin: 1,
+          anticipatePin: isServicesPageBenefits ? 0 : 1,
           invalidateOnRefresh: true,
           onUpdate: function (self) {
             setActiveState(self.progress);

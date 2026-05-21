@@ -3088,6 +3088,13 @@
   padding: #{mixins.vw(32px)} 0 #{mixins.vw(40px)};
   box-sizing: border-box;
 
+  @media (min-width: 1025px) {
+    .site-main--services & {
+      min-height: auto;
+      padding-bottom: #{mixins.vw(64px)};
+    }
+  }
+
   @include mixins.mobile {
     min-height: auto;
     padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(84px)};
