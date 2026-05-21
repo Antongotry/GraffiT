@@ -860,11 +860,10 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   font-weight: 700;
   line-height: 0.85;
   letter-spacing: -0.03em;
-  -webkit-text-stroke: #{mixins.vw(1.6px)} rgba(0, 0, 0, 0.68);
+  -webkit-text-stroke: #{mixins.vw(1px)} rgba(0, 0, 0, 0.5);
   text-shadow:
-      0 #{mixins.vw(18px)} #{mixins.vw(56px)} rgba(0, 0, 0, 0.78),
-      0 #{mixins.vw(6px)} #{mixins.vw(18px)} rgba(0, 0, 0, 0.62),
-      0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.72);
+      0 #{mixins.vw(2px)} #{mixins.vw(8px)} rgba(0, 0, 0, 0.82),
+      0 #{mixins.vw(8px)} #{mixins.vw(22px)} rgba(0, 0, 0, 0.32);
 
   @include mixins.mobile {
     width: #{mixins.mvw(355px)};
@@ -872,11 +871,10 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     font-size: #{mixins.mvw(48px)};
     line-height: 1;
     letter-spacing: 0;
-    -webkit-text-stroke: #{mixins.mvw(1.4px)} rgba(0, 0, 0, 0.68);
+    -webkit-text-stroke: #{mixins.mvw(0.8px)} rgba(0, 0, 0, 0.48);
     text-shadow:
-      0 #{mixins.mvw(10px)} #{mixins.mvw(34px)} rgba(0, 0, 0, 0.78),
-      0 #{mixins.mvw(3px)} #{mixins.mvw(12px)} rgba(0, 0, 0, 0.62),
-      0 #{mixins.mvw(1px)} #{mixins.mvw(4px)} rgba(0, 0, 0, 0.72);
+      0 #{mixins.mvw(2px)} #{mixins.mvw(7px)} rgba(0, 0, 0, 0.82),
+      0 #{mixins.mvw(6px)} #{mixins.mvw(16px)} rgba(0, 0, 0, 0.28);
   }
 }
 
@@ -886,28 +884,26 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   max-width: min(100%, #{mixins.vw(574px)});
   font-size: #{mixins.vw(48px)};
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.04;
   letter-spacing: -0.03em;
   white-space: normal;
   overflow-wrap: break-word;
-  -webkit-text-stroke: #{mixins.vw(1.3px)} rgba(0, 0, 0, 0.66);
+  -webkit-text-stroke: #{mixins.vw(0.9px)} rgba(0, 0, 0, 0.48);
   text-shadow:
-    0 #{mixins.vw(14px)} #{mixins.vw(44px)} rgba(0, 0, 0, 0.74),
-    0 #{mixins.vw(5px)} #{mixins.vw(14px)} rgba(0, 0, 0, 0.58),
-    0 #{mixins.vw(1px)} #{mixins.vw(4px)} rgba(0, 0, 0, 0.68);
+    0 #{mixins.vw(2px)} #{mixins.vw(8px)} rgba(0, 0, 0, 0.78),
+    0 #{mixins.vw(7px)} #{mixins.vw(18px)} rgba(0, 0, 0, 0.28);
 
   @include mixins.mobile {
     width: #{mixins.mvw(355px)};
     max-width: #{mixins.mvw(355px)};
     min-height: #{mixins.mvw(90px)};
     font-size: #{mixins.mvw(30px)};
-    line-height: 1;
+    line-height: 1.06;
     letter-spacing: 0;
-    -webkit-text-stroke: #{mixins.mvw(1.1px)} rgba(0, 0, 0, 0.66);
+    -webkit-text-stroke: #{mixins.mvw(0.7px)} rgba(0, 0, 0, 0.46);
     text-shadow:
-      0 #{mixins.mvw(8px)} #{mixins.mvw(28px)} rgba(0, 0, 0, 0.74),
-      0 #{mixins.mvw(3px)} #{mixins.mvw(10px)} rgba(0, 0, 0, 0.58),
-      0 #{mixins.mvw(1px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.68);
+      0 #{mixins.mvw(2px)} #{mixins.mvw(7px)} rgba(0, 0, 0, 0.78),
+      0 #{mixins.mvw(5px)} #{mixins.mvw(14px)} rgba(0, 0, 0, 0.26);
   }
 }
 
