@@ -3,7 +3,8 @@
 .site-main.site-main--services {
   background: #000102;
   overflow-x: clip;
-  overflow-y: hidden;
+  /* visible — інакше position: sticky у .services-process__visual не працює */
+  overflow-y: visible;
 }
 
 /* Як на MediaHub: псевдо-фони inner-page не розтягують сторінку під футером. */
@@ -4451,6 +4452,10 @@
   overflow-y: visible;
   background: var(--color-background);
 
+  @media (min-width: 1501px) {
+    --process-visual-sticky-top: #{mixins.vw(158px)};
+  }
+
   @include mixins.mobile {
     overflow-x: clip;
     overflow-y: visible;
@@ -4776,8 +4781,8 @@
 
 .services-process__visual-frame {
   position: relative;
-  width: #{mixins.vw(739px)};
-  height: #{mixins.vw(714px)};
+  width: #{mixins.vw(628px)};
+  height: #{mixins.vw(607px)};
   overflow: visible;
 
   @include mixins.mobile {
@@ -4795,10 +4800,10 @@
 
 .services-process__visual-photo {
   position: absolute;
-  right: #{mixins.vw(-40px)};
+  right: #{mixins.vw(-34px)};
   bottom: 0;
-  width: #{mixins.vw(977px)};
-  height: #{mixins.vw(977px)};
+  width: #{mixins.vw(830px)};
+  height: #{mixins.vw(830px)};
   object-fit: contain;
   object-position: bottom right;
   pointer-events: none;
@@ -4813,6 +4818,22 @@
     transform: none;
     object-fit: contain;
     object-position: 100% 50%;
+  }
+}
+
+@media (min-width: 1501px) {
+  .site-main--services .services-process .services-process__visual-photo,
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
+    bottom: #{mixins.vw(-36px)};
+  }
+}
+
+/* Як на головній: додатковий хід для sticky-фото під час прокрутки етапів. */
+.site-main--services .services-process .services-process__container {
+  padding-bottom: calc(#{mixins.vw(120px)} + #{mixins.vw(72px)});
+
+  @include mixins.mobile {
+    padding-bottom: #{mixins.mvw(64px)};
   }
 }
 
