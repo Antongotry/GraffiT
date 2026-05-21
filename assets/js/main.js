@@ -980,6 +980,7 @@
 
       timeline = window.gsap.timeline({
         scrollTrigger: {
+          id: 'about-clients-stacked',
           trigger: aboutSection,
           start: 'top top',
           end: function () {
@@ -1008,6 +1009,20 @@
     }
 
     initAboutClientsStackedCards();
+
+    if (!window.__graffitAboutClientsStackResize) {
+      window.__graffitAboutClientsStackResize = true;
+      window.addEventListener('resize', function () {
+        window.clearTimeout(window.__graffitAboutClientsStackResizeTimer);
+        window.__graffitAboutClientsStackResizeTimer = window.setTimeout(function () {
+          initAboutClientsStackedCards();
+
+          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+            window.ScrollTrigger.refresh();
+          }
+        }, 120);
+      }, { passive: true });
+    }
 
     if (window.innerWidth <= 1024) {
       window.ScrollTrigger.refresh();
