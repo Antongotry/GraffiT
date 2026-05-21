@@ -703,8 +703,8 @@
 .mediahub-capabilities .services-projects__container {
   width: min(#{mixins.vw(1360px)}, 100%);
   max-width: 100%;
-  padding-left: #{mixins.vw(24px)};
-  padding-right: #{mixins.vw(24px)};
+  padding-left: 0;
+  padding-right: 0;
   margin-inline: auto;
   box-sizing: border-box;
 
