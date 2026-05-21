@@ -123,6 +123,12 @@
   gap: #{mixins.vw(2px)};
 }
 
+/* Сабменю в DOM після посилання — без z-index клік «Проєкти» проходить крізь прихований dropdown. */
+.site-header__nav-item--projects .site-header__nav-link {
+  position: relative;
+  z-index: 2;
+}
+
 .site-header__nav-projects-toggle {
   display: inline-flex;
   align-items: center;
@@ -167,7 +173,7 @@
   /* Flush with trigger row — any gap breaks :hover while moving the pointer to links. */
   top: 100%;
   left: 50%;
-  z-index: 130;
+  z-index: 1;
   min-width: #{mixins.vw(200px)};
   margin: 0;
   padding: #{mixins.vw(8px)} 0;
@@ -199,6 +205,7 @@
 .site-header__nav-item--projects:hover .site-header__subnav,
 .site-header__nav-item--projects:focus-within .site-header__subnav,
 .site-header__nav-item--projects.is-open .site-header__subnav {
+  z-index: 3;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;

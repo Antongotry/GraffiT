@@ -7,6 +7,7 @@
 
 declare(strict_types=1);
 
+$logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
 $catalog_items = graffit_projects_catalog_items();
 $filters = graffit_projects_catalog_filters();
 
@@ -70,16 +71,27 @@ $render_project_card = static function (array $item, bool $is_featured): void {
     <?php
 };
 ?>
-<section class="blog-section blog-section--archive" id="projects-catalog">
+<section class="projects-catalog blog-section blog-section--archive" id="projects-catalog">
     <div class="blog-section__container">
-        <div class="blog-section__head blog-section__head--archive">
-            <div class="blog-section__marker">
-                <span class="blog-section__marker-dot" aria-hidden="true"></span>
-                <p class="blog-section__marker-text">Проєкти</p>
+        <header class="projects-catalog__head blog-section__head blog-section__head--archive">
+            <div class="services-projects__eyebrow">
+                <img
+                    class="services-projects__eyebrow-icon"
+                    src="<?php echo esc_url($logo_mark_url); ?>"
+                    alt=""
+                    width="28"
+                    height="32"
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                >
+                <p class="services-projects__eyebrow-text">Проєкти</p>
             </div>
 
-            <h1 class="blog-section__title">Вміємо трансформувати ваші бізнес-запити у зрозумілі та робочі IT-рішення</h1>
-        </div>
+            <h1 class="services-projects__title projects-catalog__title" id="projects-catalog-title">
+                Вміємо трансформувати ваші бізнес-запити у зрозумілі та робочі IT-рішення
+            </h1>
+        </header>
 
         <div class="blog-page__filters" aria-label="Категорії проєктів">
             <?php foreach ($filters as $filter) : ?>
