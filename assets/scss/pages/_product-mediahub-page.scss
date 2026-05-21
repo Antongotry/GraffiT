@@ -1209,6 +1209,17 @@
 .mediahub-about .services-clients__viewport {
   z-index: 75;
   overflow: visible;
+  /* Верх — bow-tie; низ плоский. Один «шпиль» дає .mediahub-faq (як home-faq → CTA). */
+  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%);
+
+  @include mixins.mobile {
+    clip-path: none;
+
+    &::after,
+    &::before {
+      clip-path: polygon(0 0, 50% #{mixins.mvw(36px)}, 100% 0, 100% 100%, 0 100%);
+    }
+  }
 }
 
 .mediahub-about .services-clients__container {
