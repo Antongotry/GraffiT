@@ -1529,17 +1529,27 @@
     document.querySelectorAll('.js-mobile-projects').forEach(function (root) {
       var toggle = root.querySelector('.js-mobile-projects-toggle');
       var panel = root.querySelector('.js-mobile-projects-panel');
+      var mobileMainLink = root.querySelector('.mobile-menu__nav-link--projects-main');
       if (!toggle || !panel) {
         return;
+      }
+
+      function setMobileProjectsOpen(open) {
+        root.classList.toggle('is-open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+      }
+
+      if (mobileMainLink) {
+        mobileMainLink.addEventListener('click', function () {
+          setMobileProjectsOpen(false);
+        });
       }
 
       toggle.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var open = !root.classList.contains('is-open');
-        root.classList.toggle('is-open', open);
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        setMobileProjectsOpen(!root.classList.contains('is-open'));
       });
     });
   }

@@ -165,14 +165,15 @@
   transition: transform 0.22s ease;
 }
 
+.site-header__nav-item--projects:hover .site-header__nav-projects-chevron,
 .site-header__nav-item--projects.is-open .site-header__nav-projects-chevron {
   transform: rotate(180deg);
 }
 
 .site-header__subnav {
   position: absolute;
-  /* Flush with trigger row — any gap breaks :hover while moving the pointer to links. */
-  top: 100%;
+  /* Зазор під рядком «Проєкти», щоб dropdown не перекривав клік по посиланню. */
+  top: calc(100% + #{mixins.vw(10px)});
   left: 50%;
   z-index: 1;
   min-width: #{mixins.vw(200px)};
@@ -192,19 +193,20 @@
     visibility 0.2s ease,
     transform 0.2s ease;
 
-  /* Місток до панелі лише коли меню відкрите кнопкою (не перекриває клік по «Проєкти»). */
+  /* Невидимий місток лише в зазорі між рядком nav і панеллю. */
   &::before {
     content: "";
     position: absolute;
     bottom: 100%;
     left: 0;
     width: 100%;
-    height: #{mixins.vw(14px)};
+    height: #{mixins.vw(10px)};
     pointer-events: none;
   }
 }
 
-/* Підменю тільки по кліку на шеврон (.is-open), не по hover на весь пункт. */
+.site-header__nav-item--projects:hover .site-header__subnav,
+.site-header__nav-item--projects:focus-within .site-header__subnav,
 .site-header__nav-item--projects.is-open .site-header__subnav {
   z-index: 3;
   opacity: 1;
