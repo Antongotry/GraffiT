@@ -966,8 +966,8 @@
             return -(card.offsetTop - cards[0].offsetTop) + (aboutClientsCardCascade() * index);
           },
           ease: 'none',
-          duration: 1
-        }, index - 1);
+          duration: 1.35
+        }, (index - 1) * 0.42);
       });
     }
 
