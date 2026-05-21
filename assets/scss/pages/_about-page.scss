@@ -2,6 +2,10 @@
 
 .site-main--about {
   background: #000102;
+
+  @include mixins.mobile {
+    overflow: visible;
+  }
 }
 
 .about-dark-flow {
