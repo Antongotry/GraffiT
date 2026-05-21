@@ -40,6 +40,29 @@
   }
 }
 
+/* >1440: як на головній — сцена по центру, фото правіше (не липне до лівих гексів). */
+@media (min-width: 1441px) {
+  .site-main--services .hex-reasons.hex-reasons--home .hex-reasons__scene {
+    left: auto;
+    width: min(100%, 1764px);
+    margin-inline: auto;
+    transform: none;
+  }
+
+  .site-main--services .hex-reasons.hex-reasons--home .hex-reasons__hex--plg {
+    left: calc(990px + max(0px, (100vw - 1440px) * 0.12)) !important;
+    top: -96px !important;
+    transform: none;
+  }
+
+  .site-main--services .hex-reasons.hex-reasons--home .hex-reasons__hex--psm {
+    left: calc(1160px + max(0px, (100vw - 1440px) * 0.12));
+    right: auto;
+    top: 453px;
+    transform: none;
+  }
+}
+
 /* Довший заголовок на сторінці послуг — не вужчий 381px як у 3-колонки на головній. */
 .site-main--services .hex-reasons.hex-reasons--home .hex-reasons__title--home {
   width: min(100%, #{mixins.vw(901px)});
