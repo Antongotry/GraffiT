@@ -230,14 +230,14 @@
           start: 'top top',
           end: function () {
             if (isServicesPageBenefits) {
-              return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage, 0.78) + ')';
+              return 'clamp(+=' + servicesBenefitsPinDistance(track, stage) + ')';
             }
 
             return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage, 1.2) + ')';
           },
-          pin: isServicesPageBenefits ? false : viewport,
+          pin: viewport,
           scrub: 1,
-          anticipatePin: isServicesPageBenefits ? 0 : 1,
+          anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: function (self) {
             setActiveState(self.progress);
@@ -372,6 +372,20 @@
     }
 
     return Math.min(overflow, cap);
+  }
+
+  function servicesBenefitsPinDistance(track, stage) {
+    var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
+
+    if (overflow <= 0) {
+      return 0;
+    }
+
+    var w = window.innerWidth || 1440;
+    var extra = Math.round((140 / 1440) * w);
+    extra = Math.min(Math.max(extra, 96), 200);
+
+    return overflow + extra;
   }
 
   function initProjectsScroller() {
