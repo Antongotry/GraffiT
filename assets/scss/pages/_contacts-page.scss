@@ -30,6 +30,23 @@
   }
 }
 
+.site-main.site-main--contacts::before,
+.site-main.site-main--contacts::after {
+  content: none;
+  display: none;
+}
+
+body:has(.site-main--contacts) .site-header::before {
+  box-shadow: none;
+  border-bottom-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px) saturate(1);
+  -webkit-backdrop-filter: blur(14px) saturate(1);
+}
+
+.site-main--contacts ~ .site-footer {
+  background: #000102;
+}
+
 .contacts {
   position: relative;
 }
