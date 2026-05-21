@@ -1,7 +1,9 @@
 @use "../abstracts/mixins";
 
-.site-main--services {
+.site-main.site-main--services {
   background: #000102;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 /* Hex «Чому ми» на /services/ — як на головній: без градієнта секції, той самий Vector-315. */
@@ -4701,7 +4703,7 @@
 .services-process__visual {
   position: sticky;
   top: var(--process-visual-sticky-top);
-  align-self: end;
+  align-self: start;
 
   @include mixins.mobile {
     position: relative;
