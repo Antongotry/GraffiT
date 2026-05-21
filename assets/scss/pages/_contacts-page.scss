@@ -1,13 +1,17 @@
 @use "../abstracts/mixins";
 
 .site-main--contacts {
-  min-height: 100vh;
+  min-height: auto;
   padding-bottom: #{mixins.vw(96px)};
   background:
     radial-gradient(circle at 18% 0%, rgba(0, 115, 230, 0.16) 0%, rgba(0, 115, 230, 0) 42%),
     radial-gradient(circle at 100% 28%, rgba(0, 115, 230, 0.1) 0%, rgba(0, 115, 230, 0) 36%),
     #000102;
   color: #ffffff;
+
+  @media (min-width: 1920px) {
+    padding-bottom: #{mixins.vw(56px)};
+  }
 }
 
 .contacts {
