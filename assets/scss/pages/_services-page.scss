@@ -2486,6 +2486,12 @@
   z-index: 1;
 }
 
+@media (min-width: 1441px) {
+  .hex-reasons__hex--plg {
+    left: calc(990px + max(0px, (100vw - 1440px) * 0.12)) !important;
+  }
+}
+
 /* Photo small — grid ≈ (3.43, 1.29) · exact original values via right/top */
 .hex-reasons__hex--psm {
   left: auto;
