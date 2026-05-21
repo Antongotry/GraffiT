@@ -421,7 +421,7 @@
           trigger: (isHomeProjects || isMediahubProjects) ? container : section,
           start: 'top top+=' + projectsStartOffset,
           end: function () {
-            return '+=' + Math.max(track.scrollWidth - stage.clientWidth, 0);
+            return 'clamp(+=' + Math.max(track.scrollWidth - stage.clientWidth, 0) + ')';
           },
           /*
            * Головна: pin на всю секцію — фон, __bg і ::before рухаються одним шаром з контентом
