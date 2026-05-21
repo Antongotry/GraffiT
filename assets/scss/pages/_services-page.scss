@@ -3,7 +3,13 @@
 .site-main.site-main--services {
   background: #000102;
   overflow-x: clip;
-  overflow-y: visible;
+  overflow-y: hidden;
+}
+
+/* Як на MediaHub: псевдо-фони inner-page не розтягують сторінку під футером. */
+.site-main.site-main--services::before,
+.site-main.site-main--services::after {
+  content: none;
 }
 
 /* Hex «Чому ми» на /services/ — як на головній: без градієнта секції, той самий Vector-315. */

@@ -376,7 +376,10 @@
       }
 
       var isProductsProjects = section.classList.contains('products-projects');
-      var isHomeProjects = section.id === 'services-projects';
+      var isHomeProjects =
+        section.id === 'services-projects' && !!section.closest('.site-main--home');
+      var isServicesPageProjects =
+        section.id === 'services-projects' && !!section.closest('.site-main--services');
       var isMediahubProjects = section.id === 'mediahub-capabilities';
       var projectsStartOffset = 100;
 
@@ -384,7 +387,8 @@
         return;
       }
 
-      if (isProductsProjects) {
+      /* /services/ і /products/: карусель кнопками, без вертикального pin-spacer на ширину треку. */
+      if (isProductsProjects || isServicesPageProjects) {
         return;
       }
 
@@ -493,7 +497,7 @@
       return;
     }
 
-    document.querySelectorAll('.products-projects').forEach(function (section) {
+    document.querySelectorAll('.products-projects, .site-main--services #services-projects.js-projects-scroller').forEach(function (section) {
       if (section.getAttribute('data-products-projects-carousel') === '1') {
         return;
       }
