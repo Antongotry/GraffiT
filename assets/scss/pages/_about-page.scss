@@ -9,6 +9,11 @@
   }
 }
 
+.site-main.site-main--about::before,
+.site-main.site-main--about::after {
+  content: none;
+}
+
 .about-dark-flow {
   position: relative;
   z-index: 90;

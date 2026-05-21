@@ -227,7 +227,7 @@
           trigger: section,
           start: 'top top',
           end: function () {
-            return 'clamp(+=' + Math.max(track.scrollWidth - stage.clientWidth, 0) + ')';
+            return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage, 1.2) + ')';
           },
           pin: viewport,
           scrub: 1,
@@ -351,6 +351,23 @@
     });
   }
 
+  function graffitCappedHorizontalPinDistance(section, track, stage, viewportMultiplier) {
+    var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
+
+    if (overflow <= 0) {
+      return 0;
+    }
+
+    var ratio = typeof viewportMultiplier === 'number' ? viewportMultiplier : 1.35;
+    var cap = Math.round(window.innerHeight * ratio);
+
+    if (section && section.offsetHeight > 0) {
+      cap = Math.min(cap, Math.max(Math.round(section.offsetHeight * 1.15), Math.round(window.innerHeight * 0.9)));
+    }
+
+    return Math.min(overflow, cap);
+  }
+
   function initProjectsScroller() {
     if (window.innerWidth <= 1024) {
       return;
@@ -378,8 +395,6 @@
       var isProductsProjects = section.classList.contains('products-projects');
       var isHomeProjects =
         section.id === 'services-projects' && !!section.closest('.site-main--home');
-      var isServicesPageProjects =
-        section.id === 'services-projects' && !!section.closest('.site-main--services');
       var isMediahubProjects = section.id === 'mediahub-capabilities';
       var projectsStartOffset = 100;
 
@@ -387,8 +402,7 @@
         return;
       }
 
-      /* /services/ і /products/: карусель кнопками, без вертикального pin-spacer на ширину треку. */
-      if (isProductsProjects || isServicesPageProjects) {
+      if (isProductsProjects) {
         return;
       }
 
@@ -425,7 +439,13 @@
           trigger: (isHomeProjects || isMediahubProjects) ? container : section,
           start: 'top top+=' + projectsStartOffset,
           end: function () {
-            return 'clamp(+=' + Math.max(track.scrollWidth - stage.clientWidth, 0) + ')';
+            var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
+
+            if (isHomeProjects) {
+              return 'clamp(+=' + overflow + ')';
+            }
+
+            return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage) + ')';
           },
           /*
            * Головна: pin на всю секцію — фон, __bg і ::before рухаються одним шаром з контентом
@@ -497,7 +517,7 @@
       return;
     }
 
-    document.querySelectorAll('.products-projects, .site-main--services #services-projects.js-projects-scroller').forEach(function (section) {
+    document.querySelectorAll('.products-projects').forEach(function (section) {
       if (section.getAttribute('data-products-projects-carousel') === '1') {
         return;
       }
@@ -995,8 +1015,10 @@
       function aboutClientsPinDistance() {
         var w = window.innerWidth || 1440;
         var step = w <= 1024 ? Math.round(window.innerHeight * 0.62) : Math.round(window.innerHeight * 0.72);
+        var raw = Math.max(step * (cards.length - 1), cards.length * 180);
+        var cap = Math.round(window.innerHeight * 2.4);
 
-        return Math.max(step * (cards.length - 1), cards.length * 180);
+        return Math.min(raw, cap);
       }
 
       timeline = window.gsap.timeline({
