@@ -929,10 +929,10 @@
         var w = window.innerWidth || 1440;
 
         if (w <= 1024) {
-          return Math.min(Math.max(Math.round((6 / 375) * w), 5), 9);
+          return Math.min(Math.max(Math.round((72 / 375) * w), 64), 84);
         }
 
-        return Math.min(Math.max(Math.round((6 / 1440) * w), 5), 9);
+        return Math.min(Math.max(Math.round((116 / 1440) * w), 88), 132);
       }
 
       function aboutClientsPinDistance() {
