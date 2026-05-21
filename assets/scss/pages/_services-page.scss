@@ -3838,11 +3838,17 @@
 
 @media (min-width: 1025px) {
   .site-main--services #services-projects.services-projects {
-    overflow: visible;
+    overflow-x: clip;
+    overflow-y: hidden;
   }
 
   .site-main--services #services-projects .services-projects__stage {
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .site-main--services #services-projects .services-projects__bg {
+    display: none;
   }
 }
 
