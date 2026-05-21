@@ -615,36 +615,40 @@
     color: rgba(0, 1, 2, 0.92);
   }
 
-  @media (min-width: 1025px) {
-    &.is-about-clients-stacked-desktop {
-      .services-clients__cards-stage {
-        height: auto;
-        overflow: visible;
-        mask-image: none;
-        -webkit-mask-image: none;
-      }
+  &.is-about-clients-stacked {
+    .services-clients__cards-stage {
+      height: auto;
+      overflow: visible;
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
 
-      .services-clients__cards-track {
-        display: flex;
-        flex-direction: column;
-        gap: #{mixins.vw(20px)};
-        width: 100%;
-        margin-top: 0;
-        padding-top: #{mixins.vw(16px)};
-        padding-bottom: #{mixins.vw(56px)};
-      }
+    .services-clients__cards-track {
+      display: flex;
+      flex-direction: column;
+      gap: #{mixins.vw(20px)};
+      width: 100%;
+      margin-top: 0;
+      padding-top: #{mixins.vw(16px)};
+      padding-bottom: #{mixins.vw(56px)};
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
 
-      .services-clients__cards-track .trust-card {
-        position: sticky;
-        top: #{mixins.vw(96px)};
-        z-index: 1;
-      }
+    .services-clients__cards-track .trust-card {
+      position: sticky;
+      top: #{mixins.vw(96px)};
+      z-index: 1;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
 
-      @for $i from 1 through 8 {
-        .services-clients__cards-track .trust-card:nth-child(#{$i}) {
-          z-index: 10 + $i;
-          top: #{mixins.vw(96px + ($i - 1) * 6px)};
-        }
+    @for $i from 1 through 8 {
+      .services-clients__cards-track .trust-card:nth-child(#{$i}) {
+        z-index: 10 + $i;
+        top: #{mixins.vw(96px + ($i - 1) * 6px)};
       }
     }
   }
@@ -674,6 +678,36 @@
     .services-clients__text {
       width: 100%;
       margin-top: #{mixins.mvw(24px)};
+    }
+
+    &.is-about-clients-stacked {
+      .services-clients__cards-track {
+        gap: #{mixins.mvw(20px)};
+        width: min(100%, #{mixins.mvw(355px)});
+        margin-inline: auto;
+        padding-top: #{mixins.mvw(16px)};
+        padding-bottom: #{mixins.mvw(56px)};
+      }
+
+      .services-clients__cards-track .trust-card {
+        top: #{mixins.mvw(64px)};
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        height: #{mixins.mvw(240px)};
+        min-height: #{mixins.mvw(240px)};
+        max-height: #{mixins.mvw(240px)};
+        padding: #{mixins.mvw(20px)};
+        border-radius: #{mixins.mvw(12px)};
+      }
+
+      @for $i from 1 through 8 {
+        .services-clients__cards-track .trust-card:nth-child(#{$i}) {
+          z-index: 10 + $i;
+          top: #{mixins.mvw(64px + ($i - 1) * 6px)};
+        }
+      }
     }
   }
 }
