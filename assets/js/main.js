@@ -862,14 +862,39 @@
   }
 
   function initClientsScroller() {
-    function resetAboutClientsStackedCards() {
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    function initAboutClientsStackedCards() {
       var aboutSection = document.getElementById('about-clients');
+      var viewport;
+      var stage;
+      var track;
+      var cards;
+      var timeline;
       var nodes;
 
       if (!aboutSection) {
         return;
       }
 
+      if (aboutSection.getAttribute('data-about-clients-stacked-init') === '1') {
+        return;
+      }
+
+      viewport = aboutSection.querySelector('.services-clients__viewport');
+      stage = aboutSection.querySelector('.js-clients-stage');
+      track = aboutSection.querySelector('.js-clients-track');
+      cards = Array.prototype.slice.call(aboutSection.querySelectorAll('.trust-card'));
+
+      if (!viewport || !stage || !track || cards.length < 2) {
+        return;
+      }
+
+      aboutSection.setAttribute('data-about-clients-stacked-init', '1');
       aboutSection.classList.add('is-about-clients-stacked');
       aboutSection.classList.remove('is-about-clients-stacked-desktop');
       aboutSection.classList.remove('is-clients-top-fade');
@@ -897,19 +922,61 @@
           node.style.removeProperty(property);
         });
       });
+
+      window.gsap.set(cards, { clearProps: 'transform,opacity,visibility,willChange' });
+
+      function aboutClientsCardCascade() {
+        var w = window.innerWidth || 1440;
+
+        if (w <= 1024) {
+          return Math.min(Math.max(Math.round((6 / 375) * w), 5), 9);
+        }
+
+        return Math.min(Math.max(Math.round((6 / 1440) * w), 5), 9);
+      }
+
+      function aboutClientsPinDistance() {
+        var w = window.innerWidth || 1440;
+        var step = w <= 1024 ? Math.round(window.innerHeight * 0.62) : Math.round(window.innerHeight * 0.72);
+
+        return Math.max(step * (cards.length - 1), cards.length * 180);
+      }
+
+      timeline = window.gsap.timeline({
+        scrollTrigger: {
+          trigger: aboutSection,
+          start: 'top top',
+          end: function () {
+            return '+=' + aboutClientsPinDistance();
+          },
+          pin: viewport,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        }
+      });
+
+      cards.forEach(function (card, index) {
+        if (index === 0) {
+          return;
+        }
+
+        timeline.to(card, {
+          y: function () {
+            return -(card.offsetTop - cards[0].offsetTop) + (aboutClientsCardCascade() * index);
+          },
+          ease: 'none',
+          duration: 1
+        }, index - 1);
+      });
     }
 
-    resetAboutClientsStackedCards();
+    initAboutClientsStackedCards();
 
     if (window.innerWidth <= 1024) {
+      window.ScrollTrigger.refresh();
       return;
     }
-
-    if (!window.gsap || !window.ScrollTrigger) {
-      return;
-    }
-
-    window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-clients-scroller').forEach(function (section) {
       // Product MediaHub page: allow only the dedicated #mediahub-clients section
@@ -938,7 +1005,6 @@
       section.classList.remove('is-clients-top-fade');
 
       if (section.id === 'about-clients') {
-        resetAboutClientsStackedCards();
         return;
       }
 
