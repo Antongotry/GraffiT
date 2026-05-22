@@ -226,7 +226,7 @@ function graffit_products_hero_image_mobile_url(): string
  */
 function graffit_about_hero_image_url(): string
 {
-    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-2087325771_result-scaled.webp';
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/%D0%9F%D1%80%D0%BE-%D0%BD%D0%B0%D1%81_result-scaled.webp';
 }
 
 /**
@@ -234,7 +234,7 @@ function graffit_about_hero_image_url(): string
  */
 function graffit_about_hero_image_mobile_url(): string
 {
-    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Frame-2087325776_result.webp';
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/%D0%9F%D1%80%D0%BE-%D0%BD%D0%B0%D1%81-377_result.webp';
 }
 
 /**
