@@ -3897,6 +3897,42 @@
   .site-main--services #services-projects .services-projects__bg {
     display: none;
   }
+
+  /* Проєкти: bg прихований — без подвійного відступу; карусель вище у viewport при pin. */
+  .site-main--services #services-projects.services-projects:has(.services-projects__bg) .services-projects__container {
+    margin-top: 0;
+  }
+
+  .site-main--services #services-projects .services-projects__viewport {
+    padding-top: #{mixins.vw(48px)};
+    padding-bottom: #{mixins.vw(12px)};
+  }
+
+  .site-main--services #services-projects .services-projects__top-row {
+    margin-top: #{mixins.vw(10px)};
+  }
+
+  .site-main--services #services-projects .services-projects__stage {
+    margin-top: #{mixins.vw(12px)};
+    height: min(#{mixins.vw(556px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(200px)}));
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1600px) {
+  .site-main--services #services-projects .services-projects__viewport {
+    padding-top: #{mixins.vw(36px)};
+  }
+
+  .site-main--services #services-projects .services-projects__stage {
+    height: min(#{mixins.vw(470px)}, calc(100svh - 280px));
+    margin-top: #{mixins.vw(8px)};
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1600px) and (max-height: 920px) {
+  .site-main--services #services-projects .services-projects__stage {
+    height: min(#{mixins.vw(430px)}, calc(100svh - 300px));
+  }
 }
 
 .services-projects__viewport {

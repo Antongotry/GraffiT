@@ -416,9 +416,17 @@
       var isHomeProjects =
         section.id === 'services-projects' && !!section.closest('.site-main--home');
       var isMediahubProjects = section.id === 'mediahub-capabilities';
-      var projectsStartOffset = 100;
+      var isServicesProjectsPage =
+        section.id === 'services-projects' && !!section.closest('.site-main--services');
+      var projectsStartOffset = isServicesProjectsPage ? 80 : 100;
 
-      if (!viewport || !stage || !track || cards.length === 0 || ((isHomeProjects || isMediahubProjects) && !container)) {
+      if (
+        !viewport ||
+        !stage ||
+        !track ||
+        cards.length === 0 ||
+        ((isHomeProjects || isMediahubProjects || isServicesProjectsPage) && !container)
+      ) {
         return;
       }
 
@@ -456,13 +464,13 @@
         ease: 'none',
         scrollTrigger: {
           /* Головна: scrub/pin лише коли .services-projects__container упирається у верх вікна. */
-          trigger: (isHomeProjects || isMediahubProjects) ? container : section,
+          trigger: (isHomeProjects || isMediahubProjects || isServicesProjectsPage) ? container : section,
           start: 'top top+=' + projectsStartOffset,
           end: function () {
             var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
 
-            if (isHomeProjects) {
-              return 'clamp(+=' + overflow + ')';
+            if (isHomeProjects || isServicesProjectsPage) {
+              return 'clamp(+=' + (isServicesProjectsPage ? servicesBenefitsPinDistance(track, stage) : overflow) + ')';
             }
 
             return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage) + ')';
