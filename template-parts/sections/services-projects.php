@@ -113,6 +113,29 @@ $project_cases = [
                     <h2 class="services-projects__title" id="services-projects-title">
                         Вміємо трансформувати ваші бізнес-запити у зрозумілі та робочі IT-рішення.
                     </h2>
+
+                    <div class="services-projects__nav">
+                        <button class="services-projects__nav-button services-projects__nav-button--prev js-projects-prev" type="button" aria-label="Попередній кейс">
+                            <img
+                                class="services-projects__nav-icon"
+                                src="<?php echo esc_url( content_url( 'uploads/2026/04/l.svg' ) ); ?>"
+                                alt=""
+                                width="18"
+                                height="20"
+                                decoding="async"
+                            />
+                        </button>
+                        <button class="services-projects__nav-button services-projects__nav-button--next js-projects-next" type="button" aria-label="Наступний кейс">
+                            <img
+                                class="services-projects__nav-icon"
+                                src="<?php echo esc_url( content_url( 'uploads/2026/04/r.svg' ) ); ?>"
+                                alt=""
+                                width="18"
+                                height="20"
+                                decoding="async"
+                            />
+                        </button>
+                    </div>
                 </div>
 
                 <div class="services-projects__swipe-hint">
@@ -137,29 +160,6 @@ $project_cases = [
                         <?php get_template_part('template-parts/components/project-case', 'card', $project_case); ?>
                     <?php endforeach; ?>
                 </div>
-            </div>
-
-            <div class="services-projects__nav">
-                <button class="services-projects__nav-button services-projects__nav-button--prev js-projects-prev" type="button" aria-label="Попередній кейс">
-                    <img
-                        class="services-projects__nav-icon"
-                        src="<?php echo esc_url( content_url( 'uploads/2026/04/l.svg' ) ); ?>"
-                        alt=""
-                        width="18"
-                        height="20"
-                        decoding="async"
-                    />
-                </button>
-                <button class="services-projects__nav-button services-projects__nav-button--next js-projects-next" type="button" aria-label="Наступний кейс">
-                    <img
-                        class="services-projects__nav-icon"
-                        src="<?php echo esc_url( content_url( 'uploads/2026/04/r.svg' ) ); ?>"
-                        alt=""
-                        width="18"
-                        height="20"
-                        decoding="async"
-                    />
-                </button>
             </div>
         </div>
     </div>
