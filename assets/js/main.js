@@ -418,7 +418,7 @@
       var isMediahubProjects = section.id === 'mediahub-capabilities';
       var isServicesProjectsPage =
         section.id === 'services-projects' && !!section.closest('.site-main--services');
-      var projectsStartOffset = isServicesProjectsPage ? 80 : 100;
+      var projectsStartOffset = isServicesProjectsPage ? 72 : 100;
 
       if (
         !viewport ||
