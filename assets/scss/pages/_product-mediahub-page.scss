@@ -703,6 +703,8 @@
 
 .mediahub-capabilities .services-projects__stage {
   overflow: visible;
+  /* −10% висоти смуги карток — повністю влазять у viewport при pin / горизонтальному скролі. */
+  height: min(#{mixins.vw(556px)}, calc((100svh - #{mixins.vw(176px)}) * 0.9));
 }
 
 .mediahub-capabilities .services-projects__container {
@@ -786,7 +788,7 @@
   width: #{mixins.vw(670px)};
   min-height: 0;
   height: 100%;
-  padding: #{mixins.vw(40px)};
+  padding: #{mixins.vw(36px)};
   border-radius: #{mixins.vw(12px)};
   background: #353e4d;
   overflow: hidden;
@@ -798,8 +800,8 @@
     width: min(100%, #{$card-w});
     max-width: 100%;
     height: auto;
-    min-height: #{mixins.mvw(480px)};
-    padding: #{mixins.mvw(24px)};
+    min-height: #{mixins.mvw(432px)};
+    padding: #{mixins.mvw(22px)};
     border-radius: #{mixins.mvw(12px)};
     scroll-snap-align: start;
     box-sizing: border-box;
@@ -814,7 +816,7 @@
 
 .mediahub-capability-card__visual {
   flex: 1 1 auto;
-  min-height: #{mixins.vw(200px)};
+  min-height: #{mixins.vw(180px)};
   border-radius: #{mixins.vw(8px)};
   background: #979797;
 
