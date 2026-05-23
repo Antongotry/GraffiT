@@ -3921,7 +3921,7 @@
   }
 
   .site-main--services #services-projects .services-projects__top-row {
-    align-items: center;
+    align-items: flex-start;
     margin-top: #{mixins.vw(8px)};
     padding-right: 0;
     gap: #{mixins.vw(24px)};
@@ -3937,6 +3937,7 @@
     top: auto;
     right: auto;
     flex-shrink: 0;
+    align-self: flex-start;
     margin: 0;
   }
 
