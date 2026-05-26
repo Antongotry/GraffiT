@@ -5,6 +5,15 @@
   /* Як на /services/: hidden на main ламає pin/sticky і дає «проєкти над етапом 4». */
   overflow-x: clip;
   overflow-y: visible;
+
+  /*
+   * Декоративні ::before/::after з layouts/_site.scss (inset: -12%) + overflow-y: visible
+   * роздувають #page scrollHeight ~1090px — пустота під футером при Lenis/ScrollTrigger.
+   */
+  &::before,
+  &::after {
+    display: none;
+  }
 }
 
 /* Products hero — desktop sizes from 1440 via mixins.vw; mobile: basic stack */
