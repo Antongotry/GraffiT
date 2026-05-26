@@ -687,7 +687,8 @@
    ------------------------------------------------------------------ */
 
 .mediahub-capabilities.services-projects {
-  --mediahub-cap-visual-h: 72px;
+  /* Як у макеті: велике превью, компактний блок текст + result. */
+  --mediahub-cap-visual-h: #{mixins.vw(180px)};
   position: relative;
   z-index: 70;
   overflow: visible;
@@ -716,50 +717,24 @@
     min-height: 0;
   }
 
+  /* Не stretch — інакше всі картки тягнуться під CTA і знизу пустота. */
   .mediahub-capabilities .services-projects__track {
-    align-items: stretch;
+    align-items: flex-start;
     height: auto;
   }
 
   .mediahub-capabilities .mediahub-capability-card {
+    align-self: flex-start;
     height: auto;
-    min-height: 100%;
-    align-self: stretch;
-    padding: 20px;
-  }
-
-  .mediahub-capability-card__body {
-    margin-top: 12px;
-  }
-
-  .mediahub-capability-card__result {
-    margin-top: 12px;
-    padding: 12px 14px;
-  }
-
-  .mediahub-capability-card--cta {
-    justify-content: flex-start;
-  }
-
-  .mediahub-capability-card__cta-title {
-    margin-top: 16px;
-    font-size: #{mixins.vw(24px)};
-    line-height: 1.2;
-  }
-
-  .mediahub-capability-card__cta-lead {
-    margin-top: 12px;
-  }
-
-  .mediahub-capability-card__cta-button {
-    margin-top: 16px;
+    min-height: 0;
+    max-height: none;
   }
 }
 
 /* Середні десктопи */
 @media (min-width: 1025px) and (max-width: 1600px) {
   .mediahub-capabilities.services-projects {
-    --mediahub-cap-visual-h: 64px;
+    --mediahub-cap-visual-h: #{mixins.vw(160px)};
   }
 
   .mediahub-capabilities .services-projects__viewport {
@@ -772,14 +747,6 @@
 
   .mediahub-capabilities .services-projects__stage {
     margin-top: #{mixins.vw(10px)};
-  }
-
-  .mediahub-capabilities .mediahub-capability-card {
-    padding: 18px;
-  }
-
-  .mediahub-capability-card__body {
-    font-size: #{mixins.vw(14px)};
   }
 }
 
@@ -894,10 +861,10 @@
   background: #979797;
 
   @media (min-width: 1025px) {
-    flex: 0 0 var(--mediahub-cap-visual-h, 72px);
-    height: var(--mediahub-cap-visual-h, 72px);
-    min-height: var(--mediahub-cap-visual-h, 72px);
-    max-height: var(--mediahub-cap-visual-h, 72px);
+    flex: 0 0 var(--mediahub-cap-visual-h);
+    height: var(--mediahub-cap-visual-h);
+    min-height: var(--mediahub-cap-visual-h);
+    max-height: var(--mediahub-cap-visual-h);
   }
 
   @include mixins.mobile {
@@ -910,11 +877,11 @@
 
 .mediahub-capability-card__body {
   flex: 0 0 auto;
-  margin: #{mixins.vw(20px)} 0 0;
+  margin: #{mixins.vw(28px)} 0 0;
   font-family: "Involve", sans-serif;
-  font-size: #{mixins.vw(15px)};
+  font-size: #{mixins.vw(16px)};
   font-weight: 400;
-  line-height: 132%;
+  line-height: 136%;
   color: #ffffff;
 
   @include mixins.mobile {
@@ -925,9 +892,9 @@
 
 .mediahub-capability-card__result {
   flex: 0 0 auto;
-  margin-top: #{mixins.vw(14px)};
-  padding: #{mixins.vw(16px)} #{mixins.vw(18px)};
-  border-radius: #{mixins.vw(10px)};
+  margin-top: #{mixins.vw(22px)};
+  padding: #{mixins.vw(24px)};
+  border-radius: #{mixins.vw(12px)};
   background: #0073e6;
 
   @include mixins.mobile {
@@ -951,9 +918,9 @@
 }
 
 .mediahub-capability-card__result-text {
-  margin: #{mixins.vw(8px)} 0 0;
+  margin: #{mixins.vw(12px)} 0 0;
   font-family: "Involve", sans-serif;
-  font-size: #{mixins.vw(15px)};
+  font-size: #{mixins.vw(16px)};
   font-weight: 400;
   line-height: 136%;
   color: #ffffff;
