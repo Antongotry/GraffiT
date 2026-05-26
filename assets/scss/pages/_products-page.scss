@@ -1016,17 +1016,35 @@
     padding-right: #{mixins.vw(148px)};
   }
 
-  .services-projects__stage {
-    height: #{mixins.vw(618px)};
-    overflow: visible;
-  }
-
   .services-projects__stage::-webkit-scrollbar {
     display: none;
   }
 
-  .services-projects__track {
-    transform: none;
+  @media (min-width: 1025px) {
+    .site-main--products #products-projects.services-projects {
+      overflow-x: clip;
+      overflow-y: hidden;
+    }
+
+    .site-main--products #products-projects .services-projects__viewport {
+      padding-top: #{mixins.vw(32px)};
+      padding-bottom: #{mixins.vw(12px)};
+    }
+
+    .site-main--products #products-projects .services-projects__header {
+      flex-shrink: 0;
+    }
+
+    .site-main--products #products-projects .services-projects__stage {
+      margin-top: #{mixins.vw(8px)};
+      height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
+      overflow: hidden;
+    }
+
+    .site-main--products #products-projects .project-case-card {
+      height: 100%;
+      min-height: 100%;
+    }
   }
 
   @include mixins.mobile {

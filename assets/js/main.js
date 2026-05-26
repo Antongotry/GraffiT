@@ -412,25 +412,25 @@
         cards = Array.prototype.slice.call(section.querySelectorAll('.mediahub-capability-card'));
       }
 
-      var isProductsProjects = section.classList.contains('products-projects');
+      var isProductsProjectsPage =
+        section.id === 'products-projects' && !!section.closest('.site-main--products');
       var isHomeProjects =
         section.id === 'services-projects' && !!section.closest('.site-main--home');
       var isMediahubProjects = section.id === 'mediahub-capabilities';
       var isServicesProjectsPage =
         section.id === 'services-projects' && !!section.closest('.site-main--services');
-      var projectsStartOffset = isServicesProjectsPage ? 72 : 100;
+      var projectsStartOffset =
+        isServicesProjectsPage || isProductsProjectsPage ? 72 : 100;
+      var projectsPinUsesContainer =
+        isHomeProjects || isMediahubProjects || isServicesProjectsPage || isProductsProjectsPage;
 
       if (
         !viewport ||
         !stage ||
         !track ||
         cards.length === 0 ||
-        ((isHomeProjects || isMediahubProjects || isServicesProjectsPage) && !container)
+        (projectsPinUsesContainer && !container)
       ) {
-        return;
-      }
-
-      if (isProductsProjects) {
         return;
       }
 
@@ -464,13 +464,15 @@
         ease: 'none',
         scrollTrigger: {
           /* Головна: scrub/pin лише коли .services-projects__container упирається у верх вікна. */
-          trigger: (isHomeProjects || isMediahubProjects || isServicesProjectsPage) ? container : section,
+          trigger: projectsPinUsesContainer ? container : section,
           start: 'top top+=' + projectsStartOffset,
           end: function () {
             var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
 
-            if (isHomeProjects || isServicesProjectsPage) {
-              return 'clamp(+=' + (isServicesProjectsPage ? servicesBenefitsPinDistance(track, stage) : overflow) + ')';
+            if (isHomeProjects || isServicesProjectsPage || isProductsProjectsPage) {
+              return 'clamp(+=' + ((isServicesProjectsPage || isProductsProjectsPage)
+                ? servicesBenefitsPinDistance(track, stage)
+                : overflow) + ')';
             }
 
             return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage) + ')';
@@ -484,7 +486,7 @@
           anticipatePin: 0,
           invalidateOnRefresh: true,
           onToggle: function (self) {
-            if (isProductsProjects) {
+            if (isProductsProjectsPage) {
               section.classList.toggle('is-projects-active', self.isActive);
             }
 
@@ -538,93 +540,6 @@
     });
 
     window.ScrollTrigger.refresh();
-  }
-
-  function initProductsProjectsCarousel() {
-    if (window.innerWidth <= 1024) {
-      return;
-    }
-
-    document.querySelectorAll('.products-projects').forEach(function (section) {
-      if (section.getAttribute('data-products-projects-carousel') === '1') {
-        return;
-      }
-
-      var stage = section.querySelector('.js-projects-stage');
-      var track = section.querySelector('.js-projects-track');
-      var prevButton = section.querySelector('.js-projects-prev');
-      var nextButton = section.querySelector('.js-projects-next');
-      var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
-
-      if (!stage || !track || cards.length === 0) {
-        return;
-      }
-
-      section.setAttribute('data-products-projects-carousel', '1');
-      track.style.setProperty('transition', 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1)');
-      track.style.setProperty('will-change', 'transform');
-      track.style.setProperty('transform', 'translateX(0px)', 'important');
-      var currentIndex = 0;
-
-      function getMaxIndex() {
-        return Math.max(cards.length - 1, 0);
-      }
-
-      function cardOffset(index) {
-        var firstCard = cards[0];
-        var targetCard = cards[index];
-
-        if (!firstCard || !targetCard) {
-          return 0;
-        }
-
-        return Math.max(targetCard.offsetLeft - firstCard.offsetLeft, 0);
-      }
-
-      function applyPosition() {
-        var offset = cardOffset(currentIndex);
-        track.style.setProperty('transform', 'translateX(' + -offset + 'px)', 'important');
-      }
-
-      function updateButtons() {
-        if (prevButton) {
-          prevButton.disabled = currentIndex <= 0;
-        }
-
-        if (nextButton) {
-          nextButton.disabled = currentIndex >= getMaxIndex();
-        }
-      }
-
-      function scrollToIndex(index) {
-        var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
-        currentIndex = clampedIndex;
-        applyPosition();
-        updateButtons();
-      }
-
-      window.addEventListener('resize', function () {
-        applyPosition();
-        updateButtons();
-      }, { passive: true });
-
-      window.requestAnimationFrame(function () {
-        applyPosition();
-        updateButtons();
-      });
-
-      if (prevButton) {
-        prevButton.addEventListener('click', function () {
-          scrollToIndex(currentIndex - 1);
-        });
-      }
-
-      if (nextButton) {
-        nextButton.addEventListener('click', function () {
-          scrollToIndex(currentIndex + 1);
-        });
-      }
-    });
   }
 
   function initProjectsMobileCarousel() {
@@ -2875,7 +2790,6 @@
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(resetMediahubClientsLegacyState, 'mediahub-clients-legacy-reset');
   runInit(initClientsScroller, 'clients-scroller');
-  runInit(initProductsProjectsCarousel, 'products-projects-carousel');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
   runInit(initProductsCatalogScroller, 'products-catalog-scroller');
   runInit(initProductsCatalogMobileCarousel, 'products-catalog-mobile-carousel');
