@@ -400,6 +400,10 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-projects-scroller').forEach(function (section) {
+      if (section.id === 'products-projects') {
+        return;
+      }
+
       var viewport = section.querySelector('.services-projects__viewport');
       var container = section.querySelector('.services-projects__container');
       var stage = section.querySelector('.js-projects-stage');
@@ -412,17 +416,14 @@
         cards = Array.prototype.slice.call(section.querySelectorAll('.mediahub-capability-card'));
       }
 
-      var isProductsProjectsPage =
-        section.id === 'products-projects' && !!section.closest('.site-main--products');
       var isHomeProjects =
         section.id === 'services-projects' && !!section.closest('.site-main--home');
       var isMediahubProjects = section.id === 'mediahub-capabilities';
       var isServicesProjectsPage =
         section.id === 'services-projects' && !!section.closest('.site-main--services');
-      var projectsStartOffset =
-        isServicesProjectsPage || isProductsProjectsPage ? 72 : 100;
+      var projectsStartOffset = isServicesProjectsPage ? 72 : 100;
       var projectsPinUsesContainer =
-        isHomeProjects || isMediahubProjects || isServicesProjectsPage || isProductsProjectsPage;
+        isHomeProjects || isMediahubProjects || isServicesProjectsPage;
 
       if (
         !viewport ||
@@ -469,8 +470,8 @@
           end: function () {
             var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
 
-            if (isHomeProjects || isServicesProjectsPage || isProductsProjectsPage) {
-              return 'clamp(+=' + ((isServicesProjectsPage || isProductsProjectsPage)
+            if (isHomeProjects || isServicesProjectsPage) {
+              return 'clamp(+=' + (isServicesProjectsPage
                 ? servicesBenefitsPinDistance(track, stage)
                 : overflow) + ')';
             }
@@ -484,15 +485,8 @@
           pin: (isHomeProjects || isMediahubProjects) ? section : viewport,
           scrub: true,
           anticipatePin: 0,
-          pinSpacing: true,
-          pinClass: isProductsProjectsPage ? 'pin-spacer-products-projects' : undefined,
-          refreshPriority: isProductsProjectsPage ? 8 : 0,
           invalidateOnRefresh: true,
-          onToggle: function (self) {
-            if (isProductsProjectsPage) {
-              section.classList.toggle('is-projects-active', self.isActive);
-            }
-
+          onToggle: function () {
             document.documentElement.classList.remove('is-projects-pinned');
           },
           onUpdate: function (self) {
@@ -545,12 +539,140 @@
     window.ScrollTrigger.refresh();
   }
 
+  function initProductsProjectsScroller() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    var section = document.getElementById('products-projects');
+
+    if (!section || !section.closest('.site-main--products')) {
+      return;
+    }
+
+    if (section.getAttribute('data-products-projects-pin-init') === '1') {
+      return;
+    }
+
+    var container = section.querySelector('.services-projects__container');
+    var stage = section.querySelector('.js-projects-stage');
+    var track = section.querySelector('.js-projects-track');
+    var prevButton = section.querySelector('.js-projects-prev');
+    var nextButton = section.querySelector('.js-projects-next');
+    var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
+
+    if (!container || !stage || !track || cards.length === 0) {
+      return;
+    }
+
+    section.setAttribute('data-products-projects-pin-init', '1');
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    var currentIndex = 0;
+
+    function getMaxIndex() {
+      return Math.max(cards.length - 1, 0);
+    }
+
+    if (typeof ResizeObserver === 'function') {
+      var productsProjectsResizeTimer;
+
+      function scheduleProductsProjectsRefresh() {
+        window.clearTimeout(productsProjectsResizeTimer);
+        productsProjectsResizeTimer = window.setTimeout(function () {
+          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+            window.ScrollTrigger.refresh();
+          }
+        }, 100);
+      }
+
+      var productsProjectsResizeObserver = new ResizeObserver(scheduleProductsProjectsRefresh);
+      productsProjectsResizeObserver.observe(track);
+    }
+
+    var tween = window.gsap.to(track, {
+      x: function () {
+        return -(track.scrollWidth - stage.clientWidth);
+      },
+      ease: 'none',
+      scrollTrigger: {
+        id: 'products-projects-pin',
+        trigger: container,
+        start: 'top top+=72',
+        end: function () {
+          return 'clamp(+=' + servicesBenefitsPinDistance(track, stage) + ')';
+        },
+        pin: section,
+        pinSpacing: true,
+        scrub: true,
+        anticipatePin: 0,
+        pinClass: 'pin-spacer-products-projects',
+        refreshPriority: 10,
+        invalidateOnRefresh: true,
+        onToggle: function (self) {
+          section.classList.toggle('is-projects-active', self.isActive);
+          section.classList.toggle('is-products-projects-pinned', self.isActive);
+          document.documentElement.classList.toggle('is-products-projects-pinned', self.isActive);
+        },
+        onUpdate: function (self) {
+          currentIndex = Math.round(self.progress * getMaxIndex());
+        }
+      }
+    });
+
+    function updateButtons() {
+      if (prevButton) {
+        prevButton.disabled = currentIndex <= 0;
+      }
+
+      if (nextButton) {
+        nextButton.disabled = currentIndex >= getMaxIndex();
+      }
+    }
+
+    function scrollToIndex(index) {
+      var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
+      var trigger = tween.scrollTrigger;
+
+      if (!trigger) {
+        return;
+      }
+
+      var progress = getMaxIndex() === 0 ? 0 : clampedIndex / getMaxIndex();
+      var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
+
+      currentIndex = clampedIndex;
+      updateButtons();
+      scrollToPosition(targetScroll);
+    }
+
+    updateButtons();
+
+    if (prevButton) {
+      prevButton.addEventListener('click', function () {
+        scrollToIndex(currentIndex - 1);
+      });
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener('click', function () {
+        scrollToIndex(currentIndex + 1);
+      });
+    }
+
+    window.ScrollTrigger.refresh();
+  }
+
   function initProjectsMobileCarousel() {
     if (window.innerWidth > 1024) {
       return;
     }
 
-    document.querySelectorAll('.js-projects-scroller').forEach(function (section) {
+    document.querySelectorAll('.js-projects-scroller, .js-products-projects-scroller').forEach(function (section) {
       if (section.getAttribute('data-projects-mobile-carousel') === '1') {
         return;
       }
@@ -648,6 +770,10 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-products-catalog-scroller').forEach(function (section) {
+      if (section.getAttribute('data-products-catalog-pin-init') === '1') {
+        return;
+      }
+
       var viewport = section.querySelector('.products-catalog__viewport');
       var stage = section.querySelector('.js-products-catalog-stage');
       var track = section.querySelector('.js-products-catalog-track');
@@ -658,6 +784,8 @@
       if (!viewport || !stage || !track || cards.length === 0) {
         return;
       }
+
+      section.setAttribute('data-products-catalog-pin-init', '1');
 
       var currentIndex = 0;
 
@@ -679,6 +807,7 @@
         },
         ease: 'none',
         scrollTrigger: {
+          id: isProductsPage ? 'products-catalog-pin' : undefined,
           trigger: section,
           start: 'top top',
           end: function () {
@@ -2605,6 +2734,7 @@
     var revealMotionExclusionSelector = [
       '.js-benefits-scroller',
       '.js-projects-scroller',
+      '.js-products-projects-scroller',
       '.js-clients-scroller',
       '.js-process-section',
       '.js-products-catalog-scroller'
@@ -2800,10 +2930,11 @@
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initProjectsScroller, 'projects-scroller');
+  runInit(initProductsCatalogScroller, 'products-catalog-scroller');
+  runInit(initProductsProjectsScroller, 'products-projects-pin');
   runInit(resetMediahubClientsLegacyState, 'mediahub-clients-legacy-reset');
   runInit(initClientsScroller, 'clients-scroller');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
-  runInit(initProductsCatalogScroller, 'products-catalog-scroller');
   runInit(initProductsCatalogMobileCarousel, 'products-catalog-mobile-carousel');
   runInit(initProcessTimeline, 'process-timeline');
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');

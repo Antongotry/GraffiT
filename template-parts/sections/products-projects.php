@@ -86,7 +86,7 @@ $project_cases = [
 ];
 ?>
 <section
-    class="services-projects products-projects js-projects-scroller"
+    class="services-projects products-projects js-products-projects-scroller"
     id="products-projects"
     aria-labelledby="products-projects-title"
     style="--services-projects-bg-image: url('<?php echo esc_url($projects_background_image); ?>')"

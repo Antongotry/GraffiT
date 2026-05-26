@@ -845,8 +845,14 @@
 
 .site-main--products .pin-spacer-products-projects {
   position: relative;
-  z-index: 8 !important;
+  z-index: 12 !important;
   overflow: visible;
+}
+
+/* Під час pin проєктів sticky-фото process не лізе поверх карток. */
+.site-main--products:has(#products-projects.is-products-projects-pinned) .products-process .services-process__visual {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .products-inquiry {
@@ -1007,7 +1013,8 @@
   position: relative;
   overflow: visible;
   isolation: isolate;
-  z-index: 8;
+  z-index: 12;
+  background: #000102;
 
   .services-projects__viewport {
     opacity: 1;
@@ -1016,6 +1023,7 @@
     min-height: 0;
     overflow: visible;
     padding-bottom: #{mixins.vw(80px)};
+    background: #000102;
   }
 
   .services-projects__container,
@@ -1038,11 +1046,18 @@
     .site-main--products #products-projects.services-projects {
       overflow-x: clip;
       overflow-y: hidden;
+      background: #000102;
     }
 
     .site-main--products #products-projects .services-projects__viewport {
       padding-top: #{mixins.vw(32px)};
       padding-bottom: #{mixins.vw(12px)};
+      background: #000102;
+    }
+
+    .site-main--products #products-projects .services-projects__container {
+      position: relative;
+      z-index: 1;
     }
 
     .site-main--products #products-projects .services-projects__header {
