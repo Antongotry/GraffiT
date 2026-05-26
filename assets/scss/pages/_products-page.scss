@@ -1,11 +1,10 @@
 @use "../abstracts/mixins";
 
-.site-main--products {
+.site-main.site-main--products {
   background: #000102;
-
-  @media (min-width: 1025px) {
-    overflow-x: clip;
-  }
+  /* Як на /services/: hidden на main ламає pin/sticky і дає «проєкти над етапом 4». */
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 /* Products hero — desktop sizes from 1440 via mixins.vw; mobile: basic stack */
@@ -837,22 +836,11 @@
   background: #000102 !important;
 }
 
-.site-main--products .pin-spacer-products-projects-pin {
-  position: relative;
-  z-index: 12 !important;
-  overflow: visible;
-  background: #000102 !important;
-}
-
-.site-main--products:has(#products-projects.is-products-projects-pinned) .products-process .services-process__visual {
-  visibility: hidden;
-  pointer-events: none;
-}
-
 .products-inquiry {
   position: relative;
-  z-index: 5;
-  margin-top: calc(#{mixins.vw(-90px)} - 1px);
+  z-index: 2;
+  /* Без від’ємного margin — інакше блок заїжджає під pin каталогу під час скролу. */
+  margin-top: 0;
   background: #000102;
 
   &.cta-band--light {
@@ -870,13 +858,13 @@
 
 .products-process {
   position: relative;
-  z-index: 6;
-  overflow: hidden;
+  z-index: 3;
+  overflow: visible;
   background: #000102;
 
   .services-process__container {
     width: #{mixins.vw(1360px)};
-    padding: #{mixins.vw(112px)} 0 #{mixins.vw(236px)};
+    padding: #{mixins.vw(112px)} 0 #{mixins.vw(120px)};
     overflow: visible;
   }
 
@@ -888,7 +876,30 @@
     grid-template-columns: #{mixins.vw(563px)} #{mixins.vw(640px)};
     column-gap: #{mixins.vw(86px)};
     margin-top: #{mixins.vw(84px)};
-    overflow: hidden;
+    overflow: visible;
+  }
+
+  @media (min-width: 1025px) {
+    .services-process__layout {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .services-process__timeline {
+      width: 100%;
+      max-width: #{mixins.vw(563px)};
+    }
+
+    .services-process__visual {
+      position: relative !important;
+      top: auto !important;
+      align-self: center;
+      width: min(100%, #{mixins.vw(760px)});
+      margin: #{mixins.vw(48px)} auto 0;
+      margin-right: auto;
+    }
   }
 
   .services-process__line {
@@ -912,8 +923,8 @@
   }
 
   .services-process__visual {
-    position: sticky;
-    top: var(--process-visual-sticky-top);
+    position: relative;
+    top: auto;
     align-self: start;
     justify-self: end;
     width: #{mixins.vw(760px)};
@@ -1013,11 +1024,18 @@
   }
 }
 
+.site-main--products #products-projects.products-projects {
+  margin-top: 0 !important;
+  transform: none !important;
+}
+
+.site-main--products #products-projects .services-projects__container {
+  margin-top: 0 !important;
+}
+
 .products-projects {
   position: relative;
   overflow: visible;
-  isolation: isolate;
-  z-index: 12;
   background: #000102;
 
   .services-projects__viewport {
@@ -1056,12 +1074,22 @@
     .site-main--products #products-projects .services-projects__stage {
       margin-top: #{mixins.vw(8px)};
       height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
-      overflow: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .site-main--products #products-projects .services-projects__track {
+      transform: none !important;
+      will-change: auto;
     }
 
     .site-main--products #products-projects .project-case-card {
       height: 100%;
       min-height: 100%;
+      scroll-snap-align: start;
     }
   }
 
