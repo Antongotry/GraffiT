@@ -860,38 +860,30 @@
   contain: layout style;
 }
 
-// Desktop: проєкти — нативний горизонтальний scroll (без pin-spacer / ScrollTrigger).
+.site-main--products .pin-spacer-products-page-projects {
+  position: relative;
+  z-index: 4 !important;
+  overflow: clip !important;
+  background: #000102 !important;
+  contain: layout style;
+}
+
+.site-main--products .pin-spacer-products-page-projects .services-projects__viewport {
+  overflow: clip !important;
+}
+
+// Desktop: pin на section (як .home-hex-projects-flow #services-projects), не на viewport.
 @media (min-width: 1025px) {
-  .site-main--products #products-projects.services-projects,
-  .site-main--products #products-projects.is-products-page-projects-native-scroll {
+  .site-main--products #products-projects.services-projects {
     overflow: visible;
   }
 
-  .site-main--products #products-projects .js-products-page-projects-stage {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    touch-action: pan-x;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  .site-main--products #products-projects .services-projects__stage {
+    overflow: hidden;
   }
 
   .site-main--products #products-projects .js-products-page-projects-track {
-    display: flex;
-    width: max-content;
-    height: 100%;
-    transform: none !important;
-    will-change: auto;
-  }
-
-  .site-main--products #products-projects .js-products-page-projects-track .project-case-card {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    will-change: transform;
   }
 
   .site-main--products #products-projects .services-projects__container {
@@ -967,14 +959,20 @@
 }
 
 .products-process {
+  --process-visual-sticky-top: #{mixins.vw(122px)};
   position: relative;
-  z-index: 3;
-  overflow: visible;
+  z-index: 6;
+  overflow-x: clip;
+  overflow-y: visible;
   background: #000102;
+
+  @media (min-width: 1501px) {
+    --process-visual-sticky-top: #{mixins.vw(158px)};
+  }
 
   .services-process__container {
     width: #{mixins.vw(1360px)};
-    padding: #{mixins.vw(112px)} 0 #{mixins.vw(120px)};
+    padding: #{mixins.vw(112px)} 0 calc(#{mixins.vw(120px)} + #{mixins.vw(72px)});
     overflow: visible;
   }
 
@@ -991,10 +989,11 @@
 
   @media (min-width: 1025px) {
     .services-process__layout {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0;
+      display: grid;
+      grid-template-columns: #{mixins.vw(563px)} #{mixins.vw(640px)};
+      justify-content: space-between;
+      align-items: start;
+      column-gap: #{mixins.vw(86px)};
     }
 
     .services-process__timeline {
@@ -1003,12 +1002,13 @@
     }
 
     .services-process__visual {
-      position: relative !important;
-      top: auto !important;
-      align-self: center;
-      width: min(100%, #{mixins.vw(760px)});
-      margin: #{mixins.vw(48px)} auto 0;
-      margin-right: auto;
+      position: sticky;
+      top: var(--process-visual-sticky-top);
+      align-self: start;
+      justify-self: end;
+      width: #{mixins.vw(760px)};
+      max-width: 100%;
+      margin: 0 #{mixins.vw(-78px)} 0 0;
     }
   }
 
@@ -1032,17 +1032,6 @@
     max-width: #{mixins.vw(345px)};
   }
 
-  .services-process__visual {
-    position: relative;
-    top: auto;
-    align-self: start;
-    justify-self: end;
-    width: #{mixins.vw(760px)};
-    max-width: 100%;
-    margin-right: #{mixins.vw(-78px)};
-    z-index: 0;
-  }
-
   .services-process__visual-frame {
     width: #{mixins.vw(768px)};
     height: #{mixins.vw(833px)};
@@ -1061,6 +1050,11 @@
     .services-process__container {
       width: min(100% - #{mixins.mvw(32px)}, 100%);
       padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(112px)};
+    }
+
+    .services-process__layout {
+      display: flex;
+      flex-direction: column;
     }
 
     .services-process__title {
@@ -1145,7 +1139,8 @@
 
 .products-projects {
   position: relative;
-  overflow: hidden;
+  z-index: 4;
+  overflow: visible;
   isolation: isolate;
   background: #000102;
 
@@ -1158,8 +1153,8 @@
     width: min(100%, #{mixins.vw(1440px)});
     margin-inline: auto;
     min-height: 0;
-    overflow: clip;
-    padding-bottom: #{mixins.vw(80px)};
+    overflow: visible;
+    padding: #{mixins.vw(96px)} 0 #{mixins.vw(16px)};
     background: #000102;
     box-sizing: border-box;
   }
