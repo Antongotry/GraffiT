@@ -3232,7 +3232,7 @@
       '.js-products-catalog-scroller',
       /* CTA на /products/: autoAlpha:0 лишав блок невидимим при зламаному скролі. */
       '.products-inquiry',
-      '.products-final-cta',
+      '.site-main--products .services-final-cta',
       '.site-main--products .cta-band'
     ].join(', ');
 
