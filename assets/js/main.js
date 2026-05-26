@@ -414,7 +414,7 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-projects-scroller').forEach(function (section) {
-      if (section.id === 'products-projects') {
+      if (section.id === 'products-projects' || section.classList.contains('js-products-page-projects-scroll')) {
         return;
       }
 
@@ -553,22 +553,225 @@
     window.ScrollTrigger.refresh();
   }
 
-  function killProductsPageScrollTriggers() {
-    if (!window.ScrollTrigger || typeof window.ScrollTrigger.getAll !== 'function') {
+  function killProductsPageCatalogScroll() {
+    if (!window.ScrollTrigger) {
       return;
     }
 
-    window.ScrollTrigger.getAll().forEach(function (trigger) {
-      var id = trigger.vars && trigger.vars.id;
-      var isProductsPinId = id === 'products-catalog-pin' || id === 'products-projects-pin';
+    if (typeof window.ScrollTrigger.getById === 'function') {
+      var catalogTrigger = window.ScrollTrigger.getById('products-catalog-pin');
 
-      if (isProductsPinId) {
-        trigger.kill(true);
+      if (catalogTrigger) {
+        catalogTrigger.kill(true);
       }
-    });
+    }
   }
 
-  /* /products/ desktop: один init — pin каталогу, потім pin проєктів (без дублювання ST). */
+  function killProductsPageProjectsScroll() {
+    if (!window.ScrollTrigger) {
+      return;
+    }
+
+    if (typeof window.ScrollTrigger.getById === 'function') {
+      var projectsTrigger = window.ScrollTrigger.getById('products-page-projects-scrub');
+
+      if (projectsTrigger) {
+        projectsTrigger.kill(true);
+      }
+    }
+
+    var section = document.querySelector(
+      '.site-main--products #products-projects.js-products-page-projects-scroll'
+    );
+
+    if (!section) {
+      return;
+    }
+
+    section.classList.remove('is-products-page-projects-pinned');
+    section.removeAttribute('data-products-page-projects-ready');
+
+    var track = section.querySelector('.js-products-page-projects-track');
+
+    if (track && window.gsap) {
+      window.gsap.set(track, { x: 0, clearProps: 'transform' });
+    }
+  }
+
+  function productsPageProjectsScrollDistance(stage, track) {
+    var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
+
+    if (overflow <= 0) {
+      return 0;
+    }
+
+    var w = window.innerWidth || 1440;
+    var extra = Math.round((120 / 1440) * w);
+
+    extra = Math.min(Math.max(extra, 72), 160);
+
+    return overflow + extra;
+  }
+
+  /**
+   * /products/#products-projects — повністю ізольований pin + горизонталь.
+   * Не використовує initProjectsScroller, js-projects-* та спільний init з каталогом.
+   */
+  function initProductsPageProjectsScroll() {
+    if (window.innerWidth <= 1024) {
+      killProductsPageProjectsScroll();
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    var section = document.querySelector(
+      '.site-main--products #products-projects.js-products-page-projects-scroll'
+    );
+
+    if (!section) {
+      return;
+    }
+
+    if (section.getAttribute('data-products-page-projects-ready') === '1') {
+      return;
+    }
+
+    var pinShell = section.querySelector('.products-projects__pin-shell');
+    var stage = section.querySelector('.js-products-page-projects-stage');
+    var track = section.querySelector('.js-products-page-projects-track');
+    var prevButton = section.querySelector('.js-products-page-projects-prev');
+    var nextButton = section.querySelector('.js-products-page-projects-next');
+    var cards = Array.prototype.slice.call(
+      section.querySelectorAll('.js-products-page-projects-track .project-case-card')
+    );
+
+    if (!pinShell || !stage || !track || cards.length === 0) {
+      return;
+    }
+
+    killProductsPageProjectsScroll();
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    section.setAttribute('data-products-page-projects-ready', '1');
+    section.classList.remove('is-products-page-projects-pinned');
+    stage.scrollLeft = 0;
+    track.style.removeProperty('transition');
+    track.style.removeProperty('will-change');
+    window.gsap.set(track, { x: 0, clearProps: 'transform' });
+
+    var currentIndex = 0;
+    var projectsTween;
+    var projectsResizeObserver;
+    var projectsResizeTimer;
+
+    function getMaxIndex() {
+      return Math.max(cards.length - 1, 0);
+    }
+
+    function horizontalOverflow() {
+      return Math.max(track.scrollWidth - stage.clientWidth, 0);
+    }
+
+    function updateButtons() {
+      if (prevButton) {
+        prevButton.disabled = currentIndex <= 0;
+      }
+
+      if (nextButton) {
+        nextButton.disabled = currentIndex >= getMaxIndex();
+      }
+    }
+
+    function refreshProjectsScrollTrigger() {
+      if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+        window.ScrollTrigger.refresh();
+      }
+    }
+
+    if (typeof ResizeObserver === 'function') {
+      projectsResizeObserver = new ResizeObserver(function () {
+        window.clearTimeout(projectsResizeTimer);
+        projectsResizeTimer = window.setTimeout(refreshProjectsScrollTrigger, 140);
+      });
+      projectsResizeObserver.observe(track);
+      projectsResizeObserver.observe(stage);
+    }
+
+    projectsTween = window.gsap.to(track, {
+      x: function () {
+        return -horizontalOverflow();
+      },
+      ease: 'none',
+      scrollTrigger: {
+        id: 'products-page-projects-scrub',
+        trigger: pinShell,
+        start: 'top top+=72',
+        end: function () {
+          return 'clamp(+=' + productsPageProjectsScrollDistance(stage, track) + ')';
+        },
+        pin: pinShell,
+        pinSpacing: true,
+        scrub: 0.85,
+        anticipatePin: 0,
+        pinClass: 'pin-spacer-products-page-projects',
+        refreshPriority: 1,
+        invalidateOnRefresh: true,
+        onToggle: function (self) {
+          section.classList.toggle('is-products-page-projects-pinned', self.isActive);
+
+          if (!self.isActive && self.progress <= 0.001) {
+            currentIndex = 0;
+            window.gsap.set(track, { x: 0 });
+            updateButtons();
+          }
+        },
+        onUpdate: function (self) {
+          var maxIndex = getMaxIndex();
+          var rawIndex = self.progress * maxIndex;
+
+          currentIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
+          updateButtons();
+        }
+      }
+    });
+
+    function scrollToIndex(index) {
+      var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
+      var trigger = projectsTween.scrollTrigger;
+
+      if (!trigger) {
+        return;
+      }
+
+      var progress = getMaxIndex() === 0 ? 0 : clampedIndex / getMaxIndex();
+      var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
+
+      currentIndex = clampedIndex;
+      updateButtons();
+      scrollToPosition(targetScroll);
+    }
+
+    updateButtons();
+
+    if (prevButton) {
+      prevButton.addEventListener('click', function () {
+        scrollToIndex(currentIndex - 1);
+      });
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener('click', function () {
+        scrollToIndex(currentIndex + 1);
+      });
+    }
+
+    window.requestAnimationFrame(refreshProjectsScrollTrigger);
+  }
+
+  /* /products/ desktop: лише pin каталогу. */
   function initProductsPageHorizontalScroll() {
     if (window.innerWidth <= 1024) {
       return;
@@ -584,10 +787,9 @@
       return;
     }
 
-    killProductsPageScrollTriggers();
+    killProductsPageCatalogScroll();
 
     var catalogSection = main.querySelector('.js-products-catalog-scroller');
-    var projectsSection = main.querySelector('#products-projects.js-products-projects-pin');
 
     if (!catalogSection) {
       return;
@@ -634,14 +836,10 @@
       });
     }
 
-    var projectsTrack = projectsSection
-      ? projectsSection.querySelector('.js-projects-track')
-      : null;
-
     if (typeof ResizeObserver === 'function') {
       var productsResizeTimer;
 
-      function scheduleProductsResizeRefresh() {
+      function scheduleCatalogResizeRefresh() {
         window.clearTimeout(productsResizeTimer);
         productsResizeTimer = window.setTimeout(function () {
           if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
@@ -650,12 +848,8 @@
         }, 120);
       }
 
-      var productsResizeObserver = new ResizeObserver(scheduleProductsResizeRefresh);
-      productsResizeObserver.observe(catalogTrack);
-
-      if (projectsTrack) {
-        productsResizeObserver.observe(projectsTrack);
-      }
+      var catalogResizeObserver = new ResizeObserver(scheduleCatalogResizeRefresh);
+      catalogResizeObserver.observe(catalogTrack);
     }
 
     catalogTween = window.gsap.to(catalogTrack, {
@@ -720,128 +914,96 @@
       });
     });
 
-    if (projectsSection) {
-      setupProductsProjectsPinScroll(projectsSection);
-    }
-
     window.ScrollTrigger.refresh();
   }
 
-  /* Проєкти /products/: pin viewport + gsap x (як /services/), окремий id ST. */
-  function setupProductsProjectsPinScroll(section) {
-    var viewport = section.querySelector('.services-projects__viewport');
-    var container = section.querySelector('.services-projects__container');
-    var stage = section.querySelector('.js-projects-stage');
-    var track = section.querySelector('.js-projects-track');
-    var prevButton = section.querySelector('.js-projects-prev');
-    var nextButton = section.querySelector('.js-projects-next');
-    var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
-    var pinStartOffset = 72;
-
-    if (!viewport || !container || !stage || !track || cards.length === 0) {
+  function initProductsPageProjectsMobileCarousel() {
+    if (window.innerWidth > 1024) {
       return;
     }
 
-    if (section.getAttribute('data-products-projects-pin-init') === '1') {
+    var section = document.querySelector(
+      '.site-main--products #products-projects.js-products-page-projects-scroll'
+    );
+
+    if (!section || section.getAttribute('data-products-page-projects-mobile') === '1') {
       return;
     }
 
-    section.setAttribute('data-products-projects-pin-init', '1');
-    section.classList.remove('is-products-projects-pinned', 'is-projects-active');
-    document.documentElement.classList.remove('is-products-projects-pinned');
-    stage.scrollLeft = 0;
-    track.style.removeProperty('transition');
-    track.style.removeProperty('transform');
-    track.style.removeProperty('will-change');
-    window.gsap.set(track, { x: 0, clearProps: 'transform' });
+    var stage = section.querySelector('.js-products-page-projects-stage');
+    var prevButton = section.querySelector('.js-products-page-projects-prev');
+    var nextButton = section.querySelector('.js-products-page-projects-next');
+    var cards = Array.prototype.slice.call(
+      section.querySelectorAll('.js-products-page-projects-track .project-case-card')
+    );
 
-    var currentIndex = 0;
-    var projectsTween;
+    if (!stage || cards.length === 0) {
+      return;
+    }
+
+    section.setAttribute('data-products-page-projects-mobile', '1');
 
     function getMaxIndex() {
       return Math.max(cards.length - 1, 0);
     }
 
-    function horizontalOverflow() {
-      return Math.max(track.scrollWidth - stage.clientWidth, 0);
+    function nearestIndex() {
+      var sl = stage.scrollLeft;
+      var best = 0;
+      var bestDist = Infinity;
+
+      for (var i = 0; i < cards.length; i++) {
+        var dist = Math.abs(cards[i].offsetLeft - sl);
+
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = i;
+        }
+      }
+
+      return best;
     }
 
     function updateButtons() {
+      var idx = nearestIndex();
+
       if (prevButton) {
-        prevButton.disabled = currentIndex <= 0;
+        prevButton.disabled = idx <= 0;
       }
 
       if (nextButton) {
-        nextButton.disabled = currentIndex >= getMaxIndex();
+        nextButton.disabled = idx >= getMaxIndex();
       }
     }
 
-    projectsTween = window.gsap.to(track, {
-      x: function () {
-        return -horizontalOverflow();
-      },
-      ease: 'none',
-      scrollTrigger: {
-        id: 'products-projects-pin',
-        trigger: container,
-        start: 'top top+=' + pinStartOffset,
-        end: function () {
-          return 'clamp(+=' + servicesBenefitsPinDistance(track, stage) + ')';
-        },
-        pin: viewport,
-        pinSpacing: true,
-        scrub: true,
-        anticipatePin: 0,
-        pinClass: 'pin-spacer-products-projects',
-        refreshPriority: 20,
-        invalidateOnRefresh: true,
-        onToggle: function (self) {
-          section.classList.toggle('is-products-projects-pinned', self.isActive);
-          section.classList.toggle('is-projects-active', self.isActive);
-
-          if (!self.isActive && self.progress <= 0.001) {
-            currentIndex = 0;
-            window.gsap.set(track, { x: 0 });
-            updateButtons();
-          }
-        },
-        onUpdate: function (self) {
-          var maxIndex = getMaxIndex();
-          var rawIndex = self.progress * maxIndex;
-
-          currentIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
-          updateButtons();
-        }
-      }
-    });
-
     function scrollToIndex(index) {
-      var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
-      var trigger = projectsTween.scrollTrigger;
+      var clamped = Math.max(0, Math.min(index, getMaxIndex()));
+      var card = cards[clamped];
 
-      if (!trigger) {
+      if (!card) {
         return;
       }
 
-      var progress = getMaxIndex() === 0 ? 0 : clampedIndex / getMaxIndex();
-      var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
+      stage.scrollTo({
+        left: card.offsetLeft,
+        behavior: 'smooth'
+      });
 
-      currentIndex = clampedIndex;
-      updateButtons();
-      scrollToPosition(targetScroll);
+      window.setTimeout(updateButtons, 400);
     }
 
-    updateButtons();
+    stage.addEventListener('scroll', updateButtons, { passive: true });
+    window.requestAnimationFrame(updateButtons);
 
     if (prevButton) {
       prevButton.addEventListener('click', function () {
-        scrollToIndex(currentIndex - 1);
+        scrollToIndex(nearestIndex() - 1);
       });
     }
 
     if (nextButton) {
       nextButton.addEventListener('click', function () {
-        scrollToIndex(currentIndex + 1);
+        scrollToIndex(nearestIndex() + 1);
       });
     }
   }
@@ -851,7 +1013,14 @@
       return;
     }
 
-    document.querySelectorAll('.js-projects-scroller, .js-products-projects-pin').forEach(function (section) {
+    document.querySelectorAll('.js-projects-scroller').forEach(function (section) {
+      if (
+        section.id === 'products-projects' ||
+        section.classList.contains('js-products-page-projects-scroll')
+      ) {
+        return;
+      }
+
       if (section.getAttribute('data-projects-mobile-carousel') === '1') {
         return;
       }
@@ -2921,7 +3090,7 @@
     var revealMotionExclusionSelector = [
       '.js-benefits-scroller',
       '.js-projects-scroller',
-      '.js-products-projects-pin',
+      '.js-products-page-projects-scroll',
       '.js-clients-scroller',
       '.js-process-section',
       '.js-products-catalog-scroller'
@@ -3117,12 +3286,14 @@
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initProjectsScroller, 'projects-scroller');
-  runInit(initProductsPageHorizontalScroll, 'products-page-desktop-scroll');
+  runInit(initProductsPageHorizontalScroll, 'products-page-catalog-scroll');
+  runInit(initProductsPageProjectsScroll, 'products-page-projects-scroll');
   runInit(initProductsCatalogScroller, 'products-catalog-scroller');
   runInit(resetMediahubClientsLegacyState, 'mediahub-clients-legacy-reset');
   runInit(initClientsScroller, 'clients-scroller');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
   runInit(initProductsCatalogMobileCarousel, 'products-catalog-mobile-carousel');
+  runInit(initProductsPageProjectsMobileCarousel, 'products-page-projects-mobile');
   runInit(initProcessTimeline, 'process-timeline');
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
   runInit(initFaqAccordion, 'faq-accordion');
