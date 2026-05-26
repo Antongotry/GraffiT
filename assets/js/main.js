@@ -409,6 +409,44 @@
     return Math.max(track.scrollWidth - stage.clientWidth, 0);
   }
 
+  function isProductsPageMain() {
+    return !!document.querySelector('.site-main--products');
+  }
+
+  /* На /products/ глобальний refresh() збиває pin+scrub каталогу/проєктів — лише ці тригери. */
+  function finalizeProductsPageScrollTriggers() {
+    if (!isProductsPageMain() || window.innerWidth <= 1024 || !window.ScrollTrigger) {
+      return;
+    }
+
+    if (typeof window.ScrollTrigger.sort === 'function') {
+      window.ScrollTrigger.sort();
+    }
+
+    ['products-catalog-pin', 'products-projects-pin', 'products-process-line'].forEach(function (triggerId) {
+      if (typeof window.ScrollTrigger.getById !== 'function') {
+        return;
+      }
+
+      var trigger = window.ScrollTrigger.getById(triggerId);
+
+      if (trigger) {
+        trigger.refresh();
+      }
+    });
+  }
+
+  function refreshScrollTriggersUnlessProductsPage() {
+    if (isProductsPageMain()) {
+      finalizeProductsPageScrollTriggers();
+      return;
+    }
+
+    if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+      window.ScrollTrigger.refresh();
+    }
+  }
+
   function initProjectsScroller() {
     if (window.innerWidth <= 1024) {
       return;
@@ -558,7 +596,7 @@
       }
     });
 
-    window.ScrollTrigger.refresh();
+    refreshScrollTriggersUnlessProductsPage();
   }
 
   function killProductsPageCatalogScroll() {
@@ -705,11 +743,7 @@
       });
     });
 
-    if (window.ScrollTrigger && typeof window.ScrollTrigger.sort === 'function') {
-      window.ScrollTrigger.sort();
-    }
-
-    window.ScrollTrigger.refresh();
+    /* refresh — у finalizeProductsPageScrollTriggers() після всіх init на /products/. */
   }
 
   function killProductsPageProjectsScroll() {
@@ -866,13 +900,7 @@
       });
     }
 
-    if (window.ScrollTrigger && typeof window.ScrollTrigger.sort === 'function') {
-      window.ScrollTrigger.sort();
-    }
-
-    if (projectsTween.scrollTrigger) {
-      projectsTween.scrollTrigger.refresh();
-    }
+    /* refresh — у finalizeProductsPageScrollTriggers(). */
   }
 
   function initProductsPageProjectsMobileCarousel() {
@@ -1185,7 +1213,7 @@
       });
     });
 
-    window.ScrollTrigger.refresh();
+    refreshScrollTriggersUnlessProductsPage();
   }
 
   function initProductsCatalogMobileCarousel() {
@@ -1803,7 +1831,7 @@
       });
     });
 
-    window.ScrollTrigger.refresh();
+    refreshScrollTriggersUnlessProductsPage();
   }
 
   /**
@@ -1843,10 +1871,13 @@
       }).filter(Boolean);
     }
 
-    function updateLineBounds() {
+    var cachedLineHeight = 0;
+
+    function measureLineBounds() {
       var tags = getStepTags();
 
       if (tags.length === 0) {
+        cachedLineHeight = 0;
         return 0;
       }
 
@@ -1864,12 +1895,12 @@
         end = lastRect.top - timelineRect.top + lastRect.height * 0.5;
       }
 
-      var lineHeight = Math.max(end - start, 0);
+      cachedLineHeight = Math.max(end - start, 0);
 
       line.style.top = start + 'px';
-      line.style.height = lineHeight + 'px';
+      line.style.height = cachedLineHeight + 'px';
 
-      return lineHeight;
+      return cachedLineHeight;
     }
 
     function setActiveStep(activeIndex) {
@@ -1879,30 +1910,20 @@
     }
 
     function syncLineFill(progress) {
-      var lineHeight = updateLineBounds();
-
-      if (lineHeight <= 0) {
+      if (cachedLineHeight <= 0) {
         lineFill.style.height = '0px';
         return;
       }
 
-      lineFill.style.height = Math.round(lineHeight * progress) + 'px';
-    }
-
-    function refreshProductsProcessTimeline() {
-      if (productsProcessLineTrigger) {
-        productsProcessLineTrigger.refresh();
-      }
-
-      syncLineFill(productsProcessLineTrigger ? productsProcessLineTrigger.progress : 0);
+      lineFill.style.height = Math.round(cachedLineHeight * progress) + 'px';
     }
 
     var productsProcessActiveIndex = 0;
     var productsProcessLineTrigger;
 
+    measureLineBounds();
     syncLineFill(0);
     setActiveStep(0);
-    window.gsap.set(lineFill, { clearProps: 'height' });
     lineFill.style.height = '0px';
 
     productsProcessLineTrigger = window.ScrollTrigger.create({
@@ -1911,8 +1932,10 @@
       start: 'top 58%',
       end: 'bottom 62%',
       scrub: 0.45,
+      refreshPriority: 10,
       invalidateOnRefresh: true,
       onRefresh: function () {
+        measureLineBounds();
         syncLineFill(productsProcessLineTrigger.progress);
       },
       onUpdate: function (self) {
@@ -1934,6 +1957,7 @@
         trigger: step,
         start: 'top 42%',
         end: 'bottom 42%',
+        refreshPriority: 10,
         onEnter: function () {
           productsProcessActiveIndex = index;
           setActiveStep(index);
@@ -1944,24 +1968,6 @@
         }
       });
     });
-
-    window.requestAnimationFrame(function () {
-      refreshProductsProcessTimeline();
-    });
-
-    window.addEventListener(
-      'load',
-      function () {
-        window.requestAnimationFrame(refreshProductsProcessTimeline);
-      },
-      { once: true }
-    );
-
-    var processVisual = section.querySelector('.services-process__visual-photo');
-
-    if (processVisual && !processVisual.complete) {
-      processVisual.addEventListener('load', refreshProductsProcessTimeline, { once: true });
-    }
   }
 
   function initProcessMobileTimeline() {
@@ -3251,7 +3257,7 @@
       );
     });
 
-    window.ScrollTrigger.refresh();
+    refreshScrollTriggersUnlessProductsPage();
   }
 
   function initBlogArchiveFilters() {
@@ -3403,6 +3409,7 @@
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initProductsPageHorizontalScroll, 'products-page-catalog-scroll');
   runInit(initProductsPageProjectsScroll, 'products-page-projects-scroll');
+  runInit(initProductsPageProcessTimeline, 'products-page-process-timeline');
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProductsCatalogScroller, 'products-catalog-scroller');
   runInit(resetMediahubClientsLegacyState, 'mediahub-clients-legacy-reset');
@@ -3411,38 +3418,33 @@
   runInit(initProductsPageProjectsMobileCarousel, 'products-page-projects-mobile');
   runInit(initProductsCatalogMobileCarousel, 'products-catalog-mobile-carousel');
   runInit(initProcessTimeline, 'process-timeline');
-  runInit(initProductsPageProcessTimeline, 'products-page-process-timeline');
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
   runInit(initFaqAccordion, 'faq-accordion');
   runInit(initAboutStackMobileVisual, 'about-stack-mobile-visual');
   runInit(initInnerPageReveal, 'inner-page-reveal');
+  runInit(finalizeProductsPageScrollTriggers, 'products-page-scroll-finalize');
   runInit(initBlogArchiveFilters, 'blog-archive-filters');
   runInit(initBrowserDiagnostics, 'browser-diagnostics');
 
   window.addEventListener(
     'load',
     function () {
-      if (!window.ScrollTrigger || typeof window.ScrollTrigger.refresh !== 'function') {
+      if (!window.ScrollTrigger) {
         return;
       }
 
-      if (document.querySelector('.site-main--products')) {
-        ['products-catalog-pin', 'products-projects-pin', 'products-process-line'].forEach(function (triggerId) {
-          if (typeof window.ScrollTrigger.getById !== 'function') {
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          if (isProductsPageMain()) {
+            finalizeProductsPageScrollTriggers();
             return;
           }
 
-          var trigger = window.ScrollTrigger.getById(triggerId);
-
-          if (trigger) {
-            trigger.refresh();
+          if (typeof window.ScrollTrigger.refresh === 'function') {
+            window.ScrollTrigger.refresh();
           }
         });
-
-        return;
-      }
-
-      window.ScrollTrigger.refresh();
+      });
     },
     { once: true }
   );
