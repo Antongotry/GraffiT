@@ -689,7 +689,7 @@
 .mediahub-capabilities.services-projects {
   --mediahub-cap-visual-h: #{mixins.vw(180px)};
   --mediahub-cap-card-height: #{mixins.vw(420px)};
-  --mediahub-cap-body-gap: #{mixins.vw(32px)};
+  --mediahub-cap-body-gap: #{mixins.vw(44px)};
   position: relative;
   z-index: 70;
   overflow: visible;
@@ -736,7 +736,7 @@
   .mediahub-capabilities.services-projects {
     --mediahub-cap-visual-h: #{mixins.vw(160px)};
     --mediahub-cap-card-height: #{mixins.vw(400px)};
-    --mediahub-cap-body-gap: #{mixins.vw(30px)};
+    --mediahub-cap-body-gap: #{mixins.vw(38px)};
   }
 
   .mediahub-capabilities .services-projects__viewport {
@@ -879,7 +879,7 @@
 
 .mediahub-capability-card__body {
   flex: 0 0 auto;
-  margin: var(--mediahub-cap-body-gap, #{mixins.vw(32px)}) 0 0;
+  margin: var(--mediahub-cap-body-gap, #{mixins.vw(44px)}) 0 0;
   font-family: "Involve", sans-serif;
   font-size: #{mixins.vw(16px)};
   font-weight: 400;
@@ -888,7 +888,7 @@
 
   @media (min-width: 1025px) {
     /* +15% від 28px — опускаємо текст нижче превью */
-    margin-top: var(--mediahub-cap-body-gap, #{mixins.vw(32px)});
+    margin-top: var(--mediahub-cap-body-gap, #{mixins.vw(44px)});
   }
 
   @include mixins.mobile {
