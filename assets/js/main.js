@@ -119,12 +119,7 @@
               height: window.innerHeight
             };
           },
-          scrollHeight: function () {
-            return Math.max(
-              document.body ? document.body.scrollHeight : 0,
-              document.documentElement.scrollHeight
-            );
-          },
+          scrollHeight: graffitScrollerScrollHeight,
           /* Фіксований pin: умова body.style.transform давала змішаний режим і ривки з Lenis. */
           pinType: 'fixed'
         });
@@ -374,6 +369,41 @@
     return Math.min(overflow, cap);
   }
 
+  function graffitScrollerScrollHeight() {
+    var productsMain = document.querySelector('.site-main--products');
+    var footer = document.getElementById('site-footer');
+
+    if (productsMain && footer) {
+      var scrollY = window.scrollY || 0;
+      var lenisInstance = window.__graffitLenis;
+
+      if (lenisInstance && typeof lenisInstance.scroll === 'number') {
+        scrollY = lenisInstance.scroll;
+      }
+
+      var footerBottom = footer.getBoundingClientRect().bottom + scrollY;
+      var natural = Math.max(
+        document.body ? document.body.scrollHeight : 0,
+        document.documentElement.scrollHeight
+      );
+
+      return Math.min(natural, Math.ceil(footerBottom));
+    }
+
+    return Math.max(
+      document.body ? document.body.scrollHeight : 0,
+      document.documentElement.scrollHeight
+    );
+  }
+
+  function refreshProductsPageLenis() {
+    var lenisInstance = window.__graffitLenis;
+
+    if (lenisInstance && typeof lenisInstance.resize === 'function') {
+      lenisInstance.resize();
+    }
+  }
+
   function servicesBenefitsPinDistance(track, stage) {
     var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
 
@@ -598,13 +628,9 @@
     }
   }
 
-  function productsPageProjectsScrollDistance(stage, track) {
-    return Math.max(track.scrollWidth - stage.clientWidth, 0);
-  }
-
   /**
-   * /products/#products-projects — повністю ізольований pin + горизонталь.
-   * Не використовує initProjectsScroller, js-projects-* та спільний init з каталогом.
+   * /products/#products-projects — pin viewport + scrub, як на /services/.
+   * Не використовує initProjectsScroller і js-projects-*.
    */
   function initProductsPageProjectsScroll() {
     if (window.innerWidth <= 1024) {
@@ -628,7 +654,8 @@
       return;
     }
 
-    var pinShell = section.querySelector('.products-projects__pin-shell');
+    var viewport = section.querySelector('.services-projects__viewport');
+    var container = section.querySelector('.services-projects__container');
     var stage = section.querySelector('.js-products-page-projects-stage');
     var track = section.querySelector('.js-products-page-projects-track');
     var prevButton = section.querySelector('.js-products-page-projects-prev');
@@ -637,7 +664,7 @@
       section.querySelectorAll('.js-products-page-projects-track .project-case-card')
     );
 
-    if (!pinShell || !stage || !track || cards.length === 0) {
+    if (!viewport || !container || !stage || !track || cards.length === 0) {
       return;
     }
 
@@ -653,15 +680,9 @@
 
     var currentIndex = 0;
     var projectsTween;
-    var projectsResizeObserver;
-    var projectsResizeTimer;
 
     function getMaxIndex() {
       return Math.max(cards.length - 1, 0);
-    }
-
-    function horizontalOverflow() {
-      return Math.max(track.scrollWidth - stage.clientWidth, 0);
     }
 
     function updateButtons() {
@@ -678,35 +699,28 @@
       if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
         window.ScrollTrigger.refresh();
       }
-    }
 
-    if (typeof ResizeObserver === 'function') {
-      projectsResizeObserver = new ResizeObserver(function () {
-        window.clearTimeout(projectsResizeTimer);
-        projectsResizeTimer = window.setTimeout(refreshProjectsScrollTrigger, 140);
-      });
-      projectsResizeObserver.observe(track);
-      projectsResizeObserver.observe(stage);
+      refreshProductsPageLenis();
     }
 
     projectsTween = window.gsap.to(track, {
       x: function () {
-        return -horizontalOverflow();
+        return -(track.scrollWidth - stage.clientWidth);
       },
       ease: 'none',
       scrollTrigger: {
         id: 'products-page-projects-scrub',
-        trigger: pinShell,
+        trigger: container,
         start: 'top top+=72',
         end: function () {
-          return 'clamp(+=' + productsPageProjectsScrollDistance(stage, track) + ')';
+          return 'clamp(+=' + servicesBenefitsPinDistance(track, stage) + ')';
         },
-        pin: pinShell,
+        pin: viewport,
         pinSpacing: true,
-        scrub: 0.85,
+        scrub: true,
         anticipatePin: 0,
         pinClass: 'pin-spacer-products-page-projects',
-        refreshPriority: 1,
+        refreshPriority: -10,
         invalidateOnRefresh: true,
         onToggle: function (self) {
           section.classList.toggle('is-products-page-projects-pinned', self.isActive);
@@ -723,7 +737,8 @@
 
           currentIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
           updateButtons();
-        }
+        },
+        onRefresh: refreshProductsPageLenis
       }
     });
 
@@ -758,6 +773,7 @@
     }
 
     window.requestAnimationFrame(refreshProjectsScrollTrigger);
+    window.setTimeout(refreshProductsPageLenis, 200);
   }
 
   /* /products/ desktop: лише pin каталогу. */
