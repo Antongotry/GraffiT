@@ -836,6 +836,13 @@
   background: #000102 !important;
 }
 
+.site-main--products .pin-spacer-products-projects {
+  position: relative;
+  z-index: 5 !important;
+  overflow: visible;
+  background: #000102 !important;
+}
+
 .products-inquiry {
   position: relative;
   z-index: 2;
@@ -1065,31 +1072,38 @@
   }
 
   @media (min-width: 1025px) {
+    .site-main--products #products-projects.services-projects {
+      overflow-x: clip;
+      overflow-y: visible;
+    }
+
     .site-main--products #products-projects .services-projects__viewport {
       padding-top: #{mixins.vw(32px)};
       padding-bottom: #{mixins.vw(12px)};
       background: #000102;
     }
 
+    .site-main--products #products-projects .services-projects__top-row {
+      align-items: flex-start;
+      padding-right: #{mixins.vw(148px)};
+    }
+
+    .site-main--products #products-projects .services-projects__nav {
+      position: absolute;
+      top: #{mixins.vw(74px)};
+      right: 0;
+      margin: 0;
+    }
+
     .site-main--products #products-projects .services-projects__stage {
       margin-top: #{mixins.vw(8px)};
       height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: x proximity;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-
-    .site-main--products #products-projects .services-projects__track {
-      transform: none !important;
-      will-change: auto;
+      overflow: hidden;
     }
 
     .site-main--products #products-projects .project-case-card {
       height: 100%;
       min-height: 100%;
-      scroll-snap-align: start;
     }
   }
 

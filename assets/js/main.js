@@ -568,7 +568,7 @@
     });
   }
 
-  /* /products/ desktop: один init — каталог (pin) + проєкти (горизонталь без pin). */
+  /* /products/ desktop: один init — pin каталогу, потім pin проєктів (без дублювання ST). */
   function initProductsPageHorizontalScroll() {
     if (window.innerWidth <= 1024) {
       return;
@@ -587,7 +587,7 @@
     killProductsPageScrollTriggers();
 
     var catalogSection = main.querySelector('.js-products-catalog-scroller');
-    var projectsSection = main.querySelector('#products-projects.js-products-projects-stage');
+    var projectsSection = main.querySelector('#products-projects.js-products-projects-pin');
 
     if (!catalogSection) {
       return;
@@ -634,6 +634,10 @@
       });
     }
 
+    var projectsTrack = projectsSection
+      ? projectsSection.querySelector('.js-projects-track')
+      : null;
+
     if (typeof ResizeObserver === 'function') {
       var productsResizeTimer;
 
@@ -643,11 +647,15 @@
           if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
             window.ScrollTrigger.refresh();
           }
-        }, 100);
+        }, 120);
       }
 
       var productsResizeObserver = new ResizeObserver(scheduleProductsResizeRefresh);
       productsResizeObserver.observe(catalogTrack);
+
+      if (projectsTrack) {
+        productsResizeObserver.observe(projectsTrack);
+      }
     }
 
     catalogTween = window.gsap.to(catalogTrack, {
@@ -713,54 +721,49 @@
     });
 
     if (projectsSection) {
-      setupProductsProjectsStageScroll(projectsSection);
+      setupProductsProjectsPinScroll(projectsSection);
     }
 
     window.ScrollTrigger.refresh();
   }
 
-  /* Проєкти: горизонталь лише в stage, без pin (другий pin ламав inquiry/process). */
-  function setupProductsProjectsStageScroll(section) {
+  /* Проєкти /products/: pin viewport + gsap x (як /services/), окремий id ST. */
+  function setupProductsProjectsPinScroll(section) {
+    var viewport = section.querySelector('.services-projects__viewport');
+    var container = section.querySelector('.services-projects__container');
     var stage = section.querySelector('.js-projects-stage');
     var track = section.querySelector('.js-projects-track');
     var prevButton = section.querySelector('.js-projects-prev');
     var nextButton = section.querySelector('.js-projects-next');
     var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
+    var pinStartOffset = 72;
 
-    if (!stage || !track || cards.length === 0) {
+    if (!viewport || !container || !stage || !track || cards.length === 0) {
       return;
     }
 
-    if (section.getAttribute('data-products-projects-stage-init') === '1') {
+    if (section.getAttribute('data-products-projects-pin-init') === '1') {
       return;
     }
 
-    section.setAttribute('data-products-projects-stage-init', '1');
+    section.setAttribute('data-products-projects-pin-init', '1');
     section.classList.remove('is-products-projects-pinned', 'is-projects-active');
     document.documentElement.classList.remove('is-products-projects-pinned');
+    stage.scrollLeft = 0;
     track.style.removeProperty('transition');
     track.style.removeProperty('transform');
     track.style.removeProperty('will-change');
-
-    if (window.gsap) {
-      window.gsap.set(track, { x: 0, clearProps: 'transform' });
-    }
+    window.gsap.set(track, { x: 0, clearProps: 'transform' });
 
     var currentIndex = 0;
+    var projectsTween;
 
     function getMaxIndex() {
       return Math.max(cards.length - 1, 0);
     }
 
-    function cardOffset(index) {
-      var firstCard = cards[0];
-      var targetCard = cards[index];
-
-      if (!firstCard || !targetCard) {
-        return 0;
-      }
-
-      return Math.max(targetCard.offsetLeft - firstCard.offsetLeft, 0);
+    function horizontalOverflow() {
+      return Math.max(track.scrollWidth - stage.clientWidth, 0);
     }
 
     function updateButtons() {
@@ -773,49 +776,62 @@
       }
     }
 
-    function nearestIndex() {
-      var sl = stage.scrollLeft;
-      var best = 0;
-      var bestDist = Infinity;
+    projectsTween = window.gsap.to(track, {
+      x: function () {
+        return -horizontalOverflow();
+      },
+      ease: 'none',
+      scrollTrigger: {
+        id: 'products-projects-pin',
+        trigger: container,
+        start: 'top top+=' + pinStartOffset,
+        end: function () {
+          return 'clamp(+=' + servicesBenefitsPinDistance(track, stage) + ')';
+        },
+        pin: viewport,
+        pinSpacing: true,
+        scrub: true,
+        anticipatePin: 0,
+        pinClass: 'pin-spacer-products-projects',
+        refreshPriority: 20,
+        invalidateOnRefresh: true,
+        onToggle: function (self) {
+          section.classList.toggle('is-products-projects-pinned', self.isActive);
+          section.classList.toggle('is-projects-active', self.isActive);
 
-      for (var i = 0; i < cards.length; i++) {
-        var dist = Math.abs(cards[i].offsetLeft - sl);
+          if (!self.isActive && self.progress <= 0.001) {
+            currentIndex = 0;
+            window.gsap.set(track, { x: 0 });
+            updateButtons();
+          }
+        },
+        onUpdate: function (self) {
+          var maxIndex = getMaxIndex();
+          var rawIndex = self.progress * maxIndex;
 
-        if (dist < bestDist) {
-          bestDist = dist;
-          best = i;
+          currentIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
+          updateButtons();
         }
       }
-
-      return best;
-    }
+    });
 
     function scrollToIndex(index) {
       var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
+      var trigger = projectsTween.scrollTrigger;
+
+      if (!trigger) {
+        return;
+      }
+
+      var progress = getMaxIndex() === 0 ? 0 : clampedIndex / getMaxIndex();
+      var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
 
       currentIndex = clampedIndex;
-      stage.scrollTo({
-        left: cardOffset(clampedIndex),
-        behavior: 'smooth'
-      });
       updateButtons();
-      window.setTimeout(updateButtons, 400);
+      scrollToPosition(targetScroll);
     }
 
-    stage.addEventListener('scroll', function () {
-      currentIndex = nearestIndex();
-      updateButtons();
-    }, { passive: true });
-
-    window.addEventListener('resize', function () {
-      stage.scrollTo({ left: cardOffset(currentIndex), behavior: 'auto' });
-      updateButtons();
-    }, { passive: true });
-
-    window.requestAnimationFrame(function () {
-      stage.scrollLeft = 0;
-      updateButtons();
-    });
+    updateButtons();
 
     if (prevButton) {
       prevButton.addEventListener('click', function () {
@@ -835,7 +851,7 @@
       return;
     }
 
-    document.querySelectorAll('.js-projects-scroller, .js-products-projects-stage').forEach(function (section) {
+    document.querySelectorAll('.js-projects-scroller, .js-products-projects-pin').forEach(function (section) {
       if (section.getAttribute('data-projects-mobile-carousel') === '1') {
         return;
       }
@@ -2905,7 +2921,7 @@
     var revealMotionExclusionSelector = [
       '.js-benefits-scroller',
       '.js-projects-scroller',
-      '.js-products-projects-stage',
+      '.js-products-projects-pin',
       '.js-clients-scroller',
       '.js-process-section',
       '.js-products-catalog-scroller'
