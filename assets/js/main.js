@@ -402,13 +402,6 @@
     return overflow + extra;
   }
 
-  function productsSectionPinStartPx(triggerEl, offsetPx) {
-    var scrollY = window.scrollY || window.pageYOffset || 0;
-    var rect = triggerEl.getBoundingClientRect();
-
-    return Math.max(0, Math.round(rect.top + scrollY - offsetPx));
-  }
-
   function initProjectsScroller() {
     if (window.innerWidth <= 1024) {
       return;
@@ -560,10 +553,7 @@
     window.ScrollTrigger.refresh();
   }
 
-  /*
-   * /products/ — один координатор для двох горизонтальних pin-блоків.
-   * Каталог → inquiry/process → проєкти (проєкти не стартують, поки не завершився pin каталогу).
-   */
+  /* /products/ — лише pin горизонтального каталогу; проєкти без ScrollTrigger. */
   function initProductsPageHorizontalScroll() {
     if (window.innerWidth <= 1024) {
       return;
@@ -580,9 +570,8 @@
     }
 
     var catalogSection = main.querySelector('.js-products-catalog-scroller');
-    var projectsSection = document.getElementById('products-projects');
 
-    if (!catalogSection || !projectsSection) {
+    if (!catalogSection) {
       return;
     }
 
@@ -590,31 +579,14 @@
     var catalogStage = catalogSection.querySelector('.js-products-catalog-stage');
     var catalogTrack = catalogSection.querySelector('.js-products-catalog-track');
     var catalogCards = Array.prototype.slice.call(catalogSection.querySelectorAll('.product-catalog-card'));
-    var projectsViewport = projectsSection.querySelector('.services-projects__viewport');
-    var projectsContainer = projectsSection.querySelector('.services-projects__container');
-    var projectsStage = projectsSection.querySelector('.js-projects-stage');
-    var projectsTrack = projectsSection.querySelector('.js-projects-track');
-    var projectsCards = Array.prototype.slice.call(projectsSection.querySelectorAll('.project-case-card'));
     var catalogPrevButtons = Array.prototype.slice.call(
       catalogSection.querySelectorAll('.js-products-catalog-prev')
     );
     var catalogNextButtons = Array.prototype.slice.call(
       catalogSection.querySelectorAll('.js-products-catalog-next')
     );
-    var projectsPrevButton = projectsSection.querySelector('.js-projects-prev');
-    var projectsNextButton = projectsSection.querySelector('.js-projects-next');
 
-    if (
-      !catalogViewport ||
-      !catalogStage ||
-      !catalogTrack ||
-      catalogCards.length === 0 ||
-      !projectsViewport ||
-      !projectsContainer ||
-      !projectsStage ||
-      !projectsTrack ||
-      projectsCards.length === 0
-    ) {
+    if (!catalogViewport || !catalogStage || !catalogTrack || catalogCards.length === 0) {
       return;
     }
 
@@ -622,17 +594,10 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     var catalogIndex = 0;
-    var projectsIndex = 0;
-    var projectsOffset = 72;
     var catalogTween;
-    var projectsTween;
 
     function getCatalogMaxIndex() {
       return Math.max(catalogCards.length - 1, 0);
-    }
-
-    function getProjectsMaxIndex() {
-      return Math.max(projectsCards.length - 1, 0);
     }
 
     function setCatalogActiveCard(index) {
@@ -651,33 +616,20 @@
       });
     }
 
-    function updateProjectsButtons() {
-      if (projectsPrevButton) {
-        projectsPrevButton.disabled = projectsIndex <= 0;
-      }
-
-      if (projectsNextButton) {
-        projectsNextButton.disabled = projectsIndex >= getProjectsMaxIndex();
-      }
-    }
-
-    function refreshProductsScrollTriggers() {
-      if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
-        window.ScrollTrigger.refresh();
-      }
-    }
-
     if (typeof ResizeObserver === 'function') {
       var productsResizeTimer;
 
       function scheduleProductsResizeRefresh() {
         window.clearTimeout(productsResizeTimer);
-        productsResizeTimer = window.setTimeout(refreshProductsScrollTriggers, 100);
+        productsResizeTimer = window.setTimeout(function () {
+          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+            window.ScrollTrigger.refresh();
+          }
+        }, 100);
       }
 
       var productsResizeObserver = new ResizeObserver(scheduleProductsResizeRefresh);
       productsResizeObserver.observe(catalogTrack);
-      productsResizeObserver.observe(projectsTrack);
     }
 
     catalogTween = window.gsap.to(catalogTrack, {
@@ -707,46 +659,6 @@
       }
     });
 
-    projectsTween = window.gsap.to(projectsTrack, {
-      x: function () {
-        return -(projectsTrack.scrollWidth - projectsStage.clientWidth);
-      },
-      ease: 'none',
-      scrollTrigger: {
-        id: 'products-projects-pin',
-        trigger: projectsSection,
-        start: function () {
-          var catalogTrigger = catalogTween.scrollTrigger;
-          var naturalStart = productsSectionPinStartPx(projectsSection, projectsOffset);
-
-          if (!catalogTrigger) {
-            return naturalStart;
-          }
-
-          return Math.max(catalogTrigger.end, naturalStart);
-        },
-        end: function () {
-          return 'clamp(+=' + productsHorizontalPinDistance(projectsTrack, projectsStage) + ')';
-        },
-        pin: projectsViewport,
-        pinSpacing: true,
-        scrub: true,
-        anticipatePin: 0,
-        pinClass: 'pin-spacer-products-projects',
-        refreshPriority: 20,
-        invalidateOnRefresh: true,
-        onToggle: function (self) {
-          projectsSection.classList.toggle('is-projects-active', self.isActive);
-          projectsSection.classList.toggle('is-products-projects-pinned', self.isActive);
-          document.documentElement.classList.toggle('is-products-projects-pinned', self.isActive);
-        },
-        onUpdate: function (self) {
-          projectsIndex = Math.round(self.progress * getProjectsMaxIndex());
-          updateProjectsButtons();
-        }
-      }
-    });
-
     function scrollCatalogToIndex(index) {
       var clampedIndex = Math.max(0, Math.min(index, getCatalogMaxIndex()));
       var trigger = catalogTween.scrollTrigger;
@@ -764,25 +676,8 @@
       scrollToPosition(targetScroll);
     }
 
-    function scrollProjectsToIndex(index) {
-      var clampedIndex = Math.max(0, Math.min(index, getProjectsMaxIndex()));
-      var trigger = projectsTween.scrollTrigger;
-
-      if (!trigger) {
-        return;
-      }
-
-      var progress = getProjectsMaxIndex() === 0 ? 0 : clampedIndex / getProjectsMaxIndex();
-      var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
-
-      projectsIndex = clampedIndex;
-      updateProjectsButtons();
-      scrollToPosition(targetScroll);
-    }
-
     setCatalogActiveCard(catalogIndex);
     updateCatalogButtons();
-    updateProjectsButtons();
 
     catalogPrevButtons.forEach(function (button) {
       button.addEventListener('click', function () {
@@ -796,19 +691,96 @@
       });
     });
 
-    if (projectsPrevButton) {
-      projectsPrevButton.addEventListener('click', function () {
-        scrollProjectsToIndex(projectsIndex - 1);
+    window.ScrollTrigger.refresh();
+  }
+
+  function initProductsProjectsCarousel() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    var section = document.getElementById('products-projects');
+
+    if (!section || !section.closest('.site-main--products')) {
+      return;
+    }
+
+    if (section.getAttribute('data-products-projects-carousel') === '1') {
+      return;
+    }
+
+    var stage = section.querySelector('.js-projects-stage');
+    var track = section.querySelector('.js-projects-track');
+    var prevButton = section.querySelector('.js-projects-prev');
+    var nextButton = section.querySelector('.js-projects-next');
+    var cards = Array.prototype.slice.call(section.querySelectorAll('.project-case-card'));
+
+    if (!stage || !track || cards.length === 0) {
+      return;
+    }
+
+    section.setAttribute('data-products-projects-carousel', '1');
+    track.style.setProperty('transition', 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1)');
+    track.style.setProperty('will-change', 'transform');
+
+    var currentIndex = 0;
+
+    function getMaxIndex() {
+      return Math.max(cards.length - 1, 0);
+    }
+
+    function cardOffset(index) {
+      var firstCard = cards[0];
+      var targetCard = cards[index];
+
+      if (!firstCard || !targetCard) {
+        return 0;
+      }
+
+      return Math.max(targetCard.offsetLeft - firstCard.offsetLeft, 0);
+    }
+
+    function applyPosition() {
+      track.style.transform = 'translateX(' + -cardOffset(currentIndex) + 'px)';
+    }
+
+    function updateButtons() {
+      if (prevButton) {
+        prevButton.disabled = currentIndex <= 0;
+      }
+
+      if (nextButton) {
+        nextButton.disabled = currentIndex >= getMaxIndex();
+      }
+    }
+
+    function scrollToIndex(index) {
+      currentIndex = Math.max(0, Math.min(index, getMaxIndex()));
+      applyPosition();
+      updateButtons();
+    }
+
+    window.addEventListener('resize', function () {
+      applyPosition();
+      updateButtons();
+    }, { passive: true });
+
+    window.requestAnimationFrame(function () {
+      applyPosition();
+      updateButtons();
+    });
+
+    if (prevButton) {
+      prevButton.addEventListener('click', function () {
+        scrollToIndex(currentIndex - 1);
       });
     }
 
-    if (projectsNextButton) {
-      projectsNextButton.addEventListener('click', function () {
-        scrollProjectsToIndex(projectsIndex + 1);
+    if (nextButton) {
+      nextButton.addEventListener('click', function () {
+        scrollToIndex(currentIndex + 1);
       });
     }
-
-    refreshProductsScrollTriggers();
   }
 
   function initProjectsMobileCarousel() {
@@ -3081,6 +3053,7 @@
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProductsPageHorizontalScroll, 'products-page-horizontal-scroll');
+  runInit(initProductsProjectsCarousel, 'products-projects-carousel');
   runInit(initProductsCatalogScroller, 'products-catalog-scroller');
   runInit(resetMediahubClientsLegacyState, 'mediahub-clients-legacy-reset');
   runInit(initClientsScroller, 'clients-scroller');
