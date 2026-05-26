@@ -599,18 +599,7 @@
   }
 
   function productsPageProjectsScrollDistance(stage, track) {
-    var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
-
-    if (overflow <= 0) {
-      return 0;
-    }
-
-    var w = window.innerWidth || 1440;
-    var extra = Math.round((120 / 1440) * w);
-
-    extra = Math.min(Math.max(extra, 72), 160);
-
-    return overflow + extra;
+    return Math.max(track.scrollWidth - stage.clientWidth, 0);
   }
 
   /**

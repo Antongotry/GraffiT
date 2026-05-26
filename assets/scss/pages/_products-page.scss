@@ -839,14 +839,73 @@
 .site-main--products .pin-spacer-products-page-projects {
   position: relative;
   z-index: 5 !important;
-  overflow: visible !important;
+  overflow: clip !important;
   background: #000102 !important;
 }
 
 .site-main--products .pin-spacer-products-page-projects .products-projects__pin-shell {
   width: 100%;
-  overflow: visible !important;
+  overflow: clip !important;
   background: #000102;
+}
+
+// Desktop overrides for #products-projects pinned scroll.
+// These rules must be at root level — nested inside .products-projects{} they compile
+// to impossible descendant selectors (.products-projects .site-main--products ...).
+@media (min-width: 1025px) {
+  .site-main--products #products-projects {
+    overflow-x: clip;
+  }
+
+  .site-main--products #products-projects .products-projects__pin-shell {
+    overflow: clip;
+  }
+
+  .site-main--products #products-projects .services-projects__viewport {
+    overflow: clip;
+    padding-top: #{mixins.vw(32px)};
+    padding-bottom: #{mixins.vw(12px)};
+    background: #000102;
+  }
+
+  .site-main--products #products-projects .services-projects__container {
+    position: relative;
+  }
+
+  .site-main--products #products-projects .services-projects__top-row {
+    align-items: flex-start;
+    padding-right: #{mixins.vw(148px)};
+  }
+
+  .site-main--products #products-projects .services-projects__nav {
+    position: absolute;
+    top: #{mixins.vw(74px)};
+    right: 0;
+    margin: 0;
+  }
+
+  .site-main--products #products-projects .js-products-page-projects-stage {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin-top: #{mixins.vw(8px)};
+    height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
+    overflow: hidden;
+  }
+
+  .site-main--products #products-projects .js-products-page-projects-track {
+    display: flex;
+    align-items: stretch;
+    width: max-content;
+    height: 100%;
+    will-change: transform;
+  }
+
+  .site-main--products #products-projects .project-case-card {
+    flex: 0 0 auto;
+    height: 100%;
+    min-height: 100%;
+  }
 }
 
 .products-inquiry {
@@ -1083,68 +1142,6 @@
 
   .services-projects__stage::-webkit-scrollbar {
     display: none;
-  }
-
-  @media (min-width: 1025px) {
-    .site-main--products #products-projects.services-projects,
-    .site-main--products #products-projects .products-projects__pin-shell,
-    .site-main--products #products-projects .services-projects__viewport,
-    .site-main--products #products-projects .services-projects__container {
-      overflow: visible;
-    }
-
-    .site-main--products #products-projects .products-projects__pin-shell {
-      min-height: calc(#{mixins.vw(618px)} + #{mixins.vw(200px)});
-    }
-
-    .site-main--products #products-projects .services-projects__viewport {
-      padding-top: #{mixins.vw(32px)};
-      padding-bottom: #{mixins.vw(12px)};
-      background: #000102;
-    }
-
-    .site-main--products #products-projects .services-projects__container {
-      position: relative;
-    }
-
-    .site-main--products #products-projects .services-projects__top-row {
-      align-items: flex-start;
-      padding-right: #{mixins.vw(148px)};
-    }
-
-    .site-main--products #products-projects .services-projects__nav {
-      position: absolute;
-      top: #{mixins.vw(74px)};
-      right: 0;
-      margin: 0;
-    }
-
-    .site-main--products #products-projects .js-products-page-projects-stage {
-      position: relative;
-      width: 100%;
-      max-width: 100%;
-      margin-top: #{mixins.vw(8px)};
-      height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
-      overflow: hidden;
-    }
-
-    .site-main--products #products-projects .js-products-page-projects-track {
-      display: flex;
-      align-items: stretch;
-      width: max-content;
-      height: 100%;
-      will-change: transform;
-    }
-
-    .site-main--products #products-projects .project-case-card {
-      flex: 0 0 auto;
-      height: 100%;
-      min-height: 100%;
-    }
-
-    .site-main--products #products-projects.is-products-page-projects-pinned .products-projects__pin-shell {
-      background: #000102;
-    }
   }
 
   @include mixins.mobile {
