@@ -433,10 +433,6 @@
     contain: layout style;
   }
 
-  .site-main--products .products-catalog > .pin-spacer .products-catalog__viewport,
-  .site-main--products .pin-spacer-products-catalog .products-catalog__viewport {
-    overflow: clip !important;
-  }
 }
 
 .products-catalog__container {
@@ -851,15 +847,6 @@
   .product-catalog-card__cta--desktop {
     display: none;
   }
-}
-
-.site-main--products .products-catalog > .pin-spacer,
-.site-main--products .pin-spacer-products-catalog {
-  position: relative;
-  z-index: 40 !important;
-  overflow: visible !important;
-  background: #000102 !important;
-  margin-bottom: 0 !important;
 }
 
 .site-main--products .services-final-cta {

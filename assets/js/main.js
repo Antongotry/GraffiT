@@ -622,6 +622,7 @@
     }
 
     main.removeAttribute('data-products-horizontal-scroll-init');
+    document.documentElement.classList.remove('is-products-catalog-wheel-locked');
 
     if (!section) {
       return;
@@ -631,17 +632,15 @@
 
     if (track && window.gsap) {
       window.gsap.set(track, { x: 0, clearProps: 'transform' });
+    } else if (track) {
+      track.style.transform = '';
     }
   }
 
-  /* /products/ desktop: лише pin каталогу. */
+  /* /products/ desktop: каталог без ScrollTrigger pin-spacer; wheel тимчасово рухає track. */
   function initProductsPageHorizontalScroll() {
     if (window.innerWidth <= 1024) {
       killProductsPageCatalogScroll();
-      return;
-    }
-
-    if (!window.gsap || !window.ScrollTrigger) {
       return;
     }
 
@@ -659,8 +658,6 @@
       return;
     }
 
-    var catalogViewport = catalogSection.querySelector('.products-catalog__viewport');
-    var catalogContainer = catalogSection.querySelector('.products-catalog__container');
     var catalogStage = catalogSection.querySelector('.js-products-catalog-stage');
     var catalogTrack = catalogSection.querySelector('.js-products-catalog-track');
     var catalogCards = Array.prototype.slice.call(catalogSection.querySelectorAll('.product-catalog-card'));
@@ -671,15 +668,20 @@
       catalogSection.querySelectorAll('.js-products-catalog-next')
     );
 
-    if (!catalogViewport || !catalogContainer || !catalogStage || !catalogTrack || catalogCards.length === 0) {
+    if (!catalogStage || !catalogTrack || catalogCards.length === 0) {
       return;
     }
 
     main.setAttribute('data-products-horizontal-scroll-init', '1');
-    window.gsap.registerPlugin(window.ScrollTrigger);
 
     var catalogIndex = 0;
-    var catalogTween;
+    var catalogProgress = 0;
+    var catalogMaxDistance = 0;
+    var isCatalogLocked = false;
+    var lockScrollTop = 0;
+    var lastScrollTop = getCurrentScrollTop();
+    var animationFrame = 0;
+    var lockOffset = 72;
 
     function getCatalogMaxIndex() {
       return Math.max(catalogCards.length - 1, 0);
@@ -701,63 +703,211 @@
       });
     }
 
-    catalogTween = window.gsap.to(catalogTrack, {
-      x: function () {
-        return -productsPageHorizontalPinDistance(catalogTrack, catalogStage);
-      },
-      ease: 'none',
-      force3D: true,
-      scrollTrigger: {
-        id: 'products-catalog-pin',
-        trigger: catalogContainer,
-        start: 'top top+=72',
-        end: function () {
-          return 'clamp(+=' + productsPageHorizontalPinDistance(catalogTrack, catalogStage) + ')';
-        },
-        pin: catalogViewport,
-        pinSpacing: true,
-        scrub: 0,
-        anticipatePin: 0,
-        fastScrollEnd: true,
-        refreshPriority: 30,
-        invalidateOnRefresh: true,
-        onRefresh: function () {
-          addPinSpacerClass(catalogViewport, 'pin-spacer-products-catalog');
-        },
-        onUpdate: function (self) {
-          var maxIndex = getCatalogMaxIndex();
-          var rawIndex = self.progress * maxIndex;
+    function getCurrentScrollTop() {
+      var lenis = window.__graffitLenis;
 
-          catalogIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
-          setCatalogActiveCard(catalogIndex);
-          updateCatalogButtons();
-        }
+      if (lenis && typeof lenis.scroll === 'number') {
+        return lenis.scroll;
       }
-    });
 
-    window.requestAnimationFrame(function () {
-      addPinSpacerClass(catalogViewport, 'pin-spacer-products-catalog');
-    });
+      return window.scrollY || document.documentElement.scrollTop || 0;
+    }
 
-    function scrollCatalogToIndex(index) {
-      var clampedIndex = Math.max(0, Math.min(index, getCatalogMaxIndex()));
-      var trigger = catalogTween.scrollTrigger;
+    function scrollImmediately(top) {
+      var targetTop = Math.max(0, Math.round(top));
+      var lenis = window.__graffitLenis;
 
-      if (!trigger) {
+      if (lenis && typeof lenis.scrollTo === 'function') {
+        lenis.scrollTo(targetTop, { immediate: true });
+      }
+
+      window.scrollTo(0, targetTop);
+
+      if (window.ScrollTrigger && typeof window.ScrollTrigger.update === 'function') {
+        window.ScrollTrigger.update();
+      }
+    }
+
+    function measureCatalog() {
+      catalogMaxDistance = productsPageHorizontalPinDistance(catalogTrack, catalogStage);
+      catalogProgress = Math.max(0, Math.min(catalogProgress, 1));
+    }
+
+    function renderCatalog() {
+      var x = -Math.round(catalogMaxDistance * catalogProgress);
+      var maxIndex = getCatalogMaxIndex();
+      var rawIndex = catalogProgress * maxIndex;
+
+      catalogTrack.style.transform = 'translate3d(' + x + 'px, 0, 0)';
+      catalogIndex = catalogProgress >= 0.998 ? maxIndex : Math.round(rawIndex);
+      setCatalogActiveCard(catalogIndex);
+      updateCatalogButtons();
+    }
+
+    function getCatalogLockTop() {
+      return getCurrentScrollTop() + catalogSection.getBoundingClientRect().top - lockOffset;
+    }
+
+    function stopLenis() {
+      if (window.__graffitLenis && typeof window.__graffitLenis.stop === 'function') {
+        window.__graffitLenis.stop();
+      }
+    }
+
+    function startLenis() {
+      if (window.__graffitLenis && typeof window.__graffitLenis.start === 'function') {
+        window.__graffitLenis.start();
+      }
+    }
+
+    function lockCatalog() {
+      if (isCatalogLocked || catalogMaxDistance <= 0) {
         return;
       }
 
-      var progress = getCatalogMaxIndex() === 0 ? 0 : clampedIndex / getCatalogMaxIndex();
-      var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
-
-      catalogIndex = clampedIndex;
-      setCatalogActiveCard(catalogIndex);
-      updateCatalogButtons();
-      scrollToPosition(targetScroll);
+      lockScrollTop = getCatalogLockTop();
+      isCatalogLocked = true;
+      document.documentElement.classList.add('is-products-catalog-wheel-locked');
+      stopLenis();
+      scrollImmediately(lockScrollTop);
     }
 
-    setCatalogActiveCard(catalogIndex);
-    updateCatalogButtons();
+    function unlockCatalog() {
+      if (!isCatalogLocked) {
+        return;
+      }
+
+      isCatalogLocked = false;
+      document.documentElement.classList.remove('is-products-catalog-wheel-locked');
+      startLenis();
+      lastScrollTop = getCurrentScrollTop();
+    }
+
+    function shouldLockForDirection(direction) {
+      var rect = catalogSection.getBoundingClientRect();
+
+      if (catalogMaxDistance <= 0) {
+        return false;
+      }
+
+      if (direction > 0) {
+        return catalogProgress < 0.998 && rect.top <= lockOffset && rect.bottom > lockOffset;
+      }
+
+      return catalogProgress > 0.002 && rect.top < lockOffset && rect.bottom >= lockOffset;
+    }
+
+    function normalizeWheelDelta(event) {
+      var delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+
+      if (event.deltaMode === 1) {
+        delta *= 18;
+      } else if (event.deltaMode === 2) {
+        delta *= window.innerHeight;
+      }
+
+      return delta;
+    }
+
+    function consumeWheel(delta) {
+      var nextDistance = catalogProgress * catalogMaxDistance + delta;
+
+      catalogProgress = Math.max(0, Math.min(nextDistance / catalogMaxDistance, 1));
+      renderCatalog();
+
+      if (delta > 0 && catalogProgress >= 0.998) {
+        unlockCatalog();
+        scrollImmediately(lockScrollTop + 2);
+        return;
+      }
+
+      if (delta < 0 && catalogProgress <= 0.002) {
+        unlockCatalog();
+        scrollImmediately(lockScrollTop - 2);
+        return;
+      }
+
+      scrollImmediately(lockScrollTop);
+    }
+
+    function onCatalogWheel(event) {
+      if (window.innerWidth <= 1024) {
+        unlockCatalog();
+        return;
+      }
+
+      measureCatalog();
+
+      if (catalogMaxDistance <= 0) {
+        unlockCatalog();
+        return;
+      }
+
+      var delta = normalizeWheelDelta(event);
+      var direction = delta >= 0 ? 1 : -1;
+
+      if (!isCatalogLocked && shouldLockForDirection(direction)) {
+        lockCatalog();
+      }
+
+      if (!isCatalogLocked) {
+        return;
+      }
+
+      if ((direction > 0 && catalogProgress >= 0.998) || (direction < 0 && catalogProgress <= 0.002)) {
+        unlockCatalog();
+        return;
+      }
+
+      event.preventDefault();
+      consumeWheel(delta);
+    }
+
+    function onCatalogScroll() {
+      if (window.innerWidth <= 1024 || isCatalogLocked) {
+        lastScrollTop = getCurrentScrollTop();
+        return;
+      }
+
+      measureCatalog();
+
+      var currentTop = getCurrentScrollTop();
+      var direction = currentTop >= lastScrollTop ? 1 : -1;
+
+      lastScrollTop = currentTop;
+
+      if (shouldLockForDirection(direction)) {
+        lockCatalog();
+      }
+    }
+
+    function scrollCatalogToIndex(index) {
+      var clampedIndex = Math.max(0, Math.min(index, getCatalogMaxIndex()));
+      var targetProgress = getCatalogMaxIndex() === 0 ? 0 : clampedIndex / getCatalogMaxIndex();
+      var startProgress = catalogProgress;
+      var startedAt = window.performance ? window.performance.now() : Date.now();
+      var duration = 420;
+
+      window.cancelAnimationFrame(animationFrame);
+
+      function tick(now) {
+        var elapsed = now - startedAt;
+        var t = Math.max(0, Math.min(elapsed / duration, 1));
+        var eased = 1 - Math.pow(1 - t, 3);
+
+        catalogProgress = startProgress + (targetProgress - startProgress) * eased;
+        renderCatalog();
+
+        if (t < 1) {
+          animationFrame = window.requestAnimationFrame(tick);
+        }
+      }
+
+      animationFrame = window.requestAnimationFrame(tick);
+    }
+
+    measureCatalog();
+    renderCatalog();
 
     catalogPrevButtons.forEach(function (button) {
       button.addEventListener('click', function () {
@@ -771,13 +921,20 @@
       });
     });
 
-    function scheduleCatalogPinRemeasure() {
+    function scheduleCatalogRemeasure() {
       window.requestAnimationFrame(function () {
-        if (!catalogTween || !catalogTween.scrollTrigger) {
+        if (window.innerWidth <= 1024) {
+          unlockCatalog();
+          catalogProgress = 0;
+          catalogTrack.style.transform = '';
+          catalogIndex = 0;
+          setCatalogActiveCard(0);
+          updateCatalogButtons();
           return;
         }
 
-        catalogTween.scrollTrigger.refresh();
+        measureCatalog();
+        renderCatalog();
 
         if (productsPageHorizontalPinDistance(catalogTrack, catalogStage) > 0) {
           return;
@@ -785,13 +942,17 @@
 
         Array.prototype.slice.call(catalogTrack.querySelectorAll('img')).forEach(function (img) {
           if (!img.complete) {
-            img.addEventListener('load', scheduleCatalogPinRemeasure, { once: true });
+            img.addEventListener('load', scheduleCatalogRemeasure, { once: true });
           }
         });
       });
     }
 
-    scheduleCatalogPinRemeasure();
+    window.addEventListener('wheel', onCatalogWheel, { passive: false, capture: true });
+    window.addEventListener('scroll', onCatalogScroll, { passive: true });
+    window.addEventListener('resize', scheduleCatalogRemeasure, { passive: true });
+
+    scheduleCatalogRemeasure();
   }
 
   function killProductsPageProjectsScroll() {
