@@ -1171,9 +1171,37 @@
         return Math.min(Math.max(offset, 20), 30);
       }
 
+      function clientsTopFadeRamp() {
+        var w = window.innerWidth || 1440;
+
+        if (section.id === 'home-about') {
+          return {
+            start: Math.round((96 / 1440) * w),
+            span: Math.round((160 / 1440) * w),
+          };
+        }
+
+        return {
+          start: clientsTopFadeStartPx(),
+          span: 0,
+        };
+      }
+
       function updateClientsTopFade(progress) {
         var distance = clientsTrackScrollDistance() * progress;
-        section.classList.toggle('is-clients-top-fade', distance > clientsTopFadeStartPx());
+        var ramp = clientsTopFadeRamp();
+
+        if (section.id === 'home-about' && stage) {
+          var amount = ramp.span > 0
+            ? Math.min(1, Math.max(0, (distance - ramp.start) / ramp.span))
+            : 0;
+
+          stage.style.setProperty('--clients-top-fade', amount.toFixed(3));
+          section.classList.toggle('is-clients-top-fade', amount > 0.02);
+          return;
+        }
+
+        section.classList.toggle('is-clients-top-fade', distance > ramp.start);
       }
 
       window.gsap.to(track, {
@@ -1202,6 +1230,10 @@
 
             if (!self.isActive && self.progress <= 0.001) {
               section.classList.remove('is-clients-top-fade');
+
+              if (section.id === 'home-about' && stage) {
+                stage.style.setProperty('--clients-top-fade', '0');
+              }
             }
 
             if (!shouldHideHeader) {
