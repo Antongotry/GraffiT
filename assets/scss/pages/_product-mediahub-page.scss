@@ -687,13 +687,13 @@
    ------------------------------------------------------------------ */
 
 .mediahub-capabilities.services-projects {
-  /* min ≤ ideal ≤ (svh − header); stage і картки завжди однакові — без обрізання. */
-  --mediahub-cap-card-min: #{mixins.vw(648px)};
-  --mediahub-cap-card-ideal: #{mixins.vw(728px)};
+  /* ~556px на 1440 (38.6vw max) — компактно, stage = картка. */
+  --mediahub-cap-card-min: #{mixins.vw(520px)};
+  --mediahub-cap-card-ideal: #{mixins.vw(556px)};
   --mediahub-cap-card-height: clamp(
     var(--mediahub-cap-card-min),
     var(--mediahub-cap-card-ideal),
-    calc(100svh - #{mixins.vw(220px)})
+    calc(100svh - #{mixins.vw(280px)})
   );
   position: relative;
   z-index: 70;
@@ -730,12 +730,12 @@
 /* Середні / вузькі десктопи: трохи компактніше, але не нижче мінімуму контенту */
 @media (min-width: 1025px) and (max-width: 1600px) {
   .mediahub-capabilities.services-projects {
-    --mediahub-cap-card-min: #{mixins.vw(628px)};
-    --mediahub-cap-card-ideal: #{mixins.vw(700px)};
+    --mediahub-cap-card-min: #{mixins.vw(508px)};
+    --mediahub-cap-card-ideal: #{mixins.vw(544px)};
     --mediahub-cap-card-height: clamp(
       var(--mediahub-cap-card-min),
       var(--mediahub-cap-card-ideal),
-      calc(100svh - #{mixins.vw(240px)})
+      calc(100svh - #{mixins.vw(280px)})
     );
   }
 
@@ -752,38 +752,39 @@
   }
 
   .mediahub-capability-card {
-    padding: #{mixins.vw(28px)};
+    padding: #{mixins.vw(24px)};
   }
 
   .mediahub-capability-card__visual {
-    flex: 0 0 #{mixins.vw(160px)};
-    height: #{mixins.vw(160px)};
-    min-height: #{mixins.vw(160px)};
+    flex: 0 0 #{mixins.vw(128px)};
+    height: #{mixins.vw(128px)};
+    min-height: #{mixins.vw(128px)};
   }
 
   .mediahub-capability-card__body {
-    margin-top: #{mixins.vw(14px)};
-    font-size: #{mixins.vw(15px)};
+    margin-top: #{mixins.vw(12px)};
+    font-size: #{mixins.vw(14px)};
   }
 
   .mediahub-capability-card__result {
     margin-top: auto;
-    padding: #{mixins.vw(16px)};
+    padding: #{mixins.vw(14px)} #{mixins.vw(16px)};
   }
 
   .mediahub-capability-card__cta-title {
-    font-size: #{mixins.vw(28px)};
+    margin-top: #{mixins.vw(20px)};
+    font-size: #{mixins.vw(24px)};
   }
 }
 
 @media (min-width: 1025px) and (max-width: 1600px) and (max-height: 920px) {
   .mediahub-capabilities.services-projects {
-    --mediahub-cap-card-min: #{mixins.vw(608px)};
-    --mediahub-cap-card-ideal: #{mixins.vw(668px)};
+    --mediahub-cap-card-min: #{mixins.vw(496px)};
+    --mediahub-cap-card-ideal: #{mixins.vw(532px)};
     --mediahub-cap-card-height: clamp(
       var(--mediahub-cap-card-min),
       var(--mediahub-cap-card-ideal),
-      calc(100svh - #{mixins.vw(200px)})
+      calc(100svh - #{mixins.vw(260px)})
     );
   }
 }
@@ -869,7 +870,7 @@
   width: #{mixins.vw(670px)};
   height: var(--mediahub-cap-card-height);
   min-height: var(--mediahub-cap-card-height);
-  padding: #{mixins.vw(36px)};
+  padding: #{mixins.vw(28px)};
   border-radius: #{mixins.vw(12px)};
   background: #353e4d;
   overflow: hidden;
@@ -896,10 +897,10 @@
 }
 
 .mediahub-capability-card__visual {
-  flex: 0 0 #{mixins.vw(180px)};
+  flex: 0 0 #{mixins.vw(140px)};
   width: 100%;
-  height: #{mixins.vw(180px)};
-  min-height: #{mixins.vw(180px)};
+  height: #{mixins.vw(140px)};
+  min-height: #{mixins.vw(140px)};
   border-radius: #{mixins.vw(8px)};
   background: #979797;
 
@@ -911,11 +912,11 @@
 
 .mediahub-capability-card__body {
   flex: 0 1 auto;
-  margin: #{mixins.vw(28px)} 0 0;
+  margin: #{mixins.vw(20px)} 0 0;
   font-family: "Involve", sans-serif;
-  font-size: #{mixins.vw(16px)};
+  font-size: #{mixins.vw(15px)};
   font-weight: 400;
-  line-height: 136%;
+  line-height: 132%;
   color: #ffffff;
 
   @include mixins.mobile {
@@ -927,8 +928,8 @@
 .mediahub-capability-card__result {
   flex: 0 0 auto;
   margin-top: auto;
-  padding: #{mixins.vw(24px)};
-  border-radius: #{mixins.vw(12px)};
+  padding: #{mixins.vw(16px)} #{mixins.vw(18px)};
+  border-radius: #{mixins.vw(10px)};
   background: #0073e6;
 
   @include mixins.mobile {
@@ -952,9 +953,9 @@
 }
 
 .mediahub-capability-card__result-text {
-  margin: #{mixins.vw(12px)} 0 0;
+  margin: #{mixins.vw(8px)} 0 0;
   font-family: "Involve", sans-serif;
-  font-size: #{mixins.vw(16px)};
+  font-size: #{mixins.vw(15px)};
   font-weight: 400;
   line-height: 136%;
   color: #ffffff;
@@ -987,12 +988,12 @@
 }
 
 .mediahub-capability-card__cta-title {
-  margin: #{mixins.vw(36px)} 0 0;
+  margin: #{mixins.vw(24px)} 0 0;
   max-width: #{mixins.vw(560px)};
   font-family: "Involve", sans-serif;
-  font-size: #{mixins.vw(32px)};
+  font-size: #{mixins.vw(26px)};
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.18;
   color: #000102;
 
   @include mixins.mobile {
@@ -1003,10 +1004,10 @@
 }
 
 .mediahub-capability-card__cta-lead {
-  margin: #{mixins.vw(24px)} 0 0;
+  margin: #{mixins.vw(16px)} 0 0;
   max-width: #{mixins.vw(400px)};
   font-family: "Involve", sans-serif;
-  font-size: #{mixins.vw(16px)};
+  font-size: #{mixins.vw(15px)};
   font-weight: 400;
   line-height: 136%;
   color: #000000;
