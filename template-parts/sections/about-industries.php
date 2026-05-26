@@ -27,6 +27,7 @@ $columns = [
     ],
     [
         'label' => 'Сервісних бізнесах',
+        'label_lines' => ['Сервісних', 'бізнесах'],
         'image' => $uploads_base . '4q_result.webp',
         'alt' => 'Сервісний бізнес',
     ],
@@ -63,7 +64,15 @@ $columns = [
                         loading="lazy"
                         decoding="async"
                     >
-                    <h3 class="about-industries__label"><?php echo esc_html($column['label']); ?></h3>
+                    <h3 class="about-industries__label">
+                        <?php if (! empty($column['label_lines'])) : ?>
+                            <?php foreach ($column['label_lines'] as $line) : ?>
+                                <span class="about-industries__label-line"><?php echo esc_html($line); ?></span>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <?php echo esc_html($column['label']); ?>
+                        <?php endif; ?>
+                    </h3>
                 </div>
             <?php endforeach; ?>
         </div>
