@@ -687,8 +687,9 @@
    ------------------------------------------------------------------ */
 
 .mediahub-capabilities.services-projects {
-  /* Як у макеті: велике превью, компактний блок текст + result. */
   --mediahub-cap-visual-h: #{mixins.vw(180px)};
+  --mediahub-cap-card-height: #{mixins.vw(420px)};
+  --mediahub-cap-body-gap: #{mixins.vw(32px)};
   position: relative;
   z-index: 70;
   overflow: visible;
@@ -702,7 +703,7 @@
   z-index: 70 !important;
   overflow: visible;
   padding-top: #{mixins.vw(56px)};
-  padding-bottom: #{mixins.vw(12px)};
+  padding-bottom: 0;
 }
 
 .mediahub-capabilities.services-projects:has(.services-projects__bg) .services-projects__container {
@@ -713,21 +714,20 @@
   .mediahub-capabilities .services-projects__stage {
     overflow: hidden;
     margin-top: #{mixins.vw(16px)};
-    height: auto;
-    min-height: 0;
+    margin-bottom: 0;
+    height: var(--mediahub-cap-card-height);
+    min-height: var(--mediahub-cap-card-height);
   }
 
-  /* Не stretch — інакше всі картки тягнуться під CTA і знизу пустота. */
   .mediahub-capabilities .services-projects__track {
-    align-items: flex-start;
-    height: auto;
+    align-items: stretch;
+    height: 100%;
   }
 
   .mediahub-capabilities .mediahub-capability-card {
-    align-self: flex-start;
-    height: auto;
-    min-height: 0;
-    max-height: none;
+    align-self: stretch;
+    height: 100%;
+    min-height: var(--mediahub-cap-card-height);
   }
 }
 
@@ -735,6 +735,8 @@
 @media (min-width: 1025px) and (max-width: 1600px) {
   .mediahub-capabilities.services-projects {
     --mediahub-cap-visual-h: #{mixins.vw(160px)};
+    --mediahub-cap-card-height: #{mixins.vw(400px)};
+    --mediahub-cap-body-gap: #{mixins.vw(30px)};
   }
 
   .mediahub-capabilities .services-projects__viewport {
@@ -877,12 +879,17 @@
 
 .mediahub-capability-card__body {
   flex: 0 0 auto;
-  margin: #{mixins.vw(28px)} 0 0;
+  margin: var(--mediahub-cap-body-gap, #{mixins.vw(32px)}) 0 0;
   font-family: "Involve", sans-serif;
   font-size: #{mixins.vw(16px)};
   font-weight: 400;
   line-height: 136%;
   color: #ffffff;
+
+  @media (min-width: 1025px) {
+    /* +15% від 28px — опускаємо текст нижче превью */
+    margin-top: var(--mediahub-cap-body-gap, #{mixins.vw(32px)});
+  }
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(20px)};
@@ -896,6 +903,10 @@
   padding: #{mixins.vw(24px)};
   border-radius: #{mixins.vw(12px)};
   background: #0073e6;
+
+  @media (min-width: 1025px) {
+    margin-top: auto;
+  }
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(18px)};
@@ -936,6 +947,7 @@
   justify-content: flex-start;
   text-align: center;
   background: linear-gradient(180deg, #cfd5df 0%, #eef0f4 42%, #ffffff 100%);
+
 }
 
 .mediahub-capability-card__cta-logo {
@@ -988,6 +1000,10 @@
   flex-shrink: 0;
   margin-top: #{mixins.vw(20px)};
   padding: #{mixins.vw(15px)} #{mixins.vw(69px)};
+
+  @media (min-width: 1025px) {
+    margin-top: auto;
+  }
   border: 0;
   border-radius: #{mixins.vw(8px)};
   background: #0073e6;
