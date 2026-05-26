@@ -86,12 +86,11 @@ $project_cases = [
 ];
 ?>
 <section
-    class="services-projects products-projects js-products-page-projects-scroll"
+    class="services-projects products-projects js-projects-scroller"
     id="products-projects"
     aria-labelledby="products-projects-title"
     style="--services-projects-bg-image: url('<?php echo esc_url($projects_background_image); ?>')"
 >
-    <div class="products-projects__pin-shell">
     <div class="services-projects__viewport">
         <div class="services-projects__container">
             <div class="services-projects__header">
@@ -113,6 +112,29 @@ $project_cases = [
                     <h2 class="services-projects__title" id="products-projects-title">
                         Вміємо адаптувати продукти під ваші бізнес-запити та робочі процеси.
                     </h2>
+
+                    <div class="services-projects__nav">
+                        <button class="services-projects__nav-button services-projects__nav-button--prev js-projects-prev" type="button" aria-label="Попередній кейс">
+                            <img
+                                class="services-projects__nav-icon"
+                                src="<?php echo esc_url(content_url('uploads/2026/04/l.svg')); ?>"
+                                alt=""
+                                width="18"
+                                height="20"
+                                decoding="async"
+                            >
+                        </button>
+                        <button class="services-projects__nav-button services-projects__nav-button--next js-projects-next" type="button" aria-label="Наступний кейс">
+                            <img
+                                class="services-projects__nav-icon"
+                                src="<?php echo esc_url(content_url('uploads/2026/04/r.svg')); ?>"
+                                alt=""
+                                width="18"
+                                height="20"
+                                decoding="async"
+                            >
+                        </button>
+                    </div>
                 </div>
 
                 <div class="services-projects__swipe-hint">
@@ -131,37 +153,13 @@ $project_cases = [
                 </div>
             </div>
 
-            <div class="services-projects__stage js-products-page-projects-stage">
-                <div class="services-projects__track js-products-page-projects-track">
+            <div class="services-projects__stage js-projects-stage">
+                <div class="services-projects__track js-projects-track">
                     <?php foreach ($project_cases as $project_case) : ?>
                         <?php get_template_part('template-parts/components/project-case', 'card', $project_case); ?>
                     <?php endforeach; ?>
                 </div>
             </div>
-
-            <div class="services-projects__nav">
-                <button class="services-projects__nav-button services-projects__nav-button--prev js-products-page-projects-prev" type="button" aria-label="Попередній кейс">
-                    <img
-                        class="services-projects__nav-icon"
-                        src="<?php echo esc_url(content_url('uploads/2026/04/l.svg')); ?>"
-                        alt=""
-                        width="18"
-                        height="20"
-                        decoding="async"
-                    />
-                </button>
-                <button class="services-projects__nav-button services-projects__nav-button--next js-products-page-projects-next" type="button" aria-label="Наступний кейс">
-                    <img
-                        class="services-projects__nav-icon"
-                        src="<?php echo esc_url(content_url('uploads/2026/04/r.svg')); ?>"
-                        alt=""
-                        width="18"
-                        height="20"
-                        decoding="async"
-                    />
-                </button>
-            </div>
         </div>
-    </div>
     </div>
 </section>

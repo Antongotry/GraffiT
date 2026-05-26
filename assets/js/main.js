@@ -119,7 +119,12 @@
               height: window.innerHeight
             };
           },
-          scrollHeight: graffitScrollerScrollHeight,
+          scrollHeight: function () {
+            return Math.max(
+              document.body ? document.body.scrollHeight : 0,
+              document.documentElement.scrollHeight
+            );
+          },
           /* Фіксований pin: умова body.style.transform давала змішаний режим і ривки з Lenis. */
           pinType: 'fixed'
         });
@@ -369,41 +374,6 @@
     return Math.min(overflow, cap);
   }
 
-  function graffitScrollerScrollHeight() {
-    var productsMain = document.querySelector('.site-main--products');
-    var footer = document.getElementById('site-footer');
-
-    if (productsMain && footer) {
-      var scrollY = window.scrollY || 0;
-      var lenisInstance = window.__graffitLenis;
-
-      if (lenisInstance && typeof lenisInstance.scroll === 'number') {
-        scrollY = lenisInstance.scroll;
-      }
-
-      var footerBottom = footer.getBoundingClientRect().bottom + scrollY;
-      var natural = Math.max(
-        document.body ? document.body.scrollHeight : 0,
-        document.documentElement.scrollHeight
-      );
-
-      return Math.min(natural, Math.ceil(footerBottom));
-    }
-
-    return Math.max(
-      document.body ? document.body.scrollHeight : 0,
-      document.documentElement.scrollHeight
-    );
-  }
-
-  function refreshProductsPageLenis() {
-    var lenisInstance = window.__graffitLenis;
-
-    if (lenisInstance && typeof lenisInstance.resize === 'function') {
-      lenisInstance.resize();
-    }
-  }
-
   function servicesBenefitsPinDistance(track, stage) {
     var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
 
@@ -444,10 +414,6 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-projects-scroller').forEach(function (section) {
-      if (section.id === 'products-projects' || section.classList.contains('js-products-page-projects-scroll')) {
-        return;
-      }
-
       var viewport = section.querySelector('.services-projects__viewport');
       var container = section.querySelector('.services-projects__container');
       var stage = section.querySelector('.js-projects-stage');
@@ -465,9 +431,12 @@
       var isMediahubProjects = section.id === 'mediahub-capabilities';
       var isServicesProjectsPage =
         section.id === 'services-projects' && !!section.closest('.site-main--services');
-      var projectsStartOffset = isServicesProjectsPage ? 72 : 100;
+      var isProductsProjectsPage =
+        section.id === 'products-projects' && !!section.closest('.site-main--products');
+      var isPinnedProjectsPage = isServicesProjectsPage || isProductsProjectsPage;
+      var projectsStartOffset = isPinnedProjectsPage ? 72 : 100;
       var projectsPinUsesContainer =
-        isHomeProjects || isMediahubProjects || isServicesProjectsPage;
+        isHomeProjects || isMediahubProjects || isPinnedProjectsPage;
 
       if (
         !viewport ||
@@ -514,8 +483,8 @@
           end: function () {
             var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
 
-            if (isHomeProjects || isServicesProjectsPage) {
-              return 'clamp(+=' + (isServicesProjectsPage
+            if (isHomeProjects || isPinnedProjectsPage) {
+              return 'clamp(+=' + (isPinnedProjectsPage
                 ? servicesBenefitsPinDistance(track, stage)
                 : overflow) + ')';
             }
@@ -597,185 +566,6 @@
     }
   }
 
-  function killProductsPageProjectsScroll() {
-    if (!window.ScrollTrigger) {
-      return;
-    }
-
-    if (typeof window.ScrollTrigger.getById === 'function') {
-      var projectsTrigger = window.ScrollTrigger.getById('products-page-projects-scrub');
-
-      if (projectsTrigger) {
-        projectsTrigger.kill(true);
-      }
-    }
-
-    var section = document.querySelector(
-      '.site-main--products #products-projects.js-products-page-projects-scroll'
-    );
-
-    if (!section) {
-      return;
-    }
-
-    section.classList.remove('is-products-page-projects-pinned');
-    section.removeAttribute('data-products-page-projects-ready');
-
-    var track = section.querySelector('.js-products-page-projects-track');
-
-    if (track && window.gsap) {
-      window.gsap.set(track, { x: 0, clearProps: 'transform' });
-    }
-  }
-
-  /**
-   * /products/#products-projects — pin viewport + scrub, як на /services/.
-   * Не використовує initProjectsScroller і js-projects-*.
-   */
-  function initProductsPageProjectsScroll() {
-    if (window.innerWidth <= 1024) {
-      killProductsPageProjectsScroll();
-      return;
-    }
-
-    if (!window.gsap || !window.ScrollTrigger) {
-      return;
-    }
-
-    var section = document.querySelector(
-      '.site-main--products #products-projects.js-products-page-projects-scroll'
-    );
-
-    if (!section) {
-      return;
-    }
-
-    if (section.getAttribute('data-products-page-projects-ready') === '1') {
-      return;
-    }
-
-    var viewport = section.querySelector('.services-projects__viewport');
-    var container = section.querySelector('.services-projects__container');
-    var stage = section.querySelector('.js-products-page-projects-stage');
-    var track = section.querySelector('.js-products-page-projects-track');
-    var prevButton = section.querySelector('.js-products-page-projects-prev');
-    var nextButton = section.querySelector('.js-products-page-projects-next');
-    var cards = Array.prototype.slice.call(
-      section.querySelectorAll('.js-products-page-projects-track .project-case-card')
-    );
-
-    if (!viewport || !container || !stage || !track || cards.length === 0) {
-      return;
-    }
-
-    killProductsPageProjectsScroll();
-    window.gsap.registerPlugin(window.ScrollTrigger);
-
-    section.setAttribute('data-products-page-projects-ready', '1');
-    section.classList.remove('is-products-page-projects-pinned');
-    stage.scrollLeft = 0;
-    track.style.removeProperty('transition');
-    track.style.removeProperty('will-change');
-    window.gsap.set(track, { x: 0, clearProps: 'transform' });
-
-    var currentIndex = 0;
-    var projectsTween;
-
-    function getMaxIndex() {
-      return Math.max(cards.length - 1, 0);
-    }
-
-    function updateButtons() {
-      if (prevButton) {
-        prevButton.disabled = currentIndex <= 0;
-      }
-
-      if (nextButton) {
-        nextButton.disabled = currentIndex >= getMaxIndex();
-      }
-    }
-
-    function refreshProjectsScrollTrigger() {
-      if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
-        window.ScrollTrigger.refresh();
-      }
-
-      refreshProductsPageLenis();
-    }
-
-    projectsTween = window.gsap.to(track, {
-      x: function () {
-        return -(track.scrollWidth - stage.clientWidth);
-      },
-      ease: 'none',
-      scrollTrigger: {
-        id: 'products-page-projects-scrub',
-        trigger: container,
-        start: 'top top+=72',
-        end: function () {
-          return 'clamp(+=' + servicesBenefitsPinDistance(track, stage) + ')';
-        },
-        pin: viewport,
-        pinSpacing: true,
-        scrub: true,
-        anticipatePin: 0,
-        pinClass: 'pin-spacer-products-page-projects',
-        refreshPriority: -10,
-        invalidateOnRefresh: true,
-        onToggle: function (self) {
-          section.classList.toggle('is-products-page-projects-pinned', self.isActive);
-
-          if (!self.isActive && self.progress <= 0.001) {
-            currentIndex = 0;
-            window.gsap.set(track, { x: 0 });
-            updateButtons();
-          }
-        },
-        onUpdate: function (self) {
-          var maxIndex = getMaxIndex();
-          var rawIndex = self.progress * maxIndex;
-
-          currentIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
-          updateButtons();
-        },
-        onRefresh: refreshProductsPageLenis
-      }
-    });
-
-    function scrollToIndex(index) {
-      var clampedIndex = Math.max(0, Math.min(index, getMaxIndex()));
-      var trigger = projectsTween.scrollTrigger;
-
-      if (!trigger) {
-        return;
-      }
-
-      var progress = getMaxIndex() === 0 ? 0 : clampedIndex / getMaxIndex();
-      var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
-
-      currentIndex = clampedIndex;
-      updateButtons();
-      scrollToPosition(targetScroll);
-    }
-
-    updateButtons();
-
-    if (prevButton) {
-      prevButton.addEventListener('click', function () {
-        scrollToIndex(currentIndex - 1);
-      });
-    }
-
-    if (nextButton) {
-      nextButton.addEventListener('click', function () {
-        scrollToIndex(currentIndex + 1);
-      });
-    }
-
-    window.requestAnimationFrame(refreshProjectsScrollTrigger);
-    window.setTimeout(refreshProductsPageLenis, 200);
-  }
-
   /* /products/ desktop: лише pin каталогу. */
   function initProductsPageHorizontalScroll() {
     if (window.innerWidth <= 1024) {
@@ -847,8 +637,8 @@
       function scheduleCatalogResizeRefresh() {
         window.clearTimeout(productsResizeTimer);
         productsResizeTimer = window.setTimeout(function () {
-          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
-            window.ScrollTrigger.refresh();
+          if (catalogTween && catalogTween.scrollTrigger) {
+            catalogTween.scrollTrigger.refresh();
           }
         }, 120);
       }
@@ -922,110 +712,12 @@
     window.ScrollTrigger.refresh();
   }
 
-  function initProductsPageProjectsMobileCarousel() {
-    if (window.innerWidth > 1024) {
-      return;
-    }
-
-    var section = document.querySelector(
-      '.site-main--products #products-projects.js-products-page-projects-scroll'
-    );
-
-    if (!section || section.getAttribute('data-products-page-projects-mobile') === '1') {
-      return;
-    }
-
-    var stage = section.querySelector('.js-products-page-projects-stage');
-    var prevButton = section.querySelector('.js-products-page-projects-prev');
-    var nextButton = section.querySelector('.js-products-page-projects-next');
-    var cards = Array.prototype.slice.call(
-      section.querySelectorAll('.js-products-page-projects-track .project-case-card')
-    );
-
-    if (!stage || cards.length === 0) {
-      return;
-    }
-
-    section.setAttribute('data-products-page-projects-mobile', '1');
-
-    function getMaxIndex() {
-      return Math.max(cards.length - 1, 0);
-    }
-
-    function nearestIndex() {
-      var sl = stage.scrollLeft;
-      var best = 0;
-      var bestDist = Infinity;
-
-      for (var i = 0; i < cards.length; i++) {
-        var dist = Math.abs(cards[i].offsetLeft - sl);
-
-        if (dist < bestDist) {
-          bestDist = dist;
-          best = i;
-        }
-      }
-
-      return best;
-    }
-
-    function updateButtons() {
-      var idx = nearestIndex();
-
-      if (prevButton) {
-        prevButton.disabled = idx <= 0;
-      }
-
-      if (nextButton) {
-        nextButton.disabled = idx >= getMaxIndex();
-      }
-    }
-
-    function scrollToIndex(index) {
-      var clamped = Math.max(0, Math.min(index, getMaxIndex()));
-      var card = cards[clamped];
-
-      if (!card) {
-        return;
-      }
-
-      stage.scrollTo({
-        left: card.offsetLeft,
-        behavior: 'smooth'
-      });
-
-      window.setTimeout(updateButtons, 400);
-    }
-
-    stage.addEventListener('scroll', updateButtons, { passive: true });
-    window.requestAnimationFrame(updateButtons);
-
-    if (prevButton) {
-      prevButton.addEventListener('click', function () {
-        scrollToIndex(nearestIndex() - 1);
-      });
-    }
-
-    if (nextButton) {
-      nextButton.addEventListener('click', function () {
-        scrollToIndex(nearestIndex() + 1);
-      });
-    }
-  }
-
   function initProjectsMobileCarousel() {
     if (window.innerWidth > 1024) {
       return;
     }
 
     document.querySelectorAll('.js-projects-scroller').forEach(function (section) {
-      if (
-        section.id === 'products-projects' ||
-        section.classList.contains('js-products-page-projects-scroll')
-      ) {
-        return;
-      }
-
       if (section.getAttribute('data-projects-mobile-carousel') === '1') {
         return;
       }
@@ -3095,7 +2787,6 @@
     var revealMotionExclusionSelector = [
       '.js-benefits-scroller',
       '.js-projects-scroller',
-      '.js-products-page-projects-scroll',
       '.js-clients-scroller',
       '.js-process-section',
       '.js-products-catalog-scroller'
@@ -3292,13 +2983,11 @@
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
   runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProductsPageHorizontalScroll, 'products-page-catalog-scroll');
-  runInit(initProductsPageProjectsScroll, 'products-page-projects-scroll');
   runInit(initProductsCatalogScroller, 'products-catalog-scroller');
   runInit(resetMediahubClientsLegacyState, 'mediahub-clients-legacy-reset');
   runInit(initClientsScroller, 'clients-scroller');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
   runInit(initProductsCatalogMobileCarousel, 'products-catalog-mobile-carousel');
-  runInit(initProductsPageProjectsMobileCarousel, 'products-page-projects-mobile');
   runInit(initProcessTimeline, 'process-timeline');
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
   runInit(initFaqAccordion, 'faq-accordion');

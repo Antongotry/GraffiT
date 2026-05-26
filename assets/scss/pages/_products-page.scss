@@ -836,73 +836,82 @@
   background: #000102 !important;
 }
 
-.site-main--products .pin-spacer-products-page-projects {
+.site-main--products #products-projects .pin-spacer {
   position: relative;
   z-index: 5 !important;
   overflow: clip !important;
   background: #000102 !important;
 }
 
-.site-main--products .pin-spacer-products-page-projects .services-projects__viewport {
+.site-main--products #products-projects .pin-spacer .services-projects__viewport {
   width: 100%;
   overflow: clip !important;
   background: #000102;
 }
 
-// Desktop overrides for #products-projects pinned scroll.
-// These rules must be at root level — nested inside .products-projects{} they compile
-// to impossible descendant selectors (.products-projects .site-main--products ...).
+// Desktop: ті самі правила pin/каруселі, що на /services/#services-projects.
 @media (min-width: 1025px) {
-  .site-main--products #products-projects {
+  .site-main--products #products-projects.services-projects {
     overflow-x: clip;
+    overflow-y: hidden;
   }
 
-  .site-main--products #products-projects .products-projects__pin-shell {
-    overflow: clip;
+  .site-main--products #products-projects .services-projects__stage {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .site-main--products #products-projects .services-projects__container {
+    margin-top: 0;
   }
 
   .site-main--products #products-projects .services-projects__viewport {
-    overflow: clip;
+    min-height: 0;
     padding-top: #{mixins.vw(32px)};
     padding-bottom: #{mixins.vw(12px)};
     background: #000102;
   }
 
-  .site-main--products #products-projects .services-projects__container {
-    position: relative;
+  .site-main--products #products-projects .services-projects__header {
+    flex-shrink: 0;
+    padding-right: 0;
   }
 
   .site-main--products #products-projects .services-projects__top-row {
     align-items: flex-start;
-    padding-right: #{mixins.vw(148px)};
+    margin-top: #{mixins.vw(8px)};
+    padding-right: 0;
+    gap: #{mixins.vw(24px)};
+  }
+
+  .site-main--products #products-projects .services-projects__title {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .site-main--products #products-projects .services-projects__nav {
-    position: absolute;
-    top: #{mixins.vw(74px)};
-    right: 0;
+    position: static;
+    top: auto;
+    right: auto;
+    flex-shrink: 0;
+    align-self: flex-start;
     margin: 0;
   }
 
-  .site-main--products #products-projects .js-products-page-projects-stage {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
+  .site-main--products #products-projects .services-projects__swipe-hint {
     margin-top: #{mixins.vw(8px)};
-    height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
-    overflow: hidden;
   }
 
-  .site-main--products #products-projects .js-products-page-projects-track {
-    display: flex;
-    align-items: stretch;
-    width: max-content;
-    height: 100%;
-    will-change: transform;
+  .site-main--products #products-projects .services-projects__stage {
+    margin-top: #{mixins.vw(8px)};
+    height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
+  }
+
+  .site-main--products #products-projects .services-projects__track {
+    contain: layout style;
   }
 
   .site-main--products #products-projects .project-case-card {
-    flex: 0 0 auto;
     height: 100%;
     min-height: 100%;
   }
@@ -1107,25 +1116,23 @@
 
 .products-projects {
   position: relative;
-  overflow: visible;
+  overflow: hidden;
+  isolation: isolate;
   background: #000102;
-
-  &__pin-shell {
-    position: relative;
-    width: 100%;
-    overflow: clip;
-    background: #000102;
-  }
 
   .services-projects__viewport {
     opacity: 1;
     visibility: visible;
-    display: block;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: min(100%, #{mixins.vw(1440px)});
+    margin-inline: auto;
     min-height: 0;
     overflow: clip;
     padding-bottom: #{mixins.vw(80px)};
     background: #000102;
+    box-sizing: border-box;
   }
 
   .services-projects__container,
