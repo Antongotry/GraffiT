@@ -422,6 +422,15 @@
   .site-main--products .products-catalog__stage {
     overflow: hidden;
   }
+
+  .site-main--products .products-catalog__track {
+    will-change: transform;
+    contain: layout style;
+  }
+
+  .site-main--products .pin-spacer-products-catalog .products-catalog__viewport {
+    overflow: clip !important;
+  }
 }
 
 .products-catalog__container {
@@ -843,6 +852,7 @@
   z-index: 4 !important;
   overflow: clip !important;
   background: #000102 !important;
+  contain: layout style;
 }
 
 .site-main--products #products-projects .pin-spacer {
@@ -850,6 +860,7 @@
   z-index: 5 !important;
   overflow: clip !important;
   background: #000102 !important;
+  contain: layout style;
 }
 
 .site-main--products #products-projects .pin-spacer .services-projects__viewport {

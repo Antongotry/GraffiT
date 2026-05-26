@@ -58,9 +58,11 @@
       return null;
     }
 
+    var isProductsPage = !!document.querySelector('.site-main--products');
+
     var lenis = new window.Lenis({
-      /* Коротша дистанція до immediate scroll від ScrollTrigger — менше «гуми» на межі pin. */
-      duration: 0.75,
+      /* На /products/ два pin+scrub — коротший duration, менше «гуми» з Lenis поверх scrub. */
+      duration: isProductsPage ? 0.55 : 0.75,
       smoothWheel: true,
       smoothTouch: false,
       wheelMultiplier: 1
@@ -402,6 +404,11 @@
     return overflow + extra;
   }
 
+  /* /products/: без зайвого «докруту» після останньої картки — тільки реальний overflow. */
+  function productsPageHorizontalPinDistance(track, stage) {
+    return Math.max(track.scrollWidth - stage.clientWidth, 0);
+  }
+
   function initProjectsScroller() {
     if (window.innerWidth <= 1024) {
       return;
@@ -454,8 +461,12 @@
         return Math.max(cards.length - 1, 0);
       }
 
-      /* На головній refresh під час pin давав ривок; RO лишаємо для інших .js-projects-scroller (картки з async-зображеннями). */
-      if (!isHomeProjects && typeof ResizeObserver === 'function') {
+      /* На /products/ RO + global refresh під час pin давали ривки; на головній — без RO. */
+      if (
+        !isHomeProjects &&
+        !isProductsProjectsPage &&
+        typeof ResizeObserver === 'function'
+      ) {
         var projectsResizeTimer;
 
         function scheduleProjectsScrollTriggerRefresh() {
@@ -476,15 +487,21 @@
           return -(track.scrollWidth - stage.clientWidth);
         },
         ease: 'none',
+        force3D: true,
         scrollTrigger: {
+          id: isProductsProjectsPage ? 'products-projects-pin' : undefined,
           /* Головна: scrub/pin лише коли .services-projects__container упирається у верх вікна. */
           trigger: projectsPinUsesContainer ? container : section,
           start: 'top top+=' + projectsStartOffset,
           end: function () {
             var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
 
-            if (isHomeProjects || isPinnedProjectsPage) {
-              return 'clamp(+=' + (isPinnedProjectsPage
+            if (isProductsProjectsPage) {
+              return 'clamp(+=' + productsPageHorizontalPinDistance(track, stage) + ')';
+            }
+
+            if (isHomeProjects || isServicesProjectsPage) {
+              return 'clamp(+=' + (isServicesProjectsPage
                 ? servicesBenefitsPinDistance(track, stage)
                 : overflow) + ')';
             }
@@ -496,14 +513,28 @@
            * (раніше pin тільки на viewport + translateY на .__container зсував текст відносно фону).
            */
           pin: (isHomeProjects || isMediahubProjects) ? section : viewport,
-          scrub: true,
+          /* scrub: 0 — 1:1 зі скролом; true/1 дають 0.5–1s «лаги» поверх Lenis. */
+          scrub: isProductsProjectsPage ? 0 : true,
           anticipatePin: 0,
+          fastScrollEnd: isProductsProjectsPage,
           invalidateOnRefresh: true,
+          refreshPriority: isProductsProjectsPage ? 1 : 0,
           onToggle: function () {
             document.documentElement.classList.remove('is-projects-pinned');
           },
           onUpdate: function (self) {
             currentIndex = Math.round(self.progress * getMaxIndex());
+            if (!isProductsProjectsPage) {
+              return;
+            }
+
+            if (prevButton) {
+              prevButton.disabled = currentIndex <= 0;
+            }
+
+            if (nextButton) {
+              nextButton.disabled = currentIndex >= getMaxIndex();
+            }
           }
         }
       });
@@ -591,6 +622,7 @@
     }
 
     var catalogViewport = catalogSection.querySelector('.products-catalog__viewport');
+    var catalogContainer = catalogSection.querySelector('.products-catalog__container');
     var catalogStage = catalogSection.querySelector('.js-products-catalog-stage');
     var catalogTrack = catalogSection.querySelector('.js-products-catalog-track');
     var catalogCards = Array.prototype.slice.call(catalogSection.querySelectorAll('.product-catalog-card'));
@@ -601,7 +633,7 @@
       catalogSection.querySelectorAll('.js-products-catalog-next')
     );
 
-    if (!catalogViewport || !catalogStage || !catalogTrack || catalogCards.length === 0) {
+    if (!catalogViewport || !catalogContainer || !catalogStage || !catalogTrack || catalogCards.length === 0) {
       return;
     }
 
@@ -631,40 +663,26 @@
       });
     }
 
-    if (typeof ResizeObserver === 'function') {
-      var productsResizeTimer;
-
-      function scheduleCatalogResizeRefresh() {
-        window.clearTimeout(productsResizeTimer);
-        productsResizeTimer = window.setTimeout(function () {
-          if (catalogTween && catalogTween.scrollTrigger) {
-            catalogTween.scrollTrigger.refresh();
-          }
-        }, 120);
-      }
-
-      var catalogResizeObserver = new ResizeObserver(scheduleCatalogResizeRefresh);
-      catalogResizeObserver.observe(catalogTrack);
-    }
-
     catalogTween = window.gsap.to(catalogTrack, {
       x: function () {
-        return -(catalogTrack.scrollWidth - catalogStage.clientWidth);
+        return -productsPageHorizontalPinDistance(catalogTrack, catalogStage);
       },
       ease: 'none',
+      force3D: true,
       scrollTrigger: {
         id: 'products-catalog-pin',
-        trigger: catalogSection,
-        start: 'top top',
+        trigger: catalogContainer,
+        start: 'top top+=72',
         end: function () {
-          return 'clamp(+=' + servicesBenefitsPinDistance(catalogTrack, catalogStage) + ')';
+          return 'clamp(+=' + productsPageHorizontalPinDistance(catalogTrack, catalogStage) + ')';
         },
         pin: catalogViewport,
         pinSpacing: true,
-        scrub: 1,
+        scrub: 0,
         anticipatePin: 0,
+        fastScrollEnd: true,
         pinClass: 'pin-spacer-products-catalog',
-        refreshPriority: -20,
+        refreshPriority: -1,
         invalidateOnRefresh: true,
         onUpdate: function (self) {
           var maxIndex = getCatalogMaxIndex();
@@ -708,6 +726,10 @@
         scrollCatalogToIndex(catalogIndex + 1);
       });
     });
+
+    if (window.ScrollTrigger && typeof window.ScrollTrigger.sort === 'function') {
+      window.ScrollTrigger.sort();
+    }
 
     window.ScrollTrigger.refresh();
   }
@@ -2981,8 +3003,8 @@
   runInit(initHomeShowcaseParallax, 'home-showcase-parallax');
   runInit(initBenefitsScroller, 'benefits-scroller');
   runInit(initBenefitsMobileScroll, 'benefits-mobile-scroll');
-  runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProductsPageHorizontalScroll, 'products-page-catalog-scroll');
+  runInit(initProjectsScroller, 'projects-scroller');
   runInit(initProductsCatalogScroller, 'products-catalog-scroller');
   runInit(resetMediahubClientsLegacyState, 'mediahub-clients-legacy-reset');
   runInit(initClientsScroller, 'clients-scroller');
