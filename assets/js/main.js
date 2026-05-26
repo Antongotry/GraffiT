@@ -413,7 +413,10 @@
     return !!document.querySelector('.site-main--products');
   }
 
-  /* На /products/ глобальний refresh() збиває pin+scrub каталогу/проєктів — лише ці тригери. */
+  /*
+   * /products/: один повний refresh наприкінці (після всіх init).
+   * Частковий refresh окремих тригерів + refresh між init ламав pin каталогу.
+   */
   function finalizeProductsPageScrollTriggers() {
     if (!isProductsPageMain() || window.innerWidth <= 1024 || !window.ScrollTrigger) {
       return;
@@ -423,22 +426,13 @@
       window.ScrollTrigger.sort();
     }
 
-    ['products-catalog-pin', 'products-projects-pin', 'products-process-line'].forEach(function (triggerId) {
-      if (typeof window.ScrollTrigger.getById !== 'function') {
-        return;
-      }
-
-      var trigger = window.ScrollTrigger.getById(triggerId);
-
-      if (trigger) {
-        trigger.refresh();
-      }
-    });
+    if (typeof window.ScrollTrigger.refresh === 'function') {
+      window.ScrollTrigger.refresh();
+    }
   }
 
   function refreshScrollTriggersUnlessProductsPage() {
     if (isProductsPageMain()) {
-      finalizeProductsPageScrollTriggers();
       return;
     }
 
@@ -743,7 +737,27 @@
       });
     });
 
-    /* refresh — у finalizeProductsPageScrollTriggers() після всіх init на /products/. */
+    function scheduleCatalogPinRemeasure() {
+      window.requestAnimationFrame(function () {
+        if (!catalogTween || !catalogTween.scrollTrigger) {
+          return;
+        }
+
+        catalogTween.scrollTrigger.refresh();
+
+        if (productsPageHorizontalPinDistance(catalogTrack, catalogStage) > 0) {
+          return;
+        }
+
+        Array.prototype.slice.call(catalogTrack.querySelectorAll('img')).forEach(function (img) {
+          if (!img.complete) {
+            img.addEventListener('load', scheduleCatalogPinRemeasure, { once: true });
+          }
+        });
+      });
+    }
+
+    scheduleCatalogPinRemeasure();
   }
 
   function killProductsPageProjectsScroll() {
@@ -3215,7 +3229,11 @@
       '.js-products-page-projects',
       '.js-clients-scroller',
       '.js-process-section',
-      '.js-products-catalog-scroller'
+      '.js-products-catalog-scroller',
+      /* CTA на /products/: autoAlpha:0 лишав блок невидимим при зламаному скролі. */
+      '.products-inquiry',
+      '.products-final-cta',
+      '.site-main--products .cta-band'
     ].join(', ');
 
     elements.forEach(function (element, index) {
