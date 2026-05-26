@@ -837,6 +837,18 @@
   background: #000102 !important;
 }
 
+.site-main--products .pin-spacer-products-projects-pin {
+  position: relative;
+  z-index: 12 !important;
+  overflow: visible;
+  background: #000102 !important;
+}
+
+.site-main--products:has(#products-projects.is-products-projects-pinned) .products-process .services-process__visual {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .products-inquiry {
   position: relative;
   z-index: 5;
@@ -1043,12 +1055,8 @@
 
     .site-main--products #products-projects .services-projects__stage {
       margin-top: #{mixins.vw(8px)};
-      height: #{mixins.vw(618px)};
+      height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
       overflow: hidden;
-    }
-
-    .site-main--products #products-projects .services-projects__track {
-      transform: translateX(0);
     }
 
     .site-main--products #products-projects .project-case-card {
