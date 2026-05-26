@@ -860,7 +860,7 @@
   contain: layout style;
 }
 
-.site-main--products #products-projects .pin-spacer {
+.site-main--products .pin-spacer-products-page-projects {
   position: relative;
   z-index: 5 !important;
   overflow: clip !important;
@@ -868,7 +868,7 @@
   contain: layout style;
 }
 
-.site-main--products #products-projects .pin-spacer .services-projects__viewport {
+.site-main--products .pin-spacer-products-page-projects .services-projects__viewport {
   width: 100%;
   overflow: clip !important;
   background: #000102;
@@ -932,7 +932,8 @@
     height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
   }
 
-  .site-main--products #products-projects .services-projects__track {
+  .site-main--products .js-products-page-projects-track {
+    will-change: transform;
     contain: layout style;
   }
 
