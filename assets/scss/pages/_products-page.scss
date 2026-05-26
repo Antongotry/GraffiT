@@ -564,14 +564,15 @@
 }
 
 .products-catalog__nav-icon {
-  width: #{mixins.vw(11px)};
-  height: #{mixins.vw(14px)};
+  width: #{mixins.vw(18px)};
+  height: #{mixins.vw(20px)};
   max-width: none;
   object-fit: contain;
+  filter: brightness(0) invert(1);
 
   @include mixins.mobile {
-    width: #{mixins.mvw(11px)};
-    height: #{mixins.mvw(14px)};
+    width: #{mixins.mvw(18px)};
+    height: #{mixins.mvw(20px)};
     filter: brightness(0);
   }
 }
