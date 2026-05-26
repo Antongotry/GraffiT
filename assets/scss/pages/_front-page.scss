@@ -358,23 +358,25 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-chaos-about-flow #home-about .services-clients__cards-stage {
   --clients-top-fade: 0;
-  /* Плавний верхній fade: інтенсивність з JS (--clients-top-fade 0→1), вузька смуга ~96px. */
+  /* Верхній fade з першого px скролу; м’яка смуга ~180px, без повного прозорого зрізу. */
   mask-image: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
-    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.5)) #{mixins.vw(32px)},
-    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(56px)},
-    #000 #{mixins.vw(96px)},
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.62)) 0,
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.38)) #{mixins.vw(48px)},
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.16)) #{mixins.vw(96px)},
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.04)) #{mixins.vw(140px)},
+    #000 #{mixins.vw(180px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
-    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.5)) #{mixins.vw(32px)},
-    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(56px)},
-    #000 #{mixins.vw(96px)},
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.62)) 0,
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.38)) #{mixins.vw(48px)},
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.16)) #{mixins.vw(96px)},
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.04)) #{mixins.vw(140px)},
+    #000 #{mixins.vw(180px)},
     #000 calc(100% - #{mixins.vw(280px)}),
     rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
     transparent 100%

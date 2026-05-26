@@ -1176,8 +1176,8 @@
 
         if (section.id === 'home-about') {
           return {
-            start: Math.round((96 / 1440) * w),
-            span: Math.round((160 / 1440) * w),
+            start: 0,
+            span: Math.round((280 / 1440) * w),
           };
         }
 
@@ -1192,9 +1192,11 @@
         var ramp = clientsTopFadeRamp();
 
         if (section.id === 'home-about' && stage) {
-          var amount = ramp.span > 0
+          var linear = ramp.span > 0
             ? Math.min(1, Math.max(0, (distance - ramp.start) / ramp.span))
             : 0;
+          // Починається одразу зі скролу, але наростає м’яко (без різкого зрізу).
+          var amount = 1 - Math.pow(1 - linear, 2.2);
 
           stage.style.setProperty('--clients-top-fade', amount.toFixed(3));
           section.classList.toggle('is-clients-top-fade', amount > 0.02);
