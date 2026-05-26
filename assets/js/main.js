@@ -642,7 +642,7 @@
         trigger: catalogSection,
         start: 'top top',
         end: function () {
-          return 'clamp(+=' + productsHorizontalPinDistance(catalogTrack, catalogStage) + ')';
+          return 'clamp(+=' + servicesBenefitsPinDistance(catalogTrack, catalogStage) + ')';
         },
         pin: catalogViewport,
         pinSpacing: true,
@@ -652,7 +652,10 @@
         refreshPriority: -20,
         invalidateOnRefresh: true,
         onUpdate: function (self) {
-          catalogIndex = Math.round(self.progress * getCatalogMaxIndex());
+          var maxIndex = getCatalogMaxIndex();
+          var rawIndex = self.progress * maxIndex;
+
+          catalogIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
           setCatalogActiveCard(catalogIndex);
           updateCatalogButtons();
         }

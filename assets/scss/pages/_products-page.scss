@@ -395,12 +395,24 @@
 
   @include mixins.mobile {
     padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(64px)};
+    clip-path: none;
   }
 }
 
 @media (min-width: 1025px) {
+  /* Нижній шпиль у #000102 — стик із bow-tie inquiry (верхня «долина»). */
+  .site-main--products .products-catalog__viewport {
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - #{mixins.vw(90px)}),
+      50% 100%,
+      0 calc(100% - #{mixins.vw(90px)})
+    );
+  }
+
   .site-main--products .products-catalog__stage {
-    overflow: visible;
+    overflow: hidden;
   }
 }
 
@@ -825,20 +837,18 @@
   background: #000102 !important;
 }
 
-/* Inquiry: плоский верх — без bow-tie, щоб не було сірої «V» між каталогом і CTA. */
-.site-main--products .products-inquiry.services-inquiry.cta-band--light {
-  &::after,
-  &::before {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
-  }
-}
-
 .products-inquiry {
   position: relative;
   z-index: 5;
-  margin-top: 0;
+  margin-top: calc(#{mixins.vw(-90px)} - 1px);
+  background: #000102;
+
+  &.cta-band--light {
+    background: #000102;
+  }
 
   @include mixins.mobile {
+    margin-top: 0;
     &.services-inquiry {
       overflow: hidden;
       padding: #{mixins.mvw(296px)} 0 #{mixins.mvw(84px)};
