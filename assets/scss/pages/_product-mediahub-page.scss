@@ -687,15 +687,7 @@
    ------------------------------------------------------------------ */
 
 .mediahub-capabilities.services-projects {
-  /* Desktop: фіксовані px у змінних (не роздуваються у vw на широких екранах). */
-  --mediahub-cap-visual-h: 96px;
-  --mediahub-cap-card-min: #{mixins.vw(468px)};
-  --mediahub-cap-card-ideal: #{mixins.vw(500px)};
-  --mediahub-cap-card-height: clamp(
-    var(--mediahub-cap-card-min),
-    var(--mediahub-cap-card-ideal),
-    calc(100svh - #{mixins.vw(300px)})
-  );
+  --mediahub-cap-visual-h: 72px;
   position: relative;
   z-index: 70;
   overflow: visible;
@@ -716,29 +708,58 @@
   margin-top: #{mixins.vw(56px)};
 }
 
-.mediahub-capabilities .services-projects__stage {
-  overflow: hidden;
-  margin-top: #{mixins.vw(16px)};
-  height: var(--mediahub-cap-card-height);
-  min-height: var(--mediahub-cap-card-height);
+@media (min-width: 1025px) {
+  .mediahub-capabilities .services-projects__stage {
+    overflow: hidden;
+    margin-top: #{mixins.vw(16px)};
+    height: auto;
+    min-height: 0;
+  }
+
+  .mediahub-capabilities .services-projects__track {
+    align-items: stretch;
+    height: auto;
+  }
+
+  .mediahub-capabilities .mediahub-capability-card {
+    height: auto;
+    min-height: 100%;
+    align-self: stretch;
+    padding: 20px;
+  }
+
+  .mediahub-capability-card__body {
+    margin-top: 12px;
+  }
+
+  .mediahub-capability-card__result {
+    margin-top: 12px;
+    padding: 12px 14px;
+  }
+
+  .mediahub-capability-card--cta {
+    justify-content: flex-start;
+  }
+
+  .mediahub-capability-card__cta-title {
+    margin-top: 16px;
+    font-size: #{mixins.vw(24px)};
+    line-height: 1.2;
+  }
+
+  .mediahub-capability-card__cta-lead {
+    margin-top: 12px;
+  }
+
+  .mediahub-capability-card__cta-button {
+    margin-top: 16px;
+  }
 }
 
-.mediahub-capabilities .services-projects__track {
-  align-items: stretch;
-  height: 100%;
-}
-
-/* Середні / вузькі десктопи: трохи компактніше, але не нижче мінімуму контенту */
+/* Середні десктопи */
 @media (min-width: 1025px) and (max-width: 1600px) {
   .mediahub-capabilities.services-projects {
-    --mediahub-cap-visual-h: 88px;
-    --mediahub-cap-card-min: #{mixins.vw(456px)};
-    --mediahub-cap-card-ideal: #{mixins.vw(488px)};
-    --mediahub-cap-card-height: clamp(
-      var(--mediahub-cap-card-min),
-      var(--mediahub-cap-card-ideal),
-      calc(100svh - #{mixins.vw(300px)})
-    );
+    --mediahub-cap-visual-h: 64px;
   }
 
   .mediahub-capabilities .services-projects__viewport {
@@ -753,43 +774,12 @@
     margin-top: #{mixins.vw(10px)};
   }
 
-  .mediahub-capability-card {
-    padding: #{mixins.vw(24px)};
-  }
-
-  .mediahub-capability-card__visual {
-    flex: 0 0 var(--mediahub-cap-visual-h);
-    height: var(--mediahub-cap-visual-h);
-    min-height: var(--mediahub-cap-visual-h);
-    max-height: var(--mediahub-cap-visual-h);
+  .mediahub-capabilities .mediahub-capability-card {
+    padding: 18px;
   }
 
   .mediahub-capability-card__body {
-    margin-top: #{mixins.vw(12px)};
     font-size: #{mixins.vw(14px)};
-  }
-
-  .mediahub-capability-card__result {
-    margin-top: auto;
-    padding: #{mixins.vw(14px)} #{mixins.vw(16px)};
-  }
-
-  .mediahub-capability-card__cta-title {
-    margin-top: #{mixins.vw(20px)};
-    font-size: #{mixins.vw(24px)};
-  }
-}
-
-@media (min-width: 1025px) and (max-width: 1600px) and (max-height: 920px) {
-  .mediahub-capabilities.services-projects {
-    --mediahub-cap-visual-h: 84px;
-    --mediahub-cap-card-min: #{mixins.vw(448px)};
-    --mediahub-cap-card-ideal: #{mixins.vw(476px)};
-    --mediahub-cap-card-height: clamp(
-      var(--mediahub-cap-card-min),
-      var(--mediahub-cap-card-ideal),
-      calc(100svh - #{mixins.vw(280px)})
-    );
   }
 }
 
@@ -872,8 +862,6 @@
   flex-direction: column;
   flex: 0 0 #{mixins.vw(670px)};
   width: #{mixins.vw(670px)};
-  height: var(--mediahub-cap-card-height);
-  min-height: var(--mediahub-cap-card-height);
   padding: #{mixins.vw(28px)};
   border-radius: #{mixins.vw(12px)};
   background: #353e4d;
@@ -906,10 +894,10 @@
   background: #979797;
 
   @media (min-width: 1025px) {
-    flex: 0 0 var(--mediahub-cap-visual-h, 96px);
-    height: var(--mediahub-cap-visual-h, 96px);
-    min-height: var(--mediahub-cap-visual-h, 96px);
-    max-height: var(--mediahub-cap-visual-h, 96px);
+    flex: 0 0 var(--mediahub-cap-visual-h, 72px);
+    height: var(--mediahub-cap-visual-h, 72px);
+    min-height: var(--mediahub-cap-visual-h, 72px);
+    max-height: var(--mediahub-cap-visual-h, 72px);
   }
 
   @include mixins.mobile {
@@ -921,7 +909,7 @@
 }
 
 .mediahub-capability-card__body {
-  flex: 0 1 auto;
+  flex: 0 0 auto;
   margin: #{mixins.vw(20px)} 0 0;
   font-family: "Involve", sans-serif;
   font-size: #{mixins.vw(15px)};
@@ -937,7 +925,7 @@
 
 .mediahub-capability-card__result {
   flex: 0 0 auto;
-  margin-top: auto;
+  margin-top: #{mixins.vw(14px)};
   padding: #{mixins.vw(16px)} #{mixins.vw(18px)};
   border-radius: #{mixins.vw(10px)};
   background: #0073e6;
@@ -1031,7 +1019,7 @@
 
 .mediahub-capability-card__cta-button {
   flex-shrink: 0;
-  margin-top: auto;
+  margin-top: #{mixins.vw(20px)};
   padding: #{mixins.vw(15px)} #{mixins.vw(69px)};
   border: 0;
   border-radius: #{mixins.vw(8px)};
