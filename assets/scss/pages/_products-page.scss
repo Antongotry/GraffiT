@@ -367,9 +367,10 @@
 
 .products-catalog {
   position: relative;
-  margin-bottom: #{mixins.vw(-288px)};
+  /* Без від’ємного margin: інакше inquiry/process/projects заїжджають під pin каталогу. */
+  margin-bottom: 0;
   overflow: visible;
-  z-index: 5;
+  z-index: 4;
   background: transparent;
 
   &::before {
@@ -385,7 +386,7 @@
   }
 
   @include mixins.mobile {
-    margin-bottom: #{mixins.mvw(-280px)};
+    margin-bottom: 0;
     overflow: visible;
     background: transparent;
 
@@ -836,9 +837,21 @@
   }
 }
 
+.site-main--products .pin-spacer-products-catalog {
+  position: relative;
+  z-index: 4 !important;
+  overflow: visible;
+}
+
+.site-main--products .pin-spacer-products-projects {
+  position: relative;
+  z-index: 8 !important;
+  overflow: visible;
+}
+
 .products-inquiry {
   position: relative;
-  z-index: 2;
+  z-index: 5;
   margin-top: 0;
 
   @include mixins.mobile {
@@ -851,6 +864,7 @@
 
 .products-process {
   position: relative;
+  z-index: 6;
   overflow: hidden;
   background: #000102;
 
@@ -993,7 +1007,7 @@
   position: relative;
   overflow: visible;
   isolation: isolate;
-  z-index: 1;
+  z-index: 8;
 
   .services-projects__viewport {
     opacity: 1;

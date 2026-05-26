@@ -484,6 +484,9 @@
           pin: (isHomeProjects || isMediahubProjects) ? section : viewport,
           scrub: true,
           anticipatePin: 0,
+          pinSpacing: true,
+          pinClass: isProductsProjectsPage ? 'pin-spacer-products-projects' : undefined,
+          refreshPriority: isProductsProjectsPage ? 8 : 0,
           invalidateOnRefresh: true,
           onToggle: function (self) {
             if (isProductsProjectsPage) {
@@ -668,6 +671,8 @@
         });
       }
 
+      var isProductsPage = !!section.closest('.site-main--products');
+
       var tween = window.gsap.to(track, {
         x: function () {
           return -(track.scrollWidth - stage.clientWidth);
@@ -677,11 +682,18 @@
           trigger: section,
           start: 'top top',
           end: function () {
+            if (isProductsPage) {
+              return 'clamp(+=' + servicesBenefitsPinDistance(track, stage) + ')';
+            }
+
             return 'clamp(+=' + Math.max(track.scrollWidth - stage.clientWidth, 0) + ')';
           },
           pin: viewport,
           scrub: 1,
-          anticipatePin: 1,
+          anticipatePin: isProductsPage ? 0 : 1,
+          pinSpacing: true,
+          pinClass: isProductsPage ? 'pin-spacer-products-catalog' : undefined,
+          refreshPriority: isProductsPage ? -12 : 0,
           invalidateOnRefresh: true,
           onUpdate: function (self) {
             currentIndex = Math.round(self.progress * getMaxIndex());
