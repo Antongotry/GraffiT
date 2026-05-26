@@ -280,6 +280,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 80;
   overflow: visible;
+  background: transparent;
   /*
    * Верхній виріз (як services-clients / скрин 2): тёмний шпиль chaos входить у «долину».
    * НЕ шпиль вгору — пара піків давала чорну смугу між секціями.
@@ -291,8 +292,13 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     100% 100%,
     0 100%
   ) !important;
-  padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(90px)});
+  padding-top: calc(#{mixins.vw(16px)} + #{mixins.vw(90px)});
   padding-bottom: 0;
+
+  &::before,
+  &::after {
+    display: none;
+  }
 
   @include mixins.mobile {
     clip-path: polygon(
@@ -323,9 +329,13 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   color: #000102;
 }
 
+.home-chaos-about-flow #home-about .services-clients__layout {
+  padding-top: #{mixins.vw(12px)};
+}
+
 .home-chaos-about-flow #home-about .services-clients__title {
   width: #{mixins.vw(788px)};
-  margin-top: #{mixins.vw(64px)};
+  margin-top: #{mixins.vw(32px)};
   font-size: #{mixins.vw(32px)};
   line-height: 1.48;
 
@@ -349,6 +359,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__copy {
+  padding-top: #{mixins.vw(16px)};
+
   @include mixins.mobile {
     padding-top: #{mixins.mvw(10px)};
   }
