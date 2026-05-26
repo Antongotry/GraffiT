@@ -1712,6 +1712,10 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-process-section').forEach(function (section) {
+      if (section.classList.contains('products-process')) {
+        return;
+      }
+
       var timeline = section.querySelector('.services-process__timeline');
       var lineFill = section.querySelector('.js-process-line-fill');
       var steps = Array.prototype.slice.call(section.querySelectorAll('.js-process-step'));
@@ -1800,6 +1804,164 @@
     });
 
     window.ScrollTrigger.refresh();
+  }
+
+  /**
+   * /products/ .products-process — заповнення лінії при скролі (окремо від pin-блоків).
+   * onUpdate + refresh після load/images, бо ранній fromTo міг отримати height: 0.
+   */
+  function initProductsPageProcessTimeline() {
+    if (window.innerWidth <= 1024) {
+      return;
+    }
+
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    var section = document.querySelector('.site-main--products .products-process.js-process-section');
+
+    if (!section || section.getAttribute('data-products-process-timeline') === '1') {
+      return;
+    }
+
+    var timeline = section.querySelector('.services-process__timeline');
+    var lineFill = section.querySelector('.js-process-line-fill');
+    var steps = Array.prototype.slice.call(section.querySelectorAll('.js-process-step'));
+    var line = lineFill ? lineFill.parentElement : null;
+
+    if (!timeline || !lineFill || !line || steps.length === 0) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+    section.setAttribute('data-products-process-timeline', '1');
+
+    function getStepTags() {
+      return steps.map(function (step) {
+        return step.querySelector('.process-step__tag');
+      }).filter(Boolean);
+    }
+
+    function updateLineBounds() {
+      var tags = getStepTags();
+
+      if (tags.length === 0) {
+        return 0;
+      }
+
+      var timelineRect = timeline.getBoundingClientRect();
+      var firstRect = tags[0].getBoundingClientRect();
+      var start = firstRect.top - timelineRect.top + firstRect.height * 0.5;
+      var note = timeline.querySelector('.products-process__note');
+      var end;
+
+      if (note) {
+        var noteRect = note.getBoundingClientRect();
+        end = noteRect.bottom - timelineRect.top;
+      } else {
+        var lastRect = tags[tags.length - 1].getBoundingClientRect();
+        end = lastRect.top - timelineRect.top + lastRect.height * 0.5;
+      }
+
+      var lineHeight = Math.max(end - start, 0);
+
+      line.style.top = start + 'px';
+      line.style.height = lineHeight + 'px';
+
+      return lineHeight;
+    }
+
+    function setActiveStep(activeIndex) {
+      steps.forEach(function (step, index) {
+        step.classList.toggle('is-active', index === activeIndex);
+      });
+    }
+
+    function syncLineFill(progress) {
+      var lineHeight = updateLineBounds();
+
+      if (lineHeight <= 0) {
+        lineFill.style.height = '0px';
+        return;
+      }
+
+      lineFill.style.height = Math.round(lineHeight * progress) + 'px';
+    }
+
+    function refreshProductsProcessTimeline() {
+      if (productsProcessLineTrigger) {
+        productsProcessLineTrigger.refresh();
+      }
+
+      syncLineFill(productsProcessLineTrigger ? productsProcessLineTrigger.progress : 0);
+    }
+
+    var productsProcessActiveIndex = 0;
+    var productsProcessLineTrigger;
+
+    syncLineFill(0);
+    setActiveStep(0);
+    window.gsap.set(lineFill, { clearProps: 'height' });
+    lineFill.style.height = '0px';
+
+    productsProcessLineTrigger = window.ScrollTrigger.create({
+      id: 'products-process-line',
+      trigger: timeline,
+      start: 'top 58%',
+      end: 'bottom 62%',
+      scrub: 0.45,
+      invalidateOnRefresh: true,
+      onRefresh: function () {
+        syncLineFill(productsProcessLineTrigger.progress);
+      },
+      onUpdate: function (self) {
+        syncLineFill(self.progress);
+
+        var maxIndex = Math.max(steps.length - 1, 0);
+        var rawIndex = self.progress * maxIndex;
+        var nextIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
+
+        if (nextIndex !== productsProcessActiveIndex) {
+          productsProcessActiveIndex = nextIndex;
+          setActiveStep(nextIndex);
+        }
+      }
+    });
+
+    steps.forEach(function (step, index) {
+      window.ScrollTrigger.create({
+        trigger: step,
+        start: 'top 42%',
+        end: 'bottom 42%',
+        onEnter: function () {
+          productsProcessActiveIndex = index;
+          setActiveStep(index);
+        },
+        onEnterBack: function () {
+          productsProcessActiveIndex = index;
+          setActiveStep(index);
+        }
+      });
+    });
+
+    window.requestAnimationFrame(function () {
+      refreshProductsProcessTimeline();
+    });
+
+    window.addEventListener(
+      'load',
+      function () {
+        window.requestAnimationFrame(refreshProductsProcessTimeline);
+      },
+      { once: true }
+    );
+
+    var processVisual = section.querySelector('.services-process__visual-photo');
+
+    if (processVisual && !processVisual.complete) {
+      processVisual.addEventListener('load', refreshProductsProcessTimeline, { once: true });
+    }
   }
 
   function initProcessMobileTimeline() {
@@ -3249,6 +3411,7 @@
   runInit(initProductsPageProjectsMobileCarousel, 'products-page-projects-mobile');
   runInit(initProductsCatalogMobileCarousel, 'products-catalog-mobile-carousel');
   runInit(initProcessTimeline, 'process-timeline');
+  runInit(initProductsPageProcessTimeline, 'products-page-process-timeline');
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
   runInit(initFaqAccordion, 'faq-accordion');
   runInit(initAboutStackMobileVisual, 'about-stack-mobile-visual');
@@ -3264,7 +3427,7 @@
       }
 
       if (document.querySelector('.site-main--products')) {
-        ['products-catalog-pin', 'products-projects-pin'].forEach(function (triggerId) {
+        ['products-catalog-pin', 'products-projects-pin', 'products-process-line'].forEach(function (triggerId) {
           if (typeof window.ScrollTrigger.getById !== 'function') {
             return;
           }

@@ -1014,6 +1014,12 @@
 
   .services-process__line {
     left: #{mixins.vw(35px)};
+    z-index: 1;
+  }
+
+  .services-process__line-fill {
+    transition: none;
+    will-change: height;
   }
 
   .services-process__steps {
