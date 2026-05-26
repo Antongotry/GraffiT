@@ -734,6 +734,7 @@
     }
 
     section.removeAttribute('data-products-page-projects-init');
+    section.classList.remove('is-products-page-projects-native-scroll');
 
     var track = section.querySelector('.js-products-page-projects-track');
 
@@ -743,18 +744,11 @@
   }
 
   /**
-   * /products/#products-projects — окремий pin+scrub (як каталог).
-   * Не використовує initProjectsScroller / js-projects-*.
+   * /products/#products-projects — без pin/ScrollTrigger (конфлікт з Lenis).
+   * Звичайний горизонтальний scroll у stage + кнопки prev/next.
    */
   function initProductsPageProjectsScroll() {
-    if (window.innerWidth <= 1024) {
-      killProductsPageProjectsScroll();
-      return;
-    }
-
-    if (!window.gsap || !window.ScrollTrigger) {
-      return;
-    }
+    killProductsPageProjectsScroll();
 
     var section = document.querySelector(
       '.site-main--products #products-projects.js-products-page-projects'
@@ -764,8 +758,6 @@
       return;
     }
 
-    var viewport = section.querySelector('.services-projects__viewport');
-    var container = section.querySelector('.services-projects__container');
     var stage = section.querySelector('.js-products-page-projects-stage');
     var track = section.querySelector('.js-products-page-projects-track');
     var prevButton = section.querySelector('.js-products-page-projects-prev');
@@ -774,129 +766,19 @@
       section.querySelectorAll('.js-products-page-projects-track .project-case-card')
     );
 
-    if (!viewport || !container || !stage || !track || cards.length === 0) {
+    if (!stage || !track || cards.length === 0) {
       return;
     }
 
-    killProductsPageProjectsScroll();
-    window.gsap.registerPlugin(window.ScrollTrigger);
+    if (window.gsap) {
+      window.gsap.set(track, { x: 0, clearProps: 'transform' });
+    }
 
-    section.setAttribute('data-products-page-projects-init', '1');
+    track.style.removeProperty('transform');
+    track.style.removeProperty('translate');
     stage.scrollLeft = 0;
-    window.gsap.set(track, { x: 0, clearProps: 'transform' });
-
-    var projectsIndex = 0;
-    var projectsTween;
-
-    function getProjectsMaxIndex() {
-      return Math.max(cards.length - 1, 0);
-    }
-
-    function updateProjectsButtons() {
-      if (prevButton) {
-        prevButton.disabled = projectsIndex <= 0;
-      }
-
-      if (nextButton) {
-        nextButton.disabled = projectsIndex >= getProjectsMaxIndex();
-      }
-    }
-
-    projectsTween = window.gsap.to(track, {
-      x: function () {
-        return -productsPageHorizontalPinDistance(track, stage);
-      },
-      ease: 'none',
-      force3D: true,
-      scrollTrigger: {
-        id: 'products-projects-pin',
-        trigger: container,
-        start: 'top top+=72',
-        end: function () {
-          return 'clamp(+=' + productsPageHorizontalPinDistance(track, stage) + ')';
-        },
-        pin: viewport,
-        pinSpacing: true,
-        scrub: 0,
-        anticipatePin: 0,
-        fastScrollEnd: true,
-        pinClass: 'pin-spacer-products-page-projects',
-        refreshPriority: 1,
-        invalidateOnRefresh: true,
-        onUpdate: function (self) {
-          var maxIndex = getProjectsMaxIndex();
-          var rawIndex = self.progress * maxIndex;
-
-          projectsIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
-          updateProjectsButtons();
-        }
-      }
-    });
-
-    function scrollProjectsToIndex(index) {
-      var clampedIndex = Math.max(0, Math.min(index, getProjectsMaxIndex()));
-      var trigger = projectsTween.scrollTrigger;
-
-      if (!trigger) {
-        return;
-      }
-
-      var progress = getProjectsMaxIndex() === 0 ? 0 : clampedIndex / getProjectsMaxIndex();
-      var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
-
-      projectsIndex = clampedIndex;
-      updateProjectsButtons();
-      scrollToPosition(targetScroll);
-    }
-
-    updateProjectsButtons();
-
-    if (prevButton) {
-      prevButton.addEventListener('click', function () {
-        scrollProjectsToIndex(projectsIndex - 1);
-      });
-    }
-
-    if (nextButton) {
-      nextButton.addEventListener('click', function () {
-        scrollProjectsToIndex(projectsIndex + 1);
-      });
-    }
-
-    if (window.ScrollTrigger && typeof window.ScrollTrigger.sort === 'function') {
-      window.ScrollTrigger.sort();
-    }
-
-    if (projectsTween.scrollTrigger) {
-      projectsTween.scrollTrigger.refresh();
-    }
-  }
-
-  function initProductsPageProjectsMobileCarousel() {
-    if (window.innerWidth > 1024) {
-      return;
-    }
-
-    var section = document.querySelector(
-      '.site-main--products #products-projects.js-products-page-projects'
-    );
-
-    if (!section || section.getAttribute('data-products-page-projects-mobile') === '1') {
-      return;
-    }
-
-    var stage = section.querySelector('.js-products-page-projects-stage');
-    var prevButton = section.querySelector('.js-products-page-projects-prev');
-    var nextButton = section.querySelector('.js-products-page-projects-next');
-    var cards = Array.prototype.slice.call(
-      section.querySelectorAll('.js-products-page-projects-track .project-case-card')
-    );
-
-    if (!stage || cards.length === 0) {
-      return;
-    }
-
-    section.setAttribute('data-products-page-projects-mobile', '1');
+    section.setAttribute('data-products-page-projects-init', '1');
+    section.classList.add('is-products-page-projects-native-scroll');
 
     function getMaxIndex() {
       return Math.max(cards.length - 1, 0);
@@ -3247,7 +3129,6 @@
   runInit(resetMediahubClientsLegacyState, 'mediahub-clients-legacy-reset');
   runInit(initClientsScroller, 'clients-scroller');
   runInit(initProjectsMobileCarousel, 'projects-mobile-carousel');
-  runInit(initProductsPageProjectsMobileCarousel, 'products-page-projects-mobile');
   runInit(initProductsCatalogMobileCarousel, 'products-catalog-mobile-carousel');
   runInit(initProcessTimeline, 'process-timeline');
   runInit(initProcessMobileTimeline, 'process-mobile-timeline');
