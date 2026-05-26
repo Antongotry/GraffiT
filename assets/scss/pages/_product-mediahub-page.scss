@@ -713,7 +713,7 @@
 @media (min-width: 1025px) {
   .mediahub-capabilities .services-projects__stage {
     overflow: hidden;
-    margin-top: #{mixins.vw(16px)};
+    margin-top: calc(#{mixins.vw(16px)} + 24px);
     margin-bottom: 0;
     height: var(--mediahub-cap-card-height);
     min-height: var(--mediahub-cap-card-height);
@@ -748,7 +748,7 @@
   }
 
   .mediahub-capabilities .services-projects__stage {
-    margin-top: #{mixins.vw(10px)};
+    margin-top: calc(#{mixins.vw(10px)} + 24px);
   }
 }
 
