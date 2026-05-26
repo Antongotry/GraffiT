@@ -409,6 +409,18 @@
     return Math.max(track.scrollWidth - stage.clientWidth, 0);
   }
 
+  function addPinSpacerClass(pinnedElement, className) {
+    var spacer = pinnedElement &&
+      pinnedElement.parentElement &&
+      pinnedElement.parentElement.classList.contains('pin-spacer')
+        ? pinnedElement.parentElement
+        : null;
+
+    if (spacer) {
+      spacer.classList.add(className);
+    }
+  }
+
   function isProductsPageMain() {
     return !!document.querySelector('.site-main--products');
   }
@@ -594,22 +606,38 @@
   }
 
   function killProductsPageCatalogScroll() {
-    if (!window.ScrollTrigger) {
-      return;
-    }
-
-    if (typeof window.ScrollTrigger.getById === 'function') {
+    if (window.ScrollTrigger && typeof window.ScrollTrigger.getById === 'function') {
       var catalogTrigger = window.ScrollTrigger.getById('products-catalog-pin');
 
       if (catalogTrigger) {
         catalogTrigger.kill(true);
       }
     }
+
+    var main = document.querySelector('.site-main--products');
+    var section = main ? main.querySelector('.js-products-catalog-scroller') : null;
+
+    if (!main) {
+      return;
+    }
+
+    main.removeAttribute('data-products-horizontal-scroll-init');
+
+    if (!section) {
+      return;
+    }
+
+    var track = section.querySelector('.js-products-catalog-track');
+
+    if (track && window.gsap) {
+      window.gsap.set(track, { x: 0, clearProps: 'transform' });
+    }
   }
 
   /* /products/ desktop: лише pin каталогу. */
   function initProductsPageHorizontalScroll() {
     if (window.innerWidth <= 1024) {
+      killProductsPageCatalogScroll();
       return;
     }
 
@@ -691,9 +719,11 @@
         scrub: 0,
         anticipatePin: 0,
         fastScrollEnd: true,
-        pinClass: 'pin-spacer-products-catalog',
-        refreshPriority: -1,
+        refreshPriority: 30,
         invalidateOnRefresh: true,
+        onRefresh: function () {
+          addPinSpacerClass(catalogViewport, 'pin-spacer-products-catalog');
+        },
         onUpdate: function (self) {
           var maxIndex = getCatalogMaxIndex();
           var rawIndex = self.progress * maxIndex;
@@ -703,6 +733,10 @@
           updateCatalogButtons();
         }
       }
+    });
+
+    window.requestAnimationFrame(function () {
+      addPinSpacerClass(catalogViewport, 'pin-spacer-products-catalog');
     });
 
     function scrollCatalogToIndex(index) {
@@ -871,9 +905,11 @@
         scrub: 0,
         anticipatePin: 0,
         fastScrollEnd: true,
-        pinClass: 'pin-spacer-products-page-projects',
-        refreshPriority: 1,
+        refreshPriority: 5,
         invalidateOnRefresh: true,
+        onRefresh: function () {
+          addPinSpacerClass(viewport, 'pin-spacer-products-page-projects');
+        },
         onUpdate: function (self) {
           var maxIndex = getProjectsMaxIndex();
           var rawIndex = self.progress * maxIndex;
@@ -882,6 +918,10 @@
           updateProjectsButtons();
         }
       }
+    });
+
+    window.requestAnimationFrame(function () {
+      addPinSpacerClass(viewport, 'pin-spacer-products-page-projects');
     });
 
     function scrollProjectsToIndex(index) {
@@ -1151,30 +1191,22 @@
         });
       }
 
-      var isProductsPage = !!section.closest('.site-main--products');
-
       var tween = window.gsap.to(track, {
         x: function () {
           return -(track.scrollWidth - stage.clientWidth);
         },
         ease: 'none',
         scrollTrigger: {
-          id: isProductsPage ? 'products-catalog-pin' : undefined,
           trigger: section,
           start: 'top top',
           end: function () {
-            if (isProductsPage) {
-              return 'clamp(+=' + servicesBenefitsPinDistance(track, stage) + ')';
-            }
-
             return 'clamp(+=' + Math.max(track.scrollWidth - stage.clientWidth, 0) + ')';
           },
           pin: viewport,
           scrub: 1,
-          anticipatePin: isProductsPage ? 0 : 1,
+          anticipatePin: 1,
           pinSpacing: true,
-          pinClass: isProductsPage ? 'pin-spacer-products-catalog' : undefined,
-          refreshPriority: isProductsPage ? -12 : 0,
+          refreshPriority: 0,
           invalidateOnRefresh: true,
           onUpdate: function (self) {
             currentIndex = Math.round(self.progress * getMaxIndex());
