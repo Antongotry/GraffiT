@@ -198,15 +198,11 @@
   position: relative;
   overflow: hidden;
   padding: #{mixins.vw(100px)} 0 #{mixins.vw(128px)};
-  background:
-    radial-gradient(circle at 0% 48%, rgba(0, 115, 230, 0.26) 0%, rgba(0, 115, 230, 0) 34%),
-    #000102;
+  background: #000102;
 
   @include mixins.mobile {
     padding: #{mixins.mvw(56px)} 0 #{mixins.mvw(72px)};
-    background:
-      radial-gradient(circle at 0% 20%, rgba(0, 115, 230, 0.24) 0%, rgba(0, 115, 230, 0) 46%),
-      #000102;
+    background: #000102;
   }
 }
 
@@ -385,10 +381,7 @@
     bottom: #{mixins.vw(280px)};
     z-index: 0;
     pointer-events: none;
-    background:
-      radial-gradient(circle at 0% 42%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 24%),
-      radial-gradient(circle at 100% 0%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
-      #000102;
+    background: #000102;
   }
 
   @include mixins.mobile {
@@ -405,10 +398,7 @@
       bottom: #{mixins.mvw(320px)};
       z-index: 0;
       pointer-events: none;
-      background:
-        radial-gradient(circle at 0% 42%, rgba(0, 115, 230, 0.2) 0%, rgba(0, 115, 230, 0) 24%),
-        radial-gradient(circle at 100% 0%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 28%),
-        #000102;
+      background: #000102;
     }
   }
 }
