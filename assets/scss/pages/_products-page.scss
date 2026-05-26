@@ -2,6 +2,10 @@
 
 .site-main--products {
   background: #000102;
+
+  @media (min-width: 1025px) {
+    overflow-x: clip;
+  }
 }
 
 /* Products hero — desktop sizes from 1440 via mixins.vw; mobile: basic stack */
@@ -888,6 +892,7 @@
     grid-template-columns: #{mixins.vw(563px)} #{mixins.vw(640px)};
     column-gap: #{mixins.vw(86px)};
     margin-top: #{mixins.vw(84px)};
+    overflow: hidden;
   }
 
   .services-process__line {
@@ -916,13 +921,16 @@
     align-self: start;
     justify-self: end;
     width: #{mixins.vw(760px)};
+    max-width: 100%;
     margin-right: #{mixins.vw(-78px)};
+    z-index: 0;
   }
 
   .services-process__visual-frame {
     width: #{mixins.vw(768px)};
     height: #{mixins.vw(833px)};
-    overflow: visible;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .services-process__visual-photo {
@@ -1050,6 +1058,8 @@
     }
 
     .site-main--products #products-projects .services-projects__viewport {
+      min-height: 100svh;
+      box-sizing: border-box;
       padding-top: #{mixins.vw(32px)};
       padding-bottom: #{mixins.vw(12px)};
       background: #000102;
