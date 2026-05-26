@@ -375,36 +375,12 @@
   margin-bottom: 0;
   overflow: visible;
   z-index: 4;
-  background: transparent;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: #{mixins.vw(280px)};
-    z-index: 0;
-    pointer-events: none;
-    background: #000102;
-  }
+  background: #000102;
 
   @include mixins.mobile {
     margin-bottom: 0;
     overflow: visible;
-    background: transparent;
-
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: #{mixins.mvw(320px)};
-      z-index: 0;
-      pointer-events: none;
-      background: #000102;
-    }
+    background: #000102;
   }
 }
 
@@ -413,6 +389,7 @@
   z-index: 1;
   min-height: 0;
   overflow: visible;
+  background: #000102;
   padding: #{mixins.vw(24px)} 0 #{mixins.vw(160px)};
   box-sizing: border-box;
 
@@ -845,6 +822,15 @@
   position: relative;
   z-index: 4 !important;
   overflow: visible;
+  background: #000102 !important;
+}
+
+/* Inquiry: плоский верх — без bow-tie, щоб не було сірої «V» між каталогом і CTA. */
+.site-main--products .products-inquiry.services-inquiry.cta-band--light {
+  &::after,
+  &::before {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
+  }
 }
 
 .products-inquiry {
