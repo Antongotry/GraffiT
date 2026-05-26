@@ -280,7 +280,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 80;
   overflow: visible;
-  background: transparent;
+  background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
   /*
    * Верхній виріз (як services-clients / скрин 2): тёмний шпиль chaos входить у «долину».
    * НЕ шпиль вгору — пара піків давала чорну смугу між секціями.
@@ -310,17 +310,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     ) !important;
     padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
     padding-bottom: 0;
-
-    &::before,
-    &::after {
-      clip-path: polygon(
-        0 0,
-        50% #{mixins.mvw(40px)},
-        100% 0,
-        100% 100%,
-        0 100%
-      );
-    }
+    background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
   }
 }
 
