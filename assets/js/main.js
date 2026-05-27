@@ -759,11 +759,8 @@
         (pendingReleaseDirection > 0 && catalogProgress >= 0.998) ||
         (pendingReleaseDirection < 0 && catalogProgress <= 0.002)
       ) {
-        var releaseDirection = pendingReleaseDirection;
-
         pendingReleaseDirection = 0;
         unlockCatalog();
-        scrollImmediately(lockScrollTop + releaseDirection * 2);
       }
     }
 
@@ -2094,15 +2091,11 @@
   }
 
   /**
-   * /products/ .products-process — заповнення лінії при скролі (окремо від pin-блоків).
-   * onUpdate + refresh після load/images, бо ранній fromTo міг отримати height: 0.
+   * /products/ .products-process — прямий вертикальний timeline без ScrollTrigger.
+   * Рахуємо заповнення від фактичної позиції тегів у viewport, щоб блок не залежав від pin/refresh.
    */
   function initProductsPageProcessTimeline() {
     if (window.innerWidth <= 1024) {
-      return;
-    }
-
-    if (!window.gsap || !window.ScrollTrigger) {
       return;
     }
 
@@ -2121,27 +2114,23 @@
       return;
     }
 
-    window.gsap.registerPlugin(window.ScrollTrigger);
     section.setAttribute('data-products-process-timeline', '1');
 
-    function getStepTags() {
-      return steps.map(function (step) {
-        return step.querySelector('.process-step__tag');
-      }).filter(Boolean);
-    }
-
+    var stepTags = steps.map(function (step) {
+      return step.querySelector('.process-step__tag');
+    }).filter(Boolean);
     var cachedLineHeight = 0;
+    var productsProcessActiveIndex = 0;
+    var timelineTicking = false;
 
     function measureLineBounds() {
-      var tags = getStepTags();
-
-      if (tags.length === 0) {
+      if (stepTags.length === 0) {
         cachedLineHeight = 0;
         return 0;
       }
 
       var timelineRect = timeline.getBoundingClientRect();
-      var firstRect = tags[0].getBoundingClientRect();
+      var firstRect = stepTags[0].getBoundingClientRect();
       var start = firstRect.top - timelineRect.top + firstRect.height * 0.5;
       var note = timeline.querySelector('.products-process__note');
       var end;
@@ -2150,7 +2139,7 @@
         var noteRect = note.getBoundingClientRect();
         end = noteRect.bottom - timelineRect.top;
       } else {
-        var lastRect = tags[tags.length - 1].getBoundingClientRect();
+        var lastRect = stepTags[stepTags.length - 1].getBoundingClientRect();
         end = lastRect.top - timelineRect.top + lastRect.height * 0.5;
       }
 
@@ -2160,6 +2149,10 @@
       line.style.height = cachedLineHeight + 'px';
 
       return cachedLineHeight;
+    }
+
+    function getFocusY() {
+      return (window.innerHeight || document.documentElement.clientHeight) * 0.44;
     }
 
     function setActiveStep(activeIndex) {
@@ -2177,55 +2170,76 @@
       lineFill.style.height = Math.round(cachedLineHeight * progress) + 'px';
     }
 
-    var productsProcessActiveIndex = 0;
-    var productsProcessLineTrigger;
+    function updateProductsProcessTimeline() {
+      timelineTicking = false;
+      measureLineBounds();
+
+      if (stepTags.length === 0 || cachedLineHeight <= 0) {
+        syncLineFill(0);
+        return;
+      }
+
+      var focusY = getFocusY();
+      var firstRect = stepTags[0].getBoundingClientRect();
+      var lastRect = stepTags[stepTags.length - 1].getBoundingClientRect();
+      var firstY = firstRect.top + firstRect.height * 0.5;
+      var lastY = lastRect.top + lastRect.height * 0.5;
+      var total = Math.max(lastY - firstY, 1);
+      var progress = Math.max(0, Math.min((focusY - firstY) / total, 1));
+      var closestIndex = 0;
+      var closestDistance = Infinity;
+
+      stepTags.forEach(function (tag, index) {
+        var rect = tag.getBoundingClientRect();
+        var center = rect.top + rect.height * 0.5;
+        var distance = Math.abs(center - focusY);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      syncLineFill(progress);
+
+      if (progress <= 0.002) {
+        closestIndex = 0;
+      } else if (progress >= 0.998) {
+        closestIndex = steps.length - 1;
+      }
+
+      if (closestIndex !== productsProcessActiveIndex) {
+        productsProcessActiveIndex = closestIndex;
+        setActiveStep(closestIndex);
+      }
+    }
+
+    function scheduleProductsProcessTimelineUpdate() {
+      if (timelineTicking) {
+        return;
+      }
+
+      timelineTicking = true;
+      window.requestAnimationFrame(updateProductsProcessTimeline);
+    }
 
     measureLineBounds();
     syncLineFill(0);
     setActiveStep(0);
     lineFill.style.height = '0px';
+    updateProductsProcessTimeline();
 
-    productsProcessLineTrigger = window.ScrollTrigger.create({
-      id: 'products-process-line',
-      trigger: timeline,
-      start: 'top 58%',
-      end: 'bottom 62%',
-      scrub: 0.45,
-      refreshPriority: 10,
-      invalidateOnRefresh: true,
-      onRefresh: function () {
-        measureLineBounds();
-        syncLineFill(productsProcessLineTrigger.progress);
-      },
-      onUpdate: function (self) {
-        syncLineFill(self.progress);
+    window.addEventListener('scroll', scheduleProductsProcessTimelineUpdate, { passive: true });
+    window.addEventListener('resize', scheduleProductsProcessTimelineUpdate, { passive: true });
 
-        var maxIndex = Math.max(steps.length - 1, 0);
-        var rawIndex = self.progress * maxIndex;
-        var nextIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
+    if (window.__graffitLenis && typeof window.__graffitLenis.on === 'function') {
+      window.__graffitLenis.on('scroll', scheduleProductsProcessTimelineUpdate);
+    }
 
-        if (nextIndex !== productsProcessActiveIndex) {
-          productsProcessActiveIndex = nextIndex;
-          setActiveStep(nextIndex);
-        }
+    Array.prototype.slice.call(section.querySelectorAll('img')).forEach(function (img) {
+      if (!img.complete) {
+        img.addEventListener('load', scheduleProductsProcessTimelineUpdate, { once: true });
       }
-    });
-
-    steps.forEach(function (step, index) {
-      window.ScrollTrigger.create({
-        trigger: step,
-        start: 'top 42%',
-        end: 'bottom 42%',
-        refreshPriority: 10,
-        onEnter: function () {
-          productsProcessActiveIndex = index;
-          setActiveStep(index);
-        },
-        onEnterBack: function () {
-          productsProcessActiveIndex = index;
-          setActiveStep(index);
-        }
-      });
     });
   }
 
