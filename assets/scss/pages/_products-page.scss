@@ -415,6 +415,8 @@
 
   /* Нижній шпиль у #000102 — стик із bow-tie inquiry (верхня «долина»). */
   .site-main--products .products-catalog__viewport {
+    /* Більше повітря під site-header під час горизонтального скролу. */
+    padding-top: #{mixins.vw(56px)};
     clip-path: polygon(
       0 0,
       100% 0,
@@ -426,6 +428,8 @@
 
   .site-main--products .products-catalog__stage {
     overflow: hidden;
+    /* Було 128px — зменшуємо відступ між header і картками вдвічі. */
+    margin-top: #{mixins.vw(64px)};
   }
 
   .site-main--products .products-catalog__track {
@@ -596,10 +600,6 @@
   height: #{mixins.vw(463px)};
   margin-top: #{mixins.vw(24px)};
   overflow: hidden;
-
-  @media (min-width: 1025px) {
-    margin-top: #{mixins.vw(128px)};
-  }
 
   @include mixins.mobile {
     height: auto;
