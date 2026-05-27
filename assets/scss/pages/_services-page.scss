@@ -4921,8 +4921,25 @@
 }
 
 @media (min-width: 1025px) {
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
+    --process-visual-sticky-top: #{mixins.vw(190px)};
+  }
+
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline {
+    padding-bottom: #{mixins.vw(120px)};
+  }
+
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame {
+    transform: translateY(#{mixins.vw(110px)});
+  }
+
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
+    right: #{mixins.vw(-58px)};
+    bottom: #{mixins.vw(-170px)};
+  }
+
   .site-main--services .services-process {
-    --process-visual-sticky-top: #{mixins.vw(380px)};
+    --process-visual-sticky-top: #{mixins.vw(240px)};
   }
 
   .site-main--services .services-process .services-process__layout {
@@ -4933,7 +4950,7 @@
   /* Висоту секції задає ліва колонка, щоб sticky-візуал праворуч
      не впирався завчасно у нижню межу контейнера. */
   .site-main--services .services-process .services-process__timeline {
-    padding-bottom: #{mixins.vw(260px)};
+    padding-bottom: #{mixins.vw(150px)};
   }
 
   .site-main--services .services-process .services-process__visual {
@@ -4941,30 +4958,46 @@
   }
 
   .site-main--services .services-process .services-process__visual-frame {
-    transform: translateY(#{mixins.vw(230px)});
+    transform: translateY(#{mixins.vw(140px)});
   }
 
   .site-main--services .services-process .services-process__visual-photo {
     right: #{mixins.vw(-84px)};
-    bottom: #{mixins.vw(-300px)};
+    bottom: #{mixins.vw(-180px)};
   }
 }
 
 @media (min-width: 1501px) {
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
+    --process-visual-sticky-top: #{mixins.vw(220px)};
+  }
+
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline {
+    padding-bottom: #{mixins.vw(140px)};
+  }
+
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame {
+    transform: translateY(#{mixins.vw(130px)});
+  }
+
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
+    bottom: #{mixins.vw(-200px)};
+  }
+
   .site-main--services .services-process {
-    --process-visual-sticky-top: #{mixins.vw(460px)};
+    --process-visual-sticky-top: #{mixins.vw(280px)};
   }
 
   .site-main--services .services-process .services-process__timeline {
-    padding-bottom: #{mixins.vw(320px)};
+    padding-bottom: #{mixins.vw(180px)};
   }
 
   .site-main--services .services-process .services-process__visual-frame {
-    transform: translateY(#{mixins.vw(280px)});
+    transform: translateY(#{mixins.vw(160px)});
   }
 
   .site-main--services .services-process .services-process__visual-photo {
-    bottom: #{mixins.vw(-360px)};
+    bottom: #{mixins.vw(-220px)};
   }
 }
 
