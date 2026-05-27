@@ -4525,14 +4525,14 @@
 }
 
 .services-process {
-  --process-visual-sticky-top: #{mixins.vw(182px)};
+  --process-visual-sticky-top: #{mixins.vw(122px)};
   position: relative;
   overflow-x: clip;
   overflow-y: visible;
   background: var(--color-background);
 
   @media (min-width: 1501px) {
-    --process-visual-sticky-top: #{mixins.vw(218px)};
+    --process-visual-sticky-top: #{mixins.vw(158px)};
   }
 
   @include mixins.mobile {
@@ -4908,9 +4908,27 @@
 }
 
 @media (min-width: 1025px) {
+  .site-main--services .services-process {
+    --process-visual-sticky-top: #{mixins.vw(242px)};
+  }
+
+  .site-main--services .services-process .services-process__visual {
+    transform: translateY(#{mixins.vw(70px)});
+  }
+
   .site-main--services .services-process .services-process__visual-photo {
     right: #{mixins.vw(-84px)};
-    bottom: #{mixins.vw(-50px)};
+    bottom: #{mixins.vw(-100px)};
+  }
+}
+
+@media (min-width: 1501px) {
+  .site-main--services .services-process {
+    --process-visual-sticky-top: #{mixins.vw(278px)};
+  }
+
+  .site-main--services .services-process .services-process__visual {
+    transform: translateY(#{mixins.vw(90px)});
   }
 }
 
