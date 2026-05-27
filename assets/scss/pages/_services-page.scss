@@ -4930,6 +4930,12 @@
     padding-bottom: #{mixins.vw(220px)};
   }
 
+  /* Висоту секції задає ліва колонка, щоб sticky-візуал праворуч
+     не впирався завчасно у нижню межу контейнера. */
+  .site-main--services .services-process .services-process__timeline {
+    padding-bottom: #{mixins.vw(260px)};
+  }
+
   .site-main--services .services-process .services-process__visual {
     transform: none;
   }
@@ -4947,6 +4953,10 @@
 @media (min-width: 1501px) {
   .site-main--services .services-process {
     --process-visual-sticky-top: #{mixins.vw(460px)};
+  }
+
+  .site-main--services .services-process .services-process__timeline {
+    padding-bottom: #{mixins.vw(320px)};
   }
 
   .site-main--services .services-process .services-process__visual-frame {
