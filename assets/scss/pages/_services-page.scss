@@ -3947,14 +3947,13 @@
   }
 
   .site-main--services #services-projects .services-projects__stage {
-    margin-top: #{mixins.vw(8px)};
-    /* Повна висота картки (618); зверху лише компактні відступи, без обрізання знизу */
+    margin-top: #{mixins.vw(44px)};
     height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
   }
 
   .site-main--services #services-projects .project-case-card {
-    height: 100%;
-    min-height: 100%;
+    height: 90%;
+    min-height: 90%;
   }
 }
 
@@ -3964,7 +3963,7 @@
   }
 
   .site-main--services #services-projects .services-projects__stage {
-    margin-top: #{mixins.vw(6px)};
+    margin-top: #{mixins.vw(45px)};
     height: min(#{mixins.vw(618px)}, calc(100svh - 248px));
   }
 }
