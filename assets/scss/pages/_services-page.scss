@@ -3928,7 +3928,8 @@
   }
 
   .site-main--services #services-projects .services-projects__title {
-    flex: 1 1 auto;
+    flex: 0 1 #{mixins.vw(760px)};
+    width: #{mixins.vw(760px)};
     min-width: 0;
   }
 
