@@ -409,18 +409,6 @@
     return Math.max(track.scrollWidth - stage.clientWidth, 0);
   }
 
-  function addPinSpacerClass(pinnedElement, className) {
-    var spacer = pinnedElement &&
-      pinnedElement.parentElement &&
-      pinnedElement.parentElement.classList.contains('pin-spacer')
-        ? pinnedElement.parentElement
-        : null;
-
-    if (spacer) {
-      spacer.classList.add(className);
-    }
-  }
-
   function isProductsPageMain() {
     return !!document.querySelector('.site-main--products');
   }
@@ -1005,11 +993,7 @@
   }
 
   function killProductsPageProjectsScroll() {
-    if (!window.ScrollTrigger) {
-      return;
-    }
-
-    if (typeof window.ScrollTrigger.getById === 'function') {
+    if (window.ScrollTrigger && typeof window.ScrollTrigger.getById === 'function') {
       var projectsTrigger = window.ScrollTrigger.getById('products-projects-pin');
 
       if (projectsTrigger) {
@@ -1027,26 +1011,24 @@
 
     section.removeAttribute('data-products-page-projects-init');
     section.classList.remove('is-products-page-projects-native-scroll');
+    document.documentElement.classList.remove('is-products-projects-wheel-locked');
 
     var track = section.querySelector('.js-products-page-projects-track');
 
     if (track && window.gsap) {
       window.gsap.set(track, { x: 0, clearProps: 'transform' });
+    } else if (track) {
+      track.style.transform = '';
     }
   }
 
   /**
-   * /products/#products-projects — pin+scrub: trigger = container, pin = viewport (як каталог),
-   * scrub: 0, без ResizeObserver; initProjectsScroller цей блок не чіпає.
-   * Каталог — окремий initProductsPageHorizontalScroll; initProjectsScroller не чіпає цей блок.
+   * /products/#products-projects — той самий wheel-lock, що й каталог, без ScrollTrigger pin-spacer.
+   * initProjectsScroller цей блок не чіпає.
    */
   function initProductsPageProjectsScroll() {
     if (window.innerWidth <= 1024) {
       killProductsPageProjectsScroll();
-      return;
-    }
-
-    if (!window.gsap || !window.ScrollTrigger) {
       return;
     }
 
@@ -1058,8 +1040,6 @@
       return;
     }
 
-    var viewport = section.querySelector('.services-projects__viewport');
-    var container = section.querySelector('.services-projects__container');
     var stage = section.querySelector('.js-products-page-projects-stage');
     var track = section.querySelector('.js-products-page-projects-track');
     var prevButton = section.querySelector('.js-products-page-projects-prev');
@@ -1068,20 +1048,32 @@
       section.querySelectorAll('.js-products-page-projects-track .project-case-card')
     );
 
-    if (!viewport || !container || !stage || !track || cards.length === 0) {
+    if (!stage || !track || cards.length === 0) {
       return;
     }
 
     killProductsPageProjectsScroll();
-    window.gsap.registerPlugin(window.ScrollTrigger);
 
     section.setAttribute('data-products-page-projects-init', '1');
     section.classList.remove('is-products-page-projects-native-scroll');
     stage.scrollLeft = 0;
-    window.gsap.set(track, { x: 0, clearProps: 'transform' });
+
+    if (window.gsap) {
+      window.gsap.set(track, { x: 0, clearProps: 'transform' });
+    } else {
+      track.style.transform = '';
+    }
 
     var projectsIndex = 0;
-    var projectsTween;
+    var projectsProgress = 0;
+    var projectsTargetProgress = 0;
+    var projectsMaxDistance = 0;
+    var isProjectsLocked = false;
+    var lockScrollTop = 0;
+    var lastScrollTop = getCurrentScrollTop();
+    var animationFrame = 0;
+    var lockOffset = 72;
+    var pendingReleaseDirection = 0;
 
     function getProjectsMaxIndex() {
       return Math.max(cards.length - 1, 0);
@@ -1097,59 +1089,253 @@
       }
     }
 
-    projectsTween = window.gsap.to(track, {
-      x: function () {
-        return -productsPageHorizontalPinDistance(track, stage);
-      },
-      ease: 'none',
-      force3D: true,
-      scrollTrigger: {
-        id: 'products-projects-pin',
-        trigger: container,
-        start: 'top top+=72',
-        end: function () {
-          return 'clamp(+=' + productsPageHorizontalPinDistance(track, stage) + ')';
-        },
-        pin: viewport,
-        pinSpacing: true,
-        scrub: 0,
-        anticipatePin: 0,
-        fastScrollEnd: true,
-        refreshPriority: 5,
-        invalidateOnRefresh: true,
-        onRefresh: function () {
-          addPinSpacerClass(viewport, 'pin-spacer-products-page-projects');
-        },
-        onUpdate: function (self) {
-          var maxIndex = getProjectsMaxIndex();
-          var rawIndex = self.progress * maxIndex;
+    function getCurrentScrollTop() {
+      var lenis = window.__graffitLenis;
 
-          projectsIndex = self.progress >= 0.998 ? maxIndex : Math.round(rawIndex);
-          updateProjectsButtons();
-        }
+      if (lenis && typeof lenis.scroll === 'number') {
+        return lenis.scroll;
       }
-    });
 
-    window.requestAnimationFrame(function () {
-      addPinSpacerClass(viewport, 'pin-spacer-products-page-projects');
-    });
+      return window.scrollY || document.documentElement.scrollTop || 0;
+    }
 
-    function scrollProjectsToIndex(index) {
-      var clampedIndex = Math.max(0, Math.min(index, getProjectsMaxIndex()));
-      var trigger = projectsTween.scrollTrigger;
+    function scrollImmediately(top) {
+      var targetTop = Math.max(0, Math.round(top));
+      var lenis = window.__graffitLenis;
 
-      if (!trigger) {
+      if (lenis && typeof lenis.scrollTo === 'function') {
+        lenis.scrollTo(targetTop, { immediate: true });
+      }
+
+      window.scrollTo(0, targetTop);
+
+      if (window.ScrollTrigger && typeof window.ScrollTrigger.update === 'function') {
+        window.ScrollTrigger.update();
+      }
+    }
+
+    function measureProjects() {
+      projectsMaxDistance = productsPageHorizontalPinDistance(track, stage);
+      projectsProgress = Math.max(0, Math.min(projectsProgress, 1));
+      projectsTargetProgress = Math.max(0, Math.min(projectsTargetProgress, 1));
+    }
+
+    function renderProjects() {
+      var x = -Math.round(projectsMaxDistance * projectsProgress);
+      var maxIndex = getProjectsMaxIndex();
+      var rawIndex = projectsProgress * maxIndex;
+
+      track.style.transform = 'translate3d(' + x + 'px, 0, 0)';
+      projectsIndex = projectsProgress >= 0.998 ? maxIndex : Math.round(rawIndex);
+      updateProjectsButtons();
+    }
+
+    function settleProjectsAnimation() {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+
+      if (!pendingReleaseDirection) {
         return;
       }
 
-      var progress = getProjectsMaxIndex() === 0 ? 0 : clampedIndex / getProjectsMaxIndex();
-      var targetScroll = trigger.start + (trigger.end - trigger.start) * progress;
-
-      projectsIndex = clampedIndex;
-      updateProjectsButtons();
-      scrollToPosition(targetScroll);
+      if (
+        (pendingReleaseDirection > 0 && projectsProgress >= 0.998) ||
+        (pendingReleaseDirection < 0 && projectsProgress <= 0.002)
+      ) {
+        pendingReleaseDirection = 0;
+        unlockProjects();
+      }
     }
 
+    function animateProjectsToTarget() {
+      if (animationFrame) {
+        return;
+      }
+
+      function tick() {
+        var diff = projectsTargetProgress - projectsProgress;
+
+        if (Math.abs(diff) < 0.0012) {
+          projectsProgress = projectsTargetProgress;
+          renderProjects();
+          settleProjectsAnimation();
+          return;
+        }
+
+        projectsProgress += diff * 0.16;
+        renderProjects();
+
+        if (isProjectsLocked && Math.abs(getCurrentScrollTop() - lockScrollTop) > 1) {
+          scrollImmediately(lockScrollTop);
+        }
+
+        animationFrame = window.requestAnimationFrame(tick);
+      }
+
+      animationFrame = window.requestAnimationFrame(tick);
+    }
+
+    function getProjectsLockTop() {
+      return getCurrentScrollTop() + section.getBoundingClientRect().top - lockOffset;
+    }
+
+    function stopLenis() {
+      if (window.__graffitLenis && typeof window.__graffitLenis.stop === 'function') {
+        window.__graffitLenis.stop();
+      }
+    }
+
+    function startLenis() {
+      if (window.__graffitLenis && typeof window.__graffitLenis.start === 'function') {
+        window.__graffitLenis.start();
+      }
+    }
+
+    function lockProjects() {
+      if (isProjectsLocked || projectsMaxDistance <= 0) {
+        return;
+      }
+
+      lockScrollTop = getProjectsLockTop();
+      isProjectsLocked = true;
+      document.documentElement.classList.add('is-products-projects-wheel-locked');
+      stopLenis();
+      scrollImmediately(lockScrollTop);
+    }
+
+    function unlockProjects() {
+      if (!isProjectsLocked) {
+        return;
+      }
+
+      isProjectsLocked = false;
+      document.documentElement.classList.remove('is-products-projects-wheel-locked');
+      startLenis();
+      lastScrollTop = getCurrentScrollTop();
+    }
+
+    function shouldLockForDirection(direction) {
+      var rect = section.getBoundingClientRect();
+
+      if (projectsMaxDistance <= 0) {
+        return false;
+      }
+
+      if (direction > 0) {
+        return projectsTargetProgress < 0.998 && rect.top <= lockOffset && rect.bottom > lockOffset;
+      }
+
+      return projectsTargetProgress > 0.002 && rect.top < lockOffset && rect.bottom >= lockOffset;
+    }
+
+    function normalizeWheelDelta(event) {
+      var delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+
+      if (event.deltaMode === 1) {
+        delta *= 18;
+      } else if (event.deltaMode === 2) {
+        delta *= window.innerHeight;
+      }
+
+      return delta;
+    }
+
+    function consumeWheel(delta) {
+      var scaledDelta = delta * 0.72;
+      var maxWheelStep = Math.max(projectsMaxDistance * 0.16, 120);
+      var clampedDelta = Math.max(-maxWheelStep, Math.min(scaledDelta, maxWheelStep));
+      var nextDistance = projectsTargetProgress * projectsMaxDistance + clampedDelta;
+      var direction = clampedDelta >= 0 ? 1 : -1;
+
+      projectsTargetProgress = Math.max(0, Math.min(nextDistance / projectsMaxDistance, 1));
+      pendingReleaseDirection = 0;
+
+      if (direction > 0 && projectsTargetProgress >= 0.998) {
+        pendingReleaseDirection = 1;
+      } else if (direction < 0 && projectsTargetProgress <= 0.002) {
+        pendingReleaseDirection = -1;
+      }
+
+      if (
+        pendingReleaseDirection &&
+        Math.abs(projectsTargetProgress - projectsProgress) < 0.004
+      ) {
+        projectsProgress = projectsTargetProgress;
+        renderProjects();
+        settleProjectsAnimation();
+        return;
+      }
+
+      animateProjectsToTarget();
+    }
+
+    function onProjectsWheel(event) {
+      if (window.innerWidth <= 1024) {
+        unlockProjects();
+        return;
+      }
+
+      measureProjects();
+
+      if (projectsMaxDistance <= 0) {
+        unlockProjects();
+        return;
+      }
+
+      var delta = normalizeWheelDelta(event);
+      var direction = delta >= 0 ? 1 : -1;
+
+      if (!isProjectsLocked && shouldLockForDirection(direction)) {
+        lockProjects();
+      }
+
+      if (!isProjectsLocked) {
+        return;
+      }
+
+      if (
+        ((direction > 0 && projectsTargetProgress >= 0.998) ||
+          (direction < 0 && projectsTargetProgress <= 0.002)) &&
+        Math.abs(projectsTargetProgress - projectsProgress) < 0.004
+      ) {
+        unlockProjects();
+        return;
+      }
+
+      event.preventDefault();
+      consumeWheel(delta);
+    }
+
+    function onProjectsScroll() {
+      if (window.innerWidth <= 1024 || isProjectsLocked) {
+        lastScrollTop = getCurrentScrollTop();
+        return;
+      }
+
+      measureProjects();
+
+      var currentTop = getCurrentScrollTop();
+      var direction = currentTop >= lastScrollTop ? 1 : -1;
+
+      lastScrollTop = currentTop;
+
+      if (shouldLockForDirection(direction)) {
+        lockProjects();
+      }
+    }
+
+    function scrollProjectsToIndex(index) {
+      var clampedIndex = Math.max(0, Math.min(index, getProjectsMaxIndex()));
+      var targetProgress = getProjectsMaxIndex() === 0 ? 0 : clampedIndex / getProjectsMaxIndex();
+
+      projectsTargetProgress = targetProgress;
+      pendingReleaseDirection = 0;
+      animateProjectsToTarget();
+    }
+
+    measureProjects();
+    projectsTargetProgress = projectsProgress;
+    renderProjects();
     updateProjectsButtons();
 
     if (prevButton) {
@@ -1164,7 +1350,41 @@
       });
     }
 
-    /* refresh — у finalizeProductsPageScrollTriggers(). */
+    function scheduleProjectsRemeasure() {
+      window.requestAnimationFrame(function () {
+        if (window.innerWidth <= 1024) {
+          unlockProjects();
+          projectsProgress = 0;
+          projectsTargetProgress = 0;
+          pendingReleaseDirection = 0;
+          window.cancelAnimationFrame(animationFrame);
+          animationFrame = 0;
+          track.style.transform = '';
+          projectsIndex = 0;
+          updateProjectsButtons();
+          return;
+        }
+
+        measureProjects();
+        renderProjects();
+
+        if (productsPageHorizontalPinDistance(track, stage) > 0) {
+          return;
+        }
+
+        Array.prototype.slice.call(track.querySelectorAll('img')).forEach(function (img) {
+          if (!img.complete) {
+            img.addEventListener('load', scheduleProjectsRemeasure, { once: true });
+          }
+        });
+      });
+    }
+
+    window.addEventListener('wheel', onProjectsWheel, { passive: false, capture: true });
+    window.addEventListener('scroll', onProjectsScroll, { passive: true });
+    window.addEventListener('resize', scheduleProjectsRemeasure, { passive: true });
+
+    scheduleProjectsRemeasure();
   }
 
   function initProductsPageProjectsMobileCarousel() {

@@ -856,20 +856,7 @@
   visibility: visible;
 }
 
-.site-main--products #products-projects > .pin-spacer,
-.site-main--products .pin-spacer-products-page-projects {
-  position: relative;
-  z-index: 20 !important;
-  overflow: visible !important;
-  background: #000102 !important;
-}
-
-.site-main--products #products-projects > .pin-spacer .services-projects__viewport,
-.site-main--products .pin-spacer-products-page-projects .services-projects__viewport {
-  overflow: clip !important;
-}
-
-// Desktop: pin на section (як .home-hex-projects-flow #services-projects), не на viewport.
+// Desktop: ручний wheel-lock як у каталозі, без ScrollTrigger pin-spacer.
 @media (min-width: 1025px) {
   .site-main--products #products-projects.services-projects {
     overflow: visible;
@@ -1144,7 +1131,7 @@
 
 .products-projects {
   position: relative;
-  z-index: 4;
+  z-index: 7;
   overflow: visible;
   isolation: isolate;
   background: #000102;
