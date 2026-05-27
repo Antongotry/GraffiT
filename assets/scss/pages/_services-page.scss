@@ -3547,6 +3547,19 @@
   }
 }
 
+/* /services/: без зайвого «відступу зверху» у лівій колонці (як на головній). */
+.site-main--services .services-clients__layout {
+  padding-top: #{mixins.vw(12px)};
+}
+
+.site-main--services .services-clients__copy {
+  padding-top: 0;
+}
+
+.site-main--services .services-clients__title {
+  margin-top: #{mixins.vw(40px)};
+}
+
 .services-clients__eyebrow {
   display: flex;
   align-items: center;
