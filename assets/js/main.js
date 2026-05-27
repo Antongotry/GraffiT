@@ -676,12 +676,14 @@
 
     var catalogIndex = 0;
     var catalogProgress = 0;
+    var catalogTargetProgress = 0;
     var catalogMaxDistance = 0;
     var isCatalogLocked = false;
     var lockScrollTop = 0;
     var lastScrollTop = getCurrentScrollTop();
     var animationFrame = 0;
     var lockOffset = 72;
+    var pendingReleaseDirection = 0;
 
     function getCatalogMaxIndex() {
       return Math.max(catalogCards.length - 1, 0);
@@ -731,6 +733,7 @@
     function measureCatalog() {
       catalogMaxDistance = productsPageHorizontalPinDistance(catalogTrack, catalogStage);
       catalogProgress = Math.max(0, Math.min(catalogProgress, 1));
+      catalogTargetProgress = Math.max(0, Math.min(catalogTargetProgress, 1));
     }
 
     function renderCatalog() {
@@ -742,6 +745,54 @@
       catalogIndex = catalogProgress >= 0.998 ? maxIndex : Math.round(rawIndex);
       setCatalogActiveCard(catalogIndex);
       updateCatalogButtons();
+    }
+
+    function settleCatalogAnimation() {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+
+      if (!pendingReleaseDirection) {
+        return;
+      }
+
+      if (
+        (pendingReleaseDirection > 0 && catalogProgress >= 0.998) ||
+        (pendingReleaseDirection < 0 && catalogProgress <= 0.002)
+      ) {
+        var releaseDirection = pendingReleaseDirection;
+
+        pendingReleaseDirection = 0;
+        unlockCatalog();
+        scrollImmediately(lockScrollTop + releaseDirection * 2);
+      }
+    }
+
+    function animateCatalogToTarget() {
+      if (animationFrame) {
+        return;
+      }
+
+      function tick() {
+        var diff = catalogTargetProgress - catalogProgress;
+
+        if (Math.abs(diff) < 0.0012) {
+          catalogProgress = catalogTargetProgress;
+          renderCatalog();
+          settleCatalogAnimation();
+          return;
+        }
+
+        catalogProgress += diff * 0.16;
+        renderCatalog();
+
+        if (isCatalogLocked && Math.abs(getCurrentScrollTop() - lockScrollTop) > 1) {
+          scrollImmediately(lockScrollTop);
+        }
+
+        animationFrame = window.requestAnimationFrame(tick);
+      }
+
+      animationFrame = window.requestAnimationFrame(tick);
     }
 
     function getCatalogLockTop() {
@@ -791,10 +842,10 @@
       }
 
       if (direction > 0) {
-        return catalogProgress < 0.998 && rect.top <= lockOffset && rect.bottom > lockOffset;
+        return catalogTargetProgress < 0.998 && rect.top <= lockOffset && rect.bottom > lockOffset;
       }
 
-      return catalogProgress > 0.002 && rect.top < lockOffset && rect.bottom >= lockOffset;
+      return catalogTargetProgress > 0.002 && rect.top < lockOffset && rect.bottom >= lockOffset;
     }
 
     function normalizeWheelDelta(event) {
@@ -810,24 +861,32 @@
     }
 
     function consumeWheel(delta) {
-      var nextDistance = catalogProgress * catalogMaxDistance + delta;
+      var scaledDelta = delta * 0.72;
+      var maxWheelStep = Math.max(catalogMaxDistance * 0.16, 120);
+      var clampedDelta = Math.max(-maxWheelStep, Math.min(scaledDelta, maxWheelStep));
+      var nextDistance = catalogTargetProgress * catalogMaxDistance + clampedDelta;
+      var direction = clampedDelta >= 0 ? 1 : -1;
 
-      catalogProgress = Math.max(0, Math.min(nextDistance / catalogMaxDistance, 1));
-      renderCatalog();
+      catalogTargetProgress = Math.max(0, Math.min(nextDistance / catalogMaxDistance, 1));
+      pendingReleaseDirection = 0;
 
-      if (delta > 0 && catalogProgress >= 0.998) {
-        unlockCatalog();
-        scrollImmediately(lockScrollTop + 2);
+      if (direction > 0 && catalogTargetProgress >= 0.998) {
+        pendingReleaseDirection = 1;
+      } else if (direction < 0 && catalogTargetProgress <= 0.002) {
+        pendingReleaseDirection = -1;
+      }
+
+      if (
+        pendingReleaseDirection &&
+        Math.abs(catalogTargetProgress - catalogProgress) < 0.004
+      ) {
+        catalogProgress = catalogTargetProgress;
+        renderCatalog();
+        settleCatalogAnimation();
         return;
       }
 
-      if (delta < 0 && catalogProgress <= 0.002) {
-        unlockCatalog();
-        scrollImmediately(lockScrollTop - 2);
-        return;
-      }
-
-      scrollImmediately(lockScrollTop);
+      animateCatalogToTarget();
     }
 
     function onCatalogWheel(event) {
@@ -854,7 +913,11 @@
         return;
       }
 
-      if ((direction > 0 && catalogProgress >= 0.998) || (direction < 0 && catalogProgress <= 0.002)) {
+      if (
+        ((direction > 0 && catalogTargetProgress >= 0.998) ||
+          (direction < 0 && catalogTargetProgress <= 0.002)) &&
+        Math.abs(catalogTargetProgress - catalogProgress) < 0.004
+      ) {
         unlockCatalog();
         return;
       }
@@ -884,29 +947,14 @@
     function scrollCatalogToIndex(index) {
       var clampedIndex = Math.max(0, Math.min(index, getCatalogMaxIndex()));
       var targetProgress = getCatalogMaxIndex() === 0 ? 0 : clampedIndex / getCatalogMaxIndex();
-      var startProgress = catalogProgress;
-      var startedAt = window.performance ? window.performance.now() : Date.now();
-      var duration = 420;
 
-      window.cancelAnimationFrame(animationFrame);
-
-      function tick(now) {
-        var elapsed = now - startedAt;
-        var t = Math.max(0, Math.min(elapsed / duration, 1));
-        var eased = 1 - Math.pow(1 - t, 3);
-
-        catalogProgress = startProgress + (targetProgress - startProgress) * eased;
-        renderCatalog();
-
-        if (t < 1) {
-          animationFrame = window.requestAnimationFrame(tick);
-        }
-      }
-
-      animationFrame = window.requestAnimationFrame(tick);
+      catalogTargetProgress = targetProgress;
+      pendingReleaseDirection = 0;
+      animateCatalogToTarget();
     }
 
     measureCatalog();
+    catalogTargetProgress = catalogProgress;
     renderCatalog();
 
     catalogPrevButtons.forEach(function (button) {
@@ -926,6 +974,10 @@
         if (window.innerWidth <= 1024) {
           unlockCatalog();
           catalogProgress = 0;
+          catalogTargetProgress = 0;
+          pendingReleaseDirection = 0;
+          window.cancelAnimationFrame(animationFrame);
+          animationFrame = 0;
           catalogTrack.style.transform = '';
           catalogIndex = 0;
           setCatalogActiveCard(0);
