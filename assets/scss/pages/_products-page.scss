@@ -1122,6 +1122,7 @@
 
 .site-main--products #products-projects.products-projects {
   margin-top: 0 !important;
+  padding-bottom: #{mixins.vw(100px)};
   transform: none !important;
 }
 

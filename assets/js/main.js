@@ -781,7 +781,7 @@
     }
 
     function getCatalogLockTop() {
-      return getCurrentScrollTop() + catalogSection.getBoundingClientRect().top - lockOffset;
+      return getCurrentScrollTop();
     }
 
     function stopLenis() {
@@ -1176,7 +1176,7 @@
     }
 
     function getProjectsLockTop() {
-      return getCurrentScrollTop() + section.getBoundingClientRect().top - lockOffset;
+      return getCurrentScrollTop();
     }
 
     function stopLenis() {
