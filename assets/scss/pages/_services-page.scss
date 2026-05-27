@@ -4909,26 +4909,35 @@
 
 @media (min-width: 1025px) {
   .site-main--services .services-process {
-    --process-visual-sticky-top: #{mixins.vw(242px)};
+    --process-visual-sticky-top: #{mixins.vw(320px)};
+  }
+
+  .site-main--services .services-process .services-process__layout {
+    overflow: visible;
+    padding-bottom: #{mixins.vw(220px)};
   }
 
   .site-main--services .services-process .services-process__visual {
-    transform: translateY(#{mixins.vw(70px)});
+    transform: none;
+  }
+
+  .site-main--services .services-process .services-process__visual-frame {
+    transform: translateY(#{mixins.vw(150px)});
   }
 
   .site-main--services .services-process .services-process__visual-photo {
     right: #{mixins.vw(-84px)};
-    bottom: #{mixins.vw(-100px)};
+    bottom: #{mixins.vw(-180px)};
   }
 }
 
 @media (min-width: 1501px) {
   .site-main--services .services-process {
-    --process-visual-sticky-top: #{mixins.vw(278px)};
+    --process-visual-sticky-top: #{mixins.vw(380px)};
   }
 
-  .site-main--services .services-process .services-process__visual {
-    transform: translateY(#{mixins.vw(90px)});
+  .site-main--services .services-process .services-process__visual-frame {
+    transform: translateY(#{mixins.vw(190px)});
   }
 }
 
