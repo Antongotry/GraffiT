@@ -4922,7 +4922,7 @@
 
 @media (min-width: 1025px) {
   .site-main--services .services-process {
-    --process-visual-sticky-top: #{mixins.vw(320px)};
+    --process-visual-sticky-top: #{mixins.vw(380px)};
   }
 
   .site-main--services .services-process .services-process__layout {
@@ -4935,22 +4935,26 @@
   }
 
   .site-main--services .services-process .services-process__visual-frame {
-    transform: translateY(#{mixins.vw(150px)});
+    transform: translateY(#{mixins.vw(230px)});
   }
 
   .site-main--services .services-process .services-process__visual-photo {
     right: #{mixins.vw(-84px)};
-    bottom: #{mixins.vw(-180px)};
+    bottom: #{mixins.vw(-300px)};
   }
 }
 
 @media (min-width: 1501px) {
   .site-main--services .services-process {
-    --process-visual-sticky-top: #{mixins.vw(380px)};
+    --process-visual-sticky-top: #{mixins.vw(460px)};
   }
 
   .site-main--services .services-process .services-process__visual-frame {
-    transform: translateY(#{mixins.vw(190px)});
+    transform: translateY(#{mixins.vw(280px)});
+  }
+
+  .site-main--services .services-process .services-process__visual-photo {
+    bottom: #{mixins.vw(-360px)};
   }
 }
 
