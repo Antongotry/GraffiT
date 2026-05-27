@@ -4907,6 +4907,13 @@
   }
 }
 
+@media (min-width: 1025px) {
+  .site-main--services .services-process .services-process__visual-photo {
+    right: #{mixins.vw(-84px)};
+    bottom: #{mixins.vw(-50px)};
+  }
+}
+
 /* Як на головній: додатковий хід для sticky-фото під час прокрутки етапів. */
 .site-main--services .services-process .services-process__container {
   padding-bottom: calc(#{mixins.vw(120px)} + #{mixins.vw(72px)});
