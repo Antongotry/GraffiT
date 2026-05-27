@@ -4922,7 +4922,7 @@
 
 @media (min-width: 1025px) {
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
-    --process-visual-sticky-top: #{mixins.vw(190px)};
+    --process-visual-sticky-top: #{mixins.vw(150px)};
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline {
@@ -4930,12 +4930,16 @@
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame {
-    transform: translateY(#{mixins.vw(110px)});
+    width: #{mixins.vw(580px)};
+    height: #{mixins.vw(560px)};
+    transform: translateY(#{mixins.vw(70px)});
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
-    right: #{mixins.vw(-58px)};
-    bottom: #{mixins.vw(-170px)};
+    right: #{mixins.vw(-40px)};
+    bottom: #{mixins.vw(-120px)};
+    width: #{mixins.vw(760px)};
+    height: #{mixins.vw(760px)};
   }
 
   .site-main--services .services-process {
@@ -4969,7 +4973,7 @@
 
 @media (min-width: 1501px) {
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
-    --process-visual-sticky-top: #{mixins.vw(220px)};
+    --process-visual-sticky-top: #{mixins.vw(170px)};
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline {
@@ -4977,11 +4981,16 @@
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame {
-    transform: translateY(#{mixins.vw(130px)});
+    width: #{mixins.vw(600px)};
+    height: #{mixins.vw(580px)};
+    transform: translateY(#{mixins.vw(85px)});
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
-    bottom: #{mixins.vw(-200px)};
+    right: #{mixins.vw(-46px)};
+    bottom: #{mixins.vw(-140px)};
+    width: #{mixins.vw(790px)};
+    height: #{mixins.vw(790px)};
   }
 
   .site-main--services .services-process {
