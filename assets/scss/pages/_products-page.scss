@@ -900,11 +900,12 @@
   }
 
   .site-main--products #products-projects .services-projects__nav {
-    position: static;
-    top: auto;
-    right: auto;
+    position: absolute;
+    top: #{mixins.vw(74px)};
+    right: #{mixins.vw(116px)};
+    z-index: 2;
     flex-shrink: 0;
-    align-self: flex-start;
+    align-self: auto;
     margin: 0;
   }
 
