@@ -4525,14 +4525,14 @@
 }
 
 .services-process {
-  --process-visual-sticky-top: #{mixins.vw(122px)};
+  --process-visual-sticky-top: #{mixins.vw(182px)};
   position: relative;
   overflow-x: clip;
   overflow-y: visible;
   background: var(--color-background);
 
   @media (min-width: 1501px) {
-    --process-visual-sticky-top: #{mixins.vw(158px)};
+    --process-visual-sticky-top: #{mixins.vw(218px)};
   }
 
   @include mixins.mobile {
