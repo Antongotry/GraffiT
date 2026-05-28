@@ -688,9 +688,17 @@
 
 .mediahub-capabilities.services-projects {
   --mediahub-cap-visual-h: #{mixins.vw(216px)};
-  --mediahub-cap-card-height: #{mixins.vw(456px)};
   --mediahub-cap-body-gap: #{mixins.vw(44px)};
   --mediahub-cap-result-gap: #{mixins.vw(40px)};
+  --mediahub-cap-card-pad: #{mixins.vw(28px)};
+  /* visual + gaps + body/result + padding — не обрізати синій блок «Результат». */
+  --mediahub-cap-card-height: max(
+    #{mixins.vw(520px)},
+    calc(
+      var(--mediahub-cap-card-pad) * 2 + var(--mediahub-cap-visual-h) + var(--mediahub-cap-body-gap) +
+        var(--mediahub-cap-result-gap) + #{mixins.vw(128px)}
+    )
+  );
   position: relative;
   z-index: 70;
   overflow: visible;
@@ -716,19 +724,22 @@
     overflow: hidden;
     margin-top: calc(#{mixins.vw(16px)} + 24px);
     margin-bottom: 0;
-    height: var(--mediahub-cap-card-height);
+    height: auto;
     min-height: var(--mediahub-cap-card-height);
   }
 
   .mediahub-capabilities .services-projects__track {
     align-items: stretch;
-    height: 100%;
+    height: auto;
+    min-height: var(--mediahub-cap-card-height);
   }
 
   .mediahub-capabilities .mediahub-capability-card {
     align-self: stretch;
-    height: 100%;
+    height: auto;
     min-height: var(--mediahub-cap-card-height);
+    max-height: none;
+    overflow: visible;
   }
 }
 
@@ -736,9 +747,16 @@
 @media (min-width: 1025px) and (max-width: 1600px) {
   .mediahub-capabilities.services-projects {
     --mediahub-cap-visual-h: #{mixins.vw(192px)};
-    --mediahub-cap-card-height: #{mixins.vw(432px)};
     --mediahub-cap-body-gap: #{mixins.vw(38px)};
     --mediahub-cap-result-gap: #{mixins.vw(36px)};
+    --mediahub-cap-card-pad: #{mixins.vw(28px)};
+    --mediahub-cap-card-height: max(
+      #{mixins.vw(488px)},
+      calc(
+        var(--mediahub-cap-card-pad) * 2 + var(--mediahub-cap-visual-h) + var(--mediahub-cap-body-gap) +
+          var(--mediahub-cap-result-gap) + #{mixins.vw(120px)}
+      )
+    );
   }
 
   .mediahub-capabilities .services-projects__viewport {
@@ -833,10 +851,14 @@
   flex-direction: column;
   flex: 0 0 #{mixins.vw(670px)};
   width: #{mixins.vw(670px)};
-  padding: #{mixins.vw(28px)};
+  padding: var(--mediahub-cap-card-pad, #{mixins.vw(28px)});
   border-radius: #{mixins.vw(12px)};
   background: #353e4d;
   overflow: hidden;
+
+  @media (min-width: 1025px) {
+    overflow: visible;
+  }
 
   @include mixins.mobile {
     $card-w: calc(100vw - #{mixins.mvw(32px)});
