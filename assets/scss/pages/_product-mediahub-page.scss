@@ -687,9 +687,10 @@
    ------------------------------------------------------------------ */
 
 .mediahub-capabilities.services-projects {
-  --mediahub-cap-visual-h: #{mixins.vw(180px)};
-  --mediahub-cap-card-height: #{mixins.vw(420px)};
+  --mediahub-cap-visual-h: #{mixins.vw(216px)};
+  --mediahub-cap-card-height: #{mixins.vw(456px)};
   --mediahub-cap-body-gap: #{mixins.vw(44px)};
+  --mediahub-cap-result-gap: #{mixins.vw(40px)};
   position: relative;
   z-index: 70;
   overflow: visible;
@@ -734,9 +735,10 @@
 /* Середні десктопи */
 @media (min-width: 1025px) and (max-width: 1600px) {
   .mediahub-capabilities.services-projects {
-    --mediahub-cap-visual-h: #{mixins.vw(160px)};
-    --mediahub-cap-card-height: #{mixins.vw(400px)};
+    --mediahub-cap-visual-h: #{mixins.vw(192px)};
+    --mediahub-cap-card-height: #{mixins.vw(432px)};
     --mediahub-cap-body-gap: #{mixins.vw(38px)};
+    --mediahub-cap-result-gap: #{mixins.vw(36px)};
   }
 
   .mediahub-capabilities .services-projects__viewport {
@@ -899,14 +901,10 @@
 
 .mediahub-capability-card__result {
   flex: 0 0 auto;
-  margin-top: #{mixins.vw(22px)};
+  margin-top: var(--mediahub-cap-result-gap, #{mixins.vw(40px)});
   padding: #{mixins.vw(24px)};
   border-radius: #{mixins.vw(12px)};
   background: #0073e6;
-
-  @media (min-width: 1025px) {
-    margin-top: auto;
-  }
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(18px)};
