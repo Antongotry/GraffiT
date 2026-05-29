@@ -426,6 +426,17 @@
     return Math.max(track.scrollWidth - stage.clientWidth, 0);
   }
 
+  function productsPageStageInLockBand(stage, lockOffset) {
+    if (!stage) {
+      return false;
+    }
+
+    var stageRect = stage.getBoundingClientRect();
+
+    return stageRect.top <= lockOffset && stageRect.bottom > lockOffset;
+  }
+
+
   function isProductsPageMain() {
     return !!document.querySelector('.site-main--products');
   }
@@ -835,17 +846,47 @@
     }
 
     function shouldLockForDirection(direction) {
-      var rect = catalogSection.getBoundingClientRect();
-
       if (catalogMaxDistance <= 0) {
         return false;
       }
 
-      if (direction > 0) {
-        return catalogTargetProgress < 0.998 && rect.top <= lockOffset && rect.bottom > lockOffset;
+      if (!productsPageStageInLockBand(catalogStage, lockOffset)) {
+        return false;
       }
 
-      return catalogTargetProgress > 0.002 && rect.top < lockOffset && rect.bottom >= lockOffset;
+      if (direction > 0) {
+        return catalogTargetProgress < 0.998;
+      }
+
+      return catalogTargetProgress > 0.002;
+    }
+
+    function syncCatalogProgressFromViewport() {
+      if (isCatalogLocked || catalogMaxDistance <= 0) {
+        return;
+      }
+
+      var stageRect = catalogStage.getBoundingClientRect();
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+      var changed = false;
+
+      if (stageRect.bottom <= 0) {
+        if (catalogProgress !== 1 || catalogTargetProgress !== 1) {
+          catalogProgress = 1;
+          catalogTargetProgress = 1;
+          changed = true;
+        }
+      } else if (stageRect.top >= viewportHeight) {
+        if (catalogProgress !== 0 || catalogTargetProgress !== 0) {
+          catalogProgress = 0;
+          catalogTargetProgress = 0;
+          changed = true;
+        }
+      }
+
+      if (changed) {
+        renderCatalog();
+      }
     }
 
     function normalizeWheelDelta(event) {
@@ -896,6 +937,7 @@
       }
 
       measureCatalog();
+      syncCatalogProgressFromViewport();
 
       if (catalogMaxDistance <= 0) {
         unlockCatalog();
@@ -933,6 +975,7 @@
       }
 
       measureCatalog();
+      syncCatalogProgressFromViewport();
 
       var currentTop = getCurrentScrollTop();
       var direction = currentTop >= lastScrollTop ? 1 : -1;
@@ -1230,17 +1273,47 @@
     }
 
     function shouldLockForDirection(direction) {
-      var rect = section.getBoundingClientRect();
-
       if (projectsMaxDistance <= 0) {
         return false;
       }
 
-      if (direction > 0) {
-        return projectsTargetProgress < 0.998 && rect.top <= lockOffset && rect.bottom > lockOffset;
+      if (!productsPageStageInLockBand(stage, lockOffset)) {
+        return false;
       }
 
-      return projectsTargetProgress > 0.002 && rect.top < lockOffset && rect.bottom >= lockOffset;
+      if (direction > 0) {
+        return projectsTargetProgress < 0.998;
+      }
+
+      return projectsTargetProgress > 0.002;
+    }
+
+    function syncProjectsProgressFromViewport() {
+      if (isProjectsLocked || projectsMaxDistance <= 0) {
+        return;
+      }
+
+      var stageRect = stage.getBoundingClientRect();
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+      var changed = false;
+
+      if (stageRect.bottom <= 0) {
+        if (projectsProgress !== 1 || projectsTargetProgress !== 1) {
+          projectsProgress = 1;
+          projectsTargetProgress = 1;
+          changed = true;
+        }
+      } else if (stageRect.top >= viewportHeight) {
+        if (projectsProgress !== 0 || projectsTargetProgress !== 0) {
+          projectsProgress = 0;
+          projectsTargetProgress = 0;
+          changed = true;
+        }
+      }
+
+      if (changed) {
+        renderProjects();
+      }
     }
 
     function normalizeWheelDelta(event) {
@@ -1291,6 +1364,7 @@
       }
 
       measureProjects();
+      syncProjectsProgressFromViewport();
 
       if (projectsMaxDistance <= 0) {
         unlockProjects();
@@ -1328,6 +1402,7 @@
       }
 
       measureProjects();
+      syncProjectsProgressFromViewport();
 
       var currentTop = getCurrentScrollTop();
       var direction = currentTop >= lastScrollTop ? 1 : -1;
