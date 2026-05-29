@@ -3809,6 +3809,7 @@
   align-items: flex-start;
   justify-content: center;
   padding-top: #{mixins.vw(52px)};
+  border-radius: 0;
   background: url('../images/trust-ribbon-shape.svg') center / 100% 100% no-repeat;
   color: #ffffff;
 
