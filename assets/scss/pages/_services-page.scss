@@ -5109,7 +5109,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 }
 
-/* Головна — sticky-фото ban1440, позиція як у макеті. */
+/* Головна (ban1440) + /services/ (sf_result) — однаковий sticky-скрол фото. */
 @media (min-width: 1025px) {
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
     --process-visual-sticky-top: #{mixins.vw(128px)};
@@ -5132,7 +5132,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     height: #{mixins.vw(760px)};
   }
 
-  /* /services/ — sf_result: нижче в колонці, більший хід при скролі етапів (як було до злиття з home). */
   .site-main--services .services-process {
     --process-visual-sticky-top: #{mixins.vw(128px)};
   }
@@ -5142,18 +5141,18 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 
   .site-main--services .services-process .services-process__visual {
-    align-self: end;
+    align-self: start;
   }
 
   .site-main--services .services-process .services-process__visual-frame {
     width: #{mixins.vw(580px)};
     height: #{mixins.vw(560px)};
-    transform: translateY(#{mixins.vw(70px)});
+    transform: translateY(#{mixins.vw(42px)});
   }
 
   .site-main--services .services-process .services-process__visual-photo {
     right: #{mixins.vw(-40px)};
-    bottom: #{mixins.vw(-120px)};
+    bottom: #{mixins.vw(-96px)};
     width: #{mixins.vw(760px)};
     height: #{mixins.vw(760px)};
   }
@@ -5192,12 +5191,12 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   .site-main--services .services-process .services-process__visual-frame {
     width: #{mixins.vw(600px)};
     height: #{mixins.vw(580px)};
-    transform: translateY(#{mixins.vw(85px)});
+    transform: translateY(#{mixins.vw(52px)});
   }
 
   .site-main--services .services-process .services-process__visual-photo {
     right: #{mixins.vw(-46px)};
-    bottom: #{mixins.vw(-140px)};
+    bottom: #{mixins.vw(-112px)};
     width: #{mixins.vw(790px)};
     height: #{mixins.vw(790px)};
   }
