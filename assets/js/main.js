@@ -464,7 +464,25 @@
     };
   }
 
-  function productsPageCatalogInEngageZone(section, stage) {
+  function productsPageCatalogGetScrollTop() {
+    var scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    var lenis = window.__graffitLenis;
+
+    if (lenis && typeof lenis.scroll === 'number') {
+      scrollTop = lenis.scroll;
+    }
+
+    return scrollTop;
+  }
+
+  /*
+   * Чи можна перехопити wheel на горизонтальний скрол.
+   * Строга зона (header+stage ±50px) з Lenis майже ніколи не спрацьовує — тому:
+   * 1) діапазон scrollY навколо ідеальної точки engage;
+   * 2) широка смуга по положенню header (як на скріні ~46vh);
+   * 3) stage перетинає лінію під заголовком.
+   */
+  function productsPageCatalogCanEngage(section, stage, scrollTop) {
     var metrics = productsPageCatalogEngageMetrics(section, stage);
 
     if (!metrics) {
@@ -474,13 +492,36 @@
     var headerRect = metrics.header.getBoundingClientRect();
     var stageRect = stage.getBoundingClientRect();
     var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+    var visiblePx = Math.min(stageRect.bottom, viewportHeight) - Math.max(stageRect.top, 0);
 
-    return (
-      Math.abs(headerRect.top - metrics.targetHeaderTop) <= metrics.tolerance &&
-      Math.abs(stageRect.top - metrics.targetStageTop) <= metrics.stageTolerance &&
-      stageRect.bottom > 0 &&
-      stageRect.top < viewportHeight
-    );
+    if (stageRect.top >= viewportHeight || stageRect.bottom <= 0) {
+      return false;
+    }
+
+    if (visiblePx < Math.min(stageRect.height * 0.22, 100)) {
+      return false;
+    }
+
+    if (typeof scrollTop !== 'number') {
+      scrollTop = productsPageCatalogGetScrollTop();
+    }
+
+    var idealScroll = productsPageCatalogIdealEngageScroll(section, stage);
+    var scrollBand = Math.max(220, Math.round(viewportHeight * 0.28));
+
+    if (Math.abs(scrollTop - idealScroll) <= scrollBand) {
+      return true;
+    }
+
+    var headerBand = Math.max(160, Math.round(viewportHeight * 0.18));
+
+    if (Math.abs(headerRect.top - metrics.targetHeaderTop) <= headerBand) {
+      return true;
+    }
+
+    var pinLine = metrics.targetStageTop;
+
+    return stageRect.top <= pinLine + 90 && stageRect.bottom > pinLine - 24;
   }
 
   function productsPageCatalogIdealEngageScroll(section, stage) {
@@ -490,16 +531,13 @@
       return 0;
     }
 
-    var scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
-    var lenis = window.__graffitLenis;
-
-    if (lenis && typeof lenis.scroll === 'number') {
-      scrollTop = lenis.scroll;
-    }
-
     return Math.max(
       0,
-      Math.round(scrollTop + metrics.header.getBoundingClientRect().top - metrics.targetHeaderTop)
+      Math.round(
+        productsPageCatalogGetScrollTop() +
+          metrics.header.getBoundingClientRect().top -
+          metrics.targetHeaderTop
+      )
     );
   }
 
@@ -909,7 +947,7 @@
         return;
       }
 
-      if (!productsPageCatalogInEngageZone(catalogSection, catalogStage)) {
+      if (!productsPageCatalogCanEngage(catalogSection, catalogStage, getCurrentScrollTop())) {
         return;
       }
 
@@ -918,30 +956,30 @@
       var lenis = window.__graffitLenis;
 
       lockScrollTop = idealTop;
-      isCatalogLocked = true;
       document.documentElement.classList.add('is-products-catalog-wheel-locked');
 
-      if (Math.abs(currentTop - idealTop) <= 6) {
+      function finishLock() {
+        isCatalogSnapPending = false;
+        isCatalogLocked = true;
         stopLenis();
-        scrollImmediately(idealTop);
+        scrollImmediately(lockScrollTop);
+      }
+
+      if (Math.abs(currentTop - idealTop) <= 6) {
+        finishLock();
         return;
       }
 
       if (lenis && typeof lenis.scrollTo === 'function') {
         isCatalogSnapPending = true;
         lenis.scrollTo(idealTop, {
-          duration: 0.32,
-          onComplete: function () {
-            isCatalogSnapPending = false;
-            stopLenis();
-            scrollImmediately(idealTop);
-          }
+          duration: 0.28,
+          onComplete: finishLock
         });
         return;
       }
 
-      stopLenis();
-      scrollImmediately(idealTop);
+      finishLock();
     }
 
     function unlockCatalog() {
@@ -961,7 +999,7 @@
         return false;
       }
 
-      if (!productsPageCatalogInEngageZone(catalogSection, catalogStage)) {
+      if (!productsPageCatalogCanEngage(catalogSection, catalogStage, getCurrentScrollTop())) {
         return false;
       }
 
@@ -1062,7 +1100,12 @@
         lockCatalog();
       }
 
-      if (!isCatalogLocked || isCatalogSnapPending) {
+      if (isCatalogSnapPending) {
+        event.preventDefault();
+        return;
+      }
+
+      if (!isCatalogLocked) {
         return;
       }
 
