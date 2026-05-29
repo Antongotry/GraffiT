@@ -762,7 +762,7 @@
     var lockScrollTop = 0;
     var lastScrollTop = getCurrentScrollTop();
     var animationFrame = 0;
-    var lockOffset = 194;
+    var lockOffset = 226;
     var pendingReleaseDirection = 0;
 
     function getProjectsMaxIndex() {
