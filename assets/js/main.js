@@ -426,6 +426,83 @@
     return Math.max(track.scrollWidth - stage.clientWidth, 0);
   }
 
+  function productsPageGetEngageHeaderTop(siteHeader, viewportHeight) {
+    var siteBottom = siteHeader ? siteHeader.getBoundingClientRect().bottom : 0;
+    var minTop = siteBottom + 24;
+    /* ~428px на типовому ноутбуці — комфортна позиція «Каталог продуктів» під шапкою. */
+    var preferredTop = Math.round(viewportHeight * 0.46);
+
+    return Math.max(minTop, preferredTop);
+  }
+
+  function productsPageCatalogEngageMetrics(section, stage) {
+    if (!section || !stage) {
+      return null;
+    }
+
+    var header = section.querySelector('.products-catalog__header');
+
+    if (!header) {
+      return null;
+    }
+
+    var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 900;
+    var siteHeader = document.querySelector('.site-header');
+    var targetHeaderTop = productsPageGetEngageHeaderTop(siteHeader, viewportHeight);
+    var headerHeight = header.getBoundingClientRect().height || header.offsetHeight || 40;
+    var stageMargin = parseFloat(window.getComputedStyle(stage).marginTop) || 0;
+    var targetStageTop = targetHeaderTop + headerHeight + stageMargin;
+    var tolerance = Math.max(52, Math.round(viewportHeight * 0.055));
+    var stageTolerance = Math.max(48, Math.round(viewportHeight * 0.05));
+
+    return {
+      header: header,
+      targetHeaderTop: targetHeaderTop,
+      targetStageTop: targetStageTop,
+      tolerance: tolerance,
+      stageTolerance: stageTolerance
+    };
+  }
+
+  function productsPageCatalogInEngageZone(section, stage) {
+    var metrics = productsPageCatalogEngageMetrics(section, stage);
+
+    if (!metrics) {
+      return false;
+    }
+
+    var headerRect = metrics.header.getBoundingClientRect();
+    var stageRect = stage.getBoundingClientRect();
+    var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+
+    return (
+      Math.abs(headerRect.top - metrics.targetHeaderTop) <= metrics.tolerance &&
+      Math.abs(stageRect.top - metrics.targetStageTop) <= metrics.stageTolerance &&
+      stageRect.bottom > 0 &&
+      stageRect.top < viewportHeight
+    );
+  }
+
+  function productsPageCatalogIdealEngageScroll(section, stage) {
+    var metrics = productsPageCatalogEngageMetrics(section, stage);
+
+    if (!metrics) {
+      return 0;
+    }
+
+    var scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    var lenis = window.__graffitLenis;
+
+    if (lenis && typeof lenis.scroll === 'number') {
+      scrollTop = lenis.scroll;
+    }
+
+    return Math.max(
+      0,
+      Math.round(scrollTop + metrics.header.getBoundingClientRect().top - metrics.targetHeaderTop)
+    );
+  }
+
   function productsPageStageInLockBand(stage, lockOffset) {
     if (!stage) {
       return false;
@@ -672,6 +749,7 @@
       return;
     }
 
+    var catalogHeader = catalogSection.querySelector('.products-catalog__header');
     var catalogStage = catalogSection.querySelector('.js-products-catalog-stage');
     var catalogTrack = catalogSection.querySelector('.js-products-catalog-track');
     var catalogCards = Array.prototype.slice.call(catalogSection.querySelectorAll('.product-catalog-card'));
@@ -682,7 +760,7 @@
       catalogSection.querySelectorAll('.js-products-catalog-next')
     );
 
-    if (!catalogStage || !catalogTrack || catalogCards.length === 0) {
+    if (!catalogHeader || !catalogStage || !catalogTrack || catalogCards.length === 0) {
       return;
     }
 
@@ -696,8 +774,8 @@
     var lockScrollTop = 0;
     var lastScrollTop = getCurrentScrollTop();
     var animationFrame = 0;
-    var lockOffset = 112;
     var pendingReleaseDirection = 0;
+    var isCatalogSnapPending = false;
 
     function getCatalogMaxIndex() {
       return Math.max(catalogCards.length - 1, 0);
@@ -793,10 +871,14 @@
           return;
         }
 
-        catalogProgress += diff * 0.16;
+        catalogProgress += diff * 0.2;
         renderCatalog();
 
-        if (isCatalogLocked && Math.abs(getCurrentScrollTop() - lockScrollTop) > 1) {
+        if (
+          isCatalogLocked &&
+          !isCatalogSnapPending &&
+          Math.abs(getCurrentScrollTop() - lockScrollTop) > 3
+        ) {
           scrollImmediately(lockScrollTop);
         }
 
@@ -806,8 +888,8 @@
       animationFrame = window.requestAnimationFrame(tick);
     }
 
-    function getCatalogLockTop() {
-      return getCurrentScrollTop();
+    function getCatalogIdealEngageScrollTop() {
+      return productsPageCatalogIdealEngageScroll(catalogSection, catalogStage);
     }
 
     function stopLenis() {
@@ -823,15 +905,43 @@
     }
 
     function lockCatalog() {
-      if (isCatalogLocked || catalogMaxDistance <= 0) {
+      if (isCatalogLocked || isCatalogSnapPending || catalogMaxDistance <= 0) {
         return;
       }
 
-      lockScrollTop = getCatalogLockTop();
+      if (!productsPageCatalogInEngageZone(catalogSection, catalogStage)) {
+        return;
+      }
+
+      var idealTop = getCatalogIdealEngageScrollTop();
+      var currentTop = getCurrentScrollTop();
+      var lenis = window.__graffitLenis;
+
+      lockScrollTop = idealTop;
       isCatalogLocked = true;
       document.documentElement.classList.add('is-products-catalog-wheel-locked');
+
+      if (Math.abs(currentTop - idealTop) <= 6) {
+        stopLenis();
+        scrollImmediately(idealTop);
+        return;
+      }
+
+      if (lenis && typeof lenis.scrollTo === 'function') {
+        isCatalogSnapPending = true;
+        lenis.scrollTo(idealTop, {
+          duration: 0.32,
+          onComplete: function () {
+            isCatalogSnapPending = false;
+            stopLenis();
+            scrollImmediately(idealTop);
+          }
+        });
+        return;
+      }
+
       stopLenis();
-      scrollImmediately(lockScrollTop);
+      scrollImmediately(idealTop);
     }
 
     function unlockCatalog() {
@@ -840,6 +950,7 @@
       }
 
       isCatalogLocked = false;
+      isCatalogSnapPending = false;
       document.documentElement.classList.remove('is-products-catalog-wheel-locked');
       startLenis();
       lastScrollTop = getCurrentScrollTop();
@@ -850,7 +961,7 @@
         return false;
       }
 
-      if (!productsPageStageInLockBand(catalogStage, lockOffset)) {
+      if (!productsPageCatalogInEngageZone(catalogSection, catalogStage)) {
         return false;
       }
 
@@ -947,11 +1058,11 @@
       var delta = normalizeWheelDelta(event);
       var direction = delta >= 0 ? 1 : -1;
 
-      if (!isCatalogLocked && shouldLockForDirection(direction)) {
+      if (!isCatalogLocked && !isCatalogSnapPending && shouldLockForDirection(direction)) {
         lockCatalog();
       }
 
-      if (!isCatalogLocked) {
+      if (!isCatalogLocked || isCatalogSnapPending) {
         return;
       }
 
@@ -969,7 +1080,7 @@
     }
 
     function onCatalogScroll() {
-      if (window.innerWidth <= 1024 || isCatalogLocked) {
+      if (window.innerWidth <= 1024 || isCatalogLocked || isCatalogSnapPending) {
         lastScrollTop = getCurrentScrollTop();
         return;
       }
@@ -977,14 +1088,7 @@
       measureCatalog();
       syncCatalogProgressFromViewport();
 
-      var currentTop = getCurrentScrollTop();
-      var direction = currentTop >= lastScrollTop ? 1 : -1;
-
-      lastScrollTop = currentTop;
-
-      if (shouldLockForDirection(direction)) {
-        lockCatalog();
-      }
+      lastScrollTop = getCurrentScrollTop();
     }
 
     function scrollCatalogToIndex(index) {
