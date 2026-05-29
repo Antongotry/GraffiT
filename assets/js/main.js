@@ -1345,18 +1345,19 @@
       }
 
       /*
-       * /products/: pin коли картки вище у вʼюпорті (менший % = раніше/вище; 68% було занизько).
-       * Інші сторінки: класичний pin секції зверху.
+       * trigger must be the outer section (never a child of the pinned element):
+       * when GSAP pins viewport (position:fixed), any child trigger moves with it,
+       * breaking start/end scroll position calculations.
        */
       var scrollTriggerConfig = {
-        trigger: isProductsPage ? stage : section,
-        start: isProductsPage ? 'top 36%' : 'top top',
+        trigger: section,
+        start: 'top top',
         end: function () {
           return 'clamp(+=' + getPinDistance() + ')';
         },
         pin: viewport,
         scrub: isProductsPage ? 0.85 : 1,
-        anticipatePin: 1,
+        anticipatePin: 0,
         pinSpacing: true,
         invalidateOnRefresh: true,
         refreshPriority: isProductsPage ? -2 : 0,
