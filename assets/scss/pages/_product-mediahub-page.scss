@@ -935,7 +935,7 @@
   }
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(18px)};
+    margin-top: auto;
     padding: #{mixins.mvw(20px)};
     border-radius: #{mixins.mvw(10px)};
   }
