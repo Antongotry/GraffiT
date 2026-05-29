@@ -1311,9 +1311,10 @@
   clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%);
 
   @include mixins.mobile {
-    /* Mobile: clip-path directly on viewport (like #home-about), pseudo-elements hidden. */
     clip-path: polygon(0 0, 50% #{mixins.mvw(36px)}, 100% 0, 100% 100%, 0 100%);
     padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(36px)});
+    padding-bottom: #{mixins.mvw(40px)};
+    background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 
     &::before,
     &::after {
