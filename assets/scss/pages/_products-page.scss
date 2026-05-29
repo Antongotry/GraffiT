@@ -2,8 +2,8 @@
 
 .site-main.site-main--products {
   background: #000102;
-  /* Як на /services/: hidden на main ламає pin/sticky і дає «проєкти над етапом 4». */
-  overflow-x: clip;
+  /* visible-x — інакше translate track каталогу обрізається по краях main. */
+  overflow-x: visible;
   overflow-y: visible;
 
   /*
@@ -409,14 +409,19 @@
 
 @media (min-width: 1025px) {
   .site-main--products .products-catalog {
-    overflow-x: clip;
-    overflow-y: visible;
+    overflow: visible;
+  }
+
+  .site-main--products .pin-spacer.pin-spacer-products-catalog-pin,
+  .site-main--products .pin-spacer:has(> .products-catalog__viewport) {
+    overflow: visible;
   }
 
   /* Нижній шпиль у #000102 — стик із bow-tie inquiry (верхня «долина»). */
   .site-main--products .products-catalog__viewport {
     /* Більше повітря під site-header під час горизонтального скролу. */
     padding-top: #{mixins.vw(56px)};
+    overflow: visible;
     clip-path: polygon(
       0 0,
       100% 0,
@@ -426,15 +431,18 @@
     );
   }
 
+  .site-main--products .products-catalog__container {
+    overflow: visible;
+  }
+
   .site-main--products .products-catalog__stage {
-    overflow: hidden;
+    overflow: visible;
     /* Було 128px — зменшуємо відступ між header і картками вдвічі. */
     margin-top: #{mixins.vw(64px)};
   }
 
   .site-main--products .products-catalog__track {
     will-change: transform;
-    contain: layout style;
   }
 
 }
