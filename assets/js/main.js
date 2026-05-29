@@ -1343,12 +1343,12 @@
       }
 
       /*
-       * /products/: pin трохи раніше — коли секція каталогу заходить у кадр (header + картки).
+       * /products/: pin коли картки вище у вʼюпорті (менший % = раніше/вище; 68% було занизько).
        * Інші сторінки: класичний pin секції зверху.
        */
       var scrollTriggerConfig = {
-        trigger: isProductsPage ? section : section,
-        start: isProductsPage ? 'top 68%' : 'top top',
+        trigger: isProductsPage ? stage : section,
+        start: isProductsPage ? 'top 40%' : 'top top',
         end: function () {
           return 'clamp(+=' + getPinDistance() + ')';
         },
