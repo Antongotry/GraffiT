@@ -721,11 +721,18 @@
 
 @media (min-width: 1025px) {
   .mediahub-capabilities .services-projects__stage {
-    overflow: hidden;
+    /* visible — щоб GSAP translate не обрізав карточки по краях. */
+    overflow: visible;
     margin-top: calc(#{mixins.vw(16px)} + 24px);
     margin-bottom: 0;
     height: var(--mediahub-cap-card-height);
     min-height: var(--mediahub-cap-card-height);
+  }
+
+  /* pin-spacer обгортає секцію при pin; overflow visible — карточки не обрізаються. */
+  .site-main--product-mediahub .pin-spacer:has(> #mediahub-capabilities),
+  .site-main--product-mediahub #mediahub-capabilities.mediahub-capabilities {
+    overflow: visible;
   }
 
   .mediahub-capabilities .services-projects__track {

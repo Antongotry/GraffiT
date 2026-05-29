@@ -552,7 +552,8 @@
           end: function () {
             var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
 
-            if (isHomeProjects || isServicesProjectsPage) {
+            /* Mediahub/home/services: повний overflow щоб швидкість = 1px вертикального → 1px горизонтального. */
+            if (isHomeProjects || isServicesProjectsPage || isMediahubProjects) {
               return 'clamp(+=' + overflow + ')';
             }
 
@@ -563,7 +564,8 @@
            * (раніше pin тільки на viewport + translateY на .__container зсував текст відносно фону).
            */
           pin: (isHomeProjects || isMediahubProjects || isServicesProjectsPage) ? section : viewport,
-          scrub: true,
+          /* scrub: 1 — плавна інтерполяція з Lenis; scrub: true без числа дає ривки. */
+          scrub: 1,
           anticipatePin: 0,
           invalidateOnRefresh: true,
           onToggle: function () {
