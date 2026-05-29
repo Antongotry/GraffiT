@@ -1490,33 +1490,18 @@
     overflow: visible;
     mask-image: none;
     -webkit-mask-image: none;
-    transform: none !important;
-    left: auto !important;
   }
 
   .mediahub-about .services-clients__cards-track {
-    display: flex;
-    flex-direction: column;
-    gap: #{mixins.mvw(20px)};
     width: min(100%, #{mixins.mvw(355px)});
     margin-inline: auto;
-    margin-top: 0;
-    padding-top: #{mixins.mvw(16px)};
-    padding-bottom: #{mixins.mvw(56px)};
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
   }
 
-  /* Mobile: plain stacked list, no sticky, no GSAP pin — scrolls naturally with the page. */
+  /* Mobile: CSS sticky stacking — same as services page. Base .trust-card mobile styles apply. */
   .mediahub-about .services-clients__cards-track .trust-card {
-    position: relative;
-    top: auto;
-    display: flex;
-    flex-direction: column;
-    height: #{mixins.mvw(240px)};
-    min-height: #{mixins.mvw(240px)};
-    max-height: #{mixins.mvw(240px)};
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
