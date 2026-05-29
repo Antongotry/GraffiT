@@ -14,6 +14,7 @@ $section_id = trim((string) ($args['section_id'] ?? ''));
 $cta_label = trim((string) ($args['cta_label'] ?? ''));
 $cta_source = trim((string) ($args['cta_source'] ?? $section_id));
 $cta_source_label = trim((string) ($args['cta_source_label'] ?? $cta_label));
+$section_title = $args['section_title'] ?? null;
 
 $section_classes = ['services-clients'];
 
@@ -78,7 +79,11 @@ $trust_cards = [
                     </div>
 
                     <h2 class="services-clients__title" id="services-clients-title">
-                        Уже 18 років наші рішення працюють у компаніях, де якість, безпека й надійність мають критичне значення. Нас обирають ті, хто не може дозволити собі збоїв – і саме тому довіряють <strong>GraffIT</strong>.
+                        <?php if ($section_title !== null) : ?>
+                            <?php echo wp_kses_post($section_title); ?>
+                        <?php else : ?>
+                            Уже 18 років наші рішення працюють у компаніях, де якість, безпека й надійність мають критичне значення. Нас обирають ті, хто не може дозволити собі збоїв – і саме тому довіряють <strong>GraffIT</strong>.
+                        <?php endif; ?>
                     </h2>
 
                     <p class="services-clients__text">
