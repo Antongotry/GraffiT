@@ -617,6 +617,11 @@
     margin-top: #{mixins.vw(64px)};
     font-size: #{mixins.vw(32px)};
     line-height: 1.48;
+    text-wrap: balance;
+
+    .services-clients__title-line {
+      display: block;
+    }
   }
 
   .services-clients__text {
@@ -704,6 +709,10 @@
       margin-top: #{mixins.mvw(24px)};
       font-size: #{mixins.mvw(22px)};
       line-height: 1.36;
+
+      .services-clients__title-line {
+        display: inline;
+      }
     }
 
     .services-clients__text {
