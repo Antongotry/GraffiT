@@ -542,9 +542,7 @@
             var overflow = Math.max(track.scrollWidth - stage.clientWidth, 0);
 
             if (isHomeProjects || isServicesProjectsPage) {
-              return 'clamp(+=' + (isServicesProjectsPage
-                ? servicesBenefitsPinDistance(track, stage)
-                : overflow) + ')';
+              return 'clamp(+=' + overflow + ')';
             }
 
             return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage) + ')';
@@ -553,7 +551,7 @@
            * Головна: pin на всю секцію — фон, __bg і ::before рухаються одним шаром з контентом
            * (раніше pin тільки на viewport + translateY на .__container зсував текст відносно фону).
            */
-          pin: (isHomeProjects || isMediahubProjects) ? section : viewport,
+          pin: (isHomeProjects || isMediahubProjects || isServicesProjectsPage) ? section : viewport,
           scrub: true,
           anticipatePin: 0,
           invalidateOnRefresh: true,
