@@ -1818,7 +1818,7 @@
           trigger: section,
           /* mediahub-clients: refresh last (after process pin-spacer) so start position is correct;
              start when section is 200px past viewport top → full left copy visible on capture. */
-          start: section.id === 'mediahub-clients' ? 'top top-=200' : 'top top',
+          start: section.id === 'mediahub-clients' ? 'top top-=150' : 'top top',
           end: function () {
             // Clamp pin distance to the document scroll bounds so the spacer
             // cannot create a blank tail after the footer on short pages.
