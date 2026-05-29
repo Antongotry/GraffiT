@@ -1364,11 +1364,10 @@
 }
 
 .mediahub-about .services-clients__cta {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  max-width: #{mixins.vw(560px)};
+  min-width: #{mixins.vw(280px)};
   margin-top: #{mixins.vw(32px)};
   padding: #{mixins.vw(16px)} #{mixins.vw(32px)};
   border-radius: #{mixins.vw(10px)};
@@ -1387,7 +1386,7 @@
   }
 
   @include mixins.mobile {
-    max-width: 100%;
+    min-width: 0;
     margin-top: #{mixins.mvw(24px)};
     padding: #{mixins.mvw(14px)} #{mixins.mvw(28px)};
     border-radius: #{mixins.mvw(10px)};
