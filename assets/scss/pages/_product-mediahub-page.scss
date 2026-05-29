@@ -1355,7 +1355,7 @@
 
 .mediahub-about .services-clients__text {
   width: #{mixins.vw(560px)};
-  margin-top: #{mixins.vw(160px)};
+  margin-top: #{mixins.vw(240px)};
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(24px)};
@@ -1483,7 +1483,8 @@
     transform: none !important;
   }
 
-  .mediahub-about .services-clients__cards-track .trust-card {
+  /* CSS sticky fallback — removed when GSAP takes over (is-mediahub-clients-stacked). */
+  .mediahub-about:not(.is-mediahub-clients-stacked) .services-clients__cards-track .trust-card {
     position: sticky;
     top: #{mixins.mvw(64px)};
     display: flex;
@@ -1491,15 +1492,30 @@
     height: #{mixins.mvw(240px)};
     min-height: #{mixins.mvw(240px)};
     max-height: #{mixins.mvw(240px)};
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
   }
 
   @for $i from 1 through 8 {
-    .mediahub-about .services-clients__cards-track .trust-card:nth-child(#{$i}) {
+    .mediahub-about:not(.is-mediahub-clients-stacked) .services-clients__cards-track .trust-card:nth-child(#{$i}) {
       z-index: 10 + $i;
       top: #{mixins.mvw(64px + ($i - 1) * 6px)};
+    }
+  }
+
+  /* GSAP stacking active — cards are positioned by GSAP, not sticky. */
+  .mediahub-about.is-mediahub-clients-stacked .services-clients__cards-track .trust-card {
+    position: relative;
+    top: auto;
+    display: flex;
+    flex-direction: column;
+    height: #{mixins.mvw(240px)};
+    min-height: #{mixins.mvw(240px)};
+    max-height: #{mixins.mvw(240px)};
+    will-change: transform;
+  }
+
+  @for $i from 1 through 8 {
+    .mediahub-about.is-mediahub-clients-stacked .services-clients__cards-track .trust-card:nth-child(#{$i}) {
+      z-index: 10 + $i;
     }
   }
 }
