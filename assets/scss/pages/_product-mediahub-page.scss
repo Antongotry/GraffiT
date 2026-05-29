@@ -1294,7 +1294,7 @@
   isolation: isolate;
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(-40px)};
+    margin-top: 0;
   }
 }
 
@@ -1311,11 +1311,13 @@
   clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%);
 
   @include mixins.mobile {
-    clip-path: none;
+    /* Mobile: clip-path directly on viewport (like #home-about), pseudo-elements hidden. */
+    clip-path: polygon(0 0, 50% #{mixins.mvw(36px)}, 100% 0, 100% 100%, 0 100%);
+    padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(36px)});
 
-    &::after,
-    &::before {
-      clip-path: polygon(0 0, 50% #{mixins.mvw(36px)}, 100% 0, 100% 100%, 0 100%);
+    &::before,
+    &::after {
+      display: none;
     }
   }
 }
@@ -1324,7 +1326,7 @@
   padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(96px)});
 
   @include mixins.mobile {
-    padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
+    padding-top: 0;
   }
 }
 
@@ -1496,26 +1498,8 @@
     transform: none !important;
   }
 
-  /* CSS sticky fallback — removed when GSAP takes over (is-mediahub-clients-stacked). */
-  .mediahub-about:not(.is-mediahub-clients-stacked) .services-clients__cards-track .trust-card {
-    position: sticky;
-    top: #{mixins.mvw(64px)};
-    display: flex;
-    flex-direction: column;
-    height: #{mixins.mvw(240px)};
-    min-height: #{mixins.mvw(240px)};
-    max-height: #{mixins.mvw(240px)};
-  }
-
-  @for $i from 1 through 8 {
-    .mediahub-about:not(.is-mediahub-clients-stacked) .services-clients__cards-track .trust-card:nth-child(#{$i}) {
-      z-index: 10 + $i;
-      top: #{mixins.mvw(64px + ($i - 1) * 6px)};
-    }
-  }
-
-  /* GSAP stacking active — cards are positioned by GSAP, not sticky. */
-  .mediahub-about.is-mediahub-clients-stacked .services-clients__cards-track .trust-card {
+  /* Mobile: plain stacked list, no sticky, no GSAP pin — scrolls naturally with the page. */
+  .mediahub-about .services-clients__cards-track .trust-card {
     position: relative;
     top: auto;
     display: flex;
@@ -1523,13 +1507,9 @@
     height: #{mixins.mvw(240px)};
     min-height: #{mixins.mvw(240px)};
     max-height: #{mixins.mvw(240px)};
-    will-change: transform;
-  }
-
-  @for $i from 1 through 8 {
-    .mediahub-about.is-mediahub-clients-stacked .services-clients__cards-track .trust-card:nth-child(#{$i}) {
-      z-index: 10 + $i;
-    }
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
   }
 }
 
