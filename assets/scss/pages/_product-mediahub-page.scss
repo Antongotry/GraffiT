@@ -1342,13 +1342,15 @@
 
   @include mixins.mobile {
     padding-top: #{mixins.mvw(10px)};
-    width: 100%;
+    width: min(100%, #{mixins.mvw(355px)});
+    margin-inline: auto;
+    text-align: center;
   }
 }
 
 .mediahub-about .services-clients__eyebrow {
   @include mixins.mobile {
-    justify-content: flex-start;
+    justify-content: center;
   }
 }
 
@@ -1364,8 +1366,12 @@
   @include mixins.mobile {
     font-size: #{mixins.mvw(28px)};
     width: min(100%, #{mixins.mvw(355px)});
-    margin-inline: 0;
-    text-align: left;
+    margin-inline: auto;
+    text-align: center;
+
+    br {
+      display: none;
+    }
   }
 }
 
@@ -1480,9 +1486,12 @@
 @include mixins.mobile {
   .mediahub-about .services-clients__cards-stage {
     height: auto;
+    width: 100%;
     overflow: visible;
     mask-image: none;
     -webkit-mask-image: none;
+    transform: none !important;
+    left: auto !important;
   }
 
   .mediahub-about .services-clients__cards-track {
