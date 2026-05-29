@@ -1777,7 +1777,7 @@
       function clientsTopFadeRamp() {
         var w = window.innerWidth || 1440;
 
-        if (section.id === 'home-about' || section.id === 'services-clients') {
+        if (section.id === 'home-about' || section.id === 'services-clients' || section.id === 'mediahub-clients') {
           return {
             start: 0,
             span: Math.round((280 / 1440) * w),
@@ -1794,7 +1794,7 @@
         var distance = clientsTrackScrollDistance() * progress;
         var ramp = clientsTopFadeRamp();
 
-        if ((section.id === 'home-about' || section.id === 'services-clients') && stage) {
+        if ((section.id === 'home-about' || section.id === 'services-clients' || section.id === 'mediahub-clients') && stage) {
           var linear = ramp.span > 0
             ? Math.min(1, Math.max(0, (distance - ramp.start) / ramp.span))
             : 0;
@@ -1836,7 +1836,7 @@
             if (!self.isActive && self.progress <= 0.001) {
               section.classList.remove('is-clients-top-fade');
 
-              if ((section.id === 'home-about' || section.id === 'services-clients') && stage) {
+              if ((section.id === 'home-about' || section.id === 'services-clients' || section.id === 'mediahub-clients') && stage) {
                 stage.style.setProperty('--clients-top-fade', '0');
               }
             }
