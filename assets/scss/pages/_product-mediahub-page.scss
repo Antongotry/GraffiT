@@ -1359,6 +1359,35 @@
   }
 }
 
+.mediahub-about .services-clients__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: #{mixins.vw(32px)};
+  padding: #{mixins.vw(14px)} #{mixins.vw(32px)};
+  border-radius: #{mixins.vw(8px)};
+  background: #0073e6;
+  color: #ffffff;
+  font-family: "Involve", sans-serif;
+  font-size: #{mixins.vw(14px)};
+  font-weight: 400;
+  line-height: 1.3;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(24px)};
+    padding: #{mixins.mvw(14px)} #{mixins.mvw(28px)};
+    border-radius: #{mixins.mvw(8px)};
+    font-size: #{mixins.mvw(14px)};
+  }
+}
+
 /* Top-fade mask з CSS-змінною — як на головній та /services/. JS пише --clients-top-fade для #mediahub-clients. */
 .site-main--product-mediahub .mediahub-about .services-clients__cards-stage {
   --clients-top-fade: 0;

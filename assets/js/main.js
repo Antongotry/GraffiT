@@ -1816,8 +1816,7 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          /* mediahub-clients: pin трохи пізніше щоб копі/картки вже були в кадрі. */
-          start: section.id === 'mediahub-clients' ? 'top top+=60' : 'top top',
+          start: 'top top',
           end: function () {
             // Clamp pin distance to the document scroll bounds so the spacer
             // cannot create a blank tail after the footer on short pages.
@@ -1826,7 +1825,7 @@
           pin: viewport,
           scrub: 1,
           anticipatePin: 1,
-          refreshPriority: section.id === 'mediahub-clients' ? -5 : 0,
+          refreshPriority: 0,
           invalidateOnRefresh: true,
           onUpdate: function (self) {
             updateClientsTopFade(self.progress);

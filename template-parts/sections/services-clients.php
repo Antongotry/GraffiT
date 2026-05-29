@@ -11,6 +11,9 @@ $extra_class = trim((string) ($args['section_extra_class'] ?? ''));
 $enable_scroller = $args['enable_scroller'] ?? true;
 $section_js_class = trim((string) ($args['section_js_class'] ?? ''));
 $section_id = trim((string) ($args['section_id'] ?? ''));
+$cta_label = trim((string) ($args['cta_label'] ?? ''));
+$cta_source = trim((string) ($args['cta_source'] ?? $section_id));
+$cta_source_label = trim((string) ($args['cta_source_label'] ?? $cta_label));
 
 $section_classes = ['services-clients'];
 
@@ -81,6 +84,16 @@ $trust_cards = [
                     <p class="services-clients__text">
                         Кожне рішення GraffIT – це результат аналітики, досвіду та відповідальності перед бізнесом клієнта.
                     </p>
+
+                    <?php if ($cta_label !== '') : ?>
+                    <a
+                        class="services-clients__cta"
+                        href="#"
+                        data-popup-open="request"
+                        data-popup-source="<?php echo esc_attr($cta_source); ?>"
+                        data-popup-source-label="<?php echo esc_attr($cta_source_label); ?>"
+                    ><?php echo esc_html($cta_label); ?></a>
+                    <?php endif; ?>
                 </div>
 
                 <div class="services-clients__cards-stage js-clients-stage">

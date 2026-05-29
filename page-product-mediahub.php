@@ -24,6 +24,9 @@ get_header();
             'section_extra_class' => 'mediahub-about',
             'section_id' => 'mediahub-clients',
             'enable_scroller' => true,
+            'cta_label' => 'Залишити заявку',
+            'cta_source' => 'mediahub-clients',
+            'cta_source_label' => 'MediaHub · Залишити заявку',
         ]
     );
     ?>
