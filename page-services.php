@@ -27,7 +27,16 @@ get_header();
     <?php get_template_part('template-parts/sections/services', 'benefits'); ?>
     <?php get_template_part('template-parts/sections/services', 'clients', ['section_id' => 'services-clients']); ?>
     <?php get_template_part('template-parts/sections/services', 'projects'); ?>
-    <?php get_template_part('template-parts/sections/services', 'process'); ?>
+    <?php
+    get_template_part(
+        'template-parts/sections/services',
+        'process',
+        [
+            'process_visual_image' => graffit_services_process_image_url(),
+            'process_visual_image_mobile' => graffit_services_process_image_mobile_url(),
+        ]
+    );
+    ?>
     <?php get_template_part('template-parts/sections/services', 'final-cta'); ?>
 </main>
 <?php get_template_part('template-parts/components/site', 'popup'); ?>

@@ -8,8 +8,12 @@
 declare(strict_types=1);
 
 $logo_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
-$process_visual_image = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/sf_result.webp';
-$process_visual_image_mobile = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2145125_result.webp';
+$process_visual_image = isset($args['process_visual_image'])
+    ? (string) $args['process_visual_image']
+    : graffit_services_process_image_url();
+$process_visual_image_mobile = isset($args['process_visual_image_mobile'])
+    ? (string) $args['process_visual_image_mobile']
+    : graffit_services_process_image_mobile_url();
 
 $process_steps = [
     [

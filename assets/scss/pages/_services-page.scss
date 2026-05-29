@@ -5109,62 +5109,95 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 }
 
-@media (min-width: 1501px) {
-  .site-main--services .services-process .services-process__visual-photo,
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
-    bottom: #{mixins.vw(-36px)};
-  }
-}
-
+/* Головна — sticky-фото ban1440, позиція як у макеті. */
 @media (min-width: 1025px) {
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process),
-  .site-main--services .services-process {
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
     --process-visual-sticky-top: #{mixins.vw(128px)};
   }
 
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline,
-  .site-main--services .services-process .services-process__timeline {
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline {
     padding-bottom: #{mixins.vw(96px)};
   }
 
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame,
-  .site-main--services .services-process .services-process__visual-frame {
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame {
     width: #{mixins.vw(580px)};
     height: #{mixins.vw(560px)};
     transform: translateY(#{mixins.vw(42px)});
   }
 
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo,
-  .site-main--services .services-process .services-process__visual-photo {
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
     right: #{mixins.vw(-40px)};
     bottom: #{mixins.vw(-96px)};
+    width: #{mixins.vw(760px)};
+    height: #{mixins.vw(760px)};
+  }
+
+  /* /services/ — sf_result: нижче в колонці, більший хід при скролі етапів (як було до злиття з home). */
+  .site-main--services .services-process {
+    --process-visual-sticky-top: #{mixins.vw(128px)};
+  }
+
+  .site-main--services .services-process .services-process__timeline {
+    padding-bottom: #{mixins.vw(96px)};
+  }
+
+  .site-main--services .services-process .services-process__visual {
+    align-self: end;
+  }
+
+  .site-main--services .services-process .services-process__visual-frame {
+    width: #{mixins.vw(580px)};
+    height: #{mixins.vw(560px)};
+    transform: translateY(#{mixins.vw(70px)});
+  }
+
+  .site-main--services .services-process .services-process__visual-photo {
+    right: #{mixins.vw(-40px)};
+    bottom: #{mixins.vw(-120px)};
     width: #{mixins.vw(760px)};
     height: #{mixins.vw(760px)};
   }
 }
 
 @media (min-width: 1501px) {
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process),
-  .site-main--services .services-process {
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
     --process-visual-sticky-top: #{mixins.vw(148px)};
   }
 
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline,
-  .site-main--services .services-process .services-process__timeline {
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline {
     padding-bottom: #{mixins.vw(112px)};
   }
 
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame,
-  .site-main--services .services-process .services-process__visual-frame {
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame {
     width: #{mixins.vw(600px)};
     height: #{mixins.vw(580px)};
     transform: translateY(#{mixins.vw(52px)});
   }
 
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo,
-  .site-main--services .services-process .services-process__visual-photo {
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
     right: #{mixins.vw(-46px)};
     bottom: #{mixins.vw(-112px)};
+    width: #{mixins.vw(790px)};
+    height: #{mixins.vw(790px)};
+  }
+
+  .site-main--services .services-process {
+    --process-visual-sticky-top: #{mixins.vw(148px)};
+  }
+
+  .site-main--services .services-process .services-process__timeline {
+    padding-bottom: #{mixins.vw(112px)};
+  }
+
+  .site-main--services .services-process .services-process__visual-frame {
+    width: #{mixins.vw(600px)};
+    height: #{mixins.vw(580px)};
+    transform: translateY(#{mixins.vw(85px)});
+  }
+
+  .site-main--services .services-process .services-process__visual-photo {
+    right: #{mixins.vw(-46px)};
+    bottom: #{mixins.vw(-140px)};
     width: #{mixins.vw(790px)};
     height: #{mixins.vw(790px)};
   }

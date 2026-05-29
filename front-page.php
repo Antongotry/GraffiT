@@ -42,7 +42,16 @@ get_header();
         <?php get_template_part('template-parts/sections/home-inquiry'); ?>
         <?php get_template_part('template-parts/sections/services', 'projects'); ?>
     </div>
-    <?php get_template_part('template-parts/sections/services', 'process'); ?>
+    <?php
+    get_template_part(
+        'template-parts/sections/services',
+        'process',
+        [
+            'process_visual_image' => graffit_home_process_image_url(),
+            'process_visual_image_mobile' => graffit_home_process_image_mobile_url(),
+        ]
+    );
+    ?>
     <?php get_template_part('template-parts/sections/home', 'faq'); ?>
     <?php get_template_part('template-parts/sections/services', 'final-cta'); ?>
 </main>

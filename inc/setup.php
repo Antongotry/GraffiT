@@ -327,6 +327,38 @@ function graffit_services_outsourcing_image_url(): string
 }
 
 /**
+ * Front page «Процес» — ілюстрація справа (не сторінка «Послуги»).
+ */
+function graffit_home_process_image_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ban1440_result.webp';
+}
+
+/**
+ * Front page «Процес» — мобільна ілюстрація.
+ */
+function graffit_home_process_image_mobile_url(): string
+{
+    return graffit_home_process_image_url();
+}
+
+/**
+ * /services/ «Процес» — окреме фото (sf), не як на головній.
+ */
+function graffit_services_process_image_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/sf_result.webp';
+}
+
+/**
+ * /services/ «Процес» — мобільне фото.
+ */
+function graffit_services_process_image_mobile_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2145125_result.webp';
+}
+
+/**
  * Header logo URL.
  */
 function graffit_logo_url(): string
