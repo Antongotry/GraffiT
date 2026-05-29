@@ -5077,6 +5077,38 @@
   }
 }
 
+$home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Vector-346_result-scaled.webp";
+
+/* /services/ «Процес» — ті самі стилі, що на головній (без зайвого padding-bottom у layout). */
+.site-main--services .services-process::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  width: #{mixins.vw(400px)};
+  background-image: url(#{$home-gradient-sphere-url});
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: #{mixins.vw(400px)} auto;
+  pointer-events: none;
+  content: "";
+
+  @include mixins.mobile {
+    display: none;
+  }
+}
+
+.site-main--services .services-process .services-process__container {
+  position: relative;
+  z-index: 1;
+  padding-bottom: calc(#{mixins.vw(120px)} + #{mixins.vw(72px)});
+
+  @include mixins.mobile {
+    padding-bottom: calc(#{mixins.mvw(64px)} + #{mixins.mvw(40px)});
+  }
+}
+
 @media (min-width: 1501px) {
   .site-main--services .services-process .services-process__visual-photo,
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
@@ -5085,52 +5117,24 @@
 }
 
 @media (min-width: 1025px) {
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
-    --process-visual-sticky-top: #{mixins.vw(128px)};
-  }
-
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline {
-    padding-bottom: #{mixins.vw(96px)};
-  }
-
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame {
-    width: #{mixins.vw(580px)};
-    height: #{mixins.vw(560px)};
-    transform: translateY(#{mixins.vw(42px)});
-  }
-
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
-    right: #{mixins.vw(-40px)};
-    bottom: #{mixins.vw(-96px)};
-    width: #{mixins.vw(760px)};
-    height: #{mixins.vw(760px)};
-  }
-
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process),
   .site-main--services .services-process {
     --process-visual-sticky-top: #{mixins.vw(128px)};
   }
 
-  .site-main--services .services-process .services-process__layout {
-    overflow: visible;
-    padding-bottom: #{mixins.vw(180px)};
-  }
-
-  /* Висоту секції задає ліва колонка, щоб sticky-візуал праворуч
-     не впирався завчасно у нижню межу контейнера. */
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline,
   .site-main--services .services-process .services-process__timeline {
     padding-bottom: #{mixins.vw(96px)};
   }
 
-  .site-main--services .services-process .services-process__visual {
-    transform: none;
-  }
-
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame,
   .site-main--services .services-process .services-process__visual-frame {
     width: #{mixins.vw(580px)};
     height: #{mixins.vw(560px)};
     transform: translateY(#{mixins.vw(42px)});
   }
 
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo,
   .site-main--services .services-process .services-process__visual-photo {
     right: #{mixins.vw(-40px)};
     bottom: #{mixins.vw(-96px)};
@@ -5140,55 +5144,29 @@
 }
 
 @media (min-width: 1501px) {
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
-    --process-visual-sticky-top: #{mixins.vw(148px)};
-  }
-
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline {
-    padding-bottom: #{mixins.vw(112px)};
-  }
-
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame {
-    width: #{mixins.vw(600px)};
-    height: #{mixins.vw(580px)};
-    transform: translateY(#{mixins.vw(52px)});
-  }
-
-  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
-    right: #{mixins.vw(-46px)};
-    bottom: #{mixins.vw(-112px)};
-    width: #{mixins.vw(790px)};
-    height: #{mixins.vw(790px)};
-  }
-
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process),
   .site-main--services .services-process {
     --process-visual-sticky-top: #{mixins.vw(148px)};
   }
 
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline,
   .site-main--services .services-process .services-process__timeline {
     padding-bottom: #{mixins.vw(112px)};
   }
 
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame,
   .site-main--services .services-process .services-process__visual-frame {
     width: #{mixins.vw(600px)};
     height: #{mixins.vw(580px)};
     transform: translateY(#{mixins.vw(52px)});
   }
 
+  .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo,
   .site-main--services .services-process .services-process__visual-photo {
     right: #{mixins.vw(-46px)};
     bottom: #{mixins.vw(-112px)};
     width: #{mixins.vw(790px)};
     height: #{mixins.vw(790px)};
-  }
-}
-
-/* Як на головній: додатковий хід для sticky-фото під час прокрутки етапів. */
-.site-main--services .services-process .services-process__container {
-  padding-bottom: calc(#{mixins.vw(120px)} + #{mixins.vw(72px)});
-
-  @include mixins.mobile {
-    padding-bottom: #{mixins.mvw(64px)};
   }
 }
 
