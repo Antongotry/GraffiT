@@ -210,6 +210,28 @@
   overflow: visible;
 }
 
+/* Головна: блок вище, pin/горизонтальний скрол раніше — більше картки у viewport. */
+@media (min-width: 1025px) {
+  .home-hex-projects-flow #services-projects .services-projects__viewport {
+    padding-top: #{mixins.vw(40px)};
+    padding-bottom: #{mixins.vw(8px)};
+  }
+
+  .home-hex-projects-flow #services-projects.services-projects:has(.services-projects__bg) .services-projects__container {
+    margin-top: #{mixins.vw(32px)};
+  }
+
+  .home-hex-projects-flow #services-projects .services-projects__stage {
+    margin-top: #{mixins.vw(12px)};
+    height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(108px)}));
+  }
+
+  .home-hex-projects-flow #services-projects .project-case-card {
+    height: 100%;
+    min-height: 100%;
+  }
+}
+
 /* М’яка «сфера» градієнта справа: Vector-346, ширина 400px макета — проєкти + блок процесу (головна). */
 $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Vector-346_result-scaled.webp";
 
