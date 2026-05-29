@@ -1343,6 +1343,12 @@
   }
 }
 
+.mediahub-about .services-clients__eyebrow {
+  @include mixins.mobile {
+    justify-content: flex-start;
+  }
+}
+
 .mediahub-about .services-clients__container {
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(20px)}, 100%);
@@ -1351,6 +1357,13 @@
 
 .mediahub-about .services-clients__title {
   font-size: #{mixins.vw(37px)};
+
+  @include mixins.mobile {
+    font-size: #{mixins.mvw(28px)};
+    width: min(100%, #{mixins.mvw(355px)});
+    margin-inline: 0;
+    text-align: left;
+  }
 }
 
 .mediahub-about .services-clients__text {
