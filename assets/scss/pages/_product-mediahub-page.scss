@@ -1349,9 +1349,13 @@
   }
 }
 
+.mediahub-about .services-clients__title {
+  font-size: #{mixins.vw(37px)};
+}
+
 .mediahub-about .services-clients__text {
   width: #{mixins.vw(560px)};
-  margin-top: #{mixins.vw(80px)};
+  margin-top: #{mixins.vw(160px)};
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(24px)};
