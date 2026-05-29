@@ -856,7 +856,7 @@
   visibility: visible;
 }
 
-// Desktop: ручний wheel-lock як у каталозі, без ScrollTrigger pin-spacer.
+// Desktop: projects — wheel-lock; каталог — ScrollTrigger (initProductsCatalogScroller).
 @media (min-width: 1025px) {
   .site-main--products #products-projects.services-projects {
     overflow: visible;

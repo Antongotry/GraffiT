@@ -426,121 +426,6 @@
     return Math.max(track.scrollWidth - stage.clientWidth, 0);
   }
 
-  function productsPageGetEngageHeaderTop(siteHeader, viewportHeight) {
-    var siteBottom = siteHeader ? siteHeader.getBoundingClientRect().bottom : 0;
-    var minTop = siteBottom + 24;
-    /* ~428px на типовому ноутбуці — комфортна позиція «Каталог продуктів» під шапкою. */
-    var preferredTop = Math.round(viewportHeight * 0.46);
-
-    return Math.max(minTop, preferredTop);
-  }
-
-  function productsPageCatalogEngageMetrics(section, stage) {
-    if (!section || !stage) {
-      return null;
-    }
-
-    var header = section.querySelector('.products-catalog__header');
-
-    if (!header) {
-      return null;
-    }
-
-    var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 900;
-    var siteHeader = document.querySelector('.site-header');
-    var targetHeaderTop = productsPageGetEngageHeaderTop(siteHeader, viewportHeight);
-    var headerHeight = header.getBoundingClientRect().height || header.offsetHeight || 40;
-    var stageMargin = parseFloat(window.getComputedStyle(stage).marginTop) || 0;
-    var targetStageTop = targetHeaderTop + headerHeight + stageMargin;
-    var tolerance = Math.max(52, Math.round(viewportHeight * 0.055));
-    var stageTolerance = Math.max(48, Math.round(viewportHeight * 0.05));
-
-    return {
-      header: header,
-      targetHeaderTop: targetHeaderTop,
-      targetStageTop: targetStageTop,
-      tolerance: tolerance,
-      stageTolerance: stageTolerance
-    };
-  }
-
-  function productsPageCatalogGetScrollTop() {
-    var scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
-    var lenis = window.__graffitLenis;
-
-    if (lenis && typeof lenis.scroll === 'number') {
-      scrollTop = lenis.scroll;
-    }
-
-    return scrollTop;
-  }
-
-  /*
-   * Чи можна перехопити wheel на горизонтальний скрол.
-   * Строга зона (header+stage ±50px) з Lenis майже ніколи не спрацьовує — тому:
-   * 1) діапазон scrollY навколо ідеальної точки engage;
-   * 2) широка смуга по положенню header (як на скріні ~46vh);
-   * 3) stage перетинає лінію під заголовком.
-   */
-  function productsPageCatalogCanEngage(section, stage, scrollTop) {
-    var metrics = productsPageCatalogEngageMetrics(section, stage);
-
-    if (!metrics) {
-      return false;
-    }
-
-    var headerRect = metrics.header.getBoundingClientRect();
-    var stageRect = stage.getBoundingClientRect();
-    var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
-    var visiblePx = Math.min(stageRect.bottom, viewportHeight) - Math.max(stageRect.top, 0);
-
-    if (stageRect.top >= viewportHeight || stageRect.bottom <= 0) {
-      return false;
-    }
-
-    if (visiblePx < Math.min(stageRect.height * 0.22, 100)) {
-      return false;
-    }
-
-    if (typeof scrollTop !== 'number') {
-      scrollTop = productsPageCatalogGetScrollTop();
-    }
-
-    var idealScroll = productsPageCatalogIdealEngageScroll(section, stage);
-    var scrollBand = Math.max(220, Math.round(viewportHeight * 0.28));
-
-    if (Math.abs(scrollTop - idealScroll) <= scrollBand) {
-      return true;
-    }
-
-    var headerBand = Math.max(160, Math.round(viewportHeight * 0.18));
-
-    if (Math.abs(headerRect.top - metrics.targetHeaderTop) <= headerBand) {
-      return true;
-    }
-
-    var pinLine = metrics.targetStageTop;
-
-    return stageRect.top <= pinLine + 90 && stageRect.bottom > pinLine - 24;
-  }
-
-  function productsPageCatalogIdealEngageScroll(section, stage) {
-    var metrics = productsPageCatalogEngageMetrics(section, stage);
-
-    if (!metrics) {
-      return 0;
-    }
-
-    return Math.max(
-      0,
-      Math.round(
-        productsPageCatalogGetScrollTop() +
-          metrics.header.getBoundingClientRect().top -
-          metrics.targetHeaderTop
-      )
-    );
-  }
-
   function productsPageStageInLockBand(stage, lockOffset) {
     if (!stage) {
       return false;
@@ -766,7 +651,7 @@
     }
   }
 
-  /* /products/ desktop: каталог без ScrollTrigger pin-spacer; wheel тимчасово рухає track. */
+  /* /products/ desktop: каталог — ScrollTrigger (initProductsCatalogScroller), не wheel-lock. */
   function initProductsPageHorizontalScroll() {
     if (window.innerWidth <= 1024) {
       killProductsPageCatalogScroll();
@@ -775,426 +660,24 @@
 
     var main = document.querySelector('.site-main--products');
 
-    if (!main || main.getAttribute('data-products-horizontal-scroll-init') === '1') {
+    if (!main) {
       return;
     }
 
-    killProductsPageCatalogScroll();
+    main.removeAttribute('data-products-horizontal-scroll-init');
+    document.documentElement.classList.remove('is-products-catalog-wheel-locked');
 
-    var catalogSection = main.querySelector('.js-products-catalog-scroller');
+    var section = main.querySelector('.js-products-catalog-scroller');
 
-    if (!catalogSection) {
+    if (!section) {
       return;
     }
 
-    var catalogHeader = catalogSection.querySelector('.products-catalog__header');
-    var catalogStage = catalogSection.querySelector('.js-products-catalog-stage');
-    var catalogTrack = catalogSection.querySelector('.js-products-catalog-track');
-    var catalogCards = Array.prototype.slice.call(catalogSection.querySelectorAll('.product-catalog-card'));
-    var catalogPrevButtons = Array.prototype.slice.call(
-      catalogSection.querySelectorAll('.js-products-catalog-prev')
-    );
-    var catalogNextButtons = Array.prototype.slice.call(
-      catalogSection.querySelectorAll('.js-products-catalog-next')
-    );
+    var track = section.querySelector('.js-products-catalog-track');
 
-    if (!catalogHeader || !catalogStage || !catalogTrack || catalogCards.length === 0) {
-      return;
+    if (track) {
+      track.style.transform = '';
     }
-
-    main.setAttribute('data-products-horizontal-scroll-init', '1');
-
-    var catalogIndex = 0;
-    var catalogProgress = 0;
-    var catalogTargetProgress = 0;
-    var catalogMaxDistance = 0;
-    var isCatalogLocked = false;
-    var lockScrollTop = 0;
-    var lastScrollTop = getCurrentScrollTop();
-    var animationFrame = 0;
-    var pendingReleaseDirection = 0;
-    var isCatalogSnapPending = false;
-
-    function getCatalogMaxIndex() {
-      return Math.max(catalogCards.length - 1, 0);
-    }
-
-    function setCatalogActiveCard(index) {
-      catalogCards.forEach(function (card, cardIndex) {
-        card.classList.toggle('is-active', cardIndex === index);
-      });
-    }
-
-    function updateCatalogButtons() {
-      catalogPrevButtons.forEach(function (button) {
-        button.disabled = catalogIndex <= 0;
-      });
-
-      catalogNextButtons.forEach(function (button) {
-        button.disabled = catalogIndex >= getCatalogMaxIndex();
-      });
-    }
-
-    function getCurrentScrollTop() {
-      var lenis = window.__graffitLenis;
-
-      if (lenis && typeof lenis.scroll === 'number') {
-        return lenis.scroll;
-      }
-
-      return window.scrollY || document.documentElement.scrollTop || 0;
-    }
-
-    function scrollImmediately(top) {
-      var targetTop = Math.max(0, Math.round(top));
-      var lenis = window.__graffitLenis;
-
-      if (lenis && typeof lenis.scrollTo === 'function') {
-        lenis.scrollTo(targetTop, { immediate: true });
-      }
-
-      window.scrollTo(0, targetTop);
-
-      if (window.ScrollTrigger && typeof window.ScrollTrigger.update === 'function') {
-        window.ScrollTrigger.update();
-      }
-    }
-
-    function measureCatalog() {
-      catalogMaxDistance = productsPageHorizontalPinDistance(catalogTrack, catalogStage);
-      catalogProgress = Math.max(0, Math.min(catalogProgress, 1));
-      catalogTargetProgress = Math.max(0, Math.min(catalogTargetProgress, 1));
-    }
-
-    function renderCatalog() {
-      var x = -Math.round(catalogMaxDistance * catalogProgress);
-      var maxIndex = getCatalogMaxIndex();
-      var rawIndex = catalogProgress * maxIndex;
-
-      catalogTrack.style.transform = 'translate3d(' + x + 'px, 0, 0)';
-      catalogIndex = catalogProgress >= 0.998 ? maxIndex : Math.round(rawIndex);
-      setCatalogActiveCard(catalogIndex);
-      updateCatalogButtons();
-    }
-
-    function settleCatalogAnimation() {
-      window.cancelAnimationFrame(animationFrame);
-      animationFrame = 0;
-
-      if (!pendingReleaseDirection) {
-        return;
-      }
-
-      if (
-        (pendingReleaseDirection > 0 && catalogProgress >= 0.998) ||
-        (pendingReleaseDirection < 0 && catalogProgress <= 0.002)
-      ) {
-        pendingReleaseDirection = 0;
-        unlockCatalog();
-      }
-    }
-
-    function animateCatalogToTarget() {
-      if (animationFrame) {
-        return;
-      }
-
-      function tick() {
-        var diff = catalogTargetProgress - catalogProgress;
-
-        if (Math.abs(diff) < 0.0012) {
-          catalogProgress = catalogTargetProgress;
-          renderCatalog();
-          settleCatalogAnimation();
-          return;
-        }
-
-        catalogProgress += diff * 0.2;
-        renderCatalog();
-
-        if (
-          isCatalogLocked &&
-          !isCatalogSnapPending &&
-          Math.abs(getCurrentScrollTop() - lockScrollTop) > 3
-        ) {
-          scrollImmediately(lockScrollTop);
-        }
-
-        animationFrame = window.requestAnimationFrame(tick);
-      }
-
-      animationFrame = window.requestAnimationFrame(tick);
-    }
-
-    function getCatalogIdealEngageScrollTop() {
-      return productsPageCatalogIdealEngageScroll(catalogSection, catalogStage);
-    }
-
-    function stopLenis() {
-      if (window.__graffitLenis && typeof window.__graffitLenis.stop === 'function') {
-        window.__graffitLenis.stop();
-      }
-    }
-
-    function startLenis() {
-      if (window.__graffitLenis && typeof window.__graffitLenis.start === 'function') {
-        window.__graffitLenis.start();
-      }
-    }
-
-    function lockCatalog() {
-      if (isCatalogLocked || isCatalogSnapPending || catalogMaxDistance <= 0) {
-        return;
-      }
-
-      if (!productsPageCatalogCanEngage(catalogSection, catalogStage, getCurrentScrollTop())) {
-        return;
-      }
-
-      var idealTop = getCatalogIdealEngageScrollTop();
-      var currentTop = getCurrentScrollTop();
-      var lenis = window.__graffitLenis;
-
-      lockScrollTop = idealTop;
-      document.documentElement.classList.add('is-products-catalog-wheel-locked');
-
-      function finishLock() {
-        isCatalogSnapPending = false;
-        isCatalogLocked = true;
-        stopLenis();
-        scrollImmediately(lockScrollTop);
-      }
-
-      if (Math.abs(currentTop - idealTop) <= 6) {
-        finishLock();
-        return;
-      }
-
-      if (lenis && typeof lenis.scrollTo === 'function') {
-        isCatalogSnapPending = true;
-        lenis.scrollTo(idealTop, {
-          duration: 0.28,
-          onComplete: finishLock
-        });
-        return;
-      }
-
-      finishLock();
-    }
-
-    function unlockCatalog() {
-      if (!isCatalogLocked) {
-        return;
-      }
-
-      isCatalogLocked = false;
-      isCatalogSnapPending = false;
-      document.documentElement.classList.remove('is-products-catalog-wheel-locked');
-      startLenis();
-      lastScrollTop = getCurrentScrollTop();
-    }
-
-    function shouldLockForDirection(direction) {
-      if (catalogMaxDistance <= 0) {
-        return false;
-      }
-
-      if (!productsPageCatalogCanEngage(catalogSection, catalogStage, getCurrentScrollTop())) {
-        return false;
-      }
-
-      if (direction > 0) {
-        return catalogTargetProgress < 0.998;
-      }
-
-      return catalogTargetProgress > 0.002;
-    }
-
-    function syncCatalogProgressFromViewport() {
-      if (isCatalogLocked || catalogMaxDistance <= 0) {
-        return;
-      }
-
-      var stageRect = catalogStage.getBoundingClientRect();
-      var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
-      var changed = false;
-
-      if (stageRect.bottom <= 0) {
-        if (catalogProgress !== 1 || catalogTargetProgress !== 1) {
-          catalogProgress = 1;
-          catalogTargetProgress = 1;
-          changed = true;
-        }
-      } else if (stageRect.top >= viewportHeight) {
-        if (catalogProgress !== 0 || catalogTargetProgress !== 0) {
-          catalogProgress = 0;
-          catalogTargetProgress = 0;
-          changed = true;
-        }
-      }
-
-      if (changed) {
-        renderCatalog();
-      }
-    }
-
-    function normalizeWheelDelta(event) {
-      var delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
-
-      if (event.deltaMode === 1) {
-        delta *= 18;
-      } else if (event.deltaMode === 2) {
-        delta *= window.innerHeight;
-      }
-
-      return delta;
-    }
-
-    function consumeWheel(delta) {
-      var scaledDelta = delta * 0.72;
-      var maxWheelStep = Math.max(catalogMaxDistance * 0.16, 120);
-      var clampedDelta = Math.max(-maxWheelStep, Math.min(scaledDelta, maxWheelStep));
-      var nextDistance = catalogTargetProgress * catalogMaxDistance + clampedDelta;
-      var direction = clampedDelta >= 0 ? 1 : -1;
-
-      catalogTargetProgress = Math.max(0, Math.min(nextDistance / catalogMaxDistance, 1));
-      pendingReleaseDirection = 0;
-
-      if (direction > 0 && catalogTargetProgress >= 0.998) {
-        pendingReleaseDirection = 1;
-      } else if (direction < 0 && catalogTargetProgress <= 0.002) {
-        pendingReleaseDirection = -1;
-      }
-
-      if (
-        pendingReleaseDirection &&
-        Math.abs(catalogTargetProgress - catalogProgress) < 0.004
-      ) {
-        catalogProgress = catalogTargetProgress;
-        renderCatalog();
-        settleCatalogAnimation();
-        return;
-      }
-
-      animateCatalogToTarget();
-    }
-
-    function onCatalogWheel(event) {
-      if (window.innerWidth <= 1024) {
-        unlockCatalog();
-        return;
-      }
-
-      measureCatalog();
-      syncCatalogProgressFromViewport();
-
-      if (catalogMaxDistance <= 0) {
-        unlockCatalog();
-        return;
-      }
-
-      var delta = normalizeWheelDelta(event);
-      var direction = delta >= 0 ? 1 : -1;
-
-      if (!isCatalogLocked && !isCatalogSnapPending && shouldLockForDirection(direction)) {
-        lockCatalog();
-      }
-
-      if (isCatalogSnapPending) {
-        event.preventDefault();
-        return;
-      }
-
-      if (!isCatalogLocked) {
-        return;
-      }
-
-      if (
-        ((direction > 0 && catalogTargetProgress >= 0.998) ||
-          (direction < 0 && catalogTargetProgress <= 0.002)) &&
-        Math.abs(catalogTargetProgress - catalogProgress) < 0.004
-      ) {
-        unlockCatalog();
-        return;
-      }
-
-      event.preventDefault();
-      consumeWheel(delta);
-    }
-
-    function onCatalogScroll() {
-      if (window.innerWidth <= 1024 || isCatalogLocked || isCatalogSnapPending) {
-        lastScrollTop = getCurrentScrollTop();
-        return;
-      }
-
-      measureCatalog();
-      syncCatalogProgressFromViewport();
-
-      lastScrollTop = getCurrentScrollTop();
-    }
-
-    function scrollCatalogToIndex(index) {
-      var clampedIndex = Math.max(0, Math.min(index, getCatalogMaxIndex()));
-      var targetProgress = getCatalogMaxIndex() === 0 ? 0 : clampedIndex / getCatalogMaxIndex();
-
-      catalogTargetProgress = targetProgress;
-      pendingReleaseDirection = 0;
-      animateCatalogToTarget();
-    }
-
-    measureCatalog();
-    catalogTargetProgress = catalogProgress;
-    renderCatalog();
-
-    catalogPrevButtons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        scrollCatalogToIndex(catalogIndex - 1);
-      });
-    });
-
-    catalogNextButtons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        scrollCatalogToIndex(catalogIndex + 1);
-      });
-    });
-
-    function scheduleCatalogRemeasure() {
-      window.requestAnimationFrame(function () {
-        if (window.innerWidth <= 1024) {
-          unlockCatalog();
-          catalogProgress = 0;
-          catalogTargetProgress = 0;
-          pendingReleaseDirection = 0;
-          window.cancelAnimationFrame(animationFrame);
-          animationFrame = 0;
-          catalogTrack.style.transform = '';
-          catalogIndex = 0;
-          setCatalogActiveCard(0);
-          updateCatalogButtons();
-          return;
-        }
-
-        measureCatalog();
-        renderCatalog();
-
-        if (productsPageHorizontalPinDistance(catalogTrack, catalogStage) > 0) {
-          return;
-        }
-
-        Array.prototype.slice.call(catalogTrack.querySelectorAll('img')).forEach(function (img) {
-          if (!img.complete) {
-            img.addEventListener('load', scheduleCatalogRemeasure, { once: true });
-          }
-        });
-      });
-    }
-
-    window.addEventListener('wheel', onCatalogWheel, { passive: false, capture: true });
-    window.addEventListener('scroll', onCatalogScroll, { passive: true });
-    window.addEventListener('resize', scheduleCatalogRemeasure, { passive: true });
-
-    scheduleCatalogRemeasure();
   }
 
   function killProductsPageProjectsScroll() {
@@ -1825,14 +1308,11 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     document.querySelectorAll('.js-products-catalog-scroller').forEach(function (section) {
-      if (section.closest('.site-main--products')) {
-        return;
-      }
-
       if (section.getAttribute('data-products-catalog-pin-init') === '1') {
         return;
       }
 
+      var isProductsPage = !!section.closest('.site-main--products');
       var viewport = section.querySelector('.products-catalog__viewport');
       var stage = section.querySelector('.js-products-catalog-stage');
       var track = section.querySelector('.js-products-catalog-track');
@@ -1858,29 +1338,43 @@
         });
       }
 
+      function getPinDistance() {
+        return Math.max(track.scrollWidth - stage.clientWidth, 0);
+      }
+
+      /*
+       * /products/: pin коли stage (~картки) на ~47% viewport — як у макеті (track top ~422px).
+       * Інші сторінки: класичний pin секції зверху.
+       */
+      var scrollTriggerConfig = {
+        trigger: isProductsPage ? stage : section,
+        start: isProductsPage ? 'top 47%' : 'top top',
+        end: function () {
+          return 'clamp(+=' + getPinDistance() + ')';
+        },
+        pin: viewport,
+        scrub: isProductsPage ? 0.85 : 1,
+        anticipatePin: 1,
+        pinSpacing: true,
+        invalidateOnRefresh: true,
+        refreshPriority: isProductsPage ? -2 : 0,
+        onUpdate: function (self) {
+          currentIndex = Math.round(self.progress * getMaxIndex());
+          setActiveCard(currentIndex);
+          updateButtons();
+        }
+      };
+
+      if (isProductsPage) {
+        scrollTriggerConfig.id = 'products-catalog-pin';
+      }
+
       var tween = window.gsap.to(track, {
         x: function () {
-          return -(track.scrollWidth - stage.clientWidth);
+          return -getPinDistance();
         },
         ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: function () {
-            return 'clamp(+=' + Math.max(track.scrollWidth - stage.clientWidth, 0) + ')';
-          },
-          pin: viewport,
-          scrub: 1,
-          anticipatePin: 1,
-          pinSpacing: true,
-          refreshPriority: 0,
-          invalidateOnRefresh: true,
-          onUpdate: function (self) {
-            currentIndex = Math.round(self.progress * getMaxIndex());
-            setActiveCard(currentIndex);
-            updateButtons();
-          }
-        }
+        scrollTrigger: scrollTriggerConfig
       });
 
       function updateButtons() {
