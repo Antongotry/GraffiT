@@ -419,6 +419,8 @@
 
   /* Нижній шпиль у #000102 — стик із bow-tie inquiry (верхня «долина»). */
   .site-main--products .products-catalog__viewport {
+    /* z-index: fixed-pinned viewport must beat process (z-index:6) and projects at root level. */
+    z-index: 20;
     /* Більше повітря під site-header під час горизонтального скролу. */
     padding-top: #{mixins.vw(56px)};
     overflow: visible;
