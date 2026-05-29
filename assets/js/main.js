@@ -1343,12 +1343,12 @@
       }
 
       /*
-       * /products/: pin коли stage (~картки) на ~47% viewport — як у макеті (track top ~422px).
+       * /products/: pin трохи раніше — коли секція каталогу заходить у кадр (header + картки).
        * Інші сторінки: класичний pin секції зверху.
        */
       var scrollTriggerConfig = {
-        trigger: isProductsPage ? stage : section,
-        start: isProductsPage ? 'top 47%' : 'top top',
+        trigger: isProductsPage ? section : section,
+        start: isProductsPage ? 'top 68%' : 'top top',
         end: function () {
           return 'clamp(+=' + getPinDistance() + ')';
         },
