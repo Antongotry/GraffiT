@@ -1348,7 +1348,7 @@
        */
       var scrollTriggerConfig = {
         trigger: isProductsPage ? stage : section,
-        start: isProductsPage ? 'top 40%' : 'top top',
+        start: isProductsPage ? 'top 36%' : 'top top',
         end: function () {
           return 'clamp(+=' + getPinDistance() + ')';
         },
