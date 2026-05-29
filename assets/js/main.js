@@ -503,7 +503,7 @@
       var isServicesProjectsPage =
         section.id === 'services-projects' && !!section.closest('.site-main--services');
       var isPinnedProjectsPage = isServicesProjectsPage;
-      var projectsStartOffset = isPinnedProjectsPage || isHomeProjects ? 72 : isMediahubProjects ? 80 : 100;
+      var projectsStartOffset = isPinnedProjectsPage || isHomeProjects ? 72 : isMediahubProjects ? 72 : 100;
       var projectsPinUsesContainer =
         isHomeProjects || isMediahubProjects || isPinnedProjectsPage;
 
