@@ -157,7 +157,24 @@
     }
 
     var scrolledClass = 'site-header--scrolled';
-    var threshold = 32;
+
+    function headerScrollThreshold() {
+      if (window.innerWidth <= 1024) {
+        return 32;
+      }
+
+      var servicesHero = document.querySelector('.site-main--services .services-hero');
+
+      if (servicesHero) {
+        var heroHeight = servicesHero.offsetHeight || 0;
+
+        if (heroHeight > 0) {
+          return Math.max(32, Math.round(heroHeight * 0.72));
+        }
+      }
+
+      return 32;
+    }
 
     function scrollY() {
       var lenis = window.__graffitLenis;
@@ -170,7 +187,7 @@
     }
 
     function sync() {
-      header.classList.toggle(scrolledClass, scrollY() > threshold);
+      header.classList.toggle(scrolledClass, scrollY() > headerScrollThreshold());
     }
 
     var lenis = window.__graffitLenis;
@@ -2044,7 +2061,7 @@
       function clientsTopFadeRamp() {
         var w = window.innerWidth || 1440;
 
-        if (section.id === 'home-about') {
+        if (section.id === 'home-about' || section.id === 'services-clients') {
           return {
             start: 0,
             span: Math.round((280 / 1440) * w),
@@ -2061,7 +2078,7 @@
         var distance = clientsTrackScrollDistance() * progress;
         var ramp = clientsTopFadeRamp();
 
-        if (section.id === 'home-about' && stage) {
+        if ((section.id === 'home-about' || section.id === 'services-clients') && stage) {
           var linear = ramp.span > 0
             ? Math.min(1, Math.max(0, (distance - ramp.start) / ramp.span))
             : 0;
@@ -2103,7 +2120,7 @@
             if (!self.isActive && self.progress <= 0.001) {
               section.classList.remove('is-clients-top-fade');
 
-              if (section.id === 'home-about' && stage) {
+              if ((section.id === 'home-about' || section.id === 'services-clients') && stage) {
                 stage.style.setProperty('--clients-top-fade', '0');
               }
             }
@@ -3709,6 +3726,10 @@
       '.js-clients-scroller',
       '.js-process-section',
       '.js-products-catalog-scroller',
+      /* /services/ hero + overview: reveal (autoAlpha/transform) + Lenis дають ривки фону при скролі. */
+      '.services-hero',
+      '.site-main--services .services-overview',
+      '.site-main--services .services-inquiry',
       /* CTA на /products/: autoAlpha:0 лишав блок невидимим при зламаному скролі. */
       '.products-inquiry',
       '.site-main--products .services-final-cta',
