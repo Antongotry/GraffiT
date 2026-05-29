@@ -909,15 +909,18 @@
         return false;
       }
 
-      if (!productsPageStageInLockBand(stage, lockOffset)) {
-        return false;
-      }
+      var stageRect = stage.getBoundingClientRect();
 
       if (direction > 0) {
-        return projectsTargetProgress < 0.998;
+        // Scrolling DOWN: stage.top decreases → lock when it enters lock band from below
+        return stageRect.top <= lockOffset && stageRect.bottom > lockOffset && projectsTargetProgress < 0.998;
       }
 
-      return projectsTargetProgress > 0.002;
+      // Scrolling UP: stage.top increases (section re-entering from above).
+      // Only lock once stage.top has risen back UP to lockOffset — same visual position
+      // as the DOWN entry. Allow a 150px catch window above lockOffset.
+      var upBuffer = 150;
+      return stageRect.top >= lockOffset && stageRect.top <= lockOffset + upBuffer && projectsTargetProgress > 0.002;
     }
 
     function syncProjectsProgressFromViewport() {
