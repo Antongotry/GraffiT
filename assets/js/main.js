@@ -1816,7 +1816,10 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          start: 'top top',
+          /* mediahub-clients: pin коли секція ще ~210px нижче верху viewport —
+           * тоді .services-clients__copy (~242px від верху viewport) опиняється
+           * приблизно по центру екрана (210+242≈452px ≈ 50vh). */
+          start: section.id === 'mediahub-clients' ? 'top top+=210' : 'top top',
           end: function () {
             // Clamp pin distance to the document scroll bounds so the spacer
             // cannot create a blank tail after the footer on short pages.
