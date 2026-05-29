@@ -3765,11 +3765,23 @@
   min-height: #{mixins.vw(300px)};
   padding: #{mixins.vw(24px)};
   border-radius: #{mixins.vw(12px)};
-  background: #ffffff;
-  box-shadow:
-    0 #{mixins.vw(18px)} #{mixins.vw(48px)} rgba(0, 0, 0, 0.06),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.65);
-  overflow: hidden;
+  /* overflow: visible — інакше border-radius картки «скруглює» верх стрічки поверх SVG. */
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    background: #ffffff;
+    box-shadow:
+      0 #{mixins.vw(18px)} #{mixins.vw(48px)} rgba(0, 0, 0, 0.06),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+    content: "";
+    pointer-events: none;
+  }
 
   @include mixins.mobile {
     position: sticky;
@@ -3786,6 +3798,10 @@
     background-color: #ffffff;
     box-shadow: 0 #{mixins.mvw(8px)} #{mixins.mvw(24px)} rgba(0, 0, 0, 0.08);
     overflow: hidden;
+
+    &::before {
+      display: none;
+    }
   }
 }
 
@@ -3803,6 +3819,7 @@
   position: absolute;
   top: 0;
   right: #{mixins.vw(24px)};
+  z-index: 2;
   width: #{mixins.vw(64px)};
   height: #{mixins.vw(127px)};
   display: flex;
@@ -3810,7 +3827,7 @@
   justify-content: center;
   padding-top: #{mixins.vw(52px)};
   border-radius: 0;
-  background: url('../images/trust-ribbon-shape.svg') center / 100% 100% no-repeat;
+  background: url('../images/trust-ribbon-shape.svg?v=2') center / 100% 100% no-repeat;
   color: #ffffff;
 
   @include mixins.mobile {
@@ -3819,7 +3836,7 @@
     width: #{mixins.mvw(56px)};
     height: #{mixins.mvw(111px)};
     padding-top: #{mixins.mvw(46px)};
-    background: url('../images/trust-ribbon-shape.svg') center / 100% 100% no-repeat;
+    background: url('../images/trust-ribbon-shape.svg?v=2') center / 100% 100% no-repeat;
   }
 }
 
@@ -3841,6 +3858,8 @@
 }
 
 .trust-card__content {
+  position: relative;
+  z-index: 1;
   display: flex;
   min-height: 100%;
   flex-direction: column;

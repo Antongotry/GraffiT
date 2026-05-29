@@ -378,6 +378,10 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-chaos-about-flow #home-about .trust-card {
   box-shadow: none;
+
+  &::before {
+    box-shadow: none;
+  }
 }
 
 .home-chaos-about-flow #home-about .services-clients__container {
