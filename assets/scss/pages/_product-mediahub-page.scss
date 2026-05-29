@@ -1351,7 +1351,7 @@
 
 .mediahub-about .services-clients__text {
   width: #{mixins.vw(560px)};
-  margin-top: #{mixins.vw(32px)};
+  margin-top: #{mixins.vw(80px)};
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(24px)};
