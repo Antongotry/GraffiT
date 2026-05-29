@@ -3570,9 +3570,16 @@
  * Viewport: тільки верхній виріз (без нижнього шпиля), той самий градієнт, однакові відступи.
  */
 .site-main--services .services-clients__viewport {
-  clip-path: polygon(0 0, 50% #{mixins.vw(90px)}, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(
+    0 0,
+    50% #{mixins.vw(90px)},
+    100% 0,
+    100% 100%,
+    50% calc(100% - #{mixins.vw(90px)}),
+    0 100%
+  );
   padding-top: calc(#{mixins.vw(16px)} + #{mixins.vw(90px)});
-  padding-bottom: 0;
+  padding-bottom: #{mixins.vw(90px)};
   background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 
   &::before,
@@ -3581,9 +3588,16 @@
   }
 
   @include mixins.mobile {
-    clip-path: polygon(0 0, 50% #{mixins.mvw(40px)}, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(
+      0 0,
+      50% #{mixins.mvw(40px)},
+      100% 0,
+      100% 100%,
+      50% calc(100% - #{mixins.mvw(40px)}),
+      0 100%
+    );
     padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
-    padding-bottom: 0;
+    padding-bottom: #{mixins.mvw(40px)};
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
   }
 }
