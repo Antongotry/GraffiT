@@ -4942,39 +4942,39 @@
 
 @media (min-width: 1025px) {
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
-    --process-visual-sticky-top: #{mixins.vw(150px)};
+    --process-visual-sticky-top: #{mixins.vw(128px)};
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline {
-    padding-bottom: #{mixins.vw(120px)};
+    padding-bottom: #{mixins.vw(96px)};
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame {
     width: #{mixins.vw(580px)};
     height: #{mixins.vw(560px)};
-    transform: translateY(#{mixins.vw(70px)});
+    transform: translateY(#{mixins.vw(42px)});
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
     right: #{mixins.vw(-40px)};
-    bottom: #{mixins.vw(-120px)};
+    bottom: #{mixins.vw(-96px)};
     width: #{mixins.vw(760px)};
     height: #{mixins.vw(760px)};
   }
 
   .site-main--services .services-process {
-    --process-visual-sticky-top: #{mixins.vw(150px)};
+    --process-visual-sticky-top: #{mixins.vw(128px)};
   }
 
   .site-main--services .services-process .services-process__layout {
     overflow: visible;
-    padding-bottom: #{mixins.vw(220px)};
+    padding-bottom: #{mixins.vw(180px)};
   }
 
   /* Висоту секції задає ліва колонка, щоб sticky-візуал праворуч
      не впирався завчасно у нижню межу контейнера. */
   .site-main--services .services-process .services-process__timeline {
-    padding-bottom: #{mixins.vw(120px)};
+    padding-bottom: #{mixins.vw(96px)};
   }
 
   .site-main--services .services-process .services-process__visual {
@@ -4984,12 +4984,12 @@
   .site-main--services .services-process .services-process__visual-frame {
     width: #{mixins.vw(580px)};
     height: #{mixins.vw(560px)};
-    transform: translateY(#{mixins.vw(70px)});
+    transform: translateY(#{mixins.vw(42px)});
   }
 
   .site-main--services .services-process .services-process__visual-photo {
     right: #{mixins.vw(-40px)};
-    bottom: #{mixins.vw(-120px)};
+    bottom: #{mixins.vw(-96px)};
     width: #{mixins.vw(760px)};
     height: #{mixins.vw(760px)};
   }
@@ -4997,43 +4997,43 @@
 
 @media (min-width: 1501px) {
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) {
-    --process-visual-sticky-top: #{mixins.vw(170px)};
+    --process-visual-sticky-top: #{mixins.vw(148px)};
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__timeline {
-    padding-bottom: #{mixins.vw(140px)};
+    padding-bottom: #{mixins.vw(112px)};
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-frame {
     width: #{mixins.vw(600px)};
     height: #{mixins.vw(580px)};
-    transform: translateY(#{mixins.vw(85px)});
+    transform: translateY(#{mixins.vw(52px)});
   }
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
     right: #{mixins.vw(-46px)};
-    bottom: #{mixins.vw(-140px)};
+    bottom: #{mixins.vw(-112px)};
     width: #{mixins.vw(790px)};
     height: #{mixins.vw(790px)};
   }
 
   .site-main--services .services-process {
-    --process-visual-sticky-top: #{mixins.vw(170px)};
+    --process-visual-sticky-top: #{mixins.vw(148px)};
   }
 
   .site-main--services .services-process .services-process__timeline {
-    padding-bottom: #{mixins.vw(140px)};
+    padding-bottom: #{mixins.vw(112px)};
   }
 
   .site-main--services .services-process .services-process__visual-frame {
     width: #{mixins.vw(600px)};
     height: #{mixins.vw(580px)};
-    transform: translateY(#{mixins.vw(85px)});
+    transform: translateY(#{mixins.vw(52px)});
   }
 
   .site-main--services .services-process .services-process__visual-photo {
     right: #{mixins.vw(-46px)};
-    bottom: #{mixins.vw(-140px)};
+    bottom: #{mixins.vw(-112px)};
     width: #{mixins.vw(790px)};
     height: #{mixins.vw(790px)};
   }
