@@ -14,6 +14,7 @@
   overflow: visible;
   /* Стик із home-chaos: нижній шпиль chaos у верхній виріз #home-about (−90px = глибина шпиля). */
   margin-top: calc(#{mixins.vw(-90px)} - 1px);
+  margin-bottom: -1px;
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(-40px)};
@@ -78,9 +79,8 @@
 
 .home-hex-projects-flow {
   position: relative;
-  /* Seam guard: when #home-about is pinned, subpixel rounding can reveal a
-     light gap between sections; pull this flow up by 1px to keep a hard stitch. */
-  margin-top: -1px;
+  /* Seam guard: overlap #home-about bottom notch (subpixel gap on some DPR). */
+  margin-top: -2px;
   overflow: visible;
   background: #000102;
   isolation: isolate;
@@ -106,13 +106,14 @@
   /* Dark upward-pointing triangle — mirrors .about-stack::before */
   &::after {
     position: absolute;
-    top: calc(#{mixins.vw(-90px)} - 1px);
+    top: calc(#{mixins.vw(-90px)} - 2px);
     left: 0;
     width: 100%;
-    height: calc(#{mixins.vw(90px)} + 1px);
+    height: calc(#{mixins.vw(90px)} + 4px);
     z-index: 1;
     background: #000102;
     clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    transform: translateZ(0);
     content: "";
     pointer-events: none;
   }
@@ -123,8 +124,8 @@
     }
 
     &::after {
-      top: calc(#{mixins.mvw(-40px)} - 1px);
-      height: calc(#{mixins.mvw(40px)} + 1px);
+      top: calc(#{mixins.mvw(-40px)} - 2px);
+      height: calc(#{mixins.mvw(40px)} + 4px);
     }
   }
 }
@@ -313,15 +314,17 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
    * Верхній виріз (як services-clients / скрин 2): тёмний шпиль chaos входить у «долину».
    * НЕ шпиль вгору — пара піків давала чорну смугу між секціями.
    */
+  /* Нижній виріз під чорний трикутник hex — без субпіксельної лінії на стику. */
   clip-path: polygon(
     0 0,
     50% #{mixins.vw(90px)},
     100% 0,
     100% 100%,
+    50% calc(100% - #{mixins.vw(90px)}),
     0 100%
   ) !important;
   padding-top: calc(#{mixins.vw(16px)} + #{mixins.vw(90px)});
-  padding-bottom: 0;
+  padding-bottom: #{mixins.vw(90px)};
 
   &::before,
   &::after {
@@ -334,10 +337,11 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
       50% #{mixins.mvw(40px)},
       100% 0,
       100% 100%,
+      50% calc(100% - #{mixins.mvw(40px)}),
       0 100%
     ) !important;
     padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
-    padding-bottom: 0;
+    padding-bottom: #{mixins.mvw(40px)};
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
   }
 }
@@ -788,14 +792,16 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
       50% min(calc(90 / 1440 * 100vw), 90px),
       100% 0,
       100% 100%,
+      50% calc(100% - min(calc(90 / 1440 * 100vw), 90px)),
       0 100%
     ) !important;
     padding-top: calc(#{mixins.vw(16px)} + min(calc(90 / 1440 * 100vw), 90px));
+    padding-bottom: min(calc(90 / 1440 * 100vw), 90px);
   }
 
   .home-hex-projects-flow::after {
-    top: -91px;
-    height: 91px;
+    top: -92px;
+    height: 94px;
   }
 }
 
