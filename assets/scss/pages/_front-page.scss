@@ -371,7 +371,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-chaos-about-flow #home-about .services-clients__text {
   width: #{mixins.vw(598px)};
-  margin-top: #{mixins.vw(156px)};
+  margin-top: #{mixins.vw(40px)};
   color: rgba(0, 1, 2, 0.92);
 
   @include mixins.mobile {
@@ -391,7 +391,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-chaos-about-flow #home-about .services-clients__cards-stage {
   --clients-top-fade: 0;
-  /* Верхній fade з першого px скролу: картка зникає в прозорість, без сірого шлейфу. */
+  height: #{mixins.vw(820px)};
+  /* Верхній fade + коротший низ — менше порожнього скролу до hex. */
   mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
@@ -399,8 +400,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
     #000 #{mixins.vw(180px)},
-    #000 calc(100% - #{mixins.vw(280px)}),
-    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    #000 calc(100% - #{mixins.vw(200px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
@@ -410,8 +411,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
     #000 #{mixins.vw(180px)},
-    #000 calc(100% - #{mixins.vw(280px)}),
-    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    #000 calc(100% - #{mixins.vw(200px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
     transparent 100%
   );
 

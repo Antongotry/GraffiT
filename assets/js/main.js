@@ -1754,7 +1754,14 @@
         // above the bottom fade mask instead of ending the pin while still clipped.
         var w = window.innerWidth || 1440;
         var extra = Math.round((200 / 1440) * w);
-        extra = Math.min(Math.max(extra, 120), 280);
+
+        if (section.id === 'home-about') {
+          extra = Math.round((56 / 1440) * w);
+          extra = Math.min(Math.max(extra, 40), 72);
+        } else {
+          extra = Math.min(Math.max(extra, 120), 280);
+        }
+
         return overflow + extra;
       }
 
