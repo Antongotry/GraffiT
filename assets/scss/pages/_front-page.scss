@@ -542,9 +542,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 .home-hero__summary {
   position: absolute;
   top: #{mixins.vw(182px)};
-  /* Лівий край = «Головна» у шапці (816px від лівого краю сітки 1360 @ 1440). */
-  left: #{mixins.vw(816px)};
-  right: auto;
+  right: #{mixins.vw(0px)};
   width: #{mixins.vw(398px)};
 
   @include mixins.mobile {
@@ -732,25 +730,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     text-shadow:
       0 #{mixins.mvw(3px)} #{mixins.mvw(18px)} rgba(0, 0, 0, 0.34),
       0 #{mixins.mvw(2px)} #{mixins.mvw(6px)} rgba(0, 0, 0, 0.28);
-  }
-}
-
-/* >1440: лише шрифти hero (сітка лишається cap 1360px; CTA-картинка без scale). */
-@media (min-width: 1441px) {
-  .home-hero__description {
-    font-size: calc(16px + (100vw - 1440px) * 0.0111111111);
-  }
-
-  .home-hero__project-link-text {
-    font-size: calc(14px + (100vw - 1440px) * 0.0097222222);
-  }
-
-  .home-hero__title-line--primary {
-    font-size: calc(55.058px + (100vw - 1440px) * 0.0382347222);
-  }
-
-  .home-hero__title-line--secondary {
-    font-size: calc(48.176px + (100vw - 1440px) * 0.0334555556);
   }
 }
 
