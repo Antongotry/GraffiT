@@ -352,12 +352,12 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__layout {
-  padding-top: #{mixins.vw(12px)};
+  padding-top: 0;
 }
 
 .home-chaos-about-flow #home-about .services-clients__title {
   width: #{mixins.vw(788px)};
-  margin-top: #{mixins.vw(32px)};
+  margin-top: #{mixins.vw(16px)};
   font-size: #{mixins.vw(32px)};
   line-height: 1.48;
 
@@ -381,8 +381,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__copy {
-  /* Large screens: cap як на 1440; −25% верхнього відступу для лівого copy. */
-  padding-top: calc((#{mixins.vw(16px)} + #{mixins.vw(104.8px)}) * 0.75);
+  /* Desktop: мінімальний верх (базовий 72px вимкнено); cap 1440. */
+  padding-top: calc((#{mixins.vw(16px)} + #{mixins.vw(104.8px)}) * 0.45);
 
   @include mixins.mobile {
     padding-top: #{mixins.mvw(10px)};
