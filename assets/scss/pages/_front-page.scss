@@ -733,6 +733,60 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 }
 
+/*
+ * >1440: пропорційне масштабування hero від макету 1440 (координати viewport → контейнер −40px).
+ * CTA ref: left 1032, top 375, 175×187.
+ */
+@media (min-width: 1441px) {
+  .home-hero__container {
+    width: calc(1360 / 1440 * 100vw);
+  }
+
+  .home-hero__summary {
+    top: calc(182 / 1440 * 100vw);
+    right: auto;
+    left: calc(962 / 1440 * 100vw);
+    width: calc(398 / 1440 * 100vw);
+  }
+
+  .home-hero__description {
+    font-size: calc(16 / 1440 * 100vw);
+  }
+
+  .home-hero__project-link {
+    top: calc(375 / 1440 * 100vw);
+    right: auto;
+    left: calc(992 / 1440 * 100vw);
+    width: calc(175 / 1440 * 100vw);
+    height: calc(187 / 1440 * 100vw);
+  }
+
+  .home-hero__project-link-text {
+    width: calc(98 / 1440 * 100vw);
+    font-size: calc(14 / 1440 * 100vw);
+  }
+
+  .home-hero__title-wrap {
+    left: calc(40 / 1440 * 100vw);
+    right: calc(40 / 1440 * 100vw);
+    bottom: calc(74 / 1440 * 100vw);
+  }
+
+  .home-hero__title-line--primary {
+    font-size: calc(55.058 / 1440 * 100vw);
+  }
+
+  .home-hero__title-line--secondary {
+    max-width: calc(100% - (230 / 1440 * 100vw));
+    margin-left: calc(230 / 1440 * 100vw);
+    font-size: calc(48.176 / 1440 * 100vw);
+  }
+
+  .home-hero__title-brand {
+    margin-right: calc(8 / 1440 * 100vw);
+  }
+}
+
 .home-showcase {
   position: relative;
   margin-top: -1px;
