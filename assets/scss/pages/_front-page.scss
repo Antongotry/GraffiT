@@ -9,6 +9,9 @@
    * Matches the same pattern as .about-dark-flow { z-index: 90 } on the About page.
    */
   z-index: 90;
+  /* Закриває fixed canvas scroll-film у «хвості» pin-spacer на великих екранах. */
+  background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
+  overflow: hidden;
   /* Стик із home-chaos: нижній шпиль chaos у верхній виріз #home-about (−90px = глибина шпиля). */
   margin-top: calc(#{mixins.vw(-90px)} - 1px);
 
@@ -279,8 +282,11 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
  */
 .home-chaos-about-flow #home-about {
   overflow: visible;
-  /* Не #000102 між chaos і viewport — інакше чорна смуга в стику. */
-  background: transparent;
+  background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
+}
+
+.home-chaos-about-flow #home-about .pin-spacer {
+  background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
@@ -741,6 +747,11 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 @media (min-width: 1025px) {
   .home-chaos-about-flow #home-about .services-clients__viewport {
     min-height: 0;
+  }
+
+  /* Сфери лише для мобільного декору — на desktop дають «анімаційний» шум у pin-spacer. */
+  .home-chaos-about-flow__spheres {
+    display: none;
   }
 }
 

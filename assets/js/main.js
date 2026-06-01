@@ -3280,6 +3280,24 @@
       }, { passive: true });
     }
 
+    if (!container.__homeFilmCanvasHideBound) {
+      container.__homeFilmCanvasHideBound = true;
+
+      window.ScrollTrigger.create({
+        id: 'home-scroll-film-canvas-hide',
+        trigger: container,
+        start: 'bottom top',
+        onEnter: function () {
+          canvas.style.visibility = 'hidden';
+          canvas.style.pointerEvents = 'none';
+        },
+        onLeaveBack: function () {
+          canvas.style.visibility = '';
+          canvas.style.pointerEvents = '';
+        }
+      });
+    }
+
     window.ScrollTrigger.refresh();
     syncHomeScrollFilmFrame();
   }
