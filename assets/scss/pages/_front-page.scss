@@ -737,6 +737,13 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 }
 
+/* ≥1440: опис hero трохи вище (−16px від макету 182 → 166). */
+@media (min-width: 1440px) {
+  .home-hero__summary {
+    top: #{mixins.vw(166px)};
+  }
+}
+
 /*
  * >1440: позиції hero масштабуються до cap макету 1440 (не ростуть на ultrawide).
  * CTA: bottom = верх primary-рядка + 1px.
@@ -747,7 +754,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 
   .home-hero__summary {
-    top: min(calc(182 / 1440 * 100vw), 182px);
+    top: min(calc(166 / 1440 * 100vw), 166px);
     right: auto;
     left: min(calc(962 / 1440 * 100vw), 962px);
     width: #{mixins.vw(398px)};
