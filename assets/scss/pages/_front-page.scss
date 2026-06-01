@@ -734,31 +734,31 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 /*
- * >1440: лише позиції hero (макет 1440). Розміри шрифтів і CTA — cap як на 1440.
- * CTA ref: left 1032 → 992 у контейнері, top 375.
+ * >1440: позиції hero масштабуються до cap макету 1440 (не ростуть на ultrawide).
+ * CTA: left 992, top 408 (+33px нижче за 375).
  */
 @media (min-width: 1441px) {
   .home-hero__container {
-    width: calc(1360 / 1440 * 100vw);
+    width: min(calc(1360 / 1440 * 100vw), 1360px);
   }
 
   .home-hero__summary {
-    top: calc(182 / 1440 * 100vw);
+    top: min(calc(182 / 1440 * 100vw), 182px);
     right: auto;
-    left: calc(962 / 1440 * 100vw);
+    left: min(calc(962 / 1440 * 100vw), 962px);
     width: #{mixins.vw(398px)};
   }
 
   .home-hero__project-link {
-    top: calc(375 / 1440 * 100vw);
+    top: min(calc(408 / 1440 * 100vw), 408px);
     right: auto;
-    left: calc(992 / 1440 * 100vw);
+    left: min(calc(992 / 1440 * 100vw), 992px);
   }
 
   .home-hero__title-wrap {
-    left: calc(40 / 1440 * 100vw);
-    right: calc(40 / 1440 * 100vw);
-    bottom: calc(74 / 1440 * 100vw);
+    left: min(calc(40 / 1440 * 100vw), 40px);
+    right: min(calc(40 / 1440 * 100vw), 40px);
+    bottom: min(calc(74 / 1440 * 100vw), 74px);
   }
 }
 
