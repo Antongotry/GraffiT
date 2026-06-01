@@ -9,9 +9,9 @@
    * Matches the same pattern as .about-dark-flow { z-index: 90 } on the About page.
    */
   z-index: 90;
-  /* Закриває fixed canvas scroll-film у «хвості» pin-spacer на великих екранах. */
-  background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
-  overflow: hidden;
+  /* Прозорий верх — canvas видно в «крилах» вирізу; суцільний фон лише на viewport / pin-spacer. */
+  background: transparent;
+  overflow: visible;
   /* Стик із home-chaos: нижній шпиль chaos у верхній виріз #home-about (−90px = глибина шпиля). */
   margin-top: calc(#{mixins.vw(-90px)} - 1px);
 
@@ -274,6 +274,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 .home-chaos-about-flow #home-about .pin-spacer {
   position: relative;
   z-index: 80;
+  background: transparent;
 }
 
 /*
@@ -282,11 +283,26 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
  */
 .home-chaos-about-flow #home-about {
   overflow: visible;
-  background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
-}
+  background: transparent;
 
-.home-chaos-about-flow #home-about .pin-spacer {
-  background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
+  /* Суцільний фон лише під вирізом — верх лишається прозорим для canvas + шпиля chaos. */
+  &::after {
+    position: absolute;
+    top: #{mixins.vw(90px)};
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
+    content: "";
+    pointer-events: none;
+  }
+
+  @include mixins.mobile {
+    &::after {
+      top: #{mixins.mvw(40px)};
+    }
+  }
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
@@ -758,6 +774,12 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 @media (min-width: 1440px) {
   .home-hero__summary {
     top: #{mixins.vw(166px)};
+  }
+
+  .home-chaos-about-flow #home-about {
+    &::after {
+      top: min(calc(90 / 1440 * 100vw), 90px);
+    }
   }
 
   .home-chaos-about-flow #home-about .services-clients__viewport {

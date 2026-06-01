@@ -3283,19 +3283,48 @@
     if (!container.__homeFilmCanvasHideBound) {
       container.__homeFilmCanvasHideBound = true;
 
-      window.ScrollTrigger.create({
-        id: 'home-scroll-film-canvas-hide',
-        trigger: container,
-        start: 'bottom top',
-        onEnter: function () {
-          canvas.style.visibility = 'hidden';
-          canvas.style.pointerEvents = 'none';
-        },
-        onLeaveBack: function () {
-          canvas.style.visibility = '';
-          canvas.style.pointerEvents = '';
+      function homeAboutNotchPx() {
+        var w = window.innerWidth || 1440;
+
+        if (w <= 1024) {
+          return Math.round((40 / 390) * w);
         }
-      });
+
+        return Math.min(Math.round((90 / 1440) * w), 90);
+      }
+
+      function bindHomeFilmCanvasHide() {
+        var existing = window.ScrollTrigger.getById('home-scroll-film-canvas-hide');
+
+        if (existing) {
+          existing.kill();
+        }
+
+        var aboutViewport = document.querySelector('#home-about .services-clients__viewport');
+
+        if (!aboutViewport) {
+          return;
+        }
+
+        window.ScrollTrigger.create({
+          id: 'home-scroll-film-canvas-hide',
+          trigger: aboutViewport,
+          start: function () {
+            return 'top+=' + homeAboutNotchPx() + ' top';
+          },
+          onEnter: function () {
+            canvas.style.visibility = 'hidden';
+            canvas.style.pointerEvents = 'none';
+          },
+          onLeaveBack: function () {
+            canvas.style.visibility = '';
+            canvas.style.pointerEvents = '';
+          },
+          invalidateOnRefresh: true
+        });
+      }
+
+      bindHomeFilmCanvasHide();
     }
 
     window.ScrollTrigger.refresh();
