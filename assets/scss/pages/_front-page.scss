@@ -567,7 +567,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-hero__project-link {
   position: absolute;
-  top: #{mixins.vw(375px)};
+  top: auto;
+  bottom: #{mixins.vw(74px)};
   right: #{mixins.vw(199.8px)};
   width: #{mixins.vw(175px)};
   height: #{mixins.vw(187px)};
@@ -735,7 +736,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 /*
  * >1440: позиції hero масштабуються до cap макету 1440 (не ростуть на ultrawide).
- * CTA: left 992, top 408 (+33px нижче за 375).
+ * CTA: той самий bottom, що й .home-hero__title-wrap — прив’язка до заголовка знизу.
  */
 @media (min-width: 1441px) {
   .home-hero__container {
@@ -750,7 +751,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 
   .home-hero__project-link {
-    top: min(calc(408 / 1440 * 100vw), 408px);
+    top: auto;
+    bottom: min(calc(74 / 1440 * 100vw), 74px);
     right: auto;
     left: min(calc(992 / 1440 * 100vw), 992px);
   }
