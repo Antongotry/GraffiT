@@ -381,8 +381,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__copy {
-  /* Large screens: cap як на 1440 (7.278vw ≈ 104.8px), не росте на ultrawide. */
-  padding-top: calc(#{mixins.vw(16px)} + #{mixins.vw(104.8px)});
+  /* Large screens: cap як на 1440; −25% верхнього відступу для лівого copy. */
+  padding-top: calc((#{mixins.vw(16px)} + #{mixins.vw(104.8px)}) * 0.75);
 
   @include mixins.mobile {
     padding-top: #{mixins.mvw(10px)};
