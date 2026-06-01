@@ -236,13 +236,6 @@
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* >1440: сітка розтягується разом із hero (не cap 1360px). */
-@media (min-width: 1441px) {
-  .site-header__inner {
-    width: calc(100vw - 80px);
-  }
-}
-
 .site-header__burger {
   display: none;
   align-items: center;
