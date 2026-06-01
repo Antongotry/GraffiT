@@ -355,8 +355,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__copy {
-  /* Large screens: +8.087vw (9.514vw − 15%). */
-  padding-top: calc(#{mixins.vw(16px)} + 8.087vw);
+  /* Large screens: +7.278vw (ще −10% від 8.087vw). */
+  padding-top: calc(#{mixins.vw(16px)} + 7.278vw);
 
   @include mixins.mobile {
     padding-top: #{mixins.mvw(10px)};
