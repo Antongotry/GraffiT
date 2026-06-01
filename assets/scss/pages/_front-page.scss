@@ -355,8 +355,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__copy {
-  /* Large screens: +7.278vw (ще −10% від 8.087vw). */
-  padding-top: calc(#{mixins.vw(16px)} + 7.278vw);
+  /* Large screens: cap як на 1440 (7.278vw ≈ 104.8px), не росте на ultrawide. */
+  padding-top: calc(#{mixins.vw(16px)} + #{mixins.vw(104.8px)});
 
   @include mixins.mobile {
     padding-top: #{mixins.mvw(10px)};
@@ -570,7 +570,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   top: auto;
   /* Справа як у макеті; низ соти на 1px вище верху .home-hero__title-line--primary. */
   bottom: calc(
-    #{mixins.vw(74px)} + #{mixins.vw(48.176px)} + #{mixins.vw(55.058px)} + #{mixins.vw(1px)}
+    #{mixins.vw(74px)} + #{mixins.vw(48px)} + #{mixins.vw(48px)} + #{mixins.vw(1px)}
   );
   right: #{mixins.vw(199.8px)};
   width: #{mixins.vw(175px)};
@@ -653,7 +653,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-hero__title-line--primary {
-  font-size: #{mixins.vw(55.058px)};
+  font-size: #{mixins.vw(48px)};
   font-weight: 400;
 
   @include mixins.mobile {
@@ -667,7 +667,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   width: auto;
   max-width: calc(100% - #{mixins.vw(230px)});
   margin-left: #{mixins.vw(230px)};
-  font-size: #{mixins.vw(48.176px)};
+  font-size: #{mixins.vw(48px)};
   font-weight: 600;
   text-shadow:
     0 #{mixins.vw(3px)} #{mixins.vw(22px)} rgba(0, 0, 0, 0.34),
@@ -737,10 +737,32 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 }
 
-/* ≥1440: опис hero трохи вище (−16px від макету 182 → 166). */
+/* Desktop #home-about: висота по контенту; ≥1440 — cap вирізу й трикутника hex. */
+@media (min-width: 1025px) {
+  .home-chaos-about-flow #home-about .services-clients__viewport {
+    min-height: 0;
+  }
+}
+
 @media (min-width: 1440px) {
   .home-hero__summary {
     top: #{mixins.vw(166px)};
+  }
+
+  .home-chaos-about-flow #home-about .services-clients__viewport {
+    clip-path: polygon(
+      0 0,
+      50% min(calc(90 / 1440 * 100vw), 90px),
+      100% 0,
+      100% 100%,
+      0 100%
+    ) !important;
+    padding-top: calc(#{mixins.vw(16px)} + min(calc(90 / 1440 * 100vw), 90px));
+  }
+
+  .home-hex-projects-flow::after {
+    top: -91px;
+    height: 91px;
   }
 }
 
@@ -762,7 +784,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
   .home-hero__project-link {
     top: auto;
-    bottom: min(calc(178.234 / 1440 * 100vw), 178.234px);
+    bottom: min(calc(171 / 1440 * 100vw), 171px);
     right: auto;
     left: min(calc(992 / 1440 * 100vw), 992px);
   }
