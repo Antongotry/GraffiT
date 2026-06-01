@@ -371,7 +371,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-chaos-about-flow #home-about .services-clients__text {
   width: #{mixins.vw(598px)};
-  margin-top: #{mixins.vw(40px)};
+  /* Більший зазор під заголовком на високих екранах; стискається на низьких. */
+  margin-top: clamp(#{mixins.vw(48px)}, 10svh, #{mixins.vw(156px)});
   color: rgba(0, 1, 2, 0.92);
 
   @include mixins.mobile {
