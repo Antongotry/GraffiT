@@ -355,7 +355,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__copy {
-  padding-top: #{mixins.vw(16px)};
+  /* +9.514vw: на 1920/2560 (DPR 1) компенсує «піднятий» блок після cap у mixins.vw(). */
+  padding-top: calc(#{mixins.vw(16px)} + 9.514vw);
 
   @include mixins.mobile {
     padding-top: #{mixins.mvw(10px)};
