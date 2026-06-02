@@ -5135,9 +5135,9 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
     right: #{mixins.vw(-40px)};
-    bottom: #{mixins.vw(-78px)};
-    width: #{mixins.vw(820px)};
-    height: #{mixins.vw(820px)};
+    bottom: #{mixins.vw(-48px)};
+    width: calc(#{mixins.vw(820px)} * 0.9);
+    height: calc(#{mixins.vw(820px)} * 0.9);
   }
 
   .site-main--services .services-process {
@@ -5183,9 +5183,9 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
   .site-main--home .services-process:not(.products-process):not(.mediahub-process) .services-process__visual-photo {
     right: #{mixins.vw(-46px)};
-    bottom: #{mixins.vw(-92px)};
-    width: #{mixins.vw(850px)};
-    height: #{mixins.vw(850px)};
+    bottom: #{mixins.vw(-62px)};
+    width: calc(#{mixins.vw(850px)} * 0.9);
+    height: calc(#{mixins.vw(850px)} * 0.9);
   }
 
   .site-main--services .services-process {
