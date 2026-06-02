@@ -180,6 +180,12 @@
   }
 }
 
+@media (min-width: 1921px) {
+  .about-hero__description {
+    font-size: 20px;
+  }
+}
+
 .about-hero__cta {
   display: inline-flex;
   box-sizing: border-box;
