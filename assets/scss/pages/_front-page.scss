@@ -225,8 +225,35 @@
     margin-top: #{mixins.vw(32px)};
   }
 
+  .home-hex-projects-flow #services-projects .services-projects__header {
+    flex-shrink: 0;
+    padding-right: 0;
+  }
+
+  .home-hex-projects-flow #services-projects .services-projects__top-row {
+    align-items: flex-start;
+    margin-top: #{mixins.vw(16px)};
+    padding-right: 0;
+    gap: #{mixins.vw(24px)};
+  }
+
+  .home-hex-projects-flow #services-projects .services-projects__title {
+    flex: 0 1 #{mixins.vw(717px)};
+    width: #{mixins.vw(717px)};
+    min-width: 0;
+  }
+
+  .home-hex-projects-flow #services-projects .services-projects__nav {
+    position: static;
+    top: auto;
+    right: auto;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin: 0;
+  }
+
   .home-hex-projects-flow #services-projects .services-projects__stage {
-    margin-top: #{mixins.vw(12px)};
+    margin-top: #{mixins.vw(72px)};
     height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(108px)}));
   }
 
