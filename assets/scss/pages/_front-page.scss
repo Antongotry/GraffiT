@@ -837,6 +837,19 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 }
 
+/* >1920: CTA-сота +25%, підпис +10% (макет 1440). */
+@media (min-width: 1921px) {
+  .home-hero__project-link {
+    width: calc(175px * 1.25);
+    height: calc(187px * 1.25);
+  }
+
+  .home-hero__project-link-text {
+    width: calc(98px * 1.1);
+    font-size: calc(14px * 1.1);
+  }
+}
+
 .home-showcase {
   position: relative;
   margin-top: -1px;
