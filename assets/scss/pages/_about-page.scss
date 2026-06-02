@@ -622,7 +622,7 @@
 
   .services-clients__title {
     width: #{mixins.vw(788px)};
-    margin-top: #{mixins.vw(64px)};
+    margin-top: #{mixins.vw(24px)};
     font-size: #{mixins.vw(32px)};
     line-height: 1.48;
     text-wrap: balance;
@@ -633,7 +633,7 @@
   }
 
   .services-clients__text {
-    width: #{mixins.vw(598px)};
+    width: #{mixins.vw(680px)};
     margin-top: #{mixins.vw(156px)};
     color: rgba(0, 1, 2, 0.92);
   }
