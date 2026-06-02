@@ -331,7 +331,7 @@ function graffit_services_outsourcing_image_url(): string
  */
 function graffit_home_process_image_url(): string
 {
-    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/ban1440_result.webp';
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2145125_result.webp';
 }
 
 /**
