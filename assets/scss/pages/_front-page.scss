@@ -254,12 +254,15 @@
 
   .home-hex-projects-flow #services-projects .services-projects__stage {
     margin-top: #{mixins.vw(72px)};
-    height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(108px)}));
+    /* Менша висота карток; стискається на низьких екранах (cap 1440). */
+    height: min(#{mixins.vw(540px)}, calc(100svh - #{mixins.vw(300px)}));
+    max-height: calc(100svh - #{mixins.vw(300px)});
   }
 
   .home-hex-projects-flow #services-projects .project-case-card {
     height: 100%;
-    min-height: 100%;
+    min-height: 0;
+    max-height: 100%;
   }
 }
 
