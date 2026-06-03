@@ -244,6 +244,7 @@
           return -(track.scrollWidth - stage.clientWidth);
         },
         ease: 'none',
+        force3D: true,
         scrollTrigger: {
           trigger: section,
           start: 'top top',
@@ -254,9 +255,11 @@
 
             return 'clamp(+=' + graffitCappedHorizontalPinDistance(section, track, stage, 1.2) + ')';
           },
-          pin: viewport,
-          scrub: 1,
-          anticipatePin: 1,
+          /* Pin section (opaque bg), not viewport — avoids black gaps in pin-spacer. */
+          pin: section,
+          scrub: 0.85,
+          anticipatePin: 0,
+          fastScrollEnd: true,
           invalidateOnRefresh: true,
           onUpdate: function (self) {
             setActiveState(self.progress);

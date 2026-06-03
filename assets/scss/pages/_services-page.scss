@@ -3097,12 +3097,20 @@
   }
 }
 
+$services-benefits-bg:
+  radial-gradient(circle at 0% 112%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 34%),
+  linear-gradient(180deg, #000102 0%, #04101d 18%, #000102 42%, #000102 100%);
+
 .services-benefits {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 0% 112%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 34%),
-    linear-gradient(180deg, #000102 0%, #04101d 18%, #000102 42%, #000102 100%);
+  background: $services-benefits-bg;
+}
+
+/* Pin-spacer без фону дає чорний «блік» body (#000102) під час scrub. */
+.services-benefits .pin-spacer {
+  background: $services-benefits-bg;
 }
 
 .services-benefits__viewport {
@@ -3110,6 +3118,8 @@
   min-height: 100svh;
   padding: #{mixins.vw(32px)} 0 #{mixins.vw(40px)};
   box-sizing: border-box;
+  background: $services-benefits-bg;
+  backface-visibility: hidden;
 
   @media (min-width: 1025px) {
     .site-main--services & {
@@ -3144,6 +3154,7 @@
 
 .site-main--services .services-benefits .pin-spacer {
   align-self: flex-start;
+  background: $services-benefits-bg;
 }
 
 .services-benefits__container {
@@ -3254,6 +3265,7 @@
   height: #{mixins.vw(480px)};
   margin-top: #{mixins.vw(72px)};
   overflow: hidden;
+  backface-visibility: hidden;
 
   @include mixins.mobile {
     height: auto;
@@ -3276,6 +3288,8 @@
   gap: #{mixins.vw(42px)};
   width: max-content;
   padding: 0 #{mixins.vw(160px)} 0 #{mixins.vw(62px)};
+  backface-visibility: hidden;
+  transform: translateZ(0);
 
   @include mixins.mobile {
     flex-direction: row;
@@ -3358,7 +3372,6 @@
     opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
 }
 
 .benefit-card__marker-image--inactive {
