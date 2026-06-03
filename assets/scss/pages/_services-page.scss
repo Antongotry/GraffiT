@@ -385,10 +385,9 @@
 
 .services-hero__experience {
   position: absolute;
-  /* Лівіше CTA: між заголовком і правою колонкою, без накладання на кнопку. */
-  left: #{mixins.vw(680px)};
-  /* Нижче блоку aside (опис + CTA), синхронно з padding-top layout. */
-  top: #{mixins.vw(468px)};
+  /* По центру контейнера, нижче CTA — як на макеті /services/ hero. */
+  left: 50%;
+  top: #{mixins.vw(536px)};
   width: #{mixins.vw(230px)};
   height: #{mixins.vw(247px)};
   display: flex;
@@ -400,6 +399,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  transform: translateX(-50%);
   z-index: 2;
 
   @include mixins.mobile {
