@@ -385,9 +385,10 @@
 
 .services-hero__experience {
   position: absolute;
-  left: #{mixins.vw(870px)};
-  /* Синхронно з опусканням заголовка (__layout padding-top). */
-  top: #{mixins.vw(418px)};
+  /* Лівіше CTA: між заголовком і правою колонкою, без накладання на кнопку. */
+  left: #{mixins.vw(680px)};
+  /* Нижче блоку aside (опис + CTA), синхронно з padding-top layout. */
+  top: #{mixins.vw(468px)};
   width: #{mixins.vw(230px)};
   height: #{mixins.vw(247px)};
   display: flex;
