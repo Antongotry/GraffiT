@@ -374,7 +374,7 @@
     max-width: 100%;
     min-width: 0;
     margin-top: #{mixins.mvw(24px)};
-    margin-bottom: #{mixins.mvw(44px)};
+    margin-bottom: 0;
     margin-right: auto;
     min-height: #{mixins.mvw(48px)};
     padding: #{mixins.mvw(13px)} #{mixins.mvw(16px)};
@@ -412,7 +412,10 @@
     align-self: flex-end;
     width: #{mixins.mvw(218px)};
     height: #{mixins.mvw(234px)};
-    margin: #{mixins.mvw(20px)} #{mixins.mvw(-4px)} 0 auto;
+    margin-top: #{mixins.mvw(15px)};
+    margin-right: #{mixins.mvw(-4px)};
+    margin-bottom: 0;
+    margin-left: auto;
     padding: #{mixins.mvw(48px)} #{mixins.mvw(20px)} #{mixins.mvw(20px)};
     z-index: 3;
   }
