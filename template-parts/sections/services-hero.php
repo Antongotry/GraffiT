@@ -37,13 +37,12 @@ declare(strict_types=1);
             <div class="services-hero__aside">
                 <p class="services-hero__description">Ми допомагаємо компаніям наводити лад у процесах – від автоматизації обліку до створення масштабних систем управління.</p>
                 <a class="services-hero__cta" href="#site-footer" data-popup-open="request" data-popup-source="services-hero" data-popup-source-label="Hero · Отримати консультацію">Отримати консультацію</a>
+                <article class="services-hero__experience" aria-label="18 років досвіду">
+                    <p class="services-hero__experience-value">18</p>
+                    <p class="services-hero__experience-unit">років</p>
+                    <p class="services-hero__experience-text">досвіду, які перетворюють технології на результат.</p>
+                </article>
             </div>
-
-            <article class="services-hero__experience" aria-label="18 років досвіду">
-                <p class="services-hero__experience-value">18</p>
-                <p class="services-hero__experience-unit">років</p>
-                <p class="services-hero__experience-text">досвіду, які перетворюють технології на результат.</p>
-            </article>
         </div>
     </div>
 </section>
