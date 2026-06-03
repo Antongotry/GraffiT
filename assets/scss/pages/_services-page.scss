@@ -385,9 +385,11 @@
 
 .services-hero__experience {
   position: absolute;
-  /* По центру контейнера, нижче CTA — як на макеті /services/ hero. */
+  /* Макет: по центру секції, верх гекса на рівні низу CTA (не на кнопці). */
   left: 50%;
-  top: #{mixins.vw(536px)};
+  top: calc(
+    #{mixins.vw(268px)} + #{mixins.vw(72px)} + #{mixins.vw(28px)} + #{mixins.vw(48px)} + #{mixins.vw(2px)}
+  );
   width: #{mixins.vw(230px)};
   height: #{mixins.vw(247px)};
   display: flex;
