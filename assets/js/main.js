@@ -407,7 +407,15 @@
     var extra = Math.round((140 / 1440) * w);
     extra = Math.min(Math.max(extra, 96), 200);
 
-    return overflow + extra;
+    var distance = overflow + extra;
+
+    /* >1920: більше вертикального скролу на той самий горизонтальний хід — повільніша анімація. */
+    if (w > 1920) {
+      var factor = 1.45 + Math.min((w - 1920) / 3840, 0.35);
+      distance = Math.round(distance * factor);
+    }
+
+    return distance;
   }
 
   function productsHorizontalPinDistance(track, stage) {
