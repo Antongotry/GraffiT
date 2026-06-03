@@ -183,8 +183,10 @@
   position: relative;
   display: grid;
   grid-template-columns: #{mixins.vw(839px)} #{mixins.vw(282px)};
+  grid-template-rows: auto auto;
   justify-content: space-between;
   align-items: start;
+  row-gap: 0;
   /* Ще нижче на кадрі: +96px до попереднього 172px. */
   padding-top: #{mixins.vw(268px)};
   height: 100%;
@@ -199,6 +201,8 @@
 
 .services-hero__heading {
   position: relative;
+  grid-column: 1;
+  grid-row: 1;
   width: #{mixins.vw(839px)};
 
   @include mixins.mobile {
@@ -325,6 +329,8 @@
 
 .services-hero__aside {
   position: relative;
+  grid-column: 2;
+  grid-row: 1;
   width: #{mixins.vw(282px)};
 
   @include mixins.mobile {
@@ -384,14 +390,17 @@
 }
 
 .services-hero__experience {
-  position: absolute;
-  /* Макет: по центру секції, верх гекса на рівні низу CTA (не на кнопці). */
-  left: 50%;
-  top: calc(
-    #{mixins.vw(268px)} + #{mixins.vw(72px)} + #{mixins.vw(28px)} + #{mixins.vw(48px)} + #{mixins.vw(2px)}
-  );
+  /* 2-й ряд сітки: під CTA, вирівняний по лівому краю колонки aside (впритик до кнопки). */
+  position: relative;
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: start;
+  align-self: start;
   width: #{mixins.vw(230px)};
   height: #{mixins.vw(247px)};
+  margin-top: #{mixins.vw(-14px)};
+  /* Правий край гекса = лівий край кнопки (колонка aside). */
+  margin-left: #{mixins.vw(-230px)};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -401,20 +410,17 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  transform: translateX(-50%);
   z-index: 2;
 
   @include mixins.mobile {
-    position: relative;
-    left: auto;
-    top: auto;
+    grid-column: auto;
+    grid-row: auto;
     flex: 0 0 auto;
     align-self: flex-end;
     width: #{mixins.mvw(218px)};
     height: #{mixins.mvw(234px)};
     margin: #{mixins.mvw(20px)} #{mixins.mvw(-4px)} 0 auto;
     padding: #{mixins.mvw(48px)} #{mixins.mvw(20px)} #{mixins.mvw(20px)};
-    transform: none;
     z-index: 3;
   }
 }
