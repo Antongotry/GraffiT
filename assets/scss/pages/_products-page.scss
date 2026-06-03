@@ -867,28 +867,28 @@
 }
 
 // Desktop: projects — wheel-lock; каталог — ScrollTrigger (initProductsCatalogScroller).
+/*
+ * /products/ #products-projects — дзеркало .home-hex-projects-flow #services-projects:
+ * відступи заголовка, nav у top-row, висота stage і карток.
+ */
 @media (min-width: 1025px) {
   .site-main--products #products-projects.services-projects {
+    position: relative;
+    z-index: 70;
     overflow: visible;
   }
 
-  .site-main--products #products-projects .services-projects__stage {
+  .site-main--products #products-projects .services-projects__viewport {
+    z-index: 70 !important;
+    min-height: 0;
     overflow: visible;
-  }
-
-  .site-main--products #products-projects .js-products-page-projects-track {
-    will-change: transform;
+    padding-top: #{mixins.vw(40px)};
+    padding-bottom: #{mixins.vw(8px)};
+    background: #000102;
   }
 
   .site-main--products #products-projects .services-projects__container {
     margin-top: 0;
-  }
-
-  .site-main--products #products-projects .services-projects__viewport {
-    min-height: 0;
-    padding-top: #{mixins.vw(32px)};
-    padding-bottom: #{mixins.vw(12px)};
-    background: #000102;
   }
 
   .site-main--products #products-projects .services-projects__header {
@@ -896,26 +896,30 @@
     padding-right: 0;
   }
 
+  .site-main--products #products-projects .services-projects__eyebrow {
+    margin-bottom: 0;
+  }
+
   .site-main--products #products-projects .services-projects__top-row {
     align-items: flex-start;
-    margin-top: #{mixins.vw(8px)};
+    margin-top: #{mixins.vw(16px)};
     padding-right: 0;
     gap: #{mixins.vw(24px)};
   }
 
   .site-main--products #products-projects .services-projects__title {
-    flex: 0 1 #{mixins.vw(600px)};
-    width: #{mixins.vw(600px)};
+    flex: 0 1 #{mixins.vw(717px)};
+    width: #{mixins.vw(717px)};
     min-width: 0;
   }
 
   .site-main--products #products-projects .services-projects__nav {
-    position: absolute;
-    top: #{mixins.vw(74px)};
-    right: #{mixins.vw(116px)};
+    position: static;
+    top: auto;
+    right: auto;
     z-index: 2;
     flex-shrink: 0;
-    align-self: auto;
+    align-self: flex-start;
     margin: 0;
   }
 
@@ -924,13 +928,20 @@
   }
 
   .site-main--products #products-projects .services-projects__stage {
-    margin-top: #{mixins.vw(44px)};
-    height: min(#{mixins.vw(618px)}, calc(100svh - #{mixins.vw(100px)} - #{mixins.vw(168px)}));
+    overflow: visible;
+    margin-top: #{mixins.vw(72px)};
+    height: min(#{mixins.vw(540px)}, calc(100svh - #{mixins.vw(300px)}));
+    max-height: calc(100svh - #{mixins.vw(300px)});
+  }
+
+  .site-main--products #products-projects .js-products-page-projects-track {
+    will-change: transform;
   }
 
   .site-main--products #products-projects .project-case-card {
     height: 100%;
-    min-height: 100%;
+    min-height: 0;
+    max-height: 100%;
   }
 }
 
@@ -1139,7 +1150,9 @@
 }
 
 .site-main--products #products-projects .services-projects__container {
-  margin-top: 0 !important;
+  @include mixins.mobile {
+    margin-top: 0 !important;
+  }
 }
 
 .products-projects {
