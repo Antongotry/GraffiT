@@ -187,8 +187,7 @@
   justify-content: space-between;
   align-items: start;
   row-gap: 0;
-  /* Ще нижче на кадрі: +96px до попереднього 172px. */
-  padding-top: #{mixins.vw(268px)};
+  padding-top: #{mixins.vw(134px)};
   height: 100%;
 
   @include mixins.mobile {
