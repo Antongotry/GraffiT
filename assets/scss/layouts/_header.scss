@@ -116,7 +116,8 @@
   color: #ffffff;
 }
 
-.site-header__nav-item--products {
+.site-header__nav-item--products,
+.site-header__nav-item--projects {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -124,12 +125,14 @@
 }
 
 /* Сабменю в DOM після посилання — без z-index клік «Продукти» проходить крізь прихований dropdown. */
-.site-header__nav-item--products .site-header__nav-link {
+.site-header__nav-item--products .site-header__nav-link,
+.site-header__nav-item--projects .site-header__nav-link {
   position: relative;
   z-index: 2;
 }
 
-.site-header__nav-products-toggle {
+.site-header__nav-products-toggle,
+.site-header__nav-projects-toggle {
   position: relative;
   z-index: 2;
   display: inline-flex;
@@ -139,34 +142,54 @@
   padding: #{mixins.vw(6px)};
   border: 0;
   border-radius: #{mixins.vw(6px)};
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   background: transparent;
+  background-color: transparent;
+  box-shadow: none;
   color: rgba(255, 255, 255, 0.72);
   cursor: pointer;
-  transition: color 0.2s ease, background 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease;
   -webkit-tap-highlight-color: transparent;
 
   &:hover {
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(0, 115, 230, 0.85);
+    outline-offset: 2px;
   }
 }
 
 .site-header__nav-item--products:has(.site-header__nav-link.is-active) .site-header__nav-products-toggle,
-.site-header__nav-item--products:has(.site-header__subnav-link.is-active) .site-header__nav-products-toggle {
+.site-header__nav-item--products:has(.site-header__subnav-link.is-active) .site-header__nav-products-toggle,
+.site-header__nav-item--projects:has(.site-header__nav-link.is-active) .site-header__nav-projects-toggle,
+.site-header__nav-item--projects:has(.site-header__subnav-link.is-active) .site-header__nav-projects-toggle {
   color: #ffffff;
 }
 
-.site-header__nav-item--products.is-open .site-header__nav-products-toggle {
+.site-header__nav-item--products.is-open .site-header__nav-products-toggle,
+.site-header__nav-item--projects.is-open .site-header__nav-projects-toggle {
   color: #ffffff;
 }
 
-.site-header__nav-products-chevron {
+.site-header__nav-products-chevron,
+.site-header__nav-projects-chevron {
   display: block;
   transition: transform 0.22s ease;
 }
 
 .site-header__nav-item--products:hover .site-header__nav-products-chevron,
-.site-header__nav-item--products.is-open .site-header__nav-products-chevron {
+.site-header__nav-item--products.is-open .site-header__nav-products-chevron,
+.site-header__nav-item--projects:hover .site-header__nav-projects-chevron,
+.site-header__nav-item--projects.is-open .site-header__nav-projects-chevron {
   transform: rotate(180deg);
 }
 
@@ -207,7 +230,10 @@
 
 .site-header__nav-item--products:hover .site-header__subnav,
 .site-header__nav-item--products:focus-within .site-header__subnav,
-.site-header__nav-item--products.is-open .site-header__subnav {
+.site-header__nav-item--products.is-open .site-header__subnav,
+.site-header__nav-item--projects:hover .site-header__subnav,
+.site-header__nav-item--projects:focus-within .site-header__subnav,
+.site-header__nav-item--projects.is-open .site-header__subnav {
   z-index: 3;
   opacity: 1;
   visibility: visible;

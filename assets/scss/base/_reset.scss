@@ -34,6 +34,12 @@ select {
   font: inherit;
 }
 
+button {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
 a {
   color: inherit;
   text-decoration: none;
