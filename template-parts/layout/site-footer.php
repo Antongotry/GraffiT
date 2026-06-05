@@ -13,13 +13,18 @@ $about_url = home_url('/about/');
 $contacts_url = home_url('/contacts/');
 $projects_url = home_url('/projects/');
 
-$projects_product_pages = graffit_nav_projects_product_pages();
-$projects_product_slugs = array_column($projects_product_pages, 'slug');
-$is_on_projects_product = in_array($current_path, $projects_product_slugs, true);
+$product_subpages = graffit_nav_projects_product_pages();
+$product_subpage_slugs = array_column($product_subpages, 'slug');
+$is_on_product_subpage = in_array($current_path, $product_subpage_slugs, true);
 
-$footer_projects_link_classes = ['site-footer__nav-link'];
-if ($current_path === 'projects' || $current_path === 'services' || $is_on_projects_product) {
-    $footer_projects_link_classes[] = 'is-active';
+$footer_products_link_classes = ['site-footer__nav-link'];
+if ($current_path === 'products' || $is_on_product_subpage) {
+    $footer_products_link_classes[] = 'is-active';
+}
+
+$footer_blog_link_classes = ['site-footer__nav-link'];
+if ($current_path === 'projects') {
+    $footer_blog_link_classes[] = 'is-active';
 }
 ?>
 <footer class="site-footer" id="site-footer">
@@ -44,13 +49,12 @@ if ($current_path === 'projects' || $current_path === 'services' || $is_on_proje
                     <p class="site-footer__label">Навігація</p>
                     <a class="site-footer__nav-link" href="<?php echo esc_url($about_url); ?>">Про нас</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
-                    <a class="site-footer__nav-link" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
-                    <div class="site-footer__nav-group site-footer__nav-group--projects">
-                        <a class="<?php echo esc_attr(implode(' ', $footer_projects_link_classes)); ?>" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
-                        <?php foreach ($projects_product_pages as $projects_product) : ?>
+                    <div class="site-footer__nav-group site-footer__nav-group--products">
+                        <a class="<?php echo esc_attr(implode(' ', $footer_products_link_classes)); ?>" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
+                        <?php foreach ($product_subpages as $product_subpage) : ?>
                             <?php
-                            $sub_slug = (string) ($projects_product['slug'] ?? '');
-                            $sub_label = (string) ($projects_product['label'] ?? '');
+                            $sub_slug = (string) ($product_subpage['slug'] ?? '');
+                            $sub_label = (string) ($product_subpage['label'] ?? '');
                             if ($sub_slug === '' || $sub_label === '') {
                                 continue;
                             }
@@ -63,6 +67,7 @@ if ($current_path === 'projects' || $current_path === 'services' || $is_on_proje
                             <a class="<?php echo esc_attr(implode(' ', $sub_classes)); ?>" href="<?php echo esc_url($sub_url); ?>"><?php echo esc_html($sub_label); ?></a>
                         <?php endforeach; ?>
                     </div>
+                    <a class="<?php echo esc_attr(implode(' ', $footer_blog_link_classes)); ?>" href="<?php echo esc_url($projects_url); ?>">Блог</a>
                     <a class="site-footer__nav-link" href="<?php echo esc_url($contacts_url); ?>">Контакти</a>
                 </nav>
 
