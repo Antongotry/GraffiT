@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 if (! defined('GRAFFIT_THEME_VERSION')) {
-    define('GRAFFIT_THEME_VERSION', '0.1.1');
+    define('GRAFFIT_THEME_VERSION', '0.1.2');
 }
 
 /**
@@ -585,6 +585,31 @@ function graffit_maybe_send_nocache_headers(): void
     nocache_headers();
 }
 add_action('send_headers', 'graffit_maybe_send_nocache_headers', 0);
+
+/**
+ * Purge LiteSpeed / Hostinger HTML cache once per theme version bump (fixes stale homepage nav).
+ */
+function graffit_maybe_purge_hosting_cache_after_theme_update(): void
+{
+    if (is_admin() || wp_doing_ajax() || wp_doing_cron()) {
+        return;
+    }
+
+    $option_key = 'graffit_purged_theme_version';
+    $current_version = (string) GRAFFIT_THEME_VERSION;
+    $purged_version = (string) get_option($option_key, '');
+
+    if ($purged_version === $current_version) {
+        return;
+    }
+
+    update_option($option_key, $current_version, false);
+
+    if (has_action('litespeed_purge_all')) {
+        do_action('litespeed_purge_all');
+    }
+}
+add_action('init', 'graffit_maybe_purge_hosting_cache_after_theme_update', 1);
 
 /**
  * Handle AJAX request submissions from the site popup.
