@@ -34,6 +34,7 @@ $products_catalog_items = [
         'title' => 'MediaHub – стабільне середовище для синхронізації контенту у всіх каналах',
         'description' => 'Оновлення акцій, цін і матеріалів у всіх каналах – у єдиному інтерфейсі.',
         'image_url' => $uploads_base . '4g_result.webp',
+        'url' => graffit_nav_projects_product_url('product-mediahub'),
     ],
 ];
 ?>
@@ -114,21 +115,38 @@ $products_catalog_items = [
                             <h3 class="product-catalog-card__title"><?php echo esc_html($catalog_item['title']); ?></h3>
                             <p class="product-catalog-card__description"><?php echo esc_html($catalog_item['description']); ?></p>
 
-                            <a
-                                class="product-catalog-card__cta product-catalog-card__cta--desktop"
-                                href="#site-footer"
-                                data-popup-open="request"
-                                data-popup-source="products-catalog"
-                                data-popup-source-label="<?php echo esc_attr('Catalog · ' . $catalog_item['title']); ?>"
-                            >Детальніше</a>
+                            <?php
+                            $catalog_item_url = isset($catalog_item['url']) ? (string) $catalog_item['url'] : '';
+                            $catalog_cta_label = 'Catalog · ' . $catalog_item['title'];
+                            ?>
 
-                            <a
-                                class="product-catalog-card__cta product-catalog-card__cta--mobile"
-                                href="#site-footer"
-                                data-popup-open="request"
-                                data-popup-source="products-catalog"
-                                data-popup-source-label="<?php echo esc_attr('Catalog · ' . $catalog_item['title']); ?>"
-                            >Детальніше</a>
+                            <?php if ($catalog_item_url !== '') : ?>
+                                <a
+                                    class="product-catalog-card__cta product-catalog-card__cta--desktop"
+                                    href="<?php echo esc_url($catalog_item_url); ?>"
+                                >Детальніше</a>
+
+                                <a
+                                    class="product-catalog-card__cta product-catalog-card__cta--mobile"
+                                    href="<?php echo esc_url($catalog_item_url); ?>"
+                                >Детальніше</a>
+                            <?php else : ?>
+                                <a
+                                    class="product-catalog-card__cta product-catalog-card__cta--desktop"
+                                    href="#site-footer"
+                                    data-popup-open="request"
+                                    data-popup-source="products-catalog"
+                                    data-popup-source-label="<?php echo esc_attr($catalog_cta_label); ?>"
+                                >Детальніше</a>
+
+                                <a
+                                    class="product-catalog-card__cta product-catalog-card__cta--mobile"
+                                    href="#site-footer"
+                                    data-popup-open="request"
+                                    data-popup-source="products-catalog"
+                                    data-popup-source-label="<?php echo esc_attr($catalog_cta_label); ?>"
+                                >Детальніше</a>
+                            <?php endif; ?>
                         </article>
                     <?php endforeach; ?>
                 </div>
