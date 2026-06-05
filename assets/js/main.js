@@ -2361,9 +2361,9 @@
     });
   }
 
-  function initProjectsNavDropdowns() {
-    document.querySelectorAll('.js-header-projects').forEach(function (root) {
-      var toggle = root.querySelector('.js-header-projects-toggle');
+  function initProductsNavDropdowns() {
+    document.querySelectorAll('.js-header-products').forEach(function (root) {
+      var toggle = root.querySelector('.js-header-products-toggle');
       var mainLink = root.querySelector('.site-header__nav-link');
       if (!toggle) {
         return;
@@ -2387,11 +2387,11 @@
 
     document.addEventListener('click', function (e) {
       var t = e.target;
-      if (t && t.closest && t.closest('.js-header-projects')) {
+      if (t && t.closest && t.closest('.js-header-products')) {
         return;
       }
-      document.querySelectorAll('.js-header-projects.is-open').forEach(function (root) {
-        var btn = root.querySelector('.js-header-projects-toggle');
+      document.querySelectorAll('.js-header-products.is-open').forEach(function (root) {
+        var btn = root.querySelector('.js-header-products-toggle');
         root.classList.remove('is-open');
         if (btn) {
           btn.setAttribute('aria-expanded', 'false');
@@ -2403,8 +2403,8 @@
       if (e.key !== 'Escape') {
         return;
       }
-      document.querySelectorAll('.js-header-projects.is-open').forEach(function (root) {
-        var btn = root.querySelector('.js-header-projects-toggle');
+      document.querySelectorAll('.js-header-products.is-open').forEach(function (root) {
+        var btn = root.querySelector('.js-header-products-toggle');
         root.classList.remove('is-open');
         if (btn) {
           btn.setAttribute('aria-expanded', 'false');
@@ -2412,15 +2412,15 @@
       });
     });
 
-    document.querySelectorAll('.js-mobile-projects').forEach(function (root) {
-      var toggle = root.querySelector('.js-mobile-projects-toggle');
-      var panel = root.querySelector('.js-mobile-projects-panel');
-      var mobileMainLink = root.querySelector('.mobile-menu__nav-link--projects-main');
+    document.querySelectorAll('.js-mobile-products').forEach(function (root) {
+      var toggle = root.querySelector('.js-mobile-products-toggle');
+      var panel = root.querySelector('.js-mobile-products-panel');
+      var mobileMainLink = root.querySelector('.mobile-menu__nav-link--products-main');
       if (!toggle || !panel) {
         return;
       }
 
-      function setMobileProjectsOpen(open) {
+      function setMobileProductsOpen(open) {
         root.classList.toggle('is-open', open);
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         panel.setAttribute('aria-hidden', open ? 'false' : 'true');
@@ -2428,14 +2428,14 @@
 
       if (mobileMainLink) {
         mobileMainLink.addEventListener('click', function () {
-          setMobileProjectsOpen(false);
+          setMobileProductsOpen(false);
         });
       }
 
       toggle.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        setMobileProjectsOpen(!root.classList.contains('is-open'));
+        setMobileProductsOpen(!root.classList.contains('is-open'));
       });
     });
   }
@@ -2477,10 +2477,10 @@
         }
       });
 
-      menu.querySelectorAll('.js-mobile-projects.is-open').forEach(function (root) {
+      menu.querySelectorAll('.js-mobile-products.is-open').forEach(function (root) {
         root.classList.remove('is-open');
-        var subToggle = root.querySelector('.js-mobile-projects-toggle');
-        var subPanel = root.querySelector('.js-mobile-projects-panel');
+        var subToggle = root.querySelector('.js-mobile-products-toggle');
+        var subPanel = root.querySelector('.js-mobile-products-panel');
         if (subToggle) {
           subToggle.setAttribute('aria-expanded', 'false');
         }
@@ -3703,7 +3703,7 @@
 
   runInit(initCriticalCssFallback, 'critical-css-fallback');
   runInit(initMobileMenu, 'mobile-menu');
-  runInit(initProjectsNavDropdowns, 'projects-nav-dropdowns');
+  runInit(initProductsNavDropdowns, 'products-nav-dropdowns');
   runInit(initRequestPopup, 'request-popup');
   runInit(initLenis, 'lenis');
   runInit(initHeaderScrollBlur, 'header-scroll-blur');

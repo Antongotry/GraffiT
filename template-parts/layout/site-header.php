@@ -16,9 +16,6 @@ $mobile_home_link_classes = ['mobile-menu__nav-link'];
 $services_link_classes = ['site-header__nav-link'];
 $mobile_services_link_classes = ['mobile-menu__nav-link'];
 
-$products_link_classes = ['site-header__nav-link'];
-$mobile_products_link_classes = ['mobile-menu__nav-link'];
-
 $about_link_classes = ['site-header__nav-link'];
 $mobile_about_link_classes = ['mobile-menu__nav-link'];
 
@@ -29,15 +26,22 @@ $about_url = home_url('/about/');
 $contacts_url = home_url('/contacts/');
 $projects_url = home_url('/projects/');
 
-$projects_product_pages = graffit_nav_projects_product_pages();
-$projects_product_slugs = array_column($projects_product_pages, 'slug');
-$is_on_projects_product = in_array($current_path, $projects_product_slugs, true);
+$product_subpages = graffit_nav_projects_product_pages();
+$product_subpage_slugs = array_column($product_subpages, 'slug');
+$is_on_product_subpage = in_array($current_path, $product_subpage_slugs, true);
 
-$projects_link_classes = ['site-header__nav-link'];
-$mobile_projects_link_classes = ['mobile-menu__nav-link'];
-if ($current_path === 'projects' || $current_path === 'services' || $is_on_projects_product) {
-    $projects_link_classes[] = 'is-active';
-    $mobile_projects_link_classes[] = 'is-active';
+$products_link_classes = ['site-header__nav-link'];
+$mobile_products_link_classes = ['mobile-menu__nav-link'];
+if ($current_path === 'products' || $is_on_product_subpage) {
+    $products_link_classes[] = 'is-active';
+    $mobile_products_link_classes[] = 'is-active';
+}
+
+$blog_link_classes = ['site-header__nav-link'];
+$mobile_blog_link_classes = ['mobile-menu__nav-link'];
+if ($current_path === 'projects') {
+    $blog_link_classes[] = 'is-active';
+    $mobile_blog_link_classes[] = 'is-active';
 }
 
 $home_url = home_url('/');
@@ -61,11 +65,6 @@ if ($current_path === 'services') {
     $services_link_classes[] = 'is-active';
     $mobile_services_link_classes[] = 'is-active';
 }
-
-if ($current_path === 'products') {
-    $products_link_classes[] = 'is-active';
-    $mobile_products_link_classes[] = 'is-active';
-}
 ?>
 <header class="site-header">
     <div class="site-header__inner">
@@ -85,25 +84,24 @@ if ($current_path === 'products') {
             <a class="<?php echo esc_attr(implode(' ', $home_link_classes)); ?>" href="<?php echo esc_url($home_url); ?>">Головна</a>
             <a class="<?php echo esc_attr(implode(' ', $about_link_classes)); ?>" href="<?php echo esc_url($about_url); ?>">Про нас</a>
             <a class="<?php echo esc_attr(implode(' ', $services_link_classes)); ?>" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
-            <a class="<?php echo esc_attr(implode(' ', $products_link_classes)); ?>" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
-            <div class="site-header__nav-item site-header__nav-item--projects js-header-projects">
-                <a class="<?php echo esc_attr(implode(' ', $projects_link_classes)); ?>" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
+            <div class="site-header__nav-item site-header__nav-item--products js-header-products">
+                <a class="<?php echo esc_attr(implode(' ', $products_link_classes)); ?>" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
                 <button
-                    class="site-header__nav-projects-toggle js-header-projects-toggle"
+                    class="site-header__nav-products-toggle js-header-products-toggle"
                     type="button"
                     aria-expanded="false"
-                    aria-controls="site-header-projects-subnav"
+                    aria-controls="site-header-products-subnav"
                     aria-label="<?php esc_attr_e('Підменю продуктів (MediaHub тощо)', 'graffit'); ?>"
                 >
-                    <svg class="site-header__nav-projects-chevron" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false">
+                    <svg class="site-header__nav-products-chevron" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false">
                         <path d="M1 1.5L5 4.5L9 1.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </button>
-                <ul id="site-header-projects-subnav" class="site-header__subnav js-header-projects-panel" role="list">
-                    <?php foreach ($projects_product_pages as $projects_product) : ?>
+                <ul id="site-header-products-subnav" class="site-header__subnav js-header-products-panel" role="list">
+                    <?php foreach ($product_subpages as $product_subpage) : ?>
                         <?php
-                        $sub_slug = (string) ($projects_product['slug'] ?? '');
-                        $sub_label = (string) ($projects_product['label'] ?? '');
+                        $sub_slug = (string) ($product_subpage['slug'] ?? '');
+                        $sub_label = (string) ($product_subpage['label'] ?? '');
                         if ($sub_slug === '' || $sub_label === '') {
                             continue;
                         }
@@ -119,6 +117,7 @@ if ($current_path === 'products') {
                     <?php endforeach; ?>
                 </ul>
             </div>
+            <a class="<?php echo esc_attr(implode(' ', $blog_link_classes)); ?>" href="<?php echo esc_url($projects_url); ?>">Блог</a>
             <a class="<?php echo esc_attr(implode(' ', $contacts_link_classes)); ?>" href="<?php echo esc_url($contacts_url); ?>">Контакти</a>
         </nav>
 
@@ -144,27 +143,26 @@ if ($current_path === 'products') {
             <a class="<?php echo esc_attr(implode(' ', $mobile_home_link_classes)); ?>" href="<?php echo esc_url($home_url); ?>">Головна</a>
             <a class="<?php echo esc_attr(implode(' ', $mobile_about_link_classes)); ?>" href="<?php echo esc_url($about_url); ?>">Про нас</a>
             <a class="<?php echo esc_attr(implode(' ', $mobile_services_link_classes)); ?>" href="<?php echo esc_url(home_url('/services/')); ?>">Послуги</a>
-            <a class="<?php echo esc_attr(implode(' ', $mobile_products_link_classes)); ?>" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
-            <div class="mobile-menu__nav-group mobile-menu__nav-group--projects js-mobile-projects">
+            <div class="mobile-menu__nav-group mobile-menu__nav-group--products js-mobile-products">
                 <div class="mobile-menu__nav-row">
-                    <a class="<?php echo esc_attr(implode(' ', $mobile_projects_link_classes)); ?> mobile-menu__nav-link--projects-main" href="<?php echo esc_url($projects_url); ?>">Проєкти</a>
+                    <a class="<?php echo esc_attr(implode(' ', $mobile_products_link_classes)); ?> mobile-menu__nav-link--products-main" href="<?php echo esc_url(home_url('/products/')); ?>">Продукти</a>
                     <button
-                        class="mobile-menu__nav-projects-toggle js-mobile-projects-toggle"
+                        class="mobile-menu__nav-products-toggle js-mobile-products-toggle"
                         type="button"
                         aria-expanded="false"
-                        aria-controls="mobile-menu-projects-subnav"
-                        aria-label="<?php esc_attr_e('Показати продукти в підменю Проєкти', 'graffit'); ?>"
+                        aria-controls="mobile-menu-products-subnav"
+                        aria-label="<?php esc_attr_e('Показати продукти в підменю', 'graffit'); ?>"
                     >
-                        <svg class="mobile-menu__nav-projects-chevron" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true" focusable="false">
+                        <svg class="mobile-menu__nav-products-chevron" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true" focusable="false">
                             <path d="M1.5 2L6 6L10.5 2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </button>
                 </div>
-                <div id="mobile-menu-projects-subnav" class="mobile-menu__subnav js-mobile-projects-panel" aria-hidden="true">
-                    <?php foreach ($projects_product_pages as $projects_product) : ?>
+                <div id="mobile-menu-products-subnav" class="mobile-menu__subnav js-mobile-products-panel" aria-hidden="true">
+                    <?php foreach ($product_subpages as $product_subpage) : ?>
                         <?php
-                        $sub_slug = (string) ($projects_product['slug'] ?? '');
-                        $sub_label = (string) ($projects_product['label'] ?? '');
+                        $sub_slug = (string) ($product_subpage['slug'] ?? '');
+                        $sub_label = (string) ($product_subpage['label'] ?? '');
                         if ($sub_slug === '' || $sub_label === '') {
                             continue;
                         }
@@ -178,6 +176,7 @@ if ($current_path === 'products') {
                     <?php endforeach; ?>
                 </div>
             </div>
+            <a class="<?php echo esc_attr(implode(' ', $mobile_blog_link_classes)); ?>" href="<?php echo esc_url($projects_url); ?>">Блог</a>
             <a class="<?php echo esc_attr(implode(' ', $mobile_contacts_link_classes)); ?>" href="<?php echo esc_url($contacts_url); ?>">Контакти</a>
         </nav>
 

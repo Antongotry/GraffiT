@@ -116,20 +116,20 @@
   color: #ffffff;
 }
 
-.site-header__nav-item--projects {
+.site-header__nav-item--products {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: #{mixins.vw(2px)};
 }
 
-/* Сабменю в DOM після посилання — без z-index клік «Проєкти» проходить крізь прихований dropdown. */
-.site-header__nav-item--projects .site-header__nav-link {
+/* Сабменю в DOM після посилання — без z-index клік «Продукти» проходить крізь прихований dropdown. */
+.site-header__nav-item--products .site-header__nav-link {
   position: relative;
   z-index: 2;
 }
 
-.site-header__nav-projects-toggle {
+.site-header__nav-products-toggle {
   position: relative;
   z-index: 2;
   display: inline-flex;
@@ -151,28 +151,28 @@
   }
 }
 
-.site-header__nav-item--projects:has(.site-header__nav-link.is-active) .site-header__nav-projects-toggle,
-.site-header__nav-item--projects:has(.site-header__subnav-link.is-active) .site-header__nav-projects-toggle {
+.site-header__nav-item--products:has(.site-header__nav-link.is-active) .site-header__nav-products-toggle,
+.site-header__nav-item--products:has(.site-header__subnav-link.is-active) .site-header__nav-products-toggle {
   color: #ffffff;
 }
 
-.site-header__nav-item--projects.is-open .site-header__nav-projects-toggle {
+.site-header__nav-item--products.is-open .site-header__nav-products-toggle {
   color: #ffffff;
 }
 
-.site-header__nav-projects-chevron {
+.site-header__nav-products-chevron {
   display: block;
   transition: transform 0.22s ease;
 }
 
-.site-header__nav-item--projects:hover .site-header__nav-projects-chevron,
-.site-header__nav-item--projects.is-open .site-header__nav-projects-chevron {
+.site-header__nav-item--products:hover .site-header__nav-products-chevron,
+.site-header__nav-item--products.is-open .site-header__nav-products-chevron {
   transform: rotate(180deg);
 }
 
 .site-header__subnav {
   position: absolute;
-  /* Зазор під рядком «Проєкти», щоб dropdown не перекривав клік по посиланню. */
+  /* Зазор під рядком «Продукти», щоб dropdown не перекривав клік по посиланню. */
   top: calc(100% + #{mixins.vw(10px)});
   left: 50%;
   z-index: 1;
@@ -205,9 +205,9 @@
   }
 }
 
-.site-header__nav-item--projects:hover .site-header__subnav,
-.site-header__nav-item--projects:focus-within .site-header__subnav,
-.site-header__nav-item--projects.is-open .site-header__subnav {
+.site-header__nav-item--products:hover .site-header__subnav,
+.site-header__nav-item--products:focus-within .site-header__subnav,
+.site-header__nav-item--products.is-open .site-header__subnav {
   z-index: 3;
   opacity: 1;
   visibility: visible;
@@ -369,7 +369,7 @@
   background: rgba(255, 255, 255, 0.06);
 }
 
-.mobile-menu__nav-group--projects {
+.mobile-menu__nav-group--products {
   display: flex;
   flex-direction: column;
   gap: #{mixins.mvw(8px)};
@@ -386,12 +386,12 @@
   background: rgba(255, 255, 255, 0.03);
 }
 
-.mobile-menu__nav-group--projects.is-open .mobile-menu__nav-row {
+.mobile-menu__nav-group--products.is-open .mobile-menu__nav-row {
   border-color: rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.05);
 }
 
-.mobile-menu__nav-link--projects-main {
+.mobile-menu__nav-link--products-main {
   flex: 1;
   min-width: 0;
   margin: 0;
@@ -399,7 +399,7 @@
   padding: #{mixins.mvw(10px)} #{mixins.mvw(10px)} #{mixins.mvw(10px)} #{mixins.mvw(8px)};
 }
 
-.mobile-menu__nav-projects-toggle {
+.mobile-menu__nav-products-toggle {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
@@ -422,17 +422,17 @@
   }
 }
 
-.mobile-menu__nav-group--projects.is-open .mobile-menu__nav-projects-toggle {
+.mobile-menu__nav-group--products.is-open .mobile-menu__nav-products-toggle {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.1);
 }
 
-.mobile-menu__nav-projects-chevron {
+.mobile-menu__nav-products-chevron {
   display: block;
   transition: transform 0.22s ease;
 }
 
-.mobile-menu__nav-group--projects.is-open .mobile-menu__nav-projects-chevron {
+.mobile-menu__nav-group--products.is-open .mobile-menu__nav-products-chevron {
   transform: rotate(180deg);
 }
 
@@ -448,7 +448,7 @@
   box-shadow: inset 3px 0 0 rgba(0, 115, 230, 0.55);
 }
 
-.mobile-menu__nav-group--projects.is-open .mobile-menu__subnav {
+.mobile-menu__nav-group--products.is-open .mobile-menu__subnav {
   display: flex;
 }
 
