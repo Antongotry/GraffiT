@@ -1,7 +1,8 @@
 @use "../abstracts/mixins";
 @use "../abstracts/variables";
 
-.site-main--single-post {
+/* Як /projects/: без inner-page градієнтів з layouts/_site.scss */
+.site-main.site-main--single-post {
   min-height: 100vh;
   background: variables.$color-background;
   overflow: visible;
@@ -9,9 +10,12 @@
   padding-top: #{mixins.vw(150px)};
 }
 
-.site-main--single-post::before,
-.site-main--single-post::after {
+.site-main.site-main--single-post::before,
+.site-main.site-main--single-post::after {
   content: none;
+  display: none;
+  background: none;
+  animation: none;
 }
 
 .single-article {
@@ -397,7 +401,7 @@
 }
 
 @include mixins.mobile {
-  .site-main--single-post {
+  .site-main.site-main--single-post {
     padding-top: #{mixins.mvw(108px)};
   }
 
