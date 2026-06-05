@@ -1,0 +1,208 @@
+@use "../abstracts/mixins";
+@use "../abstracts/variables";
+
+.site-main.site-main--not-found {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: #{mixins.vw(150px)} 0 #{mixins.vw(96px)};
+  overflow: clip;
+  background: variables.$color-background;
+  color: variables.$color-text;
+}
+
+.site-main.site-main--not-found::before,
+.site-main.site-main--not-found::after {
+  content: none;
+  display: none;
+  background: none;
+  animation: none;
+}
+
+.site-main--not-found ~ .site-footer {
+  background: variables.$color-background;
+}
+
+body:has(.site-main--not-found) .site-header::before {
+  box-shadow: none;
+  border-bottom-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px) saturate(1);
+  -webkit-backdrop-filter: blur(14px) saturate(1);
+}
+
+.not-found {
+  width: 100%;
+}
+
+.not-found__inner {
+  width: #{mixins.vw(1360px)};
+  margin-inline: auto;
+  padding-inline: #{mixins.vw(40px)};
+}
+
+.not-found__intro {
+  max-width: #{mixins.vw(640px)};
+  margin-inline: auto;
+  text-align: center;
+}
+
+.not-found__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: #{mixins.vw(12px)};
+}
+
+.not-found__eyebrow-icon {
+  width: #{mixins.vw(28px)};
+  height: auto;
+}
+
+.not-found__eyebrow-text {
+  margin: 0;
+  color: variables.$color-text-muted;
+  font-family: "Inter Tight", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: #{mixins.vw(14px)};
+  font-weight: 300;
+  line-height: 1.3;
+}
+
+.not-found__code {
+  margin: #{mixins.vw(28px)} 0 0;
+  color: rgba(255, 255, 255, 0.08);
+  font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: #{mixins.vw(180px)};
+  font-weight: 500;
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+.not-found__title {
+  margin: #{mixins.vw(-52px)} 0 0;
+  position: relative;
+  z-index: 1;
+  color: #e9e9e9;
+  font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: #{mixins.vw(48px)};
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.not-found__lead {
+  margin: #{mixins.vw(16px)} auto 0;
+  max-width: #{mixins.vw(520px)};
+  color: variables.$color-text-muted;
+  font-family: "Inter Tight", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: #{mixins.vw(16px)};
+  font-weight: 300;
+  line-height: 1.45;
+}
+
+.not-found__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: #{mixins.vw(12px)};
+  margin-top: #{mixins.vw(40px)};
+}
+
+.not-found__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: #{mixins.vw(48px)};
+  padding: 0 #{mixins.vw(28px)};
+  border-radius: #{mixins.vw(10px)};
+  font-family: "Inter Tight", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: #{mixins.vw(14px)};
+  font-weight: 500;
+  line-height: 1.3;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.not-found__cta:hover {
+  transform: translateY(-1px);
+}
+
+.not-found__cta--primary {
+  background: #ffffff;
+  color: variables.$color-background;
+}
+
+.not-found__cta--primary:hover {
+  opacity: 0.94;
+}
+
+.not-found__cta--ghost {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: variables.$color-text;
+}
+
+.not-found__cta--ghost:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+@include mixins.mobile {
+  .site-main.site-main--not-found {
+    padding: #{mixins.mvw(120px)} 0 #{mixins.mvw(72px)};
+  }
+
+  .not-found__inner {
+    width: min(100% - #{mixins.mvw(32px)}, 100%);
+    padding-inline: 0;
+    margin-inline: auto;
+  }
+
+  .not-found__intro {
+    max-width: 100%;
+  }
+
+  .not-found__eyebrow {
+    gap: #{mixins.mvw(10px)};
+  }
+
+  .not-found__eyebrow-icon {
+    width: #{mixins.mvw(24px)};
+  }
+
+  .not-found__eyebrow-text {
+    font-size: #{mixins.mvw(13px)};
+  }
+
+  .not-found__code {
+    margin-top: #{mixins.mvw(24px)};
+    font-size: #{mixins.mvw(112px)};
+  }
+
+  .not-found__title {
+    margin-top: #{mixins.mvw(-36px)};
+    font-size: #{mixins.mvw(32px)};
+  }
+
+  .not-found__lead {
+    margin-top: #{mixins.mvw(12px)};
+    max-width: 100%;
+    font-size: #{mixins.mvw(14px)};
+  }
+
+  .not-found__actions {
+    flex-direction: column;
+    gap: #{mixins.mvw(10px)};
+    margin-top: #{mixins.mvw(32px)};
+  }
+
+  .not-found__cta {
+    width: 100%;
+    max-width: #{mixins.mvw(320px)};
+    min-height: #{mixins.mvw(48px)};
+    padding: 0 #{mixins.mvw(28px)};
+    border-radius: #{mixins.mvw(10px)};
+    font-size: #{mixins.mvw(14px)};
+  }
+}
