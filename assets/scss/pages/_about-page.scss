@@ -608,8 +608,10 @@
 
 .about-clients {
   position: relative;
+  margin-top: #{mixins.vw(-90px)};
   overflow: visible;
-  z-index: 80;
+  z-index: 85;
+  background: transparent;
 
   .services-clients__eyebrow-text {
     color: #000102;
@@ -617,11 +619,25 @@
 
   .services-clients__viewport {
     overflow: visible;
-    clip-path: none;
+    background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
+    clip-path: polygon(
+      0 0,
+      50% #{mixins.vw(90px)},
+      100% 0,
+      100% 100%,
+      0 100%
+    );
+    padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(90px)});
+
+    &::before,
+    &::after {
+      display: none;
+    }
   }
 
   .services-clients__title {
-    width: #{mixins.vw(788px)};
+    width: min(100%, #{mixins.vw(667px)});
+    max-width: #{mixins.vw(667px)};
     margin-top: #{mixins.vw(24px)};
     font-size: #{mixins.vw(32px)};
     line-height: 1.48;
@@ -633,7 +649,8 @@
   }
 
   .services-clients__text {
-    width: #{mixins.vw(680px)};
+    width: min(100%, #{mixins.vw(560px)});
+    max-width: #{mixins.vw(560px)};
     margin-top: #{mixins.vw(156px)};
     color: rgba(0, 1, 2, 0.92);
   }
@@ -669,14 +686,20 @@
         top: auto;
         display: flex;
         flex-direction: column;
-        height: #{mixins.vw(300px)};
+        height: auto;
+        min-height: #{mixins.vw(200px)};
         z-index: 1;
         opacity: 1 !important;
         visibility: visible !important;
       }
 
       .trust-card__content {
-        flex: 1;
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+
+      .trust-card__text {
+        margin-top: #{mixins.vw(16px)};
       }
 
       @for $i from 1 through 8 {
@@ -687,7 +710,22 @@
     }
   }
 
+  @media (min-width: 1441px) {
+    .services-clients__viewport {
+      clip-path: polygon(
+        0 0,
+        50% min(calc(90 / 1440 * 100vw), 90px),
+        100% 0,
+        100% 100%,
+        0 100%
+      ) !important;
+      padding-top: calc(#{mixins.vw(48px)} + min(calc(90 / 1440 * 100vw), 90px));
+    }
+  }
+
   @include mixins.mobile {
+    margin-top: #{mixins.mvw(-40px)};
+
     .pin-spacer {
       height: auto !important;
       min-height: 0 !important;
@@ -697,8 +735,14 @@
 
     .services-clients__viewport {
       overflow: visible;
-      clip-path: none !important;
-      padding-top: #{mixins.mvw(84px)};
+      clip-path: polygon(
+        0 0,
+        50% #{mixins.mvw(40px)},
+        100% 0,
+        100% 100%,
+        0 100%
+      ) !important;
+      padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
       padding-bottom: 0;
 
       &::before,
