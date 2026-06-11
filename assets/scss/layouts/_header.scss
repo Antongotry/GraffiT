@@ -57,11 +57,9 @@
 }
 
 .site-header__inner {
-  box-sizing: border-box;
   position: relative;
   z-index: 1;
-  width: #{mixins.vw(1360px)};
-  margin-inline: auto;
+  @include mixins.layout-container;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -69,7 +67,6 @@
   gap: #{mixins.vw(32px)};
 
   @include mixins.mobile {
-    width: min(100% - #{mixins.mvw(32px)}, 100%);
     gap: #{mixins.mvw(18px)};
     min-height: #{mixins.mvw(56px)};
   }

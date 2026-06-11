@@ -1230,12 +1230,7 @@
 .cta-band__container {
   position: relative;
   z-index: 1;
-  width: #{mixins.vw(1360px)};
-  margin-inline: auto;
-
-  @include mixins.mobile {
-    width: min(100% - #{mixins.mvw(32px)}, 100%);
-  }
+  @include mixins.layout-container;
 }
 
 .cta-band__layout {
@@ -1244,7 +1239,6 @@
   align-items: start;
   justify-content: space-between;
   column-gap: #{mixins.vw(156px)};
-  @include mixins.ultrawide-couple-grid(156px);
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
@@ -3559,12 +3553,7 @@ $services-benefits-bg:
 .services-clients__container {
   position: relative;
   z-index: 2;
-  width: #{mixins.vw(1360px)};
-  margin-inline: auto;
-
-  @include mixins.mobile {
-    width: min(100% - #{mixins.mvw(32px)}, 100%);
-  }
+  @include mixins.layout-container;
 }
 
 .services-clients__layout {
@@ -3574,7 +3563,6 @@ $services-benefits-bg:
   align-items: start;
   column-gap: #{mixins.vw(96px)};
   padding-top: #{mixins.vw(50px)};
-  @include mixins.ultrawide-couple-grid(96px);
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
@@ -4776,12 +4764,10 @@ $services-benefits-bg:
 
 .services-process__container {
   position: relative;
-  width: #{mixins.vw(1360px)};
-  margin-inline: auto;
+  @include mixins.layout-container;
   padding: #{mixins.vw(34px)} 0 #{mixins.vw(120px)};
 
   @include mixins.mobile {
-    width: min(100% - #{mixins.mvw(32px)}, 100%);
     padding: #{mixins.mvw(48px)} 0 #{mixins.mvw(64px)};
     overflow-x: clip;
     overflow-y: visible;
@@ -4844,7 +4830,6 @@ $services-benefits-bg:
   align-items: start;
   column-gap: #{mixins.vw(58px)};
   margin-top: #{mixins.vw(84px)};
-  @include mixins.ultrawide-couple-grid(58px);
 
   @include mixins.mobile {
     display: flex;

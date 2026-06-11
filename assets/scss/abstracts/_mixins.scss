@@ -51,10 +51,15 @@ $breakpoints: (
   }
 }
 
-// >1440: keep capped two-column grids grouped (avoid space-between edge drift on ultrawide).
-@mixin ultrawide-couple-grid($gap: 96px) {
-  @media (min-width: #{variables.$design-width-desktop + 1px}) {
-    justify-content: center;
-    column-gap: $gap;
+// Єдина сітка 1360px — хедер і секції вирівнюються по одних краях.
+@mixin layout-container {
+  box-sizing: border-box;
+  width: #{vw(1360px)};
+  max-width: calc(100% - #{vw(72px)});
+  margin-inline: auto;
+
+  @include mobile {
+    width: min(100% - #{mvw(32px)}, 100%);
+    max-width: 100%;
   }
 }
