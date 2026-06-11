@@ -3949,11 +3949,7 @@ $services-benefits-bg:
 
 .trust-card {
   position: relative;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  min-height: #{mixins.vw(220px)};
-  height: auto;
+  min-height: #{mixins.vw(300px)};
   padding: #{mixins.vw(24px)};
   border-radius: #{mixins.vw(12px)};
   /* overflow: visible — інакше border-radius картки «скруглює» верх стрічки поверх SVG. */
@@ -4052,8 +4048,7 @@ $services-benefits-bg:
   position: relative;
   z-index: 1;
   display: flex;
-  min-height: 0;
-  flex: 1 1 auto;
+  min-height: 100%;
   flex-direction: column;
 
   @include mixins.mobile {
@@ -4083,7 +4078,7 @@ $services-benefits-bg:
 
 .trust-card__text {
   width: #{mixins.vw(396px)};
-  margin-top: #{mixins.vw(16px)};
+  margin-top: auto;
   color: #000102;
   font-size: #{mixins.vw(16px)};
   line-height: 1.36;

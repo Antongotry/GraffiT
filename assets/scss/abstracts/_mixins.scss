@@ -56,8 +56,5 @@ $breakpoints: (
   @media (min-width: #{variables.$design-width-desktop + 1px}) {
     justify-content: center;
     column-gap: $gap;
-    width: max-content;
-    max-width: 100%;
-    margin-inline: auto;
   }
 }
