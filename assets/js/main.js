@@ -3703,6 +3703,10 @@
 
       var selectedSlug = getFilterSlug(target);
 
+      if (target.tagName === 'A' && target.getAttribute('href')) {
+        return;
+      }
+
       event.preventDefault();
       setActiveFilter(selectedSlug);
       applyFilter(selectedSlug);

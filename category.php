@@ -1,18 +1,32 @@
 <?php
 /**
- * Static page template for /projects/ archive output.
+ * Category archive — same layout as /projects/ with filtered posts.
  *
  * @package graffit
  */
 
 declare(strict_types=1);
 
+$category = get_queried_object();
+
+if (! $category instanceof WP_Term || $category->taxonomy !== 'category') {
+    global $wp_query;
+
+    $wp_query->set_404();
+    status_header(404);
+    nocache_headers();
+
+    include get_query_template('404');
+
+    return;
+}
+
 $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
 
-$projects_blog_query = graffit_create_projects_blog_query($paged);
+$projects_blog_query = graffit_create_projects_blog_query($paged, (string) $category->slug);
 
 set_query_var('graffit_projects_blog_query', $projects_blog_query);
-set_query_var('graffit_projects_active_category', '');
+set_query_var('graffit_projects_active_category', (string) $category->slug);
 
 get_header();
 ?>

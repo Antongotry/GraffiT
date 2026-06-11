@@ -51,6 +51,7 @@
   border-radius: #{mixins.vw(100px)};
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
   cursor: pointer;
   font-family: "Inter Tight", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: #{mixins.vw(14px)};

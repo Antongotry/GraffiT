@@ -57,9 +57,20 @@ $get_post_category_slugs = static function (int $post_id): array {
     );
 };
 
+$active_category_slug = trim((string) get_query_var('graffit_projects_active_category'));
+
 $current_page = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
 $total_pages = max(1, (int) ($blog_query instanceof WP_Query ? $blog_query->max_num_pages : 1));
+
 $pagination_base = str_replace('999999999', '%#%', esc_url(get_pagenum_link(999999999)));
+
+if ($active_category_slug !== '') {
+    $active_category = get_category_by_slug($active_category_slug);
+
+    if ($active_category instanceof WP_Term) {
+        $pagination_base = trailingslashit(get_category_link($active_category)) . user_trailingslashit('page/%#%', 'paged');
+    }
+}
 ?>
 <section class="projects-catalog blog-section blog-section--archive" id="projects-catalog">
     <div class="blog-section__container">
@@ -84,23 +95,25 @@ $pagination_base = str_replace('999999999', '%#%', esc_url(get_pagenum_link(9999
         </header>
 
         <div class="blog-page__filters" aria-label="Рубрики проєктів">
-            <button
-                type="button"
-                class="blog-page__filter is-active is-all"
+            <a
+                class="blog-page__filter is-all<?php echo $active_category_slug === '' ? ' is-active' : ''; ?>"
+                href="<?php echo esc_url(home_url('/projects/')); ?>"
                 data-blog-filter=""
-                aria-current="true"
+                <?php echo $active_category_slug === '' ? 'aria-current="page"' : ''; ?>
             >
                 Усі проєкти
-            </button>
+            </a>
 
             <?php foreach ($categories as $category) : ?>
-                <button
-                    type="button"
-                    class="blog-page__filter"
+                <?php $is_active_category = $active_category_slug === (string) $category->slug; ?>
+                <a
+                    class="blog-page__filter<?php echo $is_active_category ? ' is-active' : ''; ?>"
+                    href="<?php echo esc_url(get_category_link($category)); ?>"
                     data-blog-filter="<?php echo esc_attr((string) $category->slug); ?>"
+                    <?php echo $is_active_category ? 'aria-current="page"' : ''; ?>
                 >
                     <?php echo esc_html($category->name); ?>
-                </button>
+                </a>
             <?php endforeach; ?>
         </div>
 

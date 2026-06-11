@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 if (! defined('GRAFFIT_THEME_VERSION')) {
-    define('GRAFFIT_THEME_VERSION', '0.1.3');
+    define('GRAFFIT_THEME_VERSION', '0.1.4');
 }
 
 /**
@@ -886,6 +886,28 @@ function graffit_force_product_mediahub_route_template(): void
     }
 }
 add_action('template_redirect', 'graffit_force_product_mediahub_route_template', 0);
+
+/**
+ * Blog posts query for /projects/ and category archives.
+ */
+function graffit_create_projects_blog_query(int $paged = 1, string $category_slug = ''): WP_Query
+{
+    $args = [
+        'post_type'           => 'post',
+        'post_status'         => 'publish',
+        'posts_per_page'      => max(1, (int) get_option('posts_per_page')),
+        'paged'               => max(1, $paged),
+        'ignore_sticky_posts' => true,
+    ];
+
+    $category_slug = trim($category_slug);
+
+    if ($category_slug !== '') {
+        $args['category_name'] = sanitize_title($category_slug);
+    }
+
+    return new WP_Query($args);
+}
 
 /**
  * Force /projects/ route to render static projects catalog template.
