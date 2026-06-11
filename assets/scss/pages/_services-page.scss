@@ -1244,6 +1244,7 @@
   align-items: start;
   justify-content: space-between;
   column-gap: #{mixins.vw(156px)};
+  @include mixins.ultrawide-couple-grid(156px);
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
@@ -3489,6 +3490,9 @@ $services-benefits-bg:
 .services-clients__viewport {
   position: relative;
   z-index: 70;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100vw;
   min-height: 100svh;
   padding: #{mixins.vw(48px)} 0 #{mixins.vw(48px)};
   isolation: isolate;
@@ -3561,6 +3565,7 @@ $services-benefits-bg:
   align-items: start;
   column-gap: #{mixins.vw(96px)};
   padding-top: #{mixins.vw(50px)};
+  @include mixins.ultrawide-couple-grid(96px);
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
@@ -4830,6 +4835,7 @@ $services-benefits-bg:
   align-items: start;
   column-gap: #{mixins.vw(58px)};
   margin-top: #{mixins.vw(84px)};
+  @include mixins.ultrawide-couple-grid(58px);
 
   @include mixins.mobile {
     display: flex;

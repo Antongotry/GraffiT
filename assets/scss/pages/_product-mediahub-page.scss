@@ -1310,6 +1310,16 @@
   /* Верх — bow-tie; низ плоский. Один «шпиль» дає .mediahub-faq (як home-faq → CTA). */
   clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%);
 
+  @media (min-width: 1441px) {
+    clip-path: polygon(
+      0 0,
+      50% min(calc(93.6 / 1440 * 100vw), 93.6px),
+      100% 0,
+      100% 100%,
+      0 100%
+    );
+  }
+
   @include mixins.mobile {
     clip-path: polygon(0 0, 50% #{mixins.mvw(36px)}, 100% 0, 100% 100%, 0 100%);
     padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(36px)});

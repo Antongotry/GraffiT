@@ -1531,6 +1531,18 @@
     });
   }
 
+  function enforceClientsPinnedViewportWidth(viewport) {
+    if (!viewport || window.innerWidth <= 1024) {
+      return;
+    }
+
+    // GSAP pin can freeze the viewport at content width (~1360px) on ultrawide screens.
+    viewport.style.setProperty('width', '100%', 'important');
+    viewport.style.setProperty('max-width', '100vw', 'important');
+    viewport.style.setProperty('left', '0', 'important');
+    viewport.style.setProperty('right', '0', 'important');
+  }
+
   function initClientsScroller() {
     if (!window.gsap || !window.ScrollTrigger) {
       return;
@@ -1678,7 +1690,15 @@
           pin: viewport,
           scrub: 1,
           anticipatePin: 1,
-          invalidateOnRefresh: true
+          invalidateOnRefresh: true,
+          onRefresh: function () {
+            enforceClientsPinnedViewportWidth(viewport);
+          },
+          onToggle: function (self) {
+            if (self.isActive) {
+              enforceClientsPinnedViewportWidth(viewport);
+            }
+          }
         }
       });
 
@@ -1857,6 +1877,10 @@
           onToggle: function (self) {
             var header;
 
+            if (self.isActive) {
+              enforceClientsPinnedViewportWidth(viewport);
+            }
+
             if (!self.isActive && self.progress <= 0.001) {
               section.classList.remove('is-clients-top-fade');
 
@@ -1879,11 +1903,13 @@
           },
           onRefresh: function () {
             enforceViewportBottomPadding();
+            enforceClientsPinnedViewportWidth(viewport);
           }
         }
       });
 
       enforceViewportBottomPadding();
+      enforceClientsPinnedViewportWidth(viewport);
 
       if (typeof ResizeObserver === 'function') {
         var clientsResizeTimer;

@@ -50,3 +50,14 @@ $breakpoints: (
     width: min(100% - #{mvw(32px)}, 100%);
   }
 }
+
+// >1440: keep capped two-column grids grouped (avoid space-between edge drift on ultrawide).
+@mixin ultrawide-couple-grid($gap: 96px) {
+  @media (min-width: #{variables.$design-width-desktop + 1px}) {
+    justify-content: center;
+    column-gap: $gap;
+    width: max-content;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+}
