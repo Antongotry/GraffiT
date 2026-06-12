@@ -70,11 +70,14 @@ $hex_mobile_row4_composite_url = 'https://lavenderblush-bat-855084.hostingersite
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
 $stack_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['stack'] ) );
+$hex_home_desktop_card_bg = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/romb1_result.webp';
+$hex_home_desktop_card_bg_hover = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/romb2-hover_result.webp';
+
 $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
     ? sprintf(
         "--hex-card-bg: url('%s'); --hex-card-bg-hover: url('%s');",
-        esc_url_raw($hex_card_images['stack']),
-        esc_url_raw($hex_card_images['primary'])
+        esc_url_raw($hex_home_desktop_card_bg),
+        esc_url_raw($hex_home_desktop_card_bg_hover)
     )
     : $stack_style;
 ?>

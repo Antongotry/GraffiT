@@ -150,25 +150,12 @@
   z-index: 4;
 }
 
-/* >1440: сцена по центру; велике фото зсувається вправо, щоб не «липло» до лівих гексів */
+/* >1440: сцена по центру; гекси й фото на одній vw-сітці (25vw box). */
 @media (min-width: 1441px) {
   .home-hex-projects-flow .hex-reasons--home .hex-reasons__scene {
     left: auto;
-    width: min(100%, 1764px);
+    width: min(100%, calc(3 * var(--hex-step-x) + var(--hex-box-lg)));
     margin-inline: auto;
-    transform: none;
-  }
-
-  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--plg {
-    left: calc(990px + max(0px, (100vw - 1440px) * 0.12)) !important;
-    top: -96px !important;
-    transform: none;
-  }
-
-  .home-hex-projects-flow .hex-reasons--home .hex-reasons__hex--psm {
-    left: calc(1160px + max(0px, (100vw - 1440px) * 0.12));
-    right: auto;
-    top: 453px;
     transform: none;
   }
 }

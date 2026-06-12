@@ -41,25 +41,12 @@
   }
 }
 
-/* >1440: як на головній — сцена по центру, фото правіше (не липне до лівих гексів). */
+/* >1440: як на головній — сцена по центру на vw-сітці. */
 @media (min-width: 1441px) {
   .site-main--services .hex-reasons.hex-reasons--home .hex-reasons__scene {
     left: auto;
-    width: min(100%, 1764px);
+    width: min(100%, calc(3 * var(--hex-step-x) + var(--hex-box-lg)));
     margin-inline: auto;
-    transform: none;
-  }
-
-  .site-main--services .hex-reasons.hex-reasons--home .hex-reasons__hex--plg {
-    left: calc(990px + max(0px, (100vw - 1440px) * 0.12)) !important;
-    top: -96px !important;
-    transform: none;
-  }
-
-  .site-main--services .hex-reasons.hex-reasons--home .hex-reasons__hex--psm {
-    left: calc(1160px + max(0px, (100vw - 1440px) * 0.12));
-    right: auto;
-    top: 453px;
     transform: none;
   }
 }
@@ -2397,6 +2384,42 @@
   .hex-reasons__hex--r0c2 .hex-reasons__hex-heading--narrow {
     max-width: #{mixins.vw(218px)};
     font-size: #{mixins.vw(19.2px)};
+  }
+
+  @media (min-width: 1025px) {
+    .hex-reasons__scene {
+      --hex-box: 25vw;
+      --hex-step-x: calc(25vw * 404 / 374);
+      --hex-step-y: calc(25vw * 298 / 374);
+      --hex-r0y: calc(25vw * 251 / 374);
+      min-height: calc(25vw * 873 / 374);
+      height: calc(25vw * 873 / 374);
+    }
+
+    .hex-reasons__hex--card,
+    .hex-reasons__hex--outline {
+      width: 25vw;
+      height: auto;
+      aspect-ratio: 1;
+    }
+
+    .hex-reasons__hex--card {
+      background-size: 100% 100%;
+    }
+
+    .hex-reasons__hex--plg {
+      left: calc(2 * var(--hex-step-x) + var(--hex-box) / 2) !important;
+      top: calc(var(--hex-r0y) - var(--hex-box) / 2 - var(--hex-box) * 0.457) !important;
+      right: auto !important;
+      transform: none;
+    }
+
+    .hex-reasons__hex--psm {
+      left: calc(var(--hex-half) + 2 * var(--hex-step-x) - var(--hex-box) / 2 + var(--hex-box) * 0.9) !important;
+      right: auto !important;
+      top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2 + var(--hex-box) * 0.243) !important;
+      transform: none;
+    }
   }
 
   @include mixins.mobile {
