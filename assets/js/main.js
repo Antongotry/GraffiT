@@ -1667,16 +1667,6 @@
         });
       });
 
-      function aboutClientsCardCascade() {
-        var w = window.innerWidth || 1440;
-
-        if (w <= 1024) {
-          return Math.min(Math.max(Math.round((72 / 375) * w), 64), 84);
-        }
-
-        return Math.min(Math.max(Math.round((116 / 1440) * w), 88), 132);
-      }
-
       function aboutClientsTimelineDuration() {
         if (cards.length < 2) {
           return 1;
@@ -1724,7 +1714,7 @@
 
         timeline.to(card, {
           y: function () {
-            return -(card.offsetTop - cards[0].offsetTop) + (aboutClientsCardCascade() * index);
+            return -(card.offsetTop - cards[0].offsetTop);
           },
           ease: 'none',
           duration: 1.35

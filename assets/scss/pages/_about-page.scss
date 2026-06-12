@@ -616,7 +616,8 @@
   }
 
   .services-clients__viewport {
-    overflow: visible;
+    overflow: clip;
+    overflow-clip-margin: 0 #{mixins.vw(28px)} 0 #{mixins.vw(28px)};
     clip-path: none;
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 
@@ -650,7 +651,7 @@
 
   @media (min-width: 1025px) {
     .services-clients__cards-stage {
-      overflow: visible;
+      overflow: hidden;
       mask-image: none;
       -webkit-mask-image: none;
     }
@@ -670,7 +671,7 @@
     &.is-about-clients-stacked {
       .services-clients__cards-stage {
         height: #{mixins.vw(899px)};
-        overflow: visible;
+        overflow: hidden;
       }
 
       .services-clients__cards-track {
@@ -680,7 +681,7 @@
         width: 100%;
         margin-top: 0;
         padding-top: #{mixins.vw(44px)};
-        padding-bottom: #{mixins.vw(56px)};
+        padding-bottom: 0;
         opacity: 1 !important;
         visibility: visible !important;
         transform: none !important;
