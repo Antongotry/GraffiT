@@ -3266,7 +3266,6 @@ $services-benefits-bg:
     .site-main--services & {
       /* Фіксовані 480px давали ~50% порожнього низу — висота по картках. */
       height: auto;
-      margin-top: #{mixins.vw(36px)};
       overflow: visible;
     }
   }
