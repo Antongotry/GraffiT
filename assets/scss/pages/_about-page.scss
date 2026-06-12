@@ -649,6 +649,11 @@
   }
 
   @media (min-width: 1025px) {
+    .services-clients__cards-stage {
+      padding-inline: #{mixins.vw(28px)};
+      box-sizing: border-box;
+    }
+
     .services-clients__cards-track {
       margin-top: 0;
       padding-top: #{mixins.vw(44px)};
