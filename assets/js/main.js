@@ -1668,7 +1668,19 @@
       });
 
       function aboutClientsCardCascadeStep() {
-        var referenceTitle = cards[0] && cards[0].querySelector('.trust-card__title');
+        var referenceCard = cards[0];
+
+        if (!referenceCard) {
+          return 48;
+        }
+
+        var ribbon = referenceCard.querySelector('.trust-card__ribbon');
+
+        if (ribbon && ribbon.offsetHeight > 0) {
+          return ribbon.offsetHeight;
+        }
+
+        var referenceTitle = referenceCard.querySelector('.trust-card__title');
 
         if (!referenceTitle) {
           return 48;
