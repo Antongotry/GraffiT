@@ -654,6 +654,13 @@
       padding-top: #{mixins.vw(44px)};
     }
 
+    .services-clients__cards-track .trust-card::before {
+      box-shadow:
+        0 #{mixins.vw(22px)} #{mixins.vw(54px)} rgba(0, 0, 0, 0.1),
+        0 #{mixins.vw(2px)} #{mixins.vw(12px)} rgba(0, 0, 0, 0.06),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+    }
+
     &.is-about-clients-stacked {
       .services-clients__cards-stage {
         height: #{mixins.vw(899px)};
