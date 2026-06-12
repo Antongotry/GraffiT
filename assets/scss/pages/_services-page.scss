@@ -2454,7 +2454,7 @@
     }
 
     .hex-reasons__hex--psm {
-      left: calc(var(--hex-half) + 2 * var(--hex-step-x) - var(--hex-box-w) / 2 + var(--hex-box-w) * 0.935) !important;
+      left: calc(var(--hex-half) + 2 * var(--hex-step-x) - var(--hex-box-w) / 2 + var(--hex-box-w) * 0.935 + #{mixins.vw(24px)}) !important;
       right: auto !important;
       top: calc(var(--hex-r0y) + var(--hex-step-y) * 1.15 - var(--hex-box-h) / 2 + var(--hex-box-h) * 0.219) !important;
       transform: none;
