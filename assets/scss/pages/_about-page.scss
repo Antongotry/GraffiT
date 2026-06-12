@@ -649,6 +649,11 @@
   }
 
   @media (min-width: 1025px) {
+    .services-clients__cards-track {
+      margin-top: 0;
+      padding-top: #{mixins.vw(72px)};
+    }
+
     &.is-about-clients-stacked {
       .services-clients__cards-stage {
         height: #{mixins.vw(899px)};
@@ -663,7 +668,7 @@
         gap: #{mixins.vw(20px)};
         width: 100%;
         margin-top: 0;
-        padding-top: #{mixins.vw(16px)};
+        padding-top: #{mixins.vw(72px)};
         padding-bottom: #{mixins.vw(56px)};
         opacity: 1 !important;
         visibility: visible !important;
