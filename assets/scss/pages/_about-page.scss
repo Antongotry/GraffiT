@@ -645,7 +645,7 @@
       0 100%
     );
     padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(90px)});
-    padding-bottom: #{mixins.vw(90px)};
+    padding-bottom: #{mixins.vw(36px)};
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 
     &::before,
@@ -683,7 +683,7 @@
       min-height: 0;
       height: auto;
       padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(90px)});
-      padding-bottom: calc(#{mixins.vw(200px)} + #{mixins.vw(90px)});
+      padding-bottom: calc(#{mixins.vw(80px)} + #{mixins.vw(36px)});
     }
 
     .services-clients__cards-stage {
@@ -769,7 +769,7 @@
         0 100%
       ) !important;
       padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
-      padding-bottom: #{mixins.mvw(40px)};
+      padding-bottom: #{mixins.mvw(16px)};
     }
 
     .services-clients__copy {
