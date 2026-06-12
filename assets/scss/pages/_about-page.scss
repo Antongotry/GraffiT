@@ -616,8 +616,7 @@
   }
 
   .services-clients__viewport {
-    overflow: clip;
-    overflow-clip-margin: 0 #{mixins.vw(28px)} 0 #{mixins.vw(28px)};
+    overflow: hidden;
     clip-path: none;
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 
@@ -650,8 +649,14 @@
   }
 
   @media (min-width: 1025px) {
+    $about-clients-card-shadow-gutter: #{mixins.vw(48px)};
+
     .services-clients__cards-stage {
       overflow: hidden;
+      box-sizing: border-box;
+      width: calc(100% + (2 * #{$about-clients-card-shadow-gutter}));
+      margin-inline: calc(-1 * #{$about-clients-card-shadow-gutter});
+      padding-inline: $about-clients-card-shadow-gutter;
       mask-image: none;
       -webkit-mask-image: none;
     }
