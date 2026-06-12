@@ -2448,9 +2448,15 @@
 
     .hex-reasons__hex--plg {
       left: calc(2 * var(--hex-step-x) + var(--hex-box-w) / 2) !important;
-      top: calc(var(--hex-r0y) - var(--hex-box-h) / 2 - var(--hex-box-h) * 0.411) !important;
+      top: calc(var(--hex-r0y) - var(--hex-box-h) / 2 - var(--hex-box-h) * 0.411 + #{mixins.vw(34px)}) !important;
       right: auto !important;
       transform: none;
+    }
+
+    @media (min-width: 1921px) {
+      .hex-reasons__hex--plg {
+        top: calc(var(--hex-r0y) - var(--hex-box-h) / 2 - var(--hex-box-h) * 0.411 + 40px) !important;
+      }
     }
 
     .hex-reasons__hex--psm {
