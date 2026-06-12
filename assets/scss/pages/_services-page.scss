@@ -3119,7 +3119,7 @@ $services-benefits-bg:
   @media (min-width: 1025px) {
     .site-main--services & {
       min-height: auto;
-      padding-bottom: 0;
+      padding: #{mixins.vw(32px)} 0 0;
     }
   }
 
@@ -3261,6 +3261,15 @@ $services-benefits-bg:
   margin-top: #{mixins.vw(72px)};
   overflow: hidden;
   backface-visibility: hidden;
+
+  @media (min-width: 1025px) {
+    .site-main--services & {
+      /* Фіксовані 480px давали ~50% порожнього низу — висота по картках. */
+      height: auto;
+      margin-top: #{mixins.vw(36px)};
+      overflow: visible;
+    }
+  }
 
   @include mixins.mobile {
     height: auto;
