@@ -5187,6 +5187,10 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     --process-visual-sticky-top: #{mixins.vw(128px)};
   }
 
+  .site-main--services .services-process .services-process__container {
+    padding-top: #{mixins.vw(100px)};
+  }
+
   .site-main--services .services-process .services-process__timeline {
     padding-bottom: #{mixins.vw(96px)};
   }
