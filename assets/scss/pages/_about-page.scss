@@ -810,6 +810,12 @@
       }
     }
   }
+
+  @media (min-width: 1921px) {
+    .services-clients__viewport {
+      padding-bottom: calc(#{mixins.vw(48px)} * 1.39);
+    }
+  }
 }
 
 /* ========================================================================
