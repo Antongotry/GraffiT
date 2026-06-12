@@ -651,6 +651,13 @@
   @media (min-width: 1025px) {
     $about-clients-card-shadow-gutter: #{mixins.vw(48px)};
 
+    .services-clients__viewport {
+      min-height: 0;
+      height: auto;
+      padding-top: #{mixins.vw(48px)};
+      padding-bottom: #{mixins.vw(48px)};
+    }
+
     .services-clients__cards-stage {
       overflow: hidden;
       box-sizing: border-box;
@@ -675,7 +682,7 @@
 
     &.is-about-clients-stacked {
       .services-clients__cards-stage {
-        height: #{mixins.vw(899px)};
+        height: #{mixins.vw(600px)};
         overflow: hidden;
       }
 
