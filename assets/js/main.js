@@ -1619,8 +1619,12 @@
         return;
       }
 
-      if (aboutSection.getAttribute('data-about-clients-stacked-init') === '1') {
-        return;
+      if (window.ScrollTrigger && typeof window.ScrollTrigger.getById === 'function') {
+        var existingAboutClientsTrigger = window.ScrollTrigger.getById('about-clients-stacked');
+
+        if (existingAboutClientsTrigger) {
+          existingAboutClientsTrigger.kill(true);
+        }
       }
 
       viewport = aboutSection.querySelector('.services-clients__viewport');
@@ -1629,9 +1633,14 @@
       cards = Array.prototype.slice.call(aboutSection.querySelectorAll('.trust-card'));
 
       if (!viewport || !stage || !track || cards.length < 2) {
+        aboutSection.removeAttribute('data-about-clients-stacked-init');
+        aboutSection.classList.remove('is-about-clients-stacked');
         return;
       }
 
+      window.gsap.set(cards, { clearProps: 'transform,opacity,visibility,willChange' });
+      aboutSection.removeAttribute('data-about-clients-stacked-init');
+      aboutSection.classList.remove('is-about-clients-stacked');
       aboutSection.setAttribute('data-about-clients-stacked-init', '1');
       aboutSection.classList.add('is-about-clients-stacked');
       nodes = [
@@ -1658,8 +1667,6 @@
         });
       });
 
-      window.gsap.set(cards, { clearProps: 'transform,opacity,visibility,willChange' });
-
       function aboutClientsCardCascade() {
         var w = window.innerWidth || 1440;
 
@@ -1670,13 +1677,21 @@
         return Math.min(Math.max(Math.round((116 / 1440) * w), 88), 132);
       }
 
+      function aboutClientsTimelineDuration() {
+        if (cards.length < 2) {
+          return 1;
+        }
+
+        return ((cards.length - 2) * 0.42) + 1.35;
+      }
+
       function aboutClientsPinDistance() {
         var w = window.innerWidth || 1440;
-        var step = w <= 1024 ? Math.round(window.innerHeight * 0.62) : Math.round(window.innerHeight * 0.72);
-        var raw = Math.max(step * (cards.length - 1), cards.length * 180);
-        var cap = Math.round(window.innerHeight * 2.4);
+        var step = w <= 1024
+          ? Math.round(window.innerHeight * 0.62)
+          : Math.round(window.innerHeight * 0.42);
 
-        return Math.min(raw, cap);
+        return Math.round(aboutClientsTimelineDuration() * step);
       }
 
       timeline = window.gsap.timeline({
