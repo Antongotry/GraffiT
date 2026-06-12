@@ -1817,7 +1817,7 @@
       var stage = section.querySelector('.js-clients-stage');
       var track = section.querySelector('.js-clients-track');
       var shouldHideHeader = section.id === 'about-clients';
-      var shouldForceZeroBottomPadding = section.id === 'home-about' || section.id === 'services-clients';
+      var shouldForceZeroBottomPadding = section.id === 'home-about';
 
       if (!viewport || !stage || !track) {
         return;
