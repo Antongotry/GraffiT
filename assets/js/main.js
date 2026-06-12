@@ -1586,6 +1586,11 @@
 
         aboutSection.removeAttribute('data-about-clients-stacked-init');
         aboutSection.classList.remove('is-about-clients-stacked');
+
+        if (stage) {
+          stage.style.removeProperty('--about-clients-stage-height');
+        }
+
         [aboutSection, spacer, viewport, stage, track].concat(cards).forEach(function (node) {
           if (!node) {
             return;
@@ -1689,6 +1694,21 @@
         return (referenceTitle.offsetHeight + 6) * 1.5;
       }
 
+      function syncAboutClientsStackedLayout() {
+        if (!stage || !track || !cards.length) {
+          return;
+        }
+
+        var step = aboutClientsCardCascadeStep();
+        var trackPaddingTop = parseFloat(window.getComputedStyle(track).paddingTop) || 0;
+        var stackedHeight = cards[0].offsetHeight + (step * (cards.length - 1)) + trackPaddingTop;
+
+        stage.style.setProperty('--about-clients-stage-height', Math.ceil(stackedHeight) + 'px');
+        stage.style.height = Math.ceil(stackedHeight) + 'px';
+      }
+
+      syncAboutClientsStackedLayout();
+
       function aboutClientsTimelineDuration() {
         if (cards.length < 2) {
           return 1;
@@ -1720,6 +1740,7 @@
           invalidateOnRefresh: true,
           onRefresh: function () {
             enforceClientsPinnedViewportWidth(viewport);
+            syncAboutClientsStackedLayout();
           },
           onToggle: function (self) {
             if (self.isActive) {

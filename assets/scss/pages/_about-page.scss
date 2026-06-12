@@ -710,7 +710,8 @@
 
     &.is-about-clients-stacked {
       .services-clients__cards-stage {
-        height: #{mixins.vw(600px)};
+        height: var(--about-clients-stage-height, auto);
+        min-height: 0;
         overflow: hidden;
       }
 
@@ -732,7 +733,8 @@
         top: auto;
         display: flex;
         flex-direction: column;
-        height: #{mixins.vw(300px)};
+        height: auto;
+        min-height: #{mixins.vw(300px)};
         z-index: 1;
         opacity: 1 !important;
         visibility: visible !important;
