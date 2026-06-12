@@ -266,6 +266,38 @@
   }
 }
 
+/*
+ * CTA «Маєте комплексний запит?» ↔ «Проєкти»: стискаємо зазор лише на mobile (≤1024)
+ * і ultrawide (≥1921). Діапазон 1025–1920 лишається як у макеті 1440.
+ */
+@include mixins.mobile {
+  .home-hex-projects-flow .services-inquiry {
+    padding-bottom: calc(#{mixins.mvw(84px)} * 0.7);
+  }
+
+  .home-hex-projects-flow #services-projects .services-projects__viewport {
+    padding-top: calc(#{mixins.mvw(48px)} * 0.75);
+  }
+
+  .home-hex-projects-flow #services-projects.services-projects:has(.services-projects__bg) .services-projects__container {
+    margin-top: calc(#{mixins.mvw(56px)} * 0.75);
+  }
+}
+
+@media (min-width: 1921px) {
+  .home-hex-projects-flow .services-inquiry {
+    padding-bottom: calc(#{mixins.vw(132px)} * 0.7);
+  }
+
+  .home-hex-projects-flow #services-projects .services-projects__viewport {
+    padding-top: calc(#{mixins.vw(40px)} * 0.75);
+  }
+
+  .home-hex-projects-flow #services-projects.services-projects:has(.services-projects__bg) .services-projects__container {
+    margin-top: calc(#{mixins.vw(32px)} * 0.75);
+  }
+}
+
 /* М’яка «сфера» градієнта справа: Vector-346, ширина 400px макета — проєкти + блок процесу (головна). */
 $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Vector-346_result-scaled.webp";
 
