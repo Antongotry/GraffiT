@@ -3606,7 +3606,7 @@ $services-benefits-bg:
     0 100%
   );
   padding-top: calc(#{mixins.vw(20px)} + #{mixins.vw(113px)});
-  padding-bottom: #{mixins.vw(90px)};
+  padding-bottom: #{mixins.vw(73px)};
   background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 
   &::before,
@@ -3624,8 +3624,87 @@ $services-benefits-bg:
       0 100%
     );
     padding-top: calc(#{mixins.mvw(105px)} + #{mixins.mvw(50px)});
-    padding-bottom: #{mixins.mvw(40px)};
+    padding-bottom: #{mixins.mvw(47px)};
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
+  }
+}
+
+/* #services-clients desktop — як #about-clients: padding, stacked cards, висота по контенту. */
+@media (min-width: 1025px) {
+  .site-main--services #services-clients {
+    $services-clients-card-shadow-gutter: #{mixins.vw(48px)};
+
+    .services-clients__viewport {
+      min-height: 0;
+      height: auto;
+      padding-bottom: calc(#{mixins.vw(130px)} + #{mixins.vw(73px)});
+    }
+
+    .services-clients__cards-stage {
+      height: auto;
+      overflow: hidden;
+      box-sizing: border-box;
+      width: calc(100% + (2 * #{$services-clients-card-shadow-gutter}));
+      margin-inline: calc(-1 * #{$services-clients-card-shadow-gutter});
+      padding-inline: $services-clients-card-shadow-gutter;
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+
+    .services-clients__cards-track {
+      margin-top: 0;
+      padding-top: #{mixins.vw(44px)};
+    }
+
+    .services-clients__cards-track .trust-card::before {
+      box-shadow:
+        0 #{mixins.vw(18px)} #{mixins.vw(44px)} rgba(0, 0, 0, 0.05),
+        0 #{mixins.vw(2px)} #{mixins.vw(8px)} rgba(0, 0, 0, 0.03),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+    }
+
+    &.is-about-clients-stacked {
+      .services-clients__cards-stage {
+        height: var(--about-clients-stage-height, auto);
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .services-clients__cards-track {
+        display: flex;
+        flex-direction: column;
+        gap: #{mixins.vw(20px)};
+        width: 100%;
+        margin-top: 0;
+        padding-top: #{mixins.vw(44px)};
+        padding-bottom: 0;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+      }
+
+      .services-clients__cards-track .trust-card {
+        position: relative;
+        top: auto;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: #{mixins.vw(300px)};
+        z-index: 1;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      .trust-card__content {
+        flex: 1;
+      }
+
+      @for $i from 1 through 8 {
+        .services-clients__cards-track .trust-card:nth-child(#{$i}) {
+          z-index: 10 + $i;
+        }
+      }
+    }
   }
 }
 

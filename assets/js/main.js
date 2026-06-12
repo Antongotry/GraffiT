@@ -1550,8 +1550,7 @@
 
     window.gsap.registerPlugin(window.ScrollTrigger);
 
-    function initAboutClientsStackedCards() {
-      var aboutSection = document.getElementById('about-clients');
+    function initClientsStackedCardsSection(clientsSection) {
       var viewport;
       var stage;
       var track;
@@ -1559,39 +1558,41 @@
       var timeline;
       var nodes;
       var spacer;
+      var stackedTriggerId;
 
-      if (!aboutSection) {
+      if (!clientsSection) {
         return;
       }
 
-      aboutSection.classList.remove('is-about-clients-stacked-desktop');
-      aboutSection.classList.remove('is-clients-top-fade');
+      stackedTriggerId = clientsSection.id + '-stacked';
+      clientsSection.classList.remove('is-about-clients-stacked-desktop');
+      clientsSection.classList.remove('is-clients-top-fade');
 
       if (window.innerWidth <= 1024) {
-        viewport = aboutSection.querySelector('.services-clients__viewport');
-        stage = aboutSection.querySelector('.js-clients-stage');
-        track = aboutSection.querySelector('.js-clients-track');
-        cards = Array.prototype.slice.call(aboutSection.querySelectorAll('.trust-card'));
-        spacer = aboutSection.parentElement && aboutSection.parentElement.classList.contains('pin-spacer')
-          ? aboutSection.parentElement
+        viewport = clientsSection.querySelector('.services-clients__viewport');
+        stage = clientsSection.querySelector('.js-clients-stage');
+        track = clientsSection.querySelector('.js-clients-track');
+        cards = Array.prototype.slice.call(clientsSection.querySelectorAll('.trust-card'));
+        spacer = clientsSection.parentElement && clientsSection.parentElement.classList.contains('pin-spacer')
+          ? clientsSection.parentElement
           : null;
 
         if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
           window.ScrollTrigger.getAll().forEach(function (trigger) {
-            if (trigger.trigger === aboutSection || trigger.pin === viewport || trigger.trigger === viewport) {
+            if (trigger.trigger === clientsSection || trigger.pin === viewport || trigger.trigger === viewport) {
               trigger.kill(true);
             }
           });
         }
 
-        aboutSection.removeAttribute('data-about-clients-stacked-init');
-        aboutSection.classList.remove('is-about-clients-stacked');
+        clientsSection.removeAttribute('data-about-clients-stacked-init');
+        clientsSection.classList.remove('is-about-clients-stacked');
 
         if (stage) {
           stage.style.removeProperty('--about-clients-stage-height');
         }
 
-        [aboutSection, spacer, viewport, stage, track].concat(cards).forEach(function (node) {
+        [clientsSection, spacer, viewport, stage, track].concat(cards).forEach(function (node) {
           if (!node) {
             return;
           }
@@ -1625,33 +1626,42 @@
       }
 
       if (window.ScrollTrigger && typeof window.ScrollTrigger.getById === 'function') {
-        var existingAboutClientsTrigger = window.ScrollTrigger.getById('about-clients-stacked');
+        var existingStackedTrigger = window.ScrollTrigger.getById(stackedTriggerId);
 
-        if (existingAboutClientsTrigger) {
-          existingAboutClientsTrigger.kill(true);
+        if (existingStackedTrigger) {
+          existingStackedTrigger.kill(true);
         }
       }
 
-      viewport = aboutSection.querySelector('.services-clients__viewport');
-      stage = aboutSection.querySelector('.js-clients-stage');
-      track = aboutSection.querySelector('.js-clients-track');
-      cards = Array.prototype.slice.call(aboutSection.querySelectorAll('.trust-card'));
+      viewport = clientsSection.querySelector('.services-clients__viewport');
+      stage = clientsSection.querySelector('.js-clients-stage');
+      track = clientsSection.querySelector('.js-clients-track');
+      cards = Array.prototype.slice.call(clientsSection.querySelectorAll('.trust-card'));
 
       if (!viewport || !stage || !track || cards.length < 2) {
-        aboutSection.removeAttribute('data-about-clients-stacked-init');
-        aboutSection.classList.remove('is-about-clients-stacked');
+        clientsSection.removeAttribute('data-about-clients-stacked-init');
+        clientsSection.classList.remove('is-about-clients-stacked');
         return;
       }
 
+      if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
+        window.ScrollTrigger.getAll().forEach(function (trigger) {
+          if (trigger.trigger === clientsSection || trigger.pin === viewport || trigger.trigger === viewport) {
+            trigger.kill(true);
+          }
+        });
+      }
+
+      clientsSection.removeAttribute('data-clients-scroller-init');
       window.gsap.set(cards, { clearProps: 'transform,opacity,visibility,willChange' });
-      aboutSection.removeAttribute('data-about-clients-stacked-init');
-      aboutSection.classList.remove('is-about-clients-stacked');
-      aboutSection.setAttribute('data-about-clients-stacked-init', '1');
-      aboutSection.classList.add('is-about-clients-stacked');
+      clientsSection.removeAttribute('data-about-clients-stacked-init');
+      clientsSection.classList.remove('is-about-clients-stacked');
+      clientsSection.setAttribute('data-about-clients-stacked-init', '1');
+      clientsSection.classList.add('is-about-clients-stacked');
       nodes = [
-        aboutSection.querySelector('.services-clients__viewport'),
-        aboutSection.querySelector('.js-clients-stage'),
-        aboutSection.querySelector('.js-clients-track')
+        clientsSection.querySelector('.services-clients__viewport'),
+        clientsSection.querySelector('.js-clients-stage'),
+        clientsSection.querySelector('.js-clients-track')
       ];
 
       nodes.forEach(function (node) {
@@ -1728,8 +1738,8 @@
 
       timeline = window.gsap.timeline({
         scrollTrigger: {
-          id: 'about-clients-stacked',
-          trigger: aboutSection,
+          id: stackedTriggerId,
+          trigger: clientsSection,
           start: 'top top',
           end: function () {
             return 'clamp(+=' + aboutClientsPinDistance() + ')';
@@ -1762,6 +1772,12 @@
           ease: 'none',
           duration: 1.35
         }, (index - 1) * 0.42);
+      });
+    }
+
+    function initAboutClientsStackedCards() {
+      ['about-clients', 'services-clients'].forEach(function (sectionId) {
+        initClientsStackedCardsSection(document.getElementById(sectionId));
       });
     }
 
@@ -1812,7 +1828,7 @@
       section.setAttribute('data-clients-scroller-init', '1');
       section.classList.remove('is-clients-top-fade');
 
-      if (section.id === 'about-clients') {
+      if (section.id === 'about-clients' || section.id === 'services-clients') {
         return;
       }
 
