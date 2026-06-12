@@ -3119,7 +3119,7 @@ $services-benefits-bg:
   @media (min-width: 1025px) {
     .site-main--services & {
       min-height: auto;
-      padding: #{mixins.vw(32px)} 0 0;
+      padding-bottom: #{mixins.vw(64px)};
     }
   }
 
@@ -3274,7 +3274,7 @@ $services-benefits-bg:
   @include mixins.mobile {
     height: auto;
     margin-top: #{mixins.mvw(24px)};
-    padding-bottom: 0;
+    padding-bottom: #{mixins.mvw(14px)};
     overflow-x: auto;
     overflow-y: visible;
     -webkit-overflow-scrolling: touch;
