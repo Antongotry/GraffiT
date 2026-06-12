@@ -1667,6 +1667,16 @@
         });
       });
 
+      function aboutClientsCardCascadeStep() {
+        var referenceTitle = cards[0] && cards[0].querySelector('.trust-card__title');
+
+        if (!referenceTitle) {
+          return 32;
+        }
+
+        return referenceTitle.offsetHeight + 6;
+      }
+
       function aboutClientsTimelineDuration() {
         if (cards.length < 2) {
           return 1;
@@ -1677,11 +1687,11 @@
 
       function aboutClientsPinDistance() {
         var w = window.innerWidth || 1440;
-        var step = w <= 1024
+        var scrollStep = w <= 1024
           ? Math.round(window.innerHeight * 0.62)
           : Math.round(window.innerHeight * 0.42);
 
-        return Math.round(aboutClientsTimelineDuration() * step);
+        return Math.round(aboutClientsTimelineDuration() * scrollStep);
       }
 
       timeline = window.gsap.timeline({
@@ -1714,7 +1724,7 @@
 
         timeline.to(card, {
           y: function () {
-            return -(card.offsetTop - cards[0].offsetTop);
+            return -(card.offsetTop - cards[0].offsetTop) + (aboutClientsCardCascadeStep() * index);
           },
           ease: 'none',
           duration: 1.35
