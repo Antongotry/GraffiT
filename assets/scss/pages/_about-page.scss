@@ -650,8 +650,9 @@
 
   @media (min-width: 1025px) {
     .services-clients__cards-stage {
-      padding-inline: #{mixins.vw(28px)};
-      box-sizing: border-box;
+      overflow: visible;
+      mask-image: none;
+      -webkit-mask-image: none;
     }
 
     .services-clients__cards-track {
@@ -669,9 +670,7 @@
     &.is-about-clients-stacked {
       .services-clients__cards-stage {
         height: #{mixins.vw(899px)};
-        overflow: hidden;
-        mask-image: none;
-        -webkit-mask-image: none;
+        overflow: visible;
       }
 
       .services-clients__cards-track {
