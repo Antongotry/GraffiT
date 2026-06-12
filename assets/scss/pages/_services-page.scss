@@ -3623,7 +3623,7 @@ $services-benefits-bg:
       50% calc(100% - #{mixins.mvw(40px)}),
       0 100%
     );
-    padding-top: calc(#{mixins.mvw(105px)} + #{mixins.mvw(50px)});
+    padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
     padding-bottom: #{mixins.mvw(40px)};
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
   }
