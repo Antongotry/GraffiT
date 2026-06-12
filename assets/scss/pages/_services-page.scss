@@ -2387,37 +2387,76 @@
   }
 
   @media (min-width: 1025px) {
+    /* Figma romb: 360.27 × 416 @ 1440 — vw() з cap, не квадрат 374×374. */
     .hex-reasons__scene {
-      --hex-box: 25vw;
-      --hex-step-x: calc(25vw * 404 / 374);
-      --hex-step-y: calc(25vw * 298 / 374);
-      --hex-r0y: calc(25vw * 251 / 374);
-      min-height: calc(25vw * 873 / 374);
-      height: calc(25vw * 873 / 374);
+      --hex-box-w: #{mixins.vw(360.27px)};
+      --hex-box-h: #{mixins.vw(416px)};
+      --hex-box: var(--hex-box-w);
+      --hex-step-x: #{mixins.vw(404px)};
+      --hex-step-y: #{mixins.vw(298px)};
+      --hex-r0y: #{mixins.vw(251px)};
+      min-height: #{mixins.vw(915px)};
+      height: #{mixins.vw(915px)};
     }
 
     .hex-reasons__hex--card,
     .hex-reasons__hex--outline {
-      width: 25vw;
+      width: var(--hex-box-w);
       height: auto;
-      aspect-ratio: 1;
+      aspect-ratio: 360.27 / 416;
     }
 
     .hex-reasons__hex--card {
       background-size: 100% 100%;
     }
 
+    .hex-reasons__hex--r0c0,
+    .hex-reasons__hex--r0c1,
+    .hex-reasons__hex--r0c2 {
+      top: calc(var(--hex-r0y) - var(--hex-box-h) / 2);
+    }
+
+    .hex-reasons__hex--r0c0 {
+      left: calc(0 * var(--hex-step-x) - var(--hex-box-w) / 2);
+    }
+
+    .hex-reasons__hex--r0c1 {
+      left: calc(1 * var(--hex-step-x) - var(--hex-box-w) / 2);
+    }
+
+    .hex-reasons__hex--r0c2 {
+      left: calc(2 * var(--hex-step-x) - var(--hex-box-w) / 2);
+    }
+
+    .hex-reasons__hex--r1c0,
+    .hex-reasons__hex--r1c1,
+    .hex-reasons__hex--r1c2 {
+      top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box-h) / 2);
+    }
+
+    .hex-reasons__hex--r1c0 {
+      left: calc(var(--hex-half) + 0 * var(--hex-step-x) - var(--hex-box-w) / 2);
+    }
+
+    .hex-reasons__hex--r1c1 {
+      left: calc(var(--hex-half) + 1 * var(--hex-step-x) - var(--hex-box-w) / 2);
+    }
+
+    .hex-reasons__hex--r1c2 {
+      left: calc(var(--hex-half) + 2 * var(--hex-step-x) - var(--hex-box-w) / 2);
+    }
+
     .hex-reasons__hex--plg {
-      left: calc(2 * var(--hex-step-x) + var(--hex-box) / 2) !important;
-      top: calc(var(--hex-r0y) - var(--hex-box) / 2 - var(--hex-box) * 0.457) !important;
+      left: calc(2 * var(--hex-step-x) + var(--hex-box-w) / 2) !important;
+      top: calc(var(--hex-r0y) - var(--hex-box-h) / 2 - var(--hex-box-h) * 0.411) !important;
       right: auto !important;
       transform: none;
     }
 
     .hex-reasons__hex--psm {
-      left: calc(var(--hex-half) + 2 * var(--hex-step-x) - var(--hex-box) / 2 + var(--hex-box) * 0.9) !important;
+      left: calc(var(--hex-half) + 2 * var(--hex-step-x) - var(--hex-box-w) / 2 + var(--hex-box-w) * 0.935) !important;
       right: auto !important;
-      top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box) / 2 + var(--hex-box) * 0.243) !important;
+      top: calc(var(--hex-r0y) + var(--hex-step-y) - var(--hex-box-h) / 2 + var(--hex-box-h) * 0.219) !important;
       transform: none;
     }
   }
