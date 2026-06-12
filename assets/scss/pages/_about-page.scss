@@ -651,7 +651,7 @@
   @media (min-width: 1025px) {
     .services-clients__cards-track {
       margin-top: 0;
-      padding-top: #{mixins.vw(72px)};
+      padding-top: #{mixins.vw(44px)};
     }
 
     &.is-about-clients-stacked {
@@ -668,7 +668,7 @@
         gap: #{mixins.vw(20px)};
         width: 100%;
         margin-top: 0;
-        padding-top: #{mixins.vw(72px)};
+        padding-top: #{mixins.vw(44px)};
         padding-bottom: #{mixins.vw(56px)};
         opacity: 1 !important;
         visibility: visible !important;
