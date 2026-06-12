@@ -16,14 +16,17 @@
 
 .about-dark-flow {
   position: relative;
-  z-index: 90;
+  /* Нижче #about-clients (91), інакше чорний фон «наїжджає» на pin viewport при скролі. */
+  z-index: 70;
   overflow: visible;
+  margin-top: -2px;
   --about-dark-flow-background: #000102;
   --about-dark-flow-background-mobile: #000102;
-  background: var(--about-dark-flow-background);
+  /* Фон лише на дочірніх секціях — інакше прямокутник обгортки дає «наїзд» поверх шпиля .about-stack. */
+  background: transparent;
 
   @include mixins.mobile {
-    background: var(--about-dark-flow-background-mobile);
+    margin-top: -2px;
   }
 }
 
@@ -226,7 +229,7 @@
 .about-story {
   position: relative;
   overflow: visible;
-  background: transparent;
+  background: var(--about-dark-flow-background);
   padding: #{mixins.vw(92px)} 0 #{mixins.vw(56px)};
 
   &::after {
@@ -234,6 +237,7 @@
   }
 
   @include mixins.mobile {
+    background: var(--about-dark-flow-background-mobile);
     padding: #{mixins.mvw(96px)} 0 0;
   }
 }
@@ -384,31 +388,29 @@
   position: relative;
   z-index: 1;
   overflow: visible;
-  padding: calc(#{mixins.vw(132px)} * 0.4) 0 #{mixins.vw(144px)};
-  background: transparent;
-
-  &::before {
-    position: absolute;
-    top: #{mixins.vw(-90px)};
-    left: 0;
-    width: 100%;
-    height: #{mixins.vw(90px)};
-    z-index: 1;
-    background: var(--about-dark-flow-background);
-    clip-path: polygon(0 100%, 50% 0, 100% 100%);
-    content: "";
-    pointer-events: none;
-  }
+  /* Шпиль — геометрія самого блоку, не окремий шар і не фон .about-dark-flow. */
+  margin-top: #{mixins.vw(-90px)};
+  padding: calc((#{mixins.vw(132px)} * 0.4) + #{mixins.vw(90px)}) 0 #{mixins.vw(144px)};
+  background: var(--about-dark-flow-background);
+  clip-path: polygon(
+    0 #{mixins.vw(90px)},
+    50% 0,
+    100% #{mixins.vw(90px)},
+    100% 100%,
+    0 100%
+  );
 
   @include mixins.mobile {
-    margin-top: 0;
-    padding: #{mixins.mvw(136px)} 0 0;
-
-    &::before {
-      top: #{mixins.mvw(-40px)};
-      height: #{mixins.mvw(40px)};
-      background: var(--about-dark-flow-background-mobile);
-    }
+    margin-top: #{mixins.mvw(-40px)};
+    padding: calc(#{mixins.mvw(136px)} + #{mixins.mvw(40px)}) 0 0;
+    background: var(--about-dark-flow-background-mobile);
+    clip-path: polygon(
+      0 #{mixins.mvw(40px)},
+      50% 0,
+      100% #{mixins.mvw(40px)},
+      100% 100%,
+      0 100%
+    );
   }
 }
 
@@ -609,13 +611,22 @@
 .about-clients {
   position: relative;
   overflow: visible;
-  z-index: 80;
+  /* Вище .about-dark-flow — pin + виріз лишаються зверху під час scrub. */
+  z-index: 91;
+
+  .pin-spacer {
+    position: relative;
+    z-index: 91 !important;
+    background: transparent;
+  }
 
   .services-clients__eyebrow-text {
     color: #000102;
   }
 
   .services-clients__viewport {
+    position: relative;
+    z-index: 91;
     overflow: hidden;
     clip-path: none;
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
@@ -731,15 +742,10 @@
     }
 
     .services-clients__viewport {
-      overflow: visible;
+      overflow: hidden;
       clip-path: none !important;
       padding-top: #{mixins.mvw(84px)};
       padding-bottom: 0;
-
-      &::before,
-      &::after {
-        clip-path: none;
-      }
     }
 
     .services-clients__copy {
@@ -834,8 +840,12 @@
   position: relative;
   overflow: hidden;
   padding: #{mixins.vw(96px)} 0 #{mixins.vw(112px)};
-  background: transparent;
+  background: var(--about-dark-flow-background);
   color: #ffffff;
+
+  @include mixins.mobile {
+    background: var(--about-dark-flow-background-mobile);
+  }
 }
 
 .about-industries__container {
@@ -979,6 +989,11 @@
   margin-top: #{mixins.vw(64px)};
   margin-bottom: 0;
   padding-bottom: #{mixins.vw(112px)};
+  background: var(--about-dark-flow-background);
+
+  @include mixins.mobile {
+    background: var(--about-dark-flow-background-mobile);
+  }
 }
 
 .site-main--about .services-overview--home-directions .services-overview__eyebrow {
