@@ -1671,10 +1671,10 @@
         var referenceTitle = cards[0] && cards[0].querySelector('.trust-card__title');
 
         if (!referenceTitle) {
-          return 32;
+          return 48;
         }
 
-        return referenceTitle.offsetHeight + 6;
+        return (referenceTitle.offsetHeight + 6) * 1.5;
       }
 
       function aboutClientsTimelineDuration() {
