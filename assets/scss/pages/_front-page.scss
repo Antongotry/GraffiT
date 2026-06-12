@@ -1280,7 +1280,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
   /* Компенсація overlap + додатковий відступ від «шпиля» до контенту FAQ */
-  padding: calc(#{mixins.vw(112px)} + #{mixins.vw(96px)} + #{mixins.vw(72px)}) 0 #{mixins.vw(132px)};
+  padding: calc((#{mixins.vw(112px)} + #{mixins.vw(96px)} + #{mixins.vw(72px)}) * 0.4) 0 #{mixins.vw(132px)};
   text-align: center;
 
   @include mixins.mobile {
