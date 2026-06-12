@@ -33,7 +33,8 @@
 .about-hero {
   position: relative;
   isolation: isolate;
-  z-index: 90;
+  /* Вище #about-clients (91) — нижній шпиль backdrop не ховається сірою секцією. */
+  z-index: 92;
   min-height: 100svh;
   height: 100svh;
   overflow: visible;
@@ -611,8 +612,14 @@
 .about-clients {
   position: relative;
   overflow: visible;
-  /* Вище .about-dark-flow — pin + виріз лишаються зверху під час scrub. */
+  /* Підтяг до hero; шпиль backdrop заходить у верхній виріз viewport. */
+  margin-top: #{mixins.vw(-90px)};
+  /* Вище .about-dark-flow — pin лишається зверху під час scrub; нижче hero (92). */
   z-index: 91;
+
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(-40px)};
+  }
 
   .pin-spacer {
     position: relative;
@@ -628,7 +635,15 @@
     position: relative;
     z-index: 91;
     overflow: hidden;
-    clip-path: none;
+    /* Верхній виріз під шпиль .about-hero__backdrop; низ плоский — шпиль у .about-stack. */
+    clip-path: polygon(
+      0 0,
+      50% #{mixins.vw(90px)},
+      100% 0,
+      100% 100%,
+      0 100%
+    );
+    padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(90px)});
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 
     &::before,
@@ -665,7 +680,7 @@
     .services-clients__viewport {
       min-height: 0;
       height: auto;
-      padding-top: #{mixins.vw(48px)};
+      padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(90px)});
       padding-bottom: #{mixins.vw(200px)};
     }
 
@@ -743,8 +758,14 @@
 
     .services-clients__viewport {
       overflow: hidden;
-      clip-path: none !important;
-      padding-top: #{mixins.mvw(84px)};
+      clip-path: polygon(
+        0 0,
+        50% #{mixins.mvw(40px)},
+        100% 0,
+        100% 100%,
+        0 100%
+      ) !important;
+      padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
       padding-bottom: 0;
     }
 
