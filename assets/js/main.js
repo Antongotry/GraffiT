@@ -1817,7 +1817,7 @@
       var stage = section.querySelector('.js-clients-stage');
       var track = section.querySelector('.js-clients-track');
       var shouldHideHeader = section.id === 'about-clients';
-      var shouldForceZeroBottomPadding = section.id === 'home-about';
+      var shouldForceZeroBottomPadding = section.id === 'home-about' || section.id === 'services-clients';
 
       if (!viewport || !stage || !track) {
         return;
@@ -1848,7 +1848,7 @@
         var w = window.innerWidth || 1440;
         var extra = Math.round((200 / 1440) * w);
 
-        if (section.id === 'home-about') {
+        if (section.id === 'home-about' || section.id === 'services-clients') {
           extra = Math.round((56 / 1440) * w);
           extra = Math.min(Math.max(extra, 40), 72);
         } else {

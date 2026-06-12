@@ -3636,9 +3636,9 @@ $services-benefits-bg:
       height: auto;
     }
 
-  /* Як #home-about — нижче 899px, менше «порожнього» скролу. */
+    /* Компактніше вікно карток — менше сірого поля під треком. */
     .services-clients__cards-stage {
-      height: #{mixins.vw(820px)};
+      height: #{mixins.vw(640px)};
     }
   }
 }
