@@ -3605,8 +3605,8 @@ $services-benefits-bg:
     50% calc(100% - #{mixins.vw(90px)}),
     0 100%
   );
-  padding-top: calc(#{mixins.vw(40px)} + #{mixins.vw(113px)});
-  padding-bottom: #{mixins.vw(140px)};
+  padding-top: calc(#{mixins.vw(90px)} + #{mixins.vw(113px)});
+  padding-bottom: #{mixins.vw(190px)};
   background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 
   &::before,
@@ -3623,8 +3623,8 @@ $services-benefits-bg:
       50% calc(100% - #{mixins.mvw(40px)}),
       0 100%
     );
-    padding-top: calc(#{mixins.mvw(125px)} + #{mixins.mvw(50px)});
-    padding-bottom: #{mixins.mvw(90px)};
+    padding-top: calc(#{mixins.mvw(175px)} + #{mixins.mvw(50px)});
+    padding-bottom: #{mixins.mvw(140px)};
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
   }
 }
