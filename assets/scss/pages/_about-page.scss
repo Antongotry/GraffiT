@@ -635,15 +635,17 @@
     position: relative;
     z-index: 91;
     overflow: hidden;
-    /* Верхній виріз під шпиль .about-hero__backdrop; низ плоский — шпиль у .about-stack. */
+    /* Верх — під hero; низ — темний шпиль (#000102 секції) до .about-stack. */
     clip-path: polygon(
       0 0,
       50% #{mixins.vw(90px)},
       100% 0,
       100% 100%,
+      50% calc(100% - #{mixins.vw(90px)}),
       0 100%
     );
     padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(90px)});
+    padding-bottom: #{mixins.vw(90px)};
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 
     &::before,
@@ -681,7 +683,7 @@
       min-height: 0;
       height: auto;
       padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(90px)});
-      padding-bottom: #{mixins.vw(200px)};
+      padding-bottom: calc(#{mixins.vw(200px)} + #{mixins.vw(90px)});
     }
 
     .services-clients__cards-stage {
@@ -763,10 +765,11 @@
         50% #{mixins.mvw(40px)},
         100% 0,
         100% 100%,
+        50% calc(100% - #{mixins.mvw(40px)}),
         0 100%
       ) !important;
       padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
-      padding-bottom: 0;
+      padding-bottom: #{mixins.mvw(40px)};
     }
 
     .services-clients__copy {
