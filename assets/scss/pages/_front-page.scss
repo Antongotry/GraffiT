@@ -217,12 +217,12 @@
 /* Головна: блок вище, pin/горизонтальний скрол раніше — більше картки у viewport. */
 @media (min-width: 1025px) {
   .home-hex-projects-flow #services-projects .services-projects__viewport {
-    padding-top: #{mixins.vw(40px)};
+    padding-top: #{mixins.vw(16px)};
     padding-bottom: #{mixins.vw(8px)};
   }
 
   .home-hex-projects-flow #services-projects.services-projects:has(.services-projects__bg) .services-projects__container {
-    margin-top: #{mixins.vw(32px)};
+    margin-top: #{mixins.vw(12px)};
   }
 
   .home-hex-projects-flow #services-projects .services-projects__header {
@@ -297,11 +297,11 @@
 
 @include mixins.mobile {
   .home-hex-projects-flow #services-projects .services-projects__viewport {
-    padding-top: calc(#{mixins.mvw(48px)} * 0.75);
+    padding-top: #{mixins.mvw(24px)};
   }
 
   .home-hex-projects-flow #services-projects.services-projects:has(.services-projects__bg) .services-projects__container {
-    margin-top: calc(#{mixins.mvw(56px)} * 0.75);
+    margin-top: #{mixins.mvw(24px)};
   }
 }
 
@@ -311,11 +311,11 @@
   }
 
   .home-hex-projects-flow #services-projects .services-projects__viewport {
-    padding-top: calc(#{mixins.vw(40px)} * 0.75);
+    padding-top: 16px;
   }
 
   .home-hex-projects-flow #services-projects.services-projects:has(.services-projects__bg) .services-projects__container {
-    margin-top: calc(#{mixins.vw(32px)} * 0.75);
+    margin-top: 12px;
   }
 }
 
