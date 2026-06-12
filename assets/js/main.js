@@ -1776,9 +1776,7 @@
     }
 
     function initAboutClientsStackedCards() {
-      ['about-clients', 'services-clients'].forEach(function (sectionId) {
-        initClientsStackedCardsSection(document.getElementById(sectionId));
-      });
+      initClientsStackedCardsSection(document.getElementById('about-clients'));
     }
 
     initAboutClientsStackedCards();
@@ -1828,7 +1826,7 @@
       section.setAttribute('data-clients-scroller-init', '1');
       section.classList.remove('is-clients-top-fade');
 
-      if (section.id === 'about-clients' || section.id === 'services-clients') {
+      if (section.id === 'about-clients') {
         return;
       }
 
