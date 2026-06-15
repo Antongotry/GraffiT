@@ -147,6 +147,6 @@ function graffit_home_film_legacy_config(): array
         'p2Ext' => '_result-scaled.webp',
         'p2AltExt' => '_result-1-scaled.webp',
         'p2AltLastFrame' => 211,
-        'cacheKey' => 'home-film-' . substr(sha1($base . '|211|241|result-scaled|result-1-scaled'), 0, 16),
+        'cacheKey' => 'home-film-' . substr(sha1($base . '|211|241|result-scaled|result-1-scaled|query-v2'), 0, 16),
     ];
 }

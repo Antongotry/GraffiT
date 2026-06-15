@@ -3293,7 +3293,6 @@
     var P2_FRAME_ALT_EXT = filmConfig.p2AltExt || '';
     var P2_FRAME_ALT_LAST = configInteger(filmConfig.p2AltLastFrame, 0);
     var P2_FRAME_OFFSET = configInteger(filmConfig.p2FrameOffset, isLegacyFilm ? 1 : 0);
-    var FIRST_FRAME_URL = filmConfig.poster || (P1_BASE + String(1).padStart(FRAME_PAD, '0') + FRAME_EXT);
     var FILM_CACHE_STORAGE_KEY = 'graffitHomeFilmCacheKey';
     var FILM_CACHE_KEY = filmConfig.cacheKey
       || (loader ? loader.getAttribute('data-film-cache-key') : '')
@@ -3309,6 +3308,16 @@
         P2_FRAME_ALT_LAST,
         P2_FRAME_OFFSET
       ].join('|');
+    var FILM_FRAME_VERSION = encodeURIComponent(FILM_CACHE_KEY || 'home-film');
+    var FIRST_FRAME_URL = versionFilmUrl(filmConfig.poster || (P1_BASE + String(1).padStart(FRAME_PAD, '0') + FRAME_EXT));
+
+    function versionFilmUrl(url) {
+      if (!url || !FILM_FRAME_VERSION) {
+        return url;
+      }
+
+      return url + (url.indexOf('?') === -1 ? '?' : '&') + 'v=' + FILM_FRAME_VERSION;
+    }
 
     canvas.style.backgroundImage = 'url("' + FIRST_FRAME_URL + '")';
     canvas.style.backgroundSize = 'cover';
@@ -3324,11 +3333,11 @@
           ? P2_FRAME_ALT_EXT
           : P2_FRAME_EXT;
 
-        return P2_BASE + String(p2FrameNumber).padStart(FRAME_PAD, '0') + p2FrameExt;
+        return versionFilmUrl(P2_BASE + String(p2FrameNumber).padStart(FRAME_PAD, '0') + p2FrameExt);
       }
 
       var base = phase === 1 ? P1_BASE : P2_BASE;
-      return base + String(frameNumber).padStart(FRAME_PAD, '0') + FRAME_EXT;
+      return versionFilmUrl(base + String(frameNumber).padStart(FRAME_PAD, '0') + FRAME_EXT);
     }
 
     var p1Images = container.__homeFilmP1Images;
