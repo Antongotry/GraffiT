@@ -734,12 +734,12 @@
     }
 
     .services-clients__layout {
-      align-items: center;
-      padding-top: 0;
+      align-items: start;
+      padding-top: #{mixins.vw(12px)};
     }
 
     .services-clients__copy {
-      padding-top: 0;
+      padding-top: #{mixins.vw(16px)};
     }
 
     .services-clients__cards-stage {
@@ -769,7 +769,7 @@
 
     .services-clients__cards-track {
       margin-top: 0;
-      padding-top: 0;
+      padding-top: #{mixins.vw(16px)};
     }
 
     .services-clients__cards-track .trust-card::before {
@@ -791,7 +791,7 @@
         gap: #{mixins.vw(20px)};
         width: 100%;
         margin-top: 0;
-        padding-top: 0;
+        padding-top: #{mixins.vw(16px)};
         padding-bottom: #{mixins.vw(56px)};
         opacity: 1 !important;
         visibility: visible !important;
@@ -824,7 +824,7 @@
 
   @media (min-width: 1921px) {
     .services-clients__layout {
-      padding-top: 40px;
+      padding-top: calc(#{mixins.vw(12px)} + 28px);
     }
   }
 
