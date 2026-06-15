@@ -693,6 +693,15 @@
       padding-bottom: #{mixins.vw(140px)};
     }
 
+    .services-clients__layout {
+      align-items: center;
+      padding-top: 0;
+    }
+
+    .services-clients__copy {
+      padding-top: 0;
+    }
+
     .services-clients__cards-stage {
       height: #{mixins.vw(640px)};
       min-height: #{mixins.vw(640px)};
@@ -720,12 +729,12 @@
 
     .services-clients__cards-track {
       margin-top: 0;
-      padding-top: #{mixins.vw(44px)};
+      padding-top: 0;
     }
 
     .services-clients__cards-track .trust-card::before {
       box-shadow:
-        0 #{mixins.vw(1px)} #{mixins.vw(5px)} rgba(0, 0, 0, 0.07),
+        0 #{mixins.vw(1px)} #{mixins.vw(3px)} rgba(0, 0, 0, 0.04),
         inset 0 0 0 1px rgba(255, 255, 255, 0.65);
     }
 
@@ -739,10 +748,10 @@
       .services-clients__cards-track {
         display: flex;
         flex-direction: column;
-        gap: 0;
+        gap: #{mixins.vw(20px)};
         width: 100%;
         margin-top: 0;
-        padding-top: #{mixins.vw(44px)};
+        padding-top: 0;
         padding-bottom: #{mixins.vw(56px)};
         opacity: 1 !important;
         visibility: visible !important;
@@ -831,7 +840,7 @@
     .services-clients__cards-track {
       display: flex !important;
       flex-direction: column !important;
-      gap: 0 !important;
+      gap: #{mixins.mvw(20px)} !important;
       width: min(100%, #{mixins.mvw(355px)}) !important;
       margin-inline: auto !important;
       margin-top: 0 !important;
@@ -840,10 +849,6 @@
       opacity: 1 !important;
       visibility: visible !important;
       transform: none !important;
-    }
-
-    .services-clients__cards-track .trust-card:not(:first-child) {
-      margin-top: calc(-1 * #{mixins.mvw(240px)}) !important;
     }
 
     .services-clients__cards-track .trust-card {
@@ -859,7 +864,7 @@
       padding: #{mixins.mvw(20px)} !important;
       border-radius: #{mixins.mvw(12px)} !important;
       background-color: #ffffff;
-      box-shadow: 0 #{mixins.mvw(1px)} #{mixins.mvw(4px)} rgba(0, 0, 0, 0.07);
+      box-shadow: 0 #{mixins.mvw(1px)} #{mixins.mvw(3px)} rgba(0, 0, 0, 0.04);
       overflow: hidden;
       opacity: 1 !important;
       visibility: visible !important;
@@ -884,7 +889,7 @@
     @for $i from 1 through 8 {
       .services-clients__cards-track .trust-card:nth-child(#{$i}) {
         z-index: 10 + $i;
-        top: #{mixins.mvw(64px)} !important;
+        top: #{mixins.mvw(64px + ($i - 1) * 6px)} !important;
       }
     }
 
