@@ -37,19 +37,6 @@ get_header();
             </span>
         </div>
     </div>
-    <script>
-    (function () {
-        try {
-            var loader = document.querySelector('.js-home-film-loader');
-            var cacheKey = loader ? loader.getAttribute('data-film-cache-key') : '';
-
-            if (loader && cacheKey && window.localStorage && window.localStorage.getItem('graffitHomeFilmCacheKey') === cacheKey) {
-                loader.classList.add('is-ready');
-                loader.classList.remove('is-active');
-            }
-        } catch (error) {}
-    }());
-    </script>
     <div class="home-scroll-film js-home-scroll-film">
         <?php get_template_part('template-parts/sections/home', 'hero'); ?>
         <?php get_template_part('template-parts/sections/home', 'showcase'); ?>

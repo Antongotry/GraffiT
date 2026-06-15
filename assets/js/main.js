@@ -3323,8 +3323,7 @@
     var lastDrawnImage = null;
     var FILM_BOTTOM_WING_BLEED = 8;
     var filmOverlayRaf = 0;
-    var hasWarmFilmCache = isFilmCacheMarkedReady();
-    var shouldUseFilmLoader = !(p1Images && p2Images) && !hasWarmFilmCache;
+    var shouldUseFilmLoader = !(p1Images && p2Images);
     var filmLoaderStartedAt = 0;
     var filmLoaderReady = false;
     var filmLoaderTargets = Object.create(null);
@@ -3336,28 +3335,12 @@
       return phase + ':' + index;
     }
 
-    function readLocalStorage(key) {
-      try {
-        if (!window.localStorage) {
-          return '';
-        }
-
-        return window.localStorage.getItem(key) || '';
-      } catch (error) {
-        return '';
-      }
-    }
-
     function writeLocalStorage(key, value) {
       try {
         if (window.localStorage) {
           window.localStorage.setItem(key, value);
         }
       } catch (error) {}
-    }
-
-    function isFilmCacheMarkedReady() {
-      return !!FILM_CACHE_KEY && readLocalStorage(FILM_CACHE_STORAGE_KEY) === FILM_CACHE_KEY;
     }
 
     function markFilmCacheReady() {
