@@ -3284,6 +3284,7 @@
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
+    var FILM_WEDGE_SEAM_BLEED = 2;
 
     function isImageReady(img) {
       return !!(img && img.complete && img.naturalWidth);
@@ -3542,6 +3543,7 @@
       var chaos = document.querySelector('.home-chaos');
       var chaosBottom = chaos ? chaos.getBoundingClientRect().bottom : aboutTop + notch;
       var seamTop = aboutTop;
+      var wedgeBleed = FILM_WEDGE_SEAM_BLEED;
 
       if (aboutTop > viewportHeight - notch * 0.5) {
         seamTop = chaosBottom - notch;
@@ -3555,6 +3557,8 @@
         return;
       }
 
+      var wedgeTop = seamTop - wedgeBleed;
+      var wedgeHeight = notch + wedgeBleed;
       var wedgeW = window.innerWidth || document.documentElement.clientWidth;
       var draw = container.__homeFilmDraw;
       var wedgeCanvas = ensureWedgeCanvas(wedge);
@@ -3562,22 +3566,29 @@
       var dpr = window.devicePixelRatio || 1;
 
       wedgeCanvas.width = Math.round(wedgeW * dpr);
-      wedgeCanvas.height = Math.round(notch * dpr);
+      wedgeCanvas.height = Math.round(wedgeHeight * dpr);
       wedgeCanvas.style.width = wedgeW + 'px';
-      wedgeCanvas.style.height = notch + 'px';
+      wedgeCanvas.style.height = wedgeHeight + 'px';
       wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      wctx.clearRect(0, 0, wedgeW, notch);
+      wctx.clearRect(0, 0, wedgeW, wedgeHeight);
 
       if (draw && lastDrawnImage) {
-        wctx.drawImage(lastDrawnImage, draw.posX, draw.posY - seamTop, draw.w, draw.h);
+        wctx.drawImage(lastDrawnImage, draw.posX, draw.posY - wedgeTop, draw.w, draw.h);
       } else {
-        wctx.drawImage(canvas, 0, seamTop, wedgeW, notch, 0, 0, wedgeW, notch);
+        var sourceTop = Math.max(0, wedgeTop);
+        var destTop = sourceTop - wedgeTop;
+        var sourceHeight = Math.min(canvas.height - sourceTop, wedgeHeight - destTop);
+
+        if (sourceHeight > 0) {
+          wctx.drawImage(canvas, 0, sourceTop, wedgeW, sourceHeight, 0, destTop, wedgeW, sourceHeight);
+        }
       }
 
       wedge.style.visibility = 'visible';
       wedge.style.opacity = '1';
-      wedge.style.top = seamTop + 'px';
-      wedge.style.height = notch + 'px';
+      wedge.style.top = wedgeTop + 'px';
+      wedge.style.height = wedgeHeight + 'px';
+      wedge.style.setProperty('--home-film-wedge-bleed', wedgeBleed + 'px');
       syncFilmBottomWing();
     }
 

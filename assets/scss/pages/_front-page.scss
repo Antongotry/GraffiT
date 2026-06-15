@@ -372,14 +372,23 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
  * Маленький canvas копіює смугу з основного scroll-film canvas.
  */
 .home-film-wedge {
+  --home-film-wedge-bleed: 2px;
+
   position: fixed;
   top: 0;
   left: 0;
   /* Поверх pin #home-about (91) і будь-яких pin-spacer. */
   z-index: 120;
   width: 100%;
-  height: #{mixins.vw(90px)};
-  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  height: calc(#{mixins.vw(90px)} + var(--home-film-wedge-bleed));
+  /* Full-width film cap hides subpixel seam against the previous clipped block. */
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% var(--home-film-wedge-bleed),
+    50% 100%,
+    0 var(--home-film-wedge-bleed)
+  );
   background: transparent;
   opacity: 0;
   visibility: hidden;
@@ -388,7 +397,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   isolation: isolate;
 
   @include mixins.mobile {
-    height: #{mixins.mvw(40px)};
+    height: calc(#{mixins.mvw(40px)} + var(--home-film-wedge-bleed));
   }
 }
 
