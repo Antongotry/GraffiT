@@ -3,12 +3,10 @@
 .home-chaos-about-flow {
   position: relative;
   /*
-   * Must be positive z-index so this wrapper renders ABOVE home-hex-projects-flow
-   * (which comes later in the DOM and would otherwise paint on top, burying the
-   * bow-tie's light-grey wings at the bottom of the viewport).
-   * Matches the same pattern as .about-dark-flow { z-index: 90 } on the About page.
+   * Вище .home-hex-projects-flow (70) — pin #home-about лишається зверху під час scrub,
+   * як #about-clients (91) над .about-dark-flow на /about/ і #services-clients на /services/.
    */
-  z-index: 90;
+  z-index: 91;
   /* Прозорий верх — canvas видно в «крилах» вирізу; суцільний фон лише на viewport / pin-spacer. */
   background: transparent;
   overflow: visible;
@@ -85,11 +83,10 @@
   background: #000102;
   isolation: isolate;
   /*
-   * z-index: 91 — one step above home-chaos-about-flow (z-index: 90) so
-   * the dark ::after triangle renders on top of the clients viewport,
-   * creating the same stitch as .about-stack::before on the About page.
+   * Нижче #home-about (91) — чорний блок не «наїжджає» на pin viewport при скролі
+   * (дзеркало .about-dark-flow { z-index: 70 } на /about/).
    */
-  z-index: 91;
+  z-index: 70;
 
   &::before {
     position: absolute;
@@ -339,12 +336,14 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-chaos-about-flow #home-about {
   position: relative;
-  z-index: 80;
+  overflow: visible;
+  /* Вище .home-hex-projects-flow — pin лишається зверху під час scrub. */
+  z-index: 91;
 }
 
 .home-chaos-about-flow #home-about .pin-spacer {
   position: relative;
-  z-index: 80;
+  z-index: 91 !important;
   background: transparent;
 }
 
@@ -377,7 +376,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
-  z-index: 80;
+  z-index: 91;
   overflow: visible;
   background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
   /*
@@ -564,6 +563,80 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-scroll-film {
   position: relative;
+}
+
+/* Hero + showcase without scroll-film canvas (static backgrounds). */
+.home-scroll-film--static {
+  .home-showcase {
+    background: #010814;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1;
+      height: clamp(#{mixins.vw(200px)}, 28vh, #{mixins.vw(360px)});
+      background: linear-gradient(
+        180deg,
+        rgba(2, 9, 20, 0.98) 0%,
+        rgba(2, 9, 20, 0.82) 22%,
+        rgba(2, 9, 20, 0.52) 46%,
+        rgba(2, 9, 20, 0.22) 72%,
+        rgba(2, 9, 20, 0) 100%
+      );
+      content: "";
+      pointer-events: none;
+      transform: translateY(-22%);
+    }
+
+    @include mixins.mobile {
+      &::before {
+        height: #{mixins.mvw(240px)};
+        transform: translateY(-18%);
+      }
+    }
+  }
+
+  .home-showcase__inner {
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 2;
+      height: clamp(#{mixins.vw(130px)}, 18vh, #{mixins.vw(210px)});
+      background: linear-gradient(180deg, rgba(2, 9, 20, 0.82) 0%, rgba(2, 9, 20, 0.54) 34%, rgba(2, 9, 20, 0.18) 68%, rgba(2, 9, 20, 0) 100%);
+      filter: blur(#{mixins.vw(12px)});
+      content: "";
+      pointer-events: none;
+      transform: translateY(-12%);
+    }
+
+    &::after {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
+      height: clamp(#{mixins.vw(180px)}, 26vh, #{mixins.vw(280px)});
+      background: linear-gradient(180deg, rgba(0, 2, 3, 0) 0%, rgba(0, 2, 3, 0.14) 28%, rgba(0, 2, 3, 0.42) 58%, #000203 100%);
+      filter: blur(#{mixins.vw(16px)});
+      content: "";
+      pointer-events: none;
+      transform: translateY(28%);
+    }
+
+    @include mixins.mobile {
+      &::before {
+        filter: blur(#{mixins.mvw(6px)});
+      }
+    }
+  }
+
+  .home-chaos {
+    background: #000102;
+  }
 }
 
 .home-scroll-film__canvas {

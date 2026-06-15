@@ -8,6 +8,15 @@
 declare(strict_types=1);
 
 /**
+ * Toggle homepage scroll-film (hero + showcase frame scrub).
+ * Set to true when designer webp frames should drive blocks 1–2 again.
+ */
+function graffit_home_film_enabled(): bool
+{
+    return false;
+}
+
+/**
  * @return array{
  *     p1Base: string,
  *     p2Base: string,
@@ -73,6 +82,7 @@ function graffit_home_film_config(): array
     }
 
     return [
+        'enabled' => graffit_home_film_enabled(),
         'p1Base' => $p1_base,
         'p2Base' => $p2_base,
         'p1Last' => $defaults['p1Last'],
@@ -106,6 +116,7 @@ function graffit_home_film_legacy_config(): array
     $base = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
 
     return [
+        'enabled' => graffit_home_film_enabled(),
         'p1Base' => $base . 'ezgif-frame-',
         'p2Base' => $base . 'ezgif-frame-',
         'p1Last' => 210,

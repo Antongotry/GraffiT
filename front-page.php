@@ -11,8 +11,7 @@ get_header();
 ?>
 <?php get_template_part('template-parts/layout/site', 'header'); ?>
 <main id="primary" class="site-main site-main--home" aria-label="<?php esc_attr_e('Front page', 'graffit'); ?>">
-    <div class="home-scroll-film js-home-scroll-film">
-        <canvas class="home-scroll-film__canvas js-home-scroll-film-canvas" aria-hidden="true"></canvas>
+    <div class="home-scroll-film home-scroll-film--static js-home-scroll-film">
         <?php get_template_part('template-parts/sections/home', 'hero'); ?>
         <?php get_template_part('template-parts/sections/home', 'showcase'); ?>
         <?php get_template_part('template-parts/sections/home', 'chaos'); ?>

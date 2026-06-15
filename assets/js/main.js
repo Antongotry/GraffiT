@@ -3207,7 +3207,17 @@
     var container = document.querySelector('.js-home-scroll-film');
     var canvas = document.querySelector('.js-home-scroll-film-canvas');
 
-    if (!container || !canvas) {
+    if (!container) {
+      return;
+    }
+
+    var filmConfigEarly = window.graffitHomeFilm || {};
+
+    if (filmConfigEarly.enabled === false) {
+      return;
+    }
+
+    if (!canvas) {
       return;
     }
 
