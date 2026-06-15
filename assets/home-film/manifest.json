@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "fps": 24,
+  "pad": 4,
+  "ext": ".webp",
+  "p1": {
+    "count": 169,
+    "lastIndex": 168,
+    "source": "Відео-1-2-екран.mp4"
+  },
+  "p2": {
+    "count": 193,
+    "lastIndex": 192,
+    "source": "Відео-2-3-екран.mp4"
+  }
+}

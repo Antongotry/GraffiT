@@ -3223,19 +3223,35 @@
 
     window.gsap.registerPlugin(window.ScrollTrigger);
 
-    var BASE_URL = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
-    var P1_LAST = 210;
+    var filmConfig = window.graffitHomeFilm || {};
+    var isLegacyFilm = filmConfig.source === 'legacy-ezgif';
+    var P1_BASE = filmConfig.p1Base || 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/ezgif-frame-';
+    var P2_BASE = filmConfig.p2Base || P1_BASE;
+    var P1_LAST = typeof filmConfig.p1Last === 'number' ? filmConfig.p1Last : 210;
+    var P2_LAST = typeof filmConfig.p2Last === 'number' ? filmConfig.p2Last : 153;
     var P1_COUNT = P1_LAST + 1;
-    var P2_FIRST = 28;
-    var P2_LAST_FRAME = 181;
-    var P2_COUNT = P2_LAST_FRAME - P2_FIRST + 1;
-    var P2_LAST = P2_COUNT - 1;
-    var FIRST_FRAME_URL = BASE_URL + 'ezgif-frame-001_result.webp';
+    var P2_COUNT = P2_LAST + 1;
+    var FRAME_PAD = typeof filmConfig.pad === 'number' ? filmConfig.pad : (isLegacyFilm ? 3 : 4);
+    var FRAME_EXT = filmConfig.ext || (isLegacyFilm ? '_result.webp' : '.webp');
+    var P2_FRAME_EXT = filmConfig.p2Ext || FRAME_EXT;
+    var P2_FRAME_OFFSET = typeof filmConfig.p2FrameOffset === 'number' ? filmConfig.p2FrameOffset : 0;
+    var FIRST_FRAME_URL = filmConfig.poster || (P1_BASE + String(1).padStart(FRAME_PAD, '0') + (isLegacyFilm ? '_result.webp' : FRAME_EXT));
 
     canvas.style.backgroundImage = 'url("' + FIRST_FRAME_URL + '")';
     canvas.style.backgroundSize = 'cover';
     canvas.style.backgroundPosition = 'center';
     canvas.style.backgroundRepeat = 'no-repeat';
+
+    function filmFrameUrl(phase, index) {
+      var frameNumber = index + 1;
+
+      if (phase === 2 && isLegacyFilm) {
+        return P2_BASE + String(P2_FRAME_OFFSET + index).padStart(FRAME_PAD, '0') + P2_FRAME_EXT;
+      }
+
+      var base = phase === 1 ? P1_BASE : P2_BASE;
+      return base + String(frameNumber).padStart(FRAME_PAD, '0') + FRAME_EXT;
+    }
 
     var p1Images = container.__homeFilmP1Images;
 
@@ -3253,7 +3269,7 @@
               drawImage(img);
             }
           };
-          img.src = BASE_URL + 'ezgif-frame-' + String(idx + 1).padStart(3, '0') + '_result.webp';
+          img.src = filmFrameUrl(1, idx);
         })(i1);
       }
     }
@@ -3270,7 +3286,7 @@
           img.onload = function () {
             p2Images[idx] = img;
           };
-          img.src = BASE_URL + 'ezgif-frame-' + String(P2_FIRST + idx).padStart(3, '0') + '_result-1.webp';
+          img.src = filmFrameUrl(2, idx);
         })(i2);
       }
     }

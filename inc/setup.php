@@ -560,6 +560,10 @@ function graffit_enqueue_assets(): void
         graffit_asset_version('/assets/js/main.js'),
         true
     );
+
+    if (is_front_page()) {
+        wp_localize_script('graffit-main', 'graffitHomeFilm', graffit_home_film_config());
+    }
 }
 add_action('wp_enqueue_scripts', 'graffit_enqueue_assets');
 

@@ -1,0 +1,111 @@
+<?php
+/**
+ * Homepage scroll-film frame config (sliced from MP4).
+ *
+ * @package graffit
+ */
+
+declare(strict_types=1);
+
+/**
+ * @return array{
+ *     p1Base: string,
+ *     p2Base: string,
+ *     p1Last: int,
+ *     p2Last: int,
+ *     poster: string,
+ *     pad: int,
+ *     ext: string,
+ *     source: string
+ * }
+ */
+function graffit_home_film_config(): array
+{
+    $theme_dir = get_template_directory();
+    $theme_uri = get_template_directory_uri();
+    $film_root = $theme_dir . '/assets/home-film';
+    $manifest_path = $film_root . '/manifest.json';
+
+    $defaults = [
+        'pad' => 4,
+        'ext' => '.webp',
+        'p1Last' => 168,
+        'p2Last' => 192,
+    ];
+
+    if (is_readable($manifest_path)) {
+        $manifest = json_decode((string) file_get_contents($manifest_path), true);
+
+        if (is_array($manifest)) {
+            $defaults['p1Last'] = (int) ($manifest['p1']['lastIndex'] ?? $defaults['p1Last']);
+            $defaults['p2Last'] = (int) ($manifest['p2']['lastIndex'] ?? $defaults['p2Last']);
+            $defaults['pad'] = (int) ($manifest['pad'] ?? $defaults['pad']);
+            $defaults['ext'] = (string) ($manifest['ext'] ?? $defaults['ext']);
+        }
+    }
+
+    $p1_dir = $film_root . '/p1';
+    $p2_dir = $film_root . '/p2';
+    $p1_files = is_dir($p1_dir) ? (glob($p1_dir . '/frame-*.webp') ?: []) : [];
+    $p2_files = is_dir($p2_dir) ? (glob($p2_dir . '/frame-*.webp') ?: []) : [];
+
+    if ($p1_files !== []) {
+        $defaults['p1Last'] = max(0, count($p1_files) - 1);
+    }
+
+    if ($p2_files !== []) {
+        $defaults['p2Last'] = max(0, count($p2_files) - 1);
+    }
+
+    $p1_base = $theme_uri . '/assets/home-film/p1/frame-';
+    $p2_base = $theme_uri . '/assets/home-film/p2/frame-';
+    $poster = $p1_base . '0001' . $defaults['ext'];
+
+    if ($p1_files === [] || $p2_files === []) {
+        return graffit_home_film_legacy_config();
+    }
+
+    return [
+        'p1Base' => $p1_base,
+        'p2Base' => $p2_base,
+        'p1Last' => $defaults['p1Last'],
+        'p2Last' => $defaults['p2Last'],
+        'poster' => $poster,
+        'pad' => $defaults['pad'],
+        'ext' => $defaults['ext'],
+        'source' => 'sliced-mp4',
+    ];
+}
+
+/**
+ * Legacy ezgif frame URLs (fallback when sliced frames are not deployed).
+ *
+ * @return array{
+ *     p1Base: string,
+ *     p2Base: string,
+ *     p1Last: int,
+ *     p2Last: int,
+ *     poster: string,
+ *     pad: int,
+ *     ext: string,
+ *     source: string,
+ *     p2FrameOffset: int
+ * }
+ */
+function graffit_home_film_legacy_config(): array
+{
+    $base = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
+
+    return [
+        'p1Base' => $base . 'ezgif-frame-',
+        'p2Base' => $base . 'ezgif-frame-',
+        'p1Last' => 210,
+        'p2Last' => 153,
+        'poster' => $base . 'ezgif-frame-001_result.webp',
+        'pad' => 3,
+        'ext' => '_result.webp',
+        'source' => 'legacy-ezgif',
+        'p2FrameOffset' => 28,
+        'p2Ext' => '_result-1.webp',
+    ];
+}

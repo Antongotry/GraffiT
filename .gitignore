@@ -1,3 +1,7 @@
 node_modules/
 .DS_Store
+assets/home-film/.tmp-p1/
+assets/home-film/.tmp-p2/
+assets/home-film/p1/*.webp
+assets/home-film/p2/*.webp
 
