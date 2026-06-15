@@ -113,19 +113,25 @@ function graffit_home_film_config(): array
  */
 function graffit_home_film_legacy_config(): array
 {
-    $base = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
+    $base = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/';
 
     return [
         'enabled' => graffit_home_film_enabled(),
         'p1Base' => $base . 'ezgif-frame-',
         'p2Base' => $base . 'ezgif-frame-',
         'p1Last' => 210,
-        'p2Last' => 153,
-        'poster' => $base . 'ezgif-frame-001_result.webp',
+        'p2Last' => 240,
+        'poster' => $base . 'ezgif-frame-001_result-scaled.webp',
         'pad' => 3,
-        'ext' => '_result.webp',
+        'ext' => '_result-scaled.webp',
+        'scrollPace' => 1,
+        'phase2ScrollPace' => 1.85,
         'source' => 'legacy-ezgif',
-        'p2FrameOffset' => 28,
-        'p2Ext' => '_result-1.webp',
+        /*
+         * 2026/06 fallback keeps the two uploaded frame series separate:
+         * phase 1: 001-211 *_result-scaled.webp, phase 2: 001-241 *_result.webp.
+         */
+        'p2FrameOffset' => 1,
+        'p2Ext' => '_result.webp',
     ];
 }

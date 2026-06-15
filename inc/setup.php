@@ -562,7 +562,11 @@ function graffit_enqueue_assets(): void
     );
 
     if (is_front_page()) {
-        wp_localize_script('graffit-main', 'graffitHomeFilm', graffit_home_film_config());
+        wp_add_inline_script(
+            'graffit-main',
+            'window.graffitHomeFilm = ' . wp_json_encode(graffit_home_film_config()) . ';',
+            'before'
+        );
     }
 }
 add_action('wp_enqueue_scripts', 'graffit_enqueue_assets');

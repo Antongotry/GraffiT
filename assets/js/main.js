@@ -3242,19 +3242,30 @@
 
     window.gsap.registerPlugin(window.ScrollTrigger);
 
+    function configNumber(value, fallback) {
+      var parsed = Number(value);
+
+      return Number.isFinite(parsed) ? parsed : fallback;
+    }
+
+    function configInteger(value, fallback) {
+      return Math.max(0, Math.round(configNumber(value, fallback)));
+    }
+
     var filmConfig = window.graffitHomeFilm || {};
-    var isLegacyFilm = filmConfig.source === 'legacy-ezgif';
-    var P1_BASE = filmConfig.p1Base || 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/ezgif-frame-';
+    var DEFAULT_LEGACY_BASE = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/ezgif-frame-';
+    var isLegacyFilm = filmConfig.source === 'legacy-ezgif' || !filmConfig.p1Base;
+    var P1_BASE = filmConfig.p1Base || DEFAULT_LEGACY_BASE;
     var P2_BASE = filmConfig.p2Base || P1_BASE;
-    var P1_LAST = typeof filmConfig.p1Last === 'number' ? filmConfig.p1Last : 210;
-    var P2_LAST = typeof filmConfig.p2Last === 'number' ? filmConfig.p2Last : 153;
+    var P1_LAST = configInteger(filmConfig.p1Last, 210);
+    var P2_LAST = configInteger(filmConfig.p2Last, 240);
     var P1_COUNT = P1_LAST + 1;
     var P2_COUNT = P2_LAST + 1;
-    var FRAME_PAD = typeof filmConfig.pad === 'number' ? filmConfig.pad : (isLegacyFilm ? 3 : 4);
-    var FRAME_EXT = filmConfig.ext || (isLegacyFilm ? '_result.webp' : '.webp');
-    var P2_FRAME_EXT = filmConfig.p2Ext || FRAME_EXT;
-    var P2_FRAME_OFFSET = typeof filmConfig.p2FrameOffset === 'number' ? filmConfig.p2FrameOffset : 0;
-    var FIRST_FRAME_URL = filmConfig.poster || (P1_BASE + String(1).padStart(FRAME_PAD, '0') + (isLegacyFilm ? '_result.webp' : FRAME_EXT));
+    var FRAME_PAD = configInteger(filmConfig.pad, isLegacyFilm ? 3 : 4);
+    var FRAME_EXT = filmConfig.ext || (isLegacyFilm ? '_result-scaled.webp' : '.webp');
+    var P2_FRAME_EXT = filmConfig.p2Ext || (isLegacyFilm ? '_result.webp' : FRAME_EXT);
+    var P2_FRAME_OFFSET = configInteger(filmConfig.p2FrameOffset, isLegacyFilm ? 1 : 0);
+    var FIRST_FRAME_URL = filmConfig.poster || (P1_BASE + String(1).padStart(FRAME_PAD, '0') + FRAME_EXT);
 
     canvas.style.backgroundImage = 'url("' + FIRST_FRAME_URL + '")';
     canvas.style.backgroundSize = 'cover';
@@ -3274,8 +3285,8 @@
 
     var p1Images = container.__homeFilmP1Images;
     var p2Images = container.__homeFilmP2Images;
-    var FILM_SCROLL_PACE = typeof filmConfig.scrollPace === 'number' ? filmConfig.scrollPace : 1;
-    var FILM_PHASE2_SCROLL_PACE = typeof filmConfig.phase2ScrollPace === 'number' ? filmConfig.phase2ScrollPace : 1.85;
+    var FILM_SCROLL_PACE = configNumber(filmConfig.scrollPace, 1);
+    var FILM_PHASE2_SCROLL_PACE = configNumber(filmConfig.phase2ScrollPace, 1.85);
     var filmPhase2Latched = !!container.__homeFilmPhase2Latched;
     var FILM_PRELOAD_CONCURRENCY = 12;
     var activePhase = 1;
