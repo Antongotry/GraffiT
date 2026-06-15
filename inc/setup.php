@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 if (! defined('GRAFFIT_THEME_VERSION')) {
-    define('GRAFFIT_THEME_VERSION', '0.1.39');
+    define('GRAFFIT_THEME_VERSION', '0.1.40');
 }
 
 /**
