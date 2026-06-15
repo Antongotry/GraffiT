@@ -3284,7 +3284,7 @@
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
-    var FILM_WEDGE_SEAM_BLEED = 2;
+    var FILM_BOTTOM_WING_BLEED = 3;
 
     function isImageReady(img) {
       return !!(img && img.complete && img.naturalWidth);
@@ -3407,10 +3407,10 @@
       var w = window.innerWidth || 1440;
 
       if (w <= 1024) {
-        return Math.round((40 / 390) * w);
+        return Math.min((40 / 375) * w, 40);
       }
 
-      return Math.min(Math.round((90 / 1440) * w), 90);
+      return Math.min((90 / 1440) * w, 90);
     }
 
     function setHomeFilmHandoff(active) {
@@ -3430,10 +3430,6 @@
 
       document.body.appendChild(node);
       node.setAttribute('data-film-overlay-mounted', '1');
-    }
-
-    function mountFilmWedge(wedge) {
-      mountFilmOverlay(wedge);
     }
 
     function syncFilmBottomWing() {
@@ -3463,11 +3459,13 @@
       }
 
       var notch = homeFilmNotchPx();
+      var wingBleed = FILM_BOTTOM_WING_BLEED;
       var vpRect = viewport.getBoundingClientRect();
       var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-      var wingTop = vpRect.bottom - notch;
+      var wingTop = vpRect.bottom - notch - wingBleed;
+      var wingHeight = viewportHeight - wingTop;
 
-      if (vpRect.bottom < notch * 0.25 || vpRect.top > viewportHeight || wingTop > viewportHeight) {
+      if (vpRect.bottom < notch * 0.25 || vpRect.top > viewportHeight || wingTop >= viewportHeight || wingHeight <= 0) {
         wing.style.opacity = '0';
         wing.style.visibility = 'hidden';
         return;
@@ -3476,7 +3474,9 @@
       wing.style.visibility = 'visible';
       wing.style.opacity = '1';
       wing.style.top = wingTop + 'px';
-      wing.style.height = notch + 'px';
+      wing.style.height = wingHeight + 'px';
+      wing.style.setProperty('--home-film-bottom-wing-notch', notch + 'px');
+      wing.style.setProperty('--home-film-bottom-wing-bleed', wingBleed + 'px');
     }
 
     function syncFilmBowTieOverlays() {
@@ -3484,112 +3484,15 @@
       syncFilmBottomWing();
     }
 
-    function clientsTopFadeAmount(section) {
-      var stage = section && section.querySelector('.js-clients-stage');
-
-      if (!stage) {
-        return 0;
-      }
-
-      return parseFloat(window.getComputedStyle(stage).getPropertyValue('--clients-top-fade')) || 0;
-    }
-
-    function ensureWedgeCanvas(wedge) {
-      if (!wedge.__canvas) {
-        var wedgeCanvas = document.createElement('canvas');
-
-        wedgeCanvas.className = 'home-film-wedge__canvas';
-        wedgeCanvas.setAttribute('aria-hidden', 'true');
-        wedge.appendChild(wedgeCanvas);
-        wedge.__canvas = wedgeCanvas;
-      }
-
-      return wedge.__canvas;
-    }
-
     function syncFilmWedge() {
       var wedge = document.querySelector('.js-home-film-wedge');
-      var about = document.getElementById('home-about');
-      var latched = filmPhase2Latched || !!container.__homeFilmPhase2Latched;
 
       if (!wedge) {
         return;
       }
 
-      mountFilmWedge(wedge);
-
-      var flow = document.querySelector('.home-chaos-about-flow');
-      var wedgeActive = !!(flow && flow.classList.contains('is-film-wedge-active'));
-      var show = wedgeActive
-        && latched
-        && lastDrawnImage
-        && canvas.style.visibility !== 'hidden';
-
-      if (!show || !about || !canvas.width || !canvas.height) {
-        wedge.style.opacity = '0';
-        wedge.style.visibility = 'hidden';
-        return;
-      }
-
-      if (clientsTopFadeAmount(about) > 0.94) {
-        wedge.style.opacity = '0';
-        wedge.style.visibility = 'hidden';
-        return;
-      }
-
-      var notch = homeFilmNotchPx();
-      var aboutTop = about.getBoundingClientRect().top;
-      var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-      var chaos = document.querySelector('.home-chaos');
-      var chaosBottom = chaos ? chaos.getBoundingClientRect().bottom : aboutTop + notch;
-      var seamTop = aboutTop;
-      var wedgeBleed = FILM_WEDGE_SEAM_BLEED;
-
-      if (aboutTop > viewportHeight - notch * 0.5) {
-        seamTop = chaosBottom - notch;
-      }
-
-      seamTop = clamp(seamTop, 0, viewportHeight);
-
-      if (seamTop + notch < 0 || seamTop > viewportHeight) {
-        wedge.style.opacity = '0';
-        wedge.style.visibility = 'hidden';
-        return;
-      }
-
-      var wedgeTop = seamTop - wedgeBleed;
-      var wedgeHeight = notch + wedgeBleed;
-      var wedgeW = window.innerWidth || document.documentElement.clientWidth;
-      var draw = container.__homeFilmDraw;
-      var wedgeCanvas = ensureWedgeCanvas(wedge);
-      var wctx = wedgeCanvas.getContext('2d');
-      var dpr = window.devicePixelRatio || 1;
-
-      wedgeCanvas.width = Math.round(wedgeW * dpr);
-      wedgeCanvas.height = Math.round(wedgeHeight * dpr);
-      wedgeCanvas.style.width = wedgeW + 'px';
-      wedgeCanvas.style.height = wedgeHeight + 'px';
-      wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      wctx.clearRect(0, 0, wedgeW, wedgeHeight);
-
-      if (draw && lastDrawnImage) {
-        wctx.drawImage(lastDrawnImage, draw.posX, draw.posY - wedgeTop, draw.w, draw.h);
-      } else {
-        var sourceTop = Math.max(0, wedgeTop);
-        var destTop = sourceTop - wedgeTop;
-        var sourceHeight = Math.min(canvas.height - sourceTop, wedgeHeight - destTop);
-
-        if (sourceHeight > 0) {
-          wctx.drawImage(canvas, 0, sourceTop, wedgeW, sourceHeight, 0, destTop, wedgeW, sourceHeight);
-        }
-      }
-
-      wedge.style.visibility = 'visible';
-      wedge.style.opacity = '1';
-      wedge.style.top = wedgeTop + 'px';
-      wedge.style.height = wedgeHeight + 'px';
-      wedge.style.setProperty('--home-film-wedge-bleed', wedgeBleed + 'px');
-      syncFilmBottomWing();
+      wedge.style.opacity = '0';
+      wedge.style.visibility = 'hidden';
     }
 
     function drawImage(img, drawPhase) {

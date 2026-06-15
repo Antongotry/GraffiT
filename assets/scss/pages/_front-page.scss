@@ -360,35 +360,27 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 /*
- * Phase-2 кадри виводить окремий .home-film-wedge поверх секції.
- * Сам #home-about не прозоримо, інакше нижній bow-tie виріз показує fixed canvas.
+ * Під час phase-2 верхній notch має бачити той самий fixed canvas, що й .home-chaos.
+ * Нижню частину перекриває .home-film-bottom-wing, тому дубльований top-canvas не потрібен.
  */
 .home-chaos-about-flow.is-film-wedge-active #home-about {
-  background: #000102;
+  background: transparent;
 }
 
 /*
- * Окремий шар кадрів у верхньому трикутнику-шві (не «дірка» в секції).
- * Маленький canvas копіює смугу з основного scroll-film canvas.
+ * Deprecated seam layer. Top notch now reveals the main fixed canvas directly,
+ * avoiding a second canvas surface that can drift by a subpixel during scrub.
  */
 .home-film-wedge {
-  --home-film-wedge-bleed: 2px;
-
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
   /* Поверх pin #home-about (91) і будь-яких pin-spacer. */
   z-index: 120;
   width: 100%;
-  height: calc(#{mixins.vw(90px)} + var(--home-film-wedge-bleed));
-  /* Full-width film cap hides subpixel seam against the previous clipped block. */
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% var(--home-film-wedge-bleed),
-    50% 100%,
-    0 var(--home-film-wedge-bleed)
-  );
+  height: #{mixins.vw(90px)};
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
   background: transparent;
   opacity: 0;
   visibility: hidden;
@@ -397,7 +389,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   isolation: isolate;
 
   @include mixins.mobile {
-    height: calc(#{mixins.mvw(40px)} + var(--home-film-wedge-bleed));
+    height: #{mixins.mvw(40px)};
   }
 }
 
@@ -408,21 +400,30 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow.is-film-wedge-active .home-film-wedge {
-  opacity: 1;
-  visibility: visible;
+  opacity: 0;
+  visibility: hidden;
 }
 
 /*
- * Нижнє bow-tie крило: fixed-оверлей #000102 поверх canvas у вирізі viewport.
+ * Нижній fixed-shield: закриває нижній bow-tie notch і всю зону нижче pinned viewport.
  * Не можна малювати через ::after на секції — при pin viewport лишається на екрані без нього.
  */
 .home-film-bottom-wing {
+  --home-film-bottom-wing-notch: #{mixins.vw(90px)};
+  --home-film-bottom-wing-bleed: 3px;
+
   position: fixed;
   left: 0;
   z-index: 119;
   width: 100%;
-  height: #{mixins.vw(90px)};
-  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  height: 100svh;
+  clip-path: polygon(
+    50% 0,
+    100% calc(var(--home-film-bottom-wing-notch) + var(--home-film-bottom-wing-bleed)),
+    100% 100%,
+    0 100%,
+    0 calc(var(--home-film-bottom-wing-notch) + var(--home-film-bottom-wing-bleed))
+  );
   background: #000102;
   opacity: 0;
   visibility: hidden;
@@ -430,7 +431,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   will-change: top;
 
   @include mixins.mobile {
-    height: #{mixins.mvw(40px)};
+    --home-film-bottom-wing-notch: #{mixins.mvw(40px)};
   }
 }
 
@@ -442,7 +443,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 .home-chaos-about-flow #home-about .pin-spacer {
   position: relative;
   z-index: 91 !important;
-  background: #000102;
+  background: transparent;
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
