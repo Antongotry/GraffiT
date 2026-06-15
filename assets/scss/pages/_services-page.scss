@@ -3701,8 +3701,14 @@ $services-benefits-bg:
   .site-main--services #services-clients,
   .home-chaos-about-flow #home-about {
     .services-clients__viewport {
-      min-height: 0;
-      height: auto;
+      box-sizing: border-box;
+      /* cards 640 + padding (40+113) / 140 ≈ 806px при 1230px — вміщується в екран з bow-tie. */
+      height: calc(
+        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
+      );
+      min-height: calc(
+        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
+      );
     }
 
     /* Компактніше вікно карток — менше сірого поля під треком. */

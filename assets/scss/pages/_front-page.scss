@@ -350,51 +350,29 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  /* Прозорий верх — canvas (phase 2) видно в шпилі chaos → «Про нас». */
-  background: transparent;
+  /*
+   * Як .services-clients { background: #000102 } на /services/, але верхні 90px прозорі —
+   * у верхньому вирізі bow-tie видно scroll-film; нижній виріз дає чорний шпиль.
+   */
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent #{mixins.vw(90px)},
+    #000102 #{mixins.vw(90px)},
+    #000102 100%
+  );
   color: #000102;
   z-index: 91;
 
-  /* Нижній темний шпиль bow-tie (як #000102 секції на /services/). */
-  &::before {
-    position: absolute;
-    right: 0;
-    bottom: calc(#{mixins.vw(-1px)} - 2px);
-    left: 0;
-    z-index: 2;
-    height: calc(#{mixins.vw(90px)} + 4px);
-    background: #000102;
-    clip-path: polygon(0 0, 50% 100%, 100% 0);
-    transform: translateZ(0);
-    content: "";
-    pointer-events: none;
-  }
-
-  /* Суцільний фон лише між верхнім вирізом і нижнім шпилем. */
-  &::after {
-    position: absolute;
-    top: #{mixins.vw(90px)};
-    right: 0;
-    bottom: #{mixins.vw(90px)};
-    left: 0;
-    z-index: 0;
-    background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
-    content: "";
-    pointer-events: none;
-  }
-
   @include mixins.mobile {
     overflow: visible;
-
-    &::before {
-      bottom: calc(#{mixins.mvw(-1px)} - 2px);
-      height: calc(#{mixins.mvw(40px)} + 4px);
-    }
-
-    &::after {
-      top: #{mixins.mvw(40px)};
-      bottom: #{mixins.mvw(40px)};
-    }
+    background: linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent #{mixins.mvw(40px)},
+      #000102 #{mixins.mvw(40px)},
+      #000102 100%
+    );
   }
 }
 
@@ -409,25 +387,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   z-index: 91;
   overflow: hidden;
   isolation: isolate;
-}
-
-@media (min-width: 1025px) {
-  /*
-   * Фіксована висота viewport як на /services/ (cards 640 + padding 153/140 ≈ 816px при 1230px).
-   * Довший заголовок на головній не роздуває блок — скрол усередині cards-stage.
-   */
-  .home-chaos-about-flow #home-about .services-clients__viewport {
-    box-sizing: border-box;
-    height: calc(
-      #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
-    );
-    min-height: calc(
-      #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
-    );
-    max-height: calc(
-      #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
-    );
-  }
 }
 
 .home-chaos-about-flow #home-about .services-clients__eyebrow-text {
