@@ -5385,8 +5385,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .site-main--services .services-final-cta .services-final-cta__container {
-  /* Компенсація overlap, як у .home-faq__container */
-  padding-top: calc(#{mixins.vw(132px)} + #{mixins.vw(96px)});
+  padding-top: 0;
 
   @include mixins.mobile {
     padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
@@ -5409,6 +5408,10 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   margin-inline: auto;
   padding: #{mixins.vw(132px)} 0 #{mixins.vw(132px)};
   text-align: center;
+
+  @media (min-width: 1025px) {
+    padding-top: 0;
+  }
 
   &::before,
   &::after {
