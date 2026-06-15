@@ -1796,6 +1796,65 @@
     }
 
     if (window.innerWidth <= 1024) {
+      document.querySelectorAll('.js-clients-scroller').forEach(function (section) {
+        var viewport = section.querySelector('.services-clients__viewport');
+        var stage = section.querySelector('.js-clients-stage');
+        var track = section.querySelector('.js-clients-track');
+        var cards = Array.prototype.slice.call(section.querySelectorAll('.trust-card'));
+        var spacer = section.parentElement && section.parentElement.classList.contains('pin-spacer')
+          ? section.parentElement
+          : null;
+
+        if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
+          window.ScrollTrigger.getAll().forEach(function (trigger) {
+            if (trigger.trigger === section || trigger.pin === viewport || trigger.trigger === viewport) {
+              trigger.kill(true);
+            }
+          });
+        }
+
+        section.removeAttribute('data-clients-scroller-init');
+        section.removeAttribute('data-about-clients-stacked-init');
+        section.classList.remove('is-about-clients-stacked');
+        section.classList.remove('is-clients-top-fade');
+
+        if (stage) {
+          stage.style.removeProperty('--about-clients-stage-height');
+          stage.style.removeProperty('--clients-top-fade');
+        }
+
+        [section, spacer, viewport, stage, track].concat(cards).forEach(function (node) {
+          if (!node) {
+            return;
+          }
+
+          [
+            'translate',
+            'rotate',
+            'scale',
+            'transform',
+            'width',
+            'height',
+            'min-height',
+            'max-height',
+            'padding-top',
+            'padding-bottom',
+            'margin-top',
+            'margin-bottom',
+            'top',
+            'left',
+            'right',
+            'bottom',
+            'inset',
+            'opacity',
+            'visibility',
+            'will-change'
+          ].forEach(function (property) {
+            node.style.removeProperty(property);
+          });
+        });
+      });
+
       window.ScrollTrigger.refresh();
       return;
     }

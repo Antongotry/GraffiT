@@ -402,6 +402,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 
   @include mixins.mobile {
+    min-height: auto;
+    overflow: visible;
     clip-path: polygon(
       0 0,
       50% #{mixins.mvw(40px)},
@@ -491,6 +493,15 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     display: none;
   }
 
+  @include mixins.mobile {
+    height: auto;
+    overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+
+.home-chaos-about-flow #home-about.is-clients-top-fade .services-clients__cards-stage {
   @include mixins.mobile {
     mask-image: none;
     -webkit-mask-image: none;
