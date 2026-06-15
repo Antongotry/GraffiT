@@ -5385,8 +5385,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .site-main--services .services-final-cta .services-final-cta__container {
-  padding-top: 0;
-
   @include mixins.mobile {
     padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
   }
@@ -5406,7 +5404,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   position: relative;
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
-  padding-top: 0;
+  padding-top: #{mixins.vw(132px)};
   padding-bottom: #{mixins.vw(132px)};
   text-align: center;
 
