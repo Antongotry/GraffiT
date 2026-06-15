@@ -642,7 +642,8 @@ html.is-home-film-cached body.is-home-film-loading {
 
 /* Pin chaos: не обрізати bow-tie / шпиль (анімація canvas лишається видимою). */
 .home-scroll-film .pin-spacer,
-.home-scroll-film .pin-spacer-home-scroll-p2 {
+.home-scroll-film .pin-spacer-home-scroll-p2,
+.pin-spacer-home-scroll-p2 {
   overflow: visible;
 }
 

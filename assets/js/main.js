@@ -3631,9 +3631,7 @@
       img.decoding = 'async';
 
       img.addEventListener('load', function () {
-        if (activePhase === phase && currentIndex === safeIndex) {
-          syncHomeScrollFilmFrame();
-        }
+        syncHomeScrollFilmFrame();
       }, { once: true });
 
       img.addEventListener('error', function () {
@@ -4074,14 +4072,10 @@
         return;
       }
 
-      var scroll = p1.scroll();
-      var p1Start = p1.start;
-      var p1End = p1.end;
-      var p1Span = Math.max(p1End - p1Start, 1);
-      var p2Start = p2 ? p2.start : Infinity;
+      var p1Progress = clamp(p1.progress, 0, 1);
+      var inPhase2 = !!(p2 && (p2.isActive || p2.progress > 0));
 
-      /* Phase 2 wins once chaos trigger is reached — even if scroll is still inside p1 span. */
-      if (p2 && scroll >= p2Start) {
+      if (inPhase2) {
         filmPhase2Latched = !isMobileFilmLayout();
         container.__homeFilmPhase2Latched = filmPhase2Latched;
         setHomeFilmHandoff(!isMobileFilmLayout());
@@ -4090,29 +4084,30 @@
         return;
       }
 
-      if (scroll > p1End) {
-        if (!p2) {
-          setFilmFrame(1, P1_LAST);
-          syncFilmBowTieOverlays();
-          return;
-        }
-
-        var gap = Math.max(p2Start - p1End, 1);
-        var handoff = clamp((scroll - p1End) / gap, 0, 1);
-        var handoffLast = Math.min(16, P2_LAST);
-
-        filmPhase2Latched = !isMobileFilmLayout();
-        container.__homeFilmPhase2Latched = filmPhase2Latched;
-        setHomeFilmHandoff(!isMobileFilmLayout());
-        setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
+      if (p1Progress < 1) {
+        filmPhase2Latched = false;
+        container.__homeFilmPhase2Latched = false;
+        setHomeFilmHandoff(false);
+        setFilmFrame(1, progressToFrameIndex(p1Progress, P1_LAST));
         syncFilmBowTieOverlays();
         return;
       }
 
-      filmPhase2Latched = false;
-      container.__homeFilmPhase2Latched = false;
-      setHomeFilmHandoff(false);
-      setFilmFrame(1, progressToFrameIndex(clamp((scroll - p1Start) / p1Span, 0, 1), P1_LAST));
+      if (!p2) {
+        setFilmFrame(1, P1_LAST);
+        syncFilmBowTieOverlays();
+        return;
+      }
+
+      var scroll = p1.scroll();
+      var gap = Math.max(p2.start - p1.end, 1);
+      var handoff = clamp((scroll - p1.end) / gap, 0, 1);
+      var handoffLast = Math.min(16, P2_LAST);
+
+      filmPhase2Latched = !isMobileFilmLayout();
+      container.__homeFilmPhase2Latched = filmPhase2Latched;
+      setHomeFilmHandoff(!isMobileFilmLayout());
+      setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
       syncFilmBowTieOverlays();
     }
 
@@ -4123,7 +4118,7 @@
     destroyHomeScrollFilmTriggers();
 
     var showcase = container.querySelector('.home-showcase');
-    var chaos = container.querySelector('.home-chaos');
+    var chaos = document.querySelector('.home-chaos');
 
     resizeCanvas();
 

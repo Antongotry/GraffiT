@@ -40,8 +40,8 @@ get_header();
     <div class="home-scroll-film js-home-scroll-film">
         <?php get_template_part('template-parts/sections/home', 'hero'); ?>
         <?php get_template_part('template-parts/sections/home', 'showcase'); ?>
-        <?php get_template_part('template-parts/sections/home', 'chaos'); ?>
     </div>
+    <?php get_template_part('template-parts/sections/home', 'chaos'); ?>
     <div class="home-chaos-about-flow">
         <div class="home-film-wedge js-home-film-wedge" aria-hidden="true"></div>
         <div class="home-film-bottom-wing js-home-film-bottom-wing" aria-hidden="true"></div>
