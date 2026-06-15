@@ -3373,9 +3373,9 @@
       var failed = (p1Result ? p1Result.failed : 0) + (p2Result ? p2Result.failed : 0);
       var ready = countFilmImagesReady(p1Images, P1_COUNT) + countFilmImagesReady(p2Images, P2_COUNT);
 
-      filmPreloadComplete = ready === (P1_COUNT + P2_COUNT);
+      filmPreloadComplete = ready > 0;
 
-      if (filmPreloadComplete && failed === 0) {
+      if (ready === (P1_COUNT + P2_COUNT) && failed === 0) {
         markFilmCacheReady();
       }
 
@@ -3431,29 +3431,27 @@
       }
 
       var about = document.getElementById('home-about');
-
-      if (!about) {
-        return true;
-      }
-
+      var hexFlow = document.querySelector('.home-hex-projects-flow');
       var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
       var notch = homeFilmNotchPx();
-      var aboutRect = about.getBoundingClientRect();
-      var hexFlow = document.querySelector('.home-hex-projects-flow');
 
-      if (aboutRect.bottom < notch * 1.5) {
-        return false;
+      if (about) {
+        var aboutRect = about.getBoundingClientRect();
+
+        if (aboutRect.bottom < notch * 1.5) {
+          return false;
+        }
       }
 
       if (hexFlow) {
         var hexRect = hexFlow.getBoundingClientRect();
 
-        if (hexRect.top <= viewportHeight - notch) {
+        if (hexRect.top <= viewportHeight * 0.12) {
           return false;
         }
       }
 
-      return aboutRect.top < viewportHeight + notch;
+      return true;
     }
 
     function isMobileAboutFilmHandoffActive() {
@@ -3772,6 +3770,10 @@
       }
 
       preloadFilmPhase(1, P1_COUNT, p1Images).then(function (p1Result) {
+        if (countFilmImagesReady(p1Images, P1_COUNT) > 0) {
+          filmPreloadComplete = true;
+        }
+
         syncHomeScrollFilmFrame();
 
         preloadFilmPhase(2, P2_COUNT, p2Images).then(function (p2Result) {
@@ -4055,10 +4057,6 @@
     }
 
     function syncHomeScrollFilmFrame() {
-      if (!filmPreloadComplete && !areStoredFilmImagesComplete()) {
-        return;
-      }
-
       syncHomeFilmCanvasVisibility();
 
       if (isMobileFilmLayout() && isHomeFilmCanvasHidden()) {
@@ -4078,8 +4076,7 @@
       var p1End = p1.end;
       var p1Span = Math.max(p1End - p1Start, 1);
 
-      /* p2.start can land before p1End when phase-1 scroll span is stretched — honour phase 2 first. */
-      if (p2 && scroll >= p2.start) {
+      if (p2 && p2.isActive) {
         filmPhase2Latched = true;
         container.__homeFilmPhase2Latched = true;
         setHomeFilmHandoff(true);
