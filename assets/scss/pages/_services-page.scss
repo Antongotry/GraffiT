@@ -3683,15 +3683,11 @@ $services-benefits-bg:
   }
 
   @include mixins.mobile {
-    clip-path: polygon(
-      0 0,
-      50% #{mixins.mvw(40px)},
-      100% 0,
-      100% 100%,
-      50% calc(100% - #{mixins.mvw(40px)}),
-      0 100%
-    );
-    padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
+    clip-path: none;
+    min-height: auto;
+    height: auto;
+    max-height: none;
+    padding-top: #{mixins.mvw(56px)};
     padding-bottom: #{mixins.mvw(40px)};
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
   }
@@ -3716,99 +3712,6 @@ $services-benefits-bg:
     .services-clients__cards-stage {
       height: #{mixins.vw(640px)};
     }
-  }
-}
-
-@include mixins.mobile {
-  .home-chaos-about-flow #home-about[data-clients-scroller-init="1"] {
-    .services-clients__viewport {
-      box-sizing: border-box;
-      min-height: 0;
-      height: calc(100svh - #{mixins.mvw(56px)});
-      min-height: calc(100svh - #{mixins.mvw(56px)});
-      max-height: calc(100svh - #{mixins.mvw(56px)});
-      overflow: hidden;
-    }
-
-    .services-clients__layout {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      min-height: 0;
-    }
-
-    .services-clients__copy {
-      flex: 0 0 auto;
-    }
-
-    .services-clients__cards-stage {
-      flex: 1 1 auto;
-      height: #{mixins.mvw(260px)};
-      min-height: #{mixins.mvw(260px)};
-      max-height: #{mixins.mvw(260px)};
-      overflow: hidden;
-      mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
-        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.92)) #{mixins.mvw(16px)},
-        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.mvw(40px)},
-        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.mvw(64px)},
-        #000 #{mixins.mvw(84px)},
-        #000 calc(100% - #{mixins.mvw(72px)}),
-        rgba(0, 0, 0, 0.5) calc(100% - #{mixins.mvw(28px)}),
-        transparent 100%
-      );
-      -webkit-mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
-        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.92)) #{mixins.mvw(16px)},
-        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.mvw(40px)},
-        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.mvw(64px)},
-        #000 #{mixins.mvw(84px)},
-        #000 calc(100% - #{mixins.mvw(72px)}),
-        rgba(0, 0, 0, 0.5) calc(100% - #{mixins.mvw(28px)}),
-        transparent 100%
-      );
-    }
-
-    .services-clients__cards-track {
-      gap: #{mixins.mvw(20px)};
-      padding-top: #{mixins.mvw(12px)};
-      padding-bottom: #{mixins.mvw(24px)};
-    }
-
-    .trust-card {
-      position: relative;
-      top: auto;
-      height: #{mixins.mvw(240px)};
-      min-height: #{mixins.mvw(240px)};
-      max-height: #{mixins.mvw(240px)};
-    }
-  }
-
-  .home-chaos-about-flow #home-about.is-clients-top-fade[data-clients-scroller-init="1"] .services-clients__cards-stage {
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
-      rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.92)) #{mixins.mvw(16px)},
-      rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.mvw(40px)},
-      rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.mvw(64px)},
-      #000 #{mixins.mvw(84px)},
-      #000 calc(100% - #{mixins.mvw(72px)}),
-      rgba(0, 0, 0, 0.5) calc(100% - #{mixins.mvw(28px)}),
-      transparent 100%
-    );
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
-      rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.92)) #{mixins.mvw(16px)},
-      rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.mvw(40px)},
-      rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.mvw(64px)},
-      #000 #{mixins.mvw(84px)},
-      #000 calc(100% - #{mixins.mvw(72px)}),
-      rgba(0, 0, 0, 0.5) calc(100% - #{mixins.mvw(28px)}),
-      transparent 100%
-    );
   }
 }
 
