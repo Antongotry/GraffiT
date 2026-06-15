@@ -360,6 +360,31 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 /*
+ * Під час phase-2: верхнє «крило» не малюємо чорним — крізь виріз viewport
+ * видно scroll-film canvas (z-88). Нижнє крило лишається на ::after.
+ */
+.home-chaos-about-flow.is-film-wedge-active #home-about {
+  background: transparent;
+
+  &::after {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
+    width: 100%;
+    height: #{mixins.vw(90px)};
+    background: #000102;
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    pointer-events: none;
+    content: "";
+
+    @include mixins.mobile {
+      height: #{mixins.mvw(40px)};
+    }
+  }
+}
+
+/*
  * Окремий шар кадрів у верхньому трикутнику-шві (не «дірка» в секції).
  * Маленький canvas копіює смугу з основного scroll-film canvas.
  */
@@ -367,7 +392,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 93;
+  /* Поверх pin #home-about (91) і будь-яких pin-spacer. */
+  z-index: 120;
   width: 100%;
   height: #{mixins.vw(90px)};
   clip-path: polygon(0 0, 50% 100%, 100% 0);
@@ -376,6 +402,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   visibility: hidden;
   pointer-events: none;
   will-change: top;
+  isolation: isolate;
 
   @include mixins.mobile {
     height: #{mixins.mvw(40px)};

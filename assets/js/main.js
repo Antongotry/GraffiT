@@ -2014,6 +2014,14 @@
 
             if (self.isActive) {
               enforceClientsPinnedViewportWidth(viewport);
+
+              if (section.id === 'home-about') {
+                setHomeFilmHandoff(true);
+
+                if (typeof window.syncHomeFilmWedge === 'function') {
+                  window.syncHomeFilmWedge();
+                }
+              }
             }
 
             if (!self.isActive && self.progress <= 0.001) {
@@ -3414,6 +3422,25 @@
       flow.classList.toggle('is-film-wedge-active', !!active);
     }
 
+    function mountFilmWedge(wedge) {
+      if (!wedge || wedge.getAttribute('data-film-wedge-mounted') === '1') {
+        return;
+      }
+
+      document.body.appendChild(wedge);
+      wedge.setAttribute('data-film-wedge-mounted', '1');
+    }
+
+    function clientsTopFadeAmount(section) {
+      var stage = section && section.querySelector('.js-clients-stage');
+
+      if (!stage) {
+        return 0;
+      }
+
+      return parseFloat(window.getComputedStyle(stage).getPropertyValue('--clients-top-fade')) || 0;
+    }
+
     function ensureWedgeCanvas(wedge) {
       if (!wedge.__canvas) {
         var wedgeCanvas = document.createElement('canvas');
@@ -3430,12 +3457,13 @@
     function syncFilmWedge() {
       var wedge = document.querySelector('.js-home-film-wedge');
       var about = document.getElementById('home-about');
-      var p2 = window.ScrollTrigger.getById('home-scroll-p2');
       var latched = filmPhase2Latched || !!container.__homeFilmPhase2Latched;
 
       if (!wedge) {
         return;
       }
+
+      mountFilmWedge(wedge);
 
       var flow = document.querySelector('.home-chaos-about-flow');
       var wedgeActive = !!(flow && flow.classList.contains('is-film-wedge-active'));
@@ -3445,6 +3473,12 @@
         && canvas.style.visibility !== 'hidden';
 
       if (!show || !about || !canvas.width || !canvas.height) {
+        wedge.style.opacity = '0';
+        wedge.style.visibility = 'hidden';
+        return;
+      }
+
+      if (clientsTopFadeAmount(about) > 0.94) {
         wedge.style.opacity = '0';
         wedge.style.visibility = 'hidden';
         return;
@@ -3469,21 +3503,8 @@
         return;
       }
 
-      if (p2 && p2.progress >= 0.995) {
-        var viewport = about.querySelector('.services-clients__viewport');
-
-        if (viewport) {
-          var vpRect = viewport.getBoundingClientRect();
-
-          if (vpRect.top <= 1) {
-            wedge.style.opacity = '0';
-            wedge.style.visibility = 'hidden';
-            return;
-          }
-        }
-      }
-
       var wedgeW = window.innerWidth || document.documentElement.clientWidth;
+      var draw = container.__homeFilmDraw;
       var wedgeCanvas = ensureWedgeCanvas(wedge);
       var wctx = wedgeCanvas.getContext('2d');
       var dpr = window.devicePixelRatio || 1;
@@ -3494,7 +3515,12 @@
       wedgeCanvas.style.height = notch + 'px';
       wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       wctx.clearRect(0, 0, wedgeW, notch);
-      wctx.drawImage(canvas, 0, seamTop, wedgeW, notch, 0, 0, wedgeW, notch);
+
+      if (draw && lastDrawnImage) {
+        wctx.drawImage(lastDrawnImage, draw.posX, draw.posY - seamTop, draw.w, draw.h);
+      } else {
+        wctx.drawImage(canvas, 0, seamTop, wedgeW, notch, 0, 0, wedgeW, notch);
+      }
 
       wedge.style.visibility = 'visible';
       wedge.style.opacity = '1';
@@ -3645,6 +3671,8 @@
         var handoff = clamp((scroll - p1End) / gap, 0, 1);
         var handoffLast = Math.min(16, P2_LAST);
 
+        filmPhase2Latched = true;
+        container.__homeFilmPhase2Latched = true;
         setHomeFilmHandoff(true);
         setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
         syncFilmWedge();
