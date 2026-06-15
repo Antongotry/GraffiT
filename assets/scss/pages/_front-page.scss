@@ -131,6 +131,18 @@
   position: relative;
   z-index: 2;
 
+  @media (min-width: 1025px) {
+    /* 50% від базового .hex-reasons padding-top (132) і margin сцени (82). */
+    padding-top: #{mixins.vw(66px)};
+    padding-bottom: 0;
+
+    .hex-reasons__scene {
+      margin-top: #{mixins.vw(41px)};
+      min-height: calc(#{mixins.vw(915px)} + var(--hex-step-y) * 0.075);
+      height: calc(#{mixins.vw(915px)} + var(--hex-step-y) * 0.075);
+    }
+  }
+
   @include mixins.mobile {
     /*
      * Вище за .services-inquiry (3), нижче за .services-overview--home-directions (6),
