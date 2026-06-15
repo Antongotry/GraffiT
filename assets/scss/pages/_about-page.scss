@@ -718,7 +718,7 @@
       .services-clients__cards-track {
         display: flex;
         flex-direction: column;
-        gap: #{mixins.vw(20px)};
+        gap: 0;
         width: 100%;
         margin-top: 0;
         padding-top: #{mixins.vw(44px)};
@@ -810,7 +810,7 @@
     .services-clients__cards-track {
       display: flex !important;
       flex-direction: column !important;
-      gap: #{mixins.mvw(20px)} !important;
+      gap: 0 !important;
       width: min(100%, #{mixins.mvw(355px)}) !important;
       margin-inline: auto !important;
       margin-top: 0 !important;
@@ -819,6 +819,10 @@
       opacity: 1 !important;
       visibility: visible !important;
       transform: none !important;
+    }
+
+    .services-clients__cards-track .trust-card:not(:first-child) {
+      margin-top: calc(-1 * (#{mixins.mvw(240px)} - #{mixins.mvw(70px)})) !important;
     }
 
     .services-clients__cards-track .trust-card {

@@ -1686,22 +1686,17 @@
         var referenceCard = cards[0];
 
         if (!referenceCard) {
-          return 48;
-        }
-
-        var ribbon = referenceCard.querySelector('.trust-card__ribbon');
-
-        if (ribbon && ribbon.offsetHeight > 0) {
-          return ribbon.offsetHeight;
+          return 36;
         }
 
         var referenceTitle = referenceCard.querySelector('.trust-card__title');
 
         if (!referenceTitle) {
-          return 48;
+          return 36;
         }
 
-        return (referenceTitle.offsetHeight + 6) * 1.5;
+        // Tight deck: only the title row peeks between stacked cards.
+        return Math.max(28, referenceTitle.offsetHeight + 8);
       }
 
       function syncAboutClientsStackedLayout() {
@@ -1712,6 +1707,12 @@
         var step = aboutClientsCardCascadeStep();
         var trackPaddingTop = parseFloat(window.getComputedStyle(track).paddingTop) || 0;
         var stackedHeight = cards[0].offsetHeight + (step * (cards.length - 1)) + trackPaddingTop;
+
+        track.style.setProperty('--about-clients-stack-step', step + 'px');
+
+        cards.forEach(function (card) {
+          card.style.removeProperty('margin-top');
+        });
 
         stage.style.setProperty('--about-clients-stage-height', Math.ceil(stackedHeight) + 'px');
         stage.style.height = Math.ceil(stackedHeight) + 'px';
