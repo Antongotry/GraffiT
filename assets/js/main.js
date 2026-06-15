@@ -1683,20 +1683,7 @@
       });
 
       function aboutClientsCardCascadeStep() {
-        var referenceCard = cards[0];
-
-        if (!referenceCard) {
-          return 36;
-        }
-
-        var referenceTitle = referenceCard.querySelector('.trust-card__title');
-
-        if (!referenceTitle) {
-          return 36;
-        }
-
-        // Tight deck: only the title row peeks between stacked cards.
-        return Math.max(28, referenceTitle.offsetHeight + 8);
+        return 0;
       }
 
       function syncAboutClientsStackedLayout() {

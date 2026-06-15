@@ -702,10 +702,7 @@
     }
 
     .services-clients__cards-track .trust-card::before {
-      box-shadow:
-        0 #{mixins.vw(18px)} #{mixins.vw(44px)} rgba(0, 0, 0, 0.05),
-        0 #{mixins.vw(2px)} #{mixins.vw(8px)} rgba(0, 0, 0, 0.03),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
     }
 
     &.is-about-clients-stacked {
@@ -822,7 +819,7 @@
     }
 
     .services-clients__cards-track .trust-card:not(:first-child) {
-      margin-top: calc(-1 * (#{mixins.mvw(240px)} - #{mixins.mvw(70px)})) !important;
+      margin-top: calc(-1 * #{mixins.mvw(240px)}) !important;
     }
 
     .services-clients__cards-track .trust-card {
@@ -838,7 +835,7 @@
       padding: #{mixins.mvw(20px)} !important;
       border-radius: #{mixins.mvw(12px)} !important;
       background-color: #ffffff;
-      box-shadow: 0 #{mixins.mvw(8px)} #{mixins.mvw(24px)} rgba(0, 0, 0, 0.08);
+      box-shadow: none;
       overflow: hidden;
       opacity: 1 !important;
       visibility: visible !important;
@@ -863,7 +860,7 @@
     @for $i from 1 through 8 {
       .services-clients__cards-track .trust-card:nth-child(#{$i}) {
         z-index: 10 + $i;
-        top: #{mixins.mvw(64px + ($i - 1) * 6px)} !important;
+        top: #{mixins.mvw(64px)} !important;
       }
     }
 
