@@ -179,8 +179,9 @@
 
 @media (min-width: 1025px) {
   .home-hex-projects-flow .services-overview--home-directions {
-    /* Менший нахлест на CTA — легше підібрати padding без наїзду карток на текст. */
-    margin-bottom: #{mixins.vw(-168px)};
+    /* Без negative margin — картки не наїжджають на CTA (overlap ламав layout). */
+    margin-bottom: 0;
+    padding-bottom: #{mixins.vw(28px)};
   }
 }
 
@@ -294,8 +295,7 @@
   .home-hex-projects-flow .services-inquiry {
     display: block;
     min-height: auto;
-    /* padding-top = |margin-bottom directions| + зазор під картки. */
-    padding-top: calc(#{mixins.vw(168px)} + #{mixins.vw(24px)});
+    padding-top: #{mixins.vw(40px)};
     padding-bottom: #{mixins.vw(80px)};
   }
 }
@@ -312,11 +312,12 @@
 
 @media (min-width: 1921px) {
   .home-hex-projects-flow .services-overview--home-directions {
-    margin-bottom: -168px;
+    margin-bottom: 0;
+    padding-bottom: 28px;
   }
 
   .home-hex-projects-flow .services-inquiry {
-    padding-top: calc(168px + 24px);
+    padding-top: 40px;
     padding-bottom: 80px;
   }
 
