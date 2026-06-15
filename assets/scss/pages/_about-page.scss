@@ -679,21 +679,76 @@
   @media (min-width: 1025px) {
     $about-clients-card-shadow-gutter: #{mixins.vw(48px)};
 
+    /* Ті самі метрики pin/viewport, що #services-clients на /services/. */
     .services-clients__viewport {
+      box-sizing: border-box;
       min-height: 0;
-      height: auto;
-      padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(90px)});
-      padding-bottom: calc(#{mixins.vw(130px)} + #{mixins.vw(73px)});
+      height: calc(
+        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
+      );
+      min-height: calc(
+        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
+      );
+      padding-top: calc(#{mixins.vw(40px)} + #{mixins.vw(113px)});
+      padding-bottom: #{mixins.vw(140px)};
     }
 
     .services-clients__cards-stage {
+      --clients-top-fade: 0;
+      height: #{mixins.vw(640px)};
+      min-height: #{mixins.vw(640px)};
       overflow: hidden;
       box-sizing: border-box;
       width: calc(100% + (2 * #{$about-clients-card-shadow-gutter}));
       margin-inline: calc(-1 * #{$about-clients-card-shadow-gutter});
       padding-inline: $about-clients-card-shadow-gutter;
-      mask-image: none;
-      -webkit-mask-image: none;
+      mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.92)) #{mixins.vw(32px)},
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
+        #000 #{mixins.vw(180px)},
+        #000 calc(100% - #{mixins.vw(200px)}),
+        rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.92)) #{mixins.vw(32px)},
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
+        #000 #{mixins.vw(180px)},
+        #000 calc(100% - #{mixins.vw(200px)}),
+        rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
+        transparent 100%
+      );
+    }
+
+    &.is-clients-top-fade .services-clients__cards-stage {
+      mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.92)) #{mixins.vw(32px)},
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
+        #000 #{mixins.vw(180px)},
+        #000 calc(100% - #{mixins.vw(200px)}),
+        rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.92)) #{mixins.vw(32px)},
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
+        rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
+        #000 #{mixins.vw(180px)},
+        #000 calc(100% - #{mixins.vw(200px)}),
+        rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
+        transparent 100%
+      );
     }
 
     .services-clients__cards-track {
@@ -707,8 +762,8 @@
 
     &.is-about-clients-stacked {
       .services-clients__cards-stage {
-        height: var(--about-clients-stage-height, auto);
-        min-height: 0;
+        height: #{mixins.vw(640px)};
+        min-height: #{mixins.vw(640px)};
         overflow: hidden;
       }
 
@@ -719,7 +774,7 @@
         width: 100%;
         margin-top: 0;
         padding-top: #{mixins.vw(44px)};
-        padding-bottom: 0;
+        padding-bottom: #{mixins.vw(56px)};
         opacity: 1 !important;
         visibility: visible !important;
         transform: none !important;

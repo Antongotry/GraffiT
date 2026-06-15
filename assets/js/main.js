@@ -1686,23 +1686,38 @@
         return 0;
       }
 
+      function aboutClientsTopFadeRamp() {
+        var w = window.innerWidth || 1440;
+
+        return {
+          start: 0,
+          span: Math.round((280 / 1440) * w),
+        };
+      }
+
+      function updateAboutClientsTopFade(progress) {
+        var distance = aboutClientsPinDistance() * progress;
+        var ramp = aboutClientsTopFadeRamp();
+        var linear = ramp.span > 0
+          ? Math.min(1, Math.max(0, distance / ramp.span))
+          : progress;
+        var amount = 1 - Math.pow(1 - linear, 2.2);
+
+        stage.style.setProperty('--clients-top-fade', amount.toFixed(3));
+        clientsSection.classList.toggle('is-clients-top-fade', amount > 0.02);
+      }
+
       function syncAboutClientsStackedLayout() {
         if (!stage || !track || !cards.length) {
           return;
         }
 
-        var step = aboutClientsCardCascadeStep();
-        var trackPaddingTop = parseFloat(window.getComputedStyle(track).paddingTop) || 0;
-        var stackedHeight = cards[0].offsetHeight + (step * (cards.length - 1)) + trackPaddingTop;
-
-        track.style.setProperty('--about-clients-stack-step', step + 'px');
+        stage.style.removeProperty('height');
+        stage.style.removeProperty('--about-clients-stage-height');
 
         cards.forEach(function (card) {
           card.style.removeProperty('margin-top');
         });
-
-        stage.style.setProperty('--about-clients-stage-height', Math.ceil(stackedHeight) + 'px');
-        stage.style.height = Math.ceil(stackedHeight) + 'px';
       }
 
       syncAboutClientsStackedLayout();
@@ -1728,7 +1743,7 @@
         scrollTrigger: {
           id: stackedTriggerId,
           trigger: clientsSection,
-          start: 'top top',
+          start: 'center center',
           end: function () {
             return 'clamp(+=' + aboutClientsPinDistance() + ')';
           },
@@ -1736,6 +1751,9 @@
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onUpdate: function (self) {
+            updateAboutClientsTopFade(self.progress);
+          },
           onRefresh: function () {
             enforceClientsPinnedViewportWidth(viewport);
             syncAboutClientsStackedLayout();
@@ -1743,6 +1761,14 @@
           onToggle: function (self) {
             if (self.isActive) {
               enforceClientsPinnedViewportWidth(viewport);
+            }
+
+            if (!self.isActive && self.progress <= 0.001) {
+              clientsSection.classList.remove('is-clients-top-fade');
+
+              if (stage) {
+                stage.style.setProperty('--clients-top-fade', '0');
+              }
             }
           }
         }
