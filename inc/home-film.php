@@ -140,11 +140,13 @@ function graffit_home_film_legacy_config(): array
         'phase2ScrollPace' => 1.85,
         'source' => 'legacy-ezgif',
         /*
-         * 2026/06 fallback keeps the two uploaded frame series separate:
-         * phase 1: 001-211 *_result-scaled.webp, phase 2: 001-241 *_result.webp.
+         * 2026/06 WordPress media upload kept duplicate phase-2 names as:
+         * 001-211 *_result-1-scaled.webp, then 212-241 *_result-scaled.webp.
         */
         'p2FrameOffset' => 1,
-        'p2Ext' => '_result.webp',
-        'cacheKey' => 'home-film-' . substr(sha1($base . '|211|241|result-scaled|result'), 0, 16),
+        'p2Ext' => '_result-scaled.webp',
+        'p2AltExt' => '_result-1-scaled.webp',
+        'p2AltLastFrame' => 211,
+        'cacheKey' => 'home-film-' . substr(sha1($base . '|211|241|result-scaled|result-1-scaled'), 0, 16),
     ];
 }

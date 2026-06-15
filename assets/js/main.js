@@ -3290,6 +3290,8 @@
     var FRAME_PAD = configInteger(filmConfig.pad, isLegacyFilm ? 3 : 4);
     var FRAME_EXT = filmConfig.ext || (isLegacyFilm ? '_result-scaled.webp' : '.webp');
     var P2_FRAME_EXT = filmConfig.p2Ext || (isLegacyFilm ? '_result.webp' : FRAME_EXT);
+    var P2_FRAME_ALT_EXT = filmConfig.p2AltExt || '';
+    var P2_FRAME_ALT_LAST = configInteger(filmConfig.p2AltLastFrame, 0);
     var P2_FRAME_OFFSET = configInteger(filmConfig.p2FrameOffset, isLegacyFilm ? 1 : 0);
     var FIRST_FRAME_URL = filmConfig.poster || (P1_BASE + String(1).padStart(FRAME_PAD, '0') + FRAME_EXT);
     var FILM_CACHE_STORAGE_KEY = 'graffitHomeFilmCacheKey';
@@ -3303,6 +3305,8 @@
         P2_LAST,
         FRAME_EXT,
         P2_FRAME_EXT,
+        P2_FRAME_ALT_EXT,
+        P2_FRAME_ALT_LAST,
         P2_FRAME_OFFSET
       ].join('|');
 
@@ -3315,7 +3319,12 @@
       var frameNumber = index + 1;
 
       if (phase === 2 && isLegacyFilm) {
-        return P2_BASE + String(P2_FRAME_OFFSET + index).padStart(FRAME_PAD, '0') + P2_FRAME_EXT;
+        var p2FrameNumber = P2_FRAME_OFFSET + index;
+        var p2FrameExt = P2_FRAME_ALT_EXT && p2FrameNumber <= P2_FRAME_ALT_LAST
+          ? P2_FRAME_ALT_EXT
+          : P2_FRAME_EXT;
+
+        return P2_BASE + String(p2FrameNumber).padStart(FRAME_PAD, '0') + p2FrameExt;
       }
 
       var base = phase === 1 ? P1_BASE : P2_BASE;
