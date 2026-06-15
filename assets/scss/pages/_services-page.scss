@@ -3702,7 +3702,8 @@ $services-benefits-bg:
   .home-chaos-about-flow #home-about {
     .services-clients__viewport {
       box-sizing: border-box;
-      /* cards 640 + padding (40+113) / 140 ≈ 806px при 1230px — вміщується в екран з bow-tie. */
+      min-height: 0;
+      /* cards 640 + padding (40+113) / 140 ≈ 806px при 1230px — bow-tie вміщується в екран. */
       height: calc(
         #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
       );

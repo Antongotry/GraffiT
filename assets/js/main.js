@@ -1972,6 +1972,16 @@
         section.classList.toggle('is-clients-top-fade', distance > ramp.start);
       }
 
+      function setHomeFilmHandoff(active) {
+        var flow = document.querySelector('.home-chaos-about-flow');
+
+        if (!flow) {
+          return;
+        }
+
+        flow.classList.toggle('is-film-handoff', !!active);
+      }
+
       window.gsap.to(track, {
         y: function () {
           return -clientsTrackScrollDistance();
@@ -1989,7 +1999,7 @@
           },
           pin: viewport,
           scrub: 1,
-          anticipatePin: 1,
+          anticipatePin: section.id === 'home-about' ? 0 : 1,
           refreshPriority: section.id === 'mediahub-clients' ? -5 : 0,
           invalidateOnRefresh: true,
           onUpdate: function (self) {
@@ -2000,6 +2010,10 @@
 
             if (self.isActive) {
               enforceClientsPinnedViewportWidth(viewport);
+
+              if (section.id === 'home-about') {
+                setHomeFilmHandoff(false);
+              }
             }
 
             if (!self.isActive && self.progress <= 0.001) {
@@ -3463,6 +3477,16 @@
       return phase1PxPerFrame() * P2_LAST * FILM_PHASE2_SCROLL_PACE;
     }
 
+    function setHomeFilmHandoff(active) {
+      var flow = document.querySelector('.home-chaos-about-flow');
+
+      if (!flow) {
+        return;
+      }
+
+      flow.classList.toggle('is-film-handoff', !!active);
+    }
+
     function syncHomeScrollFilmFrame() {
       var p1 = window.ScrollTrigger.getById('home-scroll-p1');
       var p2 = window.ScrollTrigger.getById('home-scroll-p2');
@@ -3560,11 +3584,16 @@
           onEnter: function () {
             filmPhase2Latched = true;
             container.__homeFilmPhase2Latched = true;
+            setHomeFilmHandoff(true);
             syncHomeScrollFilmFrame();
+          },
+          onLeave: function () {
+            setHomeFilmHandoff(false);
           },
           onLeaveBack: function () {
             filmPhase2Latched = false;
             container.__homeFilmPhase2Latched = false;
+            setHomeFilmHandoff(true);
             syncHomeScrollFilmFrame();
           },
           onRefresh: onFilmScrollChange,

@@ -348,12 +348,19 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-chaos-about-flow #home-about {
   position: relative;
-  isolation: isolate;
   overflow: hidden;
-  /*
-   * Як .services-clients { background: #000102 } на /services/, але верхні 90px прозорі —
-   * у верхньому вирізі bow-tie видно scroll-film; нижній виріз дає чорний шпиль.
-   */
+  /* Як .services-clients на /services/ — чорні bow-tie «крила» зверху/знизу. */
+  background: #000102;
+  color: #000102;
+  z-index: 91;
+
+  @include mixins.mobile {
+    overflow: visible;
+  }
+}
+
+/* Під час phase 2 (chaos → «Про нас») верхні 90px прозорі — маска scroll-film. */
+.home-chaos-about-flow.is-film-handoff #home-about {
   background: linear-gradient(
     to bottom,
     transparent 0,
@@ -361,11 +368,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     #000102 #{mixins.vw(90px)},
     #000102 100%
   );
-  color: #000102;
-  z-index: 91;
 
   @include mixins.mobile {
-    overflow: visible;
     background: linear-gradient(
       to bottom,
       transparent 0,
@@ -384,9 +388,9 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
-  z-index: 91;
+  position: relative;
+  z-index: 1;
   overflow: hidden;
-  isolation: isolate;
 }
 
 .home-chaos-about-flow #home-about .services-clients__eyebrow-text {
