@@ -7,9 +7,8 @@
 
 declare(strict_types=1);
 
-$home_film_upload_base = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/';
-$home_film_video_p1    = $home_film_upload_base . rawurlencode('Відео-1-2-екран.mp4');
-$home_film_video_p2    = $home_film_upload_base . rawurlencode('Відео-2-3-екран.mp4');
+$home_film_video_p1 = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/Відео-1-2-екран.mp4';
+$home_film_video_p2 = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/Відео-2-3-екран.mp4';
 $home_film_poster      = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/ezgif-frame-001_result.webp';
 
 get_header();
