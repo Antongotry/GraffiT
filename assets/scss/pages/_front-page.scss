@@ -350,20 +350,38 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  /* Як .services-clients на /services/ — чорний фон у «крилах» bow-tie clip-path. */
-  background: #000102;
+  /* Прозорий верх — canvas (phase 2) видно в шпилі chaos → «Про нас». */
+  background: transparent;
   color: #000102;
   z-index: 91;
 
+  /* Суцільний фон лише під вирізом viewport після переходу. */
+  &::after {
+    position: absolute;
+    top: #{mixins.vw(90px)};
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
+    content: "";
+    pointer-events: none;
+  }
+
   @include mixins.mobile {
     overflow: visible;
+
+    &::after {
+      top: #{mixins.mvw(40px)};
+    }
   }
 }
 
 .home-chaos-about-flow #home-about .pin-spacer {
   position: relative;
   z-index: 91 !important;
-  background: transparent;
+  /* Чорні «крила» bow-tie під час pin (як .services-clients на /services/). */
+  background: #000102;
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {

@@ -3530,6 +3530,7 @@
 
     if (chaos) {
       var st2State = { frame: 0 };
+      var aboutFlow = document.querySelector('.home-chaos-about-flow');
 
       window.gsap.to(st2State, {
         frame: P2_LAST,
@@ -3539,7 +3540,9 @@
           id: 'home-scroll-p2',
           trigger: chaos,
           start: 'top top',
-          end: function () {
+          endTrigger: aboutFlow || chaos,
+          /* Pin до входу «Про нас» — phase 2 кадри проходять через трикутник-перехід. */
+          end: aboutFlow ? 'top top' : function () {
             return '+=' + Math.round(phase2ScrollSpanPx());
           },
           pin: true,
@@ -3579,16 +3582,6 @@
     if (!container.__homeFilmCanvasHideBound) {
       container.__homeFilmCanvasHideBound = true;
 
-      function homeAboutNotchPx() {
-        var w = window.innerWidth || 1440;
-
-        if (w <= 1024) {
-          return Math.round((40 / 390) * w);
-        }
-
-        return Math.min(Math.round((90 / 1440) * w), 90);
-      }
-
       function bindHomeFilmCanvasHide() {
         var existing = window.ScrollTrigger.getById('home-scroll-film-canvas-hide');
 
@@ -3605,9 +3598,7 @@
         window.ScrollTrigger.create({
           id: 'home-scroll-film-canvas-hide',
           trigger: aboutViewport,
-          start: function () {
-            return 'top+=' + homeAboutNotchPx() + ' top';
-          },
+          start: 'top top',
           onEnter: function () {
             canvas.style.visibility = 'hidden';
             canvas.style.pointerEvents = 'none';
