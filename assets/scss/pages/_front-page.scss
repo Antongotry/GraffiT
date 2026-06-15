@@ -285,9 +285,9 @@
 
 @media (min-width: 1025px) {
   .home-hex-projects-flow .services-inquiry {
-    min-height: #{mixins.vw(700px)};
-    padding-top: #{mixins.vw(96px)};
-    padding-bottom: calc(#{mixins.vw(132px)} * 0.7);
+    min-height: #{mixins.vw(560px)};
+    padding-top: #{mixins.vw(77px)};
+    padding-bottom: calc(#{mixins.vw(132px)} * 0.56);
   }
 }
 
@@ -303,7 +303,7 @@
 
 @media (min-width: 1921px) {
   .home-hex-projects-flow .services-inquiry {
-    padding-bottom: calc(132px * 0.7);
+    padding-bottom: calc(132px * 0.56);
   }
 
   .home-hex-projects-flow #services-projects .services-projects__viewport {
