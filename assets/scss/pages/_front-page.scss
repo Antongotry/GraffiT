@@ -263,13 +263,10 @@
 }
 
 /*
- * Home CTA «Маєте комплексний запит?»: контент у нижній частині світлої смуги
- * (на 30% ближче до низу секції), зазор до «Проєкти» — на mobile/ultrawide.
+ * Home CTA «Маєте комплексний запит?»: на desktop контент через padding-top
+ * (не flex-end — інакше велика порожня зона зверху при зменшеній висоті).
  */
 .home-hex-projects-flow .services-inquiry {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
   box-sizing: border-box;
 
   .cta-band__container {
@@ -277,6 +274,9 @@
   }
 
   @include mixins.mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     min-height: auto;
     padding-top: #{mixins.mvw(32px)};
     padding-bottom: calc(#{mixins.mvw(84px)} * 0.7);
@@ -285,9 +285,10 @@
 
 @media (min-width: 1025px) {
   .home-hex-projects-flow .services-inquiry {
-    min-height: #{mixins.vw(620px)};
-    padding-top: #{mixins.vw(72px)};
-    padding-bottom: calc(#{mixins.vw(132px)} * 0.55);
+    display: block;
+    min-height: auto;
+    /* Картки directions заходять на −220px; без flex-end контент ближче до сітки. */
+    padding: #{mixins.vw(152px)} 0 #{mixins.vw(80px)};
   }
 }
 
@@ -303,7 +304,8 @@
 
 @media (min-width: 1921px) {
   .home-hex-projects-flow .services-inquiry {
-    padding-bottom: calc(132px * 0.7);
+    padding-top: 152px;
+    padding-bottom: 80px;
   }
 
   .home-hex-projects-flow #services-projects .services-projects__viewport {
