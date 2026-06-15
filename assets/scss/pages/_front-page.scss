@@ -7,7 +7,7 @@
    * як #about-clients (91) над .about-dark-flow на /about/ і #services-clients на /services/.
    */
   z-index: 91;
-  /* Прозорий верх — canvas видно в «крилах» вирізу; суцільний фон лише на viewport / pin-spacer. */
+  /* Сам flow прозорий; чорну bow-tie маску тримає #home-about. */
   background: transparent;
   overflow: visible;
   /* Стик із home-chaos: нижній шпиль chaos у верхній виріз #home-about (−90px = глибина шпиля). */
@@ -349,7 +349,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 .home-chaos-about-flow #home-about {
   position: relative;
   overflow: hidden;
-  /* Як .services-clients на /services/ — чорні bow-tie «крила» зверху/знизу. */
+  /* Як .services-clients на /services/: чорна bow-tie маска лишається базовим шаром. */
   background: #000102;
   color: #000102;
   z-index: 91;
@@ -360,11 +360,11 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 /*
- * Під час phase-2: верхнє «крило» не малюємо чорним — крізь виріз viewport
- * видно scroll-film canvas (z-88). Нижнє крило — fixed-шар .home-film-bottom-wing.
+ * Phase-2 кадри виводить окремий .home-film-wedge поверх секції.
+ * Сам #home-about не прозоримо, інакше нижній bow-tie виріз показує fixed canvas.
  */
 .home-chaos-about-flow.is-film-wedge-active #home-about {
-  background: transparent;
+  background: #000102;
 }
 
 /*
@@ -433,8 +433,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 .home-chaos-about-flow #home-about .pin-spacer {
   position: relative;
   z-index: 91 !important;
-  /* Прозорий — у вирізі bow-tie видно scroll-film canvas, не #000102. */
-  background: transparent;
+  background: #000102;
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
