@@ -3284,7 +3284,8 @@
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
-    var FILM_BOTTOM_WING_BLEED = 3;
+    var FILM_BOTTOM_WING_BLEED = 8;
+    var filmOverlayRaf = 0;
 
     function isImageReady(img) {
       return !!(img && img.complete && img.naturalWidth);
@@ -3421,6 +3422,15 @@
       }
 
       flow.classList.toggle('is-film-wedge-active', !!active);
+
+      if (active) {
+        syncFilmBowTieOverlays();
+        startFilmOverlayLoop();
+        return;
+      }
+
+      stopFilmOverlayLoop();
+      syncFilmBowTieOverlays();
     }
 
     function mountFilmOverlay(node) {
@@ -3432,11 +3442,43 @@
       node.setAttribute('data-film-overlay-mounted', '1');
     }
 
+    function isHomeFilmHandoffActive() {
+      var flow = document.querySelector('.home-chaos-about-flow');
+
+      return !!(flow && flow.classList.contains('is-film-wedge-active'));
+    }
+
+    function startFilmOverlayLoop() {
+      if (filmOverlayRaf) {
+        return;
+      }
+
+      filmOverlayRaf = window.requestAnimationFrame(function tick() {
+        filmOverlayRaf = 0;
+
+        if (!isHomeFilmHandoffActive()) {
+          syncFilmBowTieOverlays();
+          return;
+        }
+
+        syncFilmBowTieOverlays();
+        filmOverlayRaf = window.requestAnimationFrame(tick);
+      });
+    }
+
+    function stopFilmOverlayLoop() {
+      if (!filmOverlayRaf) {
+        return;
+      }
+
+      window.cancelAnimationFrame(filmOverlayRaf);
+      filmOverlayRaf = 0;
+    }
+
     function syncFilmBottomWing() {
       var wing = document.querySelector('.js-home-film-bottom-wing');
       var about = document.getElementById('home-about');
-      var flow = document.querySelector('.home-chaos-about-flow');
-      var wedgeActive = !!(flow && flow.classList.contains('is-film-wedge-active'));
+      var wedgeActive = isHomeFilmHandoffActive();
 
       if (!wing) {
         return;
@@ -3462,7 +3504,7 @@
       var wingBleed = FILM_BOTTOM_WING_BLEED;
       var vpRect = viewport.getBoundingClientRect();
       var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-      var wingTop = vpRect.bottom - notch - wingBleed;
+      var wingTop = Math.floor(vpRect.bottom - notch - wingBleed);
       var wingHeight = viewportHeight - wingTop;
 
       if (vpRect.bottom < notch * 0.25 || vpRect.top > viewportHeight || wingTop >= viewportHeight || wingHeight <= 0) {

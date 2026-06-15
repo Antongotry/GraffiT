@@ -410,9 +410,10 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
  */
 .home-film-bottom-wing {
   --home-film-bottom-wing-notch: #{mixins.vw(90px)};
-  --home-film-bottom-wing-bleed: 3px;
+  --home-film-bottom-wing-bleed: 8px;
 
   position: fixed;
+  top: 0;
   left: 0;
   z-index: 119;
   width: 100%;
@@ -436,8 +437,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow.is-film-wedge-active .home-film-bottom-wing {
-  opacity: 1;
-  visibility: visible;
+  /* JS owns visibility/top so fast scroll cannot reveal a stale shield position. */
 }
 
 .home-chaos-about-flow #home-about .pin-spacer {
