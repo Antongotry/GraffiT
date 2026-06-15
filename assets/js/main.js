@@ -2010,10 +2010,6 @@
 
             if (self.isActive) {
               enforceClientsPinnedViewportWidth(viewport);
-
-              if (section.id === 'home-about') {
-                setHomeFilmHandoff(false);
-              }
             }
 
             if (!self.isActive && self.progress <= 0.001) {
@@ -3394,7 +3390,17 @@
       syncHomeScrollFilmFrame();
     }
 
-    function drawImage(img) {
+    function homeFilmNotchPx() {
+      var w = window.innerWidth || 1440;
+
+      if (w <= 1024) {
+        return Math.round((40 / 390) * w);
+      }
+
+      return Math.min(Math.round((90 / 1440) * w), 90);
+    }
+
+    function drawImage(img, drawPhase) {
       if (!img || !img.complete || !img.naturalWidth) {
         return;
       }
@@ -3407,8 +3413,19 @@
       var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
       var w = img.naturalWidth * scale;
       var h = img.naturalHeight * scale;
+      var x = (cw - w) / 2;
+      var y = (ch - h) / 2;
 
-      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      if (drawPhase === 2) {
+        var notch = homeFilmNotchPx();
+        var p2 = window.ScrollTrigger.getById('home-scroll-p2');
+        var progress = p2 ? clamp(p2.progress, 0, 1) : 0;
+
+        /* Прив’язка нижнього краю кадра до шва chaos → «Про нас» (не center-crop). */
+        y = ch - h + notch * (0.42 + progress * 0.36);
+      }
+
+      ctx.drawImage(img, x, y, w, h);
       canvas.style.backgroundImage = 'none';
       lastDrawnImage = img;
     }
@@ -3446,7 +3463,7 @@
 
       activePhase = phase;
       currentIndex = nextIndex;
-      drawImage(img);
+      drawImage(img, phase);
     }
 
     function phase1BaseSpanPx() {
