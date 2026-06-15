@@ -177,14 +177,6 @@
   z-index: 3;
 }
 
-@media (min-width: 1025px) {
-  .home-hex-projects-flow .services-overview--home-directions {
-    /* Без negative margin — картки не наїжджають на CTA (overlap ламав layout). */
-    margin-bottom: 0;
-    padding-bottom: #{mixins.vw(28px)};
-  }
-}
-
 .home-hex-projects-flow .services-overview--home-directions,
 .home-hex-projects-flow .hex-reasons--home,
 .home-hex-projects-flow .services-inquiry.cta-band--light {
@@ -271,10 +263,13 @@
 }
 
 /*
- * Home CTA «Маєте комплексний запит?»: на desktop контент через padding-top
- * (не flex-end — інакше велика порожня зона зверху при зменшеній висоті).
+ * Home CTA «Маєте комплексний запит?»: контент у нижній частині світлої смуги
+ * (на 30% ближче до низу секції), зазор до «Проєкти» — на mobile/ultrawide.
  */
 .home-hex-projects-flow .services-inquiry {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   box-sizing: border-box;
 
   .cta-band__container {
@@ -282,9 +277,6 @@
   }
 
   @include mixins.mobile {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
     min-height: auto;
     padding-top: #{mixins.mvw(32px)};
     padding-bottom: calc(#{mixins.mvw(84px)} * 0.7);
@@ -293,10 +285,9 @@
 
 @media (min-width: 1025px) {
   .home-hex-projects-flow .services-inquiry {
-    display: block;
-    min-height: auto;
-    padding-top: #{mixins.vw(40px)};
-    padding-bottom: #{mixins.vw(80px)};
+    min-height: #{mixins.vw(700px)};
+    padding-top: #{mixins.vw(96px)};
+    padding-bottom: calc(#{mixins.vw(132px)} * 0.7);
   }
 }
 
@@ -311,14 +302,8 @@
 }
 
 @media (min-width: 1921px) {
-  .home-hex-projects-flow .services-overview--home-directions {
-    margin-bottom: 0;
-    padding-bottom: 28px;
-  }
-
   .home-hex-projects-flow .services-inquiry {
-    padding-top: 40px;
-    padding-bottom: 80px;
+    padding-bottom: calc(132px * 0.7);
   }
 
   .home-hex-projects-flow #services-projects .services-projects__viewport {
