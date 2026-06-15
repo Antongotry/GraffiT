@@ -4078,22 +4078,23 @@
       var p1End = p1.end;
       var p1Span = Math.max(p1End - p1Start, 1);
 
-      if (scroll <= p1End) {
-        filmPhase2Latched = false;
-        container.__homeFilmPhase2Latched = false;
-        setHomeFilmHandoff(false);
-        setFilmFrame(1, progressToFrameIndex(clamp((scroll - p1Start) / p1Span, 0, 1), P1_LAST));
+      /* p2.start can land before p1End when phase-1 scroll span is stretched — honour phase 2 first. */
+      if (p2 && scroll >= p2.start) {
+        filmPhase2Latched = true;
+        container.__homeFilmPhase2Latched = true;
+        setHomeFilmHandoff(true);
+        setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
         syncFilmBowTieOverlays();
         return;
       }
 
-      if (!p2) {
-        setFilmFrame(1, P1_LAST);
-        syncFilmBowTieOverlays();
-        return;
-      }
+      if (scroll > p1End) {
+        if (!p2) {
+          setFilmFrame(1, P1_LAST);
+          syncFilmBowTieOverlays();
+          return;
+        }
 
-      if (scroll < p2.start) {
         var gap = Math.max(p2.start - p1End, 1);
         var handoff = clamp((scroll - p1End) / gap, 0, 1);
         var handoffLast = Math.min(16, P2_LAST);
@@ -4106,10 +4107,10 @@
         return;
       }
 
-      filmPhase2Latched = true;
-      container.__homeFilmPhase2Latched = true;
-      setHomeFilmHandoff(true);
-      setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
+      filmPhase2Latched = false;
+      container.__homeFilmPhase2Latched = false;
+      setHomeFilmHandoff(false);
+      setFilmFrame(1, progressToFrameIndex(clamp((scroll - p1Start) / p1Span, 0, 1), P1_LAST));
       syncFilmBowTieOverlays();
     }
 
