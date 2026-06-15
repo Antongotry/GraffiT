@@ -1922,7 +1922,7 @@
       }
 
       function clientsScrollTriggerStart() {
-        if (section.id === 'services-clients' || section.id === 'mediahub-clients') {
+        if (section.id === 'home-about' || section.id === 'services-clients' || section.id === 'mediahub-clients') {
           return 'center center';
         }
 
@@ -1987,7 +1987,7 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          /* services-clients/mediahub-clients start when the bow-tie viewport is centered in the screen. */
+          /* home-about/services-clients/mediahub-clients start when the bow-tie viewport is centered in the screen. */
           start: clientsScrollTriggerStart,
           end: function () {
             // Clamp pin distance to the document scroll bounds so the spacer
