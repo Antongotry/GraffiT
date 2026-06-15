@@ -3683,12 +3683,33 @@ $services-benefits-bg:
   }
 
   @include mixins.mobile {
-    clip-path: none;
     min-height: auto;
     height: auto;
     max-height: none;
+    overflow: visible;
+    clip-path: none;
     padding-top: #{mixins.mvw(56px)};
     padding-bottom: #{mixins.mvw(40px)};
+    background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
+  }
+}
+
+.home-chaos-about-flow #home-about .services-clients__viewport {
+  @include mixins.mobile {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+    clip-path: polygon(
+      0 0,
+      50% #{mixins.mvw(40px)},
+      100% 0,
+      100% 100%,
+      50% calc(100% - #{mixins.mvw(40px)}),
+      0 100%
+    );
+    padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
+    padding-bottom: calc(#{mixins.mvw(40px)} + #{mixins.mvw(40px)});
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
   }
 }

@@ -365,10 +365,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
  */
 .home-chaos-about-flow.is-film-wedge-active #home-about {
   background: transparent;
-
-  @include mixins.mobile {
-    background: #000102;
-  }
 }
 
 /*
@@ -437,7 +433,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
   @include mixins.mobile {
     --home-film-bottom-wing-notch: #{mixins.mvw(40px)};
-    display: none !important;
   }
 }
 

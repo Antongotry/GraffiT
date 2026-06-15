@@ -3638,11 +3638,6 @@
         return;
       }
 
-      if (isMobileFilmLayout()) {
-        active = false;
-        stopFilmOverlayLoop();
-      }
-
       flow.classList.toggle('is-film-wedge-active', !!active);
 
       if (active) {
@@ -3703,12 +3698,6 @@
       var wedgeActive = isHomeFilmHandoffActive();
 
       if (!wing) {
-        return;
-      }
-
-      if (isMobileFilmLayout()) {
-        wing.style.opacity = '0';
-        wing.style.visibility = 'hidden';
         return;
       }
 
@@ -3908,17 +3897,17 @@
         var handoff = clamp((scroll - p1End) / gap, 0, 1);
         var handoffLast = Math.min(16, P2_LAST);
 
-        filmPhase2Latched = !isMobileFilmLayout();
-        container.__homeFilmPhase2Latched = filmPhase2Latched;
-        setHomeFilmHandoff(!isMobileFilmLayout());
+        filmPhase2Latched = true;
+        container.__homeFilmPhase2Latched = true;
+        setHomeFilmHandoff(true);
         setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
         syncFilmBowTieOverlays();
         return;
       }
 
-      filmPhase2Latched = !isMobileFilmLayout();
-      container.__homeFilmPhase2Latched = filmPhase2Latched;
-      setHomeFilmHandoff(!isMobileFilmLayout());
+      filmPhase2Latched = true;
+      container.__homeFilmPhase2Latched = true;
+      setHomeFilmHandoff(true);
       setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
       syncFilmBowTieOverlays();
     }
@@ -3967,14 +3956,11 @@
           id: 'home-scroll-p2',
           trigger: chaos,
           start: 'top top',
-          endTrigger: mobileFilm ? chaos : (aboutFlow || chaos),
-          end: mobileFilm
-            ? function () {
-              return '+=' + Math.round(phase2ScrollSpanPx());
-            }
-            : (aboutFlow ? 'top top' : function () {
-              return '+=' + Math.round(phase2ScrollSpanPx());
-            }),
+          endTrigger: aboutFlow || chaos,
+          /* Pin до входу «Про нас» на desktop; на mobile — той самий scrub без pin. */
+          end: aboutFlow ? 'top top' : function () {
+            return '+=' + Math.round(phase2ScrollSpanPx());
+          },
           pin: !mobileFilm,
           pinSpacing: !mobileFilm,
           pinClass: 'pin-spacer-home-scroll-p2',
@@ -3982,34 +3968,16 @@
           scrub: true,
           invalidateOnRefresh: true,
           onEnter: function () {
-            if (mobileFilm) {
-              return;
-            }
-
             filmPhase2Latched = true;
             container.__homeFilmPhase2Latched = true;
             setHomeFilmHandoff(true);
             syncHomeScrollFilmFrame();
           },
           onLeave: function () {
-            if (mobileFilm) {
-              setHomeFilmHandoff(false);
-              syncFilmBowTieOverlays();
-              return;
-            }
-
             setHomeFilmHandoff(true);
             syncFilmBowTieOverlays();
           },
           onLeaveBack: function () {
-            if (mobileFilm) {
-              filmPhase2Latched = false;
-              container.__homeFilmPhase2Latched = false;
-              setHomeFilmHandoff(false);
-              syncHomeScrollFilmFrame();
-              return;
-            }
-
             filmPhase2Latched = false;
             container.__homeFilmPhase2Latched = false;
             setHomeFilmHandoff(true);
