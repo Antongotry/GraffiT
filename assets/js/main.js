@@ -1543,6 +1543,101 @@
     viewport.style.setProperty('right', '0', 'important');
   }
 
+  function isMobileClientsLayout() {
+    return (window.innerWidth || document.documentElement.clientWidth || 1440) <= 1024;
+  }
+
+  function resetHomeFilmHandoffState() {
+    var flow = document.querySelector('.home-chaos-about-flow');
+    var wing = document.querySelector('.js-home-film-bottom-wing');
+
+    if (flow) {
+      flow.classList.remove('is-film-wedge-active');
+    }
+
+    if (wing) {
+      wing.style.opacity = '0';
+      wing.style.visibility = 'hidden';
+      wing.style.removeProperty('top');
+      wing.style.removeProperty('height');
+    }
+  }
+
+  function resetClientsScrollerMobileState(section) {
+    var viewport = section.querySelector('.services-clients__viewport');
+    var stage = section.querySelector('.js-clients-stage');
+    var track = section.querySelector('.js-clients-track');
+    var cards = Array.prototype.slice.call(section.querySelectorAll('.trust-card'));
+    var pinFlow = section.closest('.home-chaos-about-flow');
+    var spacer = section.querySelector('.pin-spacer');
+
+    if (!spacer && viewport && viewport.parentElement && viewport.parentElement.classList.contains('pin-spacer')) {
+      spacer = viewport.parentElement;
+    }
+
+    if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
+      window.ScrollTrigger.getAll().forEach(function (trigger) {
+        if (
+          trigger.trigger === section
+          || trigger.pin === viewport
+          || trigger.pin === pinFlow
+          || trigger.trigger === viewport
+        ) {
+          trigger.kill(true);
+        }
+      });
+    }
+
+    section.removeAttribute('data-clients-scroller-init');
+    section.removeAttribute('data-about-clients-stacked-init');
+    section.classList.remove('is-about-clients-stacked');
+    section.classList.remove('is-clients-top-fade');
+
+    if (pinFlow) {
+      pinFlow.removeAttribute('data-about-hero-clients-pinned');
+    }
+
+    if (stage) {
+      stage.style.removeProperty('--about-clients-stage-height');
+      stage.style.removeProperty('--clients-top-fade');
+    }
+
+    [section, pinFlow, spacer, viewport, stage, track].concat(cards).forEach(function (node) {
+      if (!node) {
+        return;
+      }
+
+      [
+        'translate',
+        'rotate',
+        'scale',
+        'transform',
+        'width',
+        'height',
+        'min-height',
+        'max-height',
+        'padding-top',
+        'padding-bottom',
+        'margin-top',
+        'margin-bottom',
+        'top',
+        'left',
+        'right',
+        'bottom',
+        'inset',
+        'opacity',
+        'visibility',
+        'will-change'
+      ].forEach(function (property) {
+        node.style.removeProperty(property);
+      });
+    });
+
+    if (section.id === 'home-about') {
+      resetHomeFilmHandoffState();
+    }
+  }
+
   function initClientsScroller() {
     if (!window.gsap || !window.ScrollTrigger) {
       return;
@@ -1571,70 +1666,8 @@
       clientsSection.classList.remove('is-about-clients-stacked-desktop');
       clientsSection.classList.remove('is-clients-top-fade');
 
-      if (window.innerWidth <= 1024) {
-        viewport = clientsSection.querySelector('.services-clients__viewport');
-        stage = clientsSection.querySelector('.js-clients-stage');
-        track = clientsSection.querySelector('.js-clients-track');
-        cards = Array.prototype.slice.call(clientsSection.querySelectorAll('.trust-card'));
-        spacer = clientsSection.parentElement && clientsSection.parentElement.classList.contains('pin-spacer')
-          ? clientsSection.parentElement
-          : null;
-
-        if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
-          window.ScrollTrigger.getAll().forEach(function (trigger) {
-            if (
-              trigger.trigger === clientsSection
-              || trigger.pin === viewport
-              || trigger.pin === pinFlow
-              || trigger.trigger === viewport
-            ) {
-              trigger.kill(true);
-            }
-          });
-        }
-
-        clientsSection.removeAttribute('data-about-clients-stacked-init');
-
-        if (pinFlow) {
-          pinFlow.removeAttribute('data-about-hero-clients-pinned');
-        }
-
-        clientsSection.classList.remove('is-about-clients-stacked');
-
-        if (stage) {
-          stage.style.removeProperty('--about-clients-stage-height');
-        }
-
-        [clientsSection, pinFlow, spacer, viewport, stage, track].concat(cards).forEach(function (node) {
-          if (!node) {
-            return;
-          }
-
-          [
-            'translate',
-            'rotate',
-            'scale',
-            'transform',
-            'width',
-            'height',
-            'min-height',
-            'max-height',
-            'padding-top',
-            'padding-bottom',
-            'margin-top',
-            'margin-bottom',
-            'top',
-            'left',
-            'right',
-            'bottom',
-            'inset',
-            'opacity',
-            'visibility',
-            'will-change'
-          ].forEach(function (property) {
-            node.style.removeProperty(property);
-          });
-        });
+      if (isMobileClientsLayout()) {
+        resetClientsScrollerMobileState(clientsSection);
         return;
       }
 
@@ -1817,66 +1850,8 @@
       }, { passive: true });
     }
 
-    if (window.innerWidth <= 1024) {
-      document.querySelectorAll('.js-clients-scroller').forEach(function (section) {
-        var viewport = section.querySelector('.services-clients__viewport');
-        var stage = section.querySelector('.js-clients-stage');
-        var track = section.querySelector('.js-clients-track');
-        var cards = Array.prototype.slice.call(section.querySelectorAll('.trust-card'));
-        var spacer = section.parentElement && section.parentElement.classList.contains('pin-spacer')
-          ? section.parentElement
-          : null;
-
-        if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
-          window.ScrollTrigger.getAll().forEach(function (trigger) {
-            if (trigger.trigger === section || trigger.pin === viewport || trigger.trigger === viewport) {
-              trigger.kill(true);
-            }
-          });
-        }
-
-        section.removeAttribute('data-clients-scroller-init');
-        section.removeAttribute('data-about-clients-stacked-init');
-        section.classList.remove('is-about-clients-stacked');
-        section.classList.remove('is-clients-top-fade');
-
-        if (stage) {
-          stage.style.removeProperty('--about-clients-stage-height');
-          stage.style.removeProperty('--clients-top-fade');
-        }
-
-        [section, spacer, viewport, stage, track].concat(cards).forEach(function (node) {
-          if (!node) {
-            return;
-          }
-
-          [
-            'translate',
-            'rotate',
-            'scale',
-            'transform',
-            'width',
-            'height',
-            'min-height',
-            'max-height',
-            'padding-top',
-            'padding-bottom',
-            'margin-top',
-            'margin-bottom',
-            'top',
-            'left',
-            'right',
-            'bottom',
-            'inset',
-            'opacity',
-            'visibility',
-            'will-change'
-          ].forEach(function (property) {
-            node.style.removeProperty(property);
-          });
-        });
-      });
-
+    if (isMobileClientsLayout()) {
+      document.querySelectorAll('.js-clients-scroller').forEach(resetClientsScrollerMobileState);
       window.ScrollTrigger.refresh();
       return;
     }
@@ -2090,6 +2065,20 @@
     });
 
     window.ScrollTrigger.refresh();
+  }
+
+  if (!window.__graffitClientsScrollerResize) {
+    window.__graffitClientsScrollerResize = true;
+    window.addEventListener('resize', function () {
+      window.clearTimeout(window.__graffitClientsScrollerResizeTimer);
+      window.__graffitClientsScrollerResizeTimer = window.setTimeout(function () {
+        initClientsScroller();
+
+        if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+          window.ScrollTrigger.refresh();
+        }
+      }, 120);
+    }, { passive: true });
   }
 
   function resetMediahubClientsLegacyState() {
@@ -3346,6 +3335,12 @@
     var FILM_BOTTOM_WING_BLEED = 8;
     var filmOverlayRaf = 0;
     var shouldUseFilmLoader = !(p1Images && p2Images);
+    var filmCacheHit = !!(FILM_CACHE_KEY && readLocalStorage(FILM_CACHE_STORAGE_KEY) === FILM_CACHE_KEY);
+
+    if (filmCacheHit) {
+      shouldUseFilmLoader = false;
+      dismissInitialFilmLoader();
+    }
     var filmLoaderStartedAt = 0;
     var filmLoaderReady = false;
     var filmLoaderTargets = Object.create(null);
@@ -3363,6 +3358,20 @@
           window.localStorage.setItem(key, value);
         }
       } catch (error) {}
+    }
+
+    function readLocalStorage(key) {
+      try {
+        if (window.localStorage) {
+          return window.localStorage.getItem(key);
+        }
+      } catch (error) {}
+
+      return '';
+    }
+
+    function isMobileFilmLayout() {
+      return (window.innerWidth || document.documentElement.clientWidth || 1440) <= 1024;
     }
 
     function markFilmCacheReady() {
@@ -3568,7 +3577,9 @@
       container.__homeFilmP1Images = p1Images;
       container.__homeFilmP2Images = p2Images;
 
-      showFilmLoader();
+      if (shouldUseFilmLoader) {
+        showFilmLoader();
+      }
 
       preloadFilmPhase(1, P1_COUNT, p1Images).then(function (p1Result) {
         syncHomeScrollFilmFrame();
@@ -3625,6 +3636,11 @@
 
       if (!flow) {
         return;
+      }
+
+      if (isMobileFilmLayout()) {
+        active = false;
+        stopFilmOverlayLoop();
       }
 
       flow.classList.toggle('is-film-wedge-active', !!active);
@@ -3687,6 +3703,12 @@
       var wedgeActive = isHomeFilmHandoffActive();
 
       if (!wing) {
+        return;
+      }
+
+      if (isMobileFilmLayout()) {
+        wing.style.opacity = '0';
+        wing.style.visibility = 'hidden';
         return;
       }
 
@@ -3886,17 +3908,17 @@
         var handoff = clamp((scroll - p1End) / gap, 0, 1);
         var handoffLast = Math.min(16, P2_LAST);
 
-        filmPhase2Latched = true;
-        container.__homeFilmPhase2Latched = true;
-        setHomeFilmHandoff(true);
+        filmPhase2Latched = !isMobileFilmLayout();
+        container.__homeFilmPhase2Latched = filmPhase2Latched;
+        setHomeFilmHandoff(!isMobileFilmLayout());
         setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
         syncFilmBowTieOverlays();
         return;
       }
 
-      filmPhase2Latched = true;
-      container.__homeFilmPhase2Latched = true;
-      setHomeFilmHandoff(true);
+      filmPhase2Latched = !isMobileFilmLayout();
+      container.__homeFilmPhase2Latched = filmPhase2Latched;
+      setHomeFilmHandoff(!isMobileFilmLayout());
       setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
       syncFilmBowTieOverlays();
     }
@@ -3935,6 +3957,7 @@
     if (chaos) {
       var st2State = { frame: 0 };
       var aboutFlow = document.querySelector('.home-chaos-about-flow');
+      var mobileFilm = isMobileFilmLayout();
 
       window.gsap.to(st2State, {
         frame: P2_LAST,
@@ -3944,28 +3967,50 @@
           id: 'home-scroll-p2',
           trigger: chaos,
           start: 'top top',
-          endTrigger: aboutFlow || chaos,
+          endTrigger: mobileFilm ? chaos : (aboutFlow || chaos),
           /* Pin до входу «Про нас» — phase 2 кадри проходять через трикутник-перехід. */
-          end: aboutFlow ? 'top top' : function () {
-            return '+=' + Math.round(phase2ScrollSpanPx());
-          },
-          pin: true,
-          pinSpacing: true,
+          end: mobileFilm
+            ? function () {
+              return '+=' + Math.round(phase2ScrollSpanPx());
+            }
+            : (aboutFlow ? 'top top' : function () {
+              return '+=' + Math.round(phase2ScrollSpanPx());
+            }),
+          pin: !mobileFilm,
+          pinSpacing: !mobileFilm,
           pinClass: 'pin-spacer-home-scroll-p2',
           anticipatePin: 0,
           scrub: true,
           invalidateOnRefresh: true,
           onEnter: function () {
+            if (mobileFilm) {
+              return;
+            }
+
             filmPhase2Latched = true;
             container.__homeFilmPhase2Latched = true;
             setHomeFilmHandoff(true);
             syncHomeScrollFilmFrame();
           },
           onLeave: function () {
+            if (mobileFilm) {
+              setHomeFilmHandoff(false);
+              syncFilmBowTieOverlays();
+              return;
+            }
+
             setHomeFilmHandoff(true);
             syncFilmBowTieOverlays();
           },
           onLeaveBack: function () {
+            if (mobileFilm) {
+              filmPhase2Latched = false;
+              container.__homeFilmPhase2Latched = false;
+              setHomeFilmHandoff(false);
+              syncHomeScrollFilmFrame();
+              return;
+            }
+
             filmPhase2Latched = false;
             container.__homeFilmPhase2Latched = false;
             setHomeFilmHandoff(true);

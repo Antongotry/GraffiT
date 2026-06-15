@@ -433,6 +433,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
   @include mixins.mobile {
     --home-film-bottom-wing-notch: #{mixins.mvw(40px)};
+    display: none !important;
   }
 }
 
@@ -450,6 +451,10 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   position: relative;
   z-index: 1;
   overflow: hidden;
+
+  @include mixins.mobile {
+    overflow: visible;
+  }
 }
 
 .home-chaos-about-flow #home-about .services-clients__eyebrow-text {
@@ -493,6 +498,16 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 body.is-home-film-loading {
   overflow: hidden;
+}
+
+html.is-home-film-cached .home-film-loader.is-active {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+html.is-home-film-cached body.is-home-film-loading {
+  overflow: auto;
 }
 
 .home-film-loader {

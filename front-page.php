@@ -37,6 +37,24 @@ get_header();
             </span>
         </div>
     </div>
+    <script>
+    (function () {
+      try {
+        var cacheKey = <?php echo wp_json_encode($home_film_cache_key); ?>;
+
+        if (cacheKey && window.localStorage && window.localStorage.getItem('graffitHomeFilmCacheKey') === cacheKey) {
+          document.documentElement.classList.add('is-home-film-cached');
+          document.body.classList.remove('is-home-film-loading');
+          var loader = document.querySelector('.js-home-film-loader');
+
+          if (loader) {
+            loader.classList.remove('is-active');
+            loader.classList.add('is-ready');
+          }
+        }
+      } catch (error) {}
+    }());
+    </script>
     <div class="home-scroll-film js-home-scroll-film">
         <?php get_template_part('template-parts/sections/home', 'hero'); ?>
         <?php get_template_part('template-parts/sections/home', 'showcase'); ?>
