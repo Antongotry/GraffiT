@@ -132,7 +132,7 @@ function graffit_home_film_legacy_config(): array
         'p1Base' => $base . 'ezgif-frame-',
         'p2Base' => $base . 'ezgif-frame-',
         'p1Last' => 210,
-        'p2Last' => 240,
+        'p2Last' => 166,
         'poster' => $base . 'ezgif-frame-001_result-scaled.webp',
         'pad' => 3,
         'ext' => '_result-scaled.webp',
@@ -140,13 +140,13 @@ function graffit_home_film_legacy_config(): array
         'phase2ScrollPace' => 1.85,
         'source' => 'legacy-ezgif',
         /*
-         * 2026/06 WordPress media upload kept duplicate phase-2 names as:
-         * 001-211 *_result-1-scaled.webp, then 212-241 *_result-scaled.webp.
+         * Phase 2 starts at the non-repeating part of the second upload pack:
+         * 075-211 *_result-1-scaled.webp, then 212-241 *_result-scaled.webp.
         */
-        'p2FrameOffset' => 1,
+        'p2FrameOffset' => 75,
         'p2Ext' => '_result-scaled.webp',
         'p2AltExt' => '_result-1-scaled.webp',
         'p2AltLastFrame' => 211,
-        'cacheKey' => 'home-film-' . substr(sha1($base . '|211|241|result-scaled|result-1-scaled|query-v2'), 0, 16),
+        'cacheKey' => 'home-film-' . substr(sha1($base . '|211|75-241|result-scaled|result-1-scaled|query-v3'), 0, 16),
     ];
 }
