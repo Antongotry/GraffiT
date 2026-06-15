@@ -1931,6 +1931,18 @@
         return Math.min(Math.max(raw, minDistance), maxDistance);
       }
 
+      function clientsScrollTriggerStart() {
+        if (section.id === 'mediahub-clients') {
+          return 'top top-=150';
+        }
+
+        if (section.id === 'services-clients') {
+          return 'center center';
+        }
+
+        return 'top top';
+      }
+
       function clientsTopFadeStartPx() {
         var w = window.innerWidth || 1440;
         var offset = Math.round((24 / 1440) * w);
@@ -1989,9 +2001,8 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          /* mediahub-clients: refresh last (after process pin-spacer) so start position is correct;
-             start when section is 200px past viewport top → full left copy visible on capture. */
-          start: section.id === 'mediahub-clients' ? 'top top-=150' : 'top top',
+          /* services-clients starts when the bow-tie viewport is centered in the screen. */
+          start: clientsScrollTriggerStart,
           end: function () {
             // Clamp pin distance to the document scroll bounds so the spacer
             // cannot create a blank tail after the footer on short pages.
