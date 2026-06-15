@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 function graffit_home_film_enabled(): bool
 {
-    return false;
+    return true;
 }
 
 /**

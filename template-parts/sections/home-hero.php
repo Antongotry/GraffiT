@@ -7,25 +7,9 @@
 
 declare(strict_types=1);
 
-$home_hero_background_image = graffit_home_hero_image_url() . '?v=home-hero-2';
-$home_hero_background_image_mobile = graffit_home_hero_image_mobile_url() . '?v=home-hero-mobile-1';
 $home_hero_cta_image = graffit_home_hero_cta_image_url() . '?v=home-cta-2';
 ?>
 <section class="home-hero">
-    <div class="home-hero__media" aria-hidden="true">
-        <picture>
-            <source media="(max-width: 1024px)" srcset="<?php echo esc_url($home_hero_background_image_mobile); ?>">
-            <img
-                class="home-hero__media-image"
-                src="<?php echo esc_url($home_hero_background_image); ?>"
-                alt=""
-                width="1440"
-                height="810"
-                fetchpriority="high"
-                decoding="async"
-            >
-        </picture>
-    </div>
 
     <div class="home-hero__container">
         <div class="home-hero__summary">
