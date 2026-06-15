@@ -560,20 +560,6 @@ function graffit_enqueue_assets(): void
         graffit_asset_version('/assets/js/main.js'),
         true
     );
-
-    if (is_front_page()) {
-        $home_film_upload_base = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/';
-
-        wp_localize_script(
-            'graffit-main',
-            'graffitHomeFilm',
-            [
-                'videoP1' => $home_film_upload_base . rawurlencode('Відео-1-2-екран.mp4'),
-                'videoP2' => $home_film_upload_base . rawurlencode('Відео-2-3-екран.mp4'),
-                'poster'  => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/ezgif-frame-001_result.webp',
-            ]
-        );
-    }
 }
 add_action('wp_enqueue_scripts', 'graffit_enqueue_assets');
 

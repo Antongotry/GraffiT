@@ -3203,97 +3203,9 @@
     });
   }
 
-  var HOME_FILM_DEFAULT_URLS = {
-    videoP1: 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/%D0%92%D1%96%D0%B4%D0%B5%D0%BE-1-2-%D0%B5%D0%BA%D1%80%D0%B0%D0%BD.mp4',
-    videoP2: 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/%D0%92%D1%96%D0%B4%D0%B5%D0%BE-2-3-%D0%B5%D0%BA%D1%80%D0%B0%D0%BD.mp4',
-    poster: 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/ezgif-frame-001_result.webp'
-  };
-
-  function createHomeFilmVideo(className, src, posterUrl) {
-    var video = document.createElement('video');
-
-    video.className = 'home-scroll-film__video ' + className;
-    video.muted = true;
-    video.playsInline = true;
-    video.setAttribute('muted', '');
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
-    video.setAttribute('preload', 'auto');
-    video.setAttribute('aria-hidden', 'true');
-
-    if (posterUrl) {
-      video.poster = posterUrl;
-    }
-
-    if (src) {
-      video.src = src;
-    }
-
-    return video;
-  }
-
-  function ensureHomeFilmVideos(container) {
-    var config = window.graffitHomeFilm || {};
-    var defaults = HOME_FILM_DEFAULT_URLS;
-    var posterUrl = container.getAttribute('data-film-poster') || config.poster || defaults.poster || '';
-    var videoP1Url = container.getAttribute('data-film-video-p1') || config.videoP1 || defaults.videoP1 || '';
-    var videoP2Url = container.getAttribute('data-film-video-p2') || config.videoP2 || defaults.videoP2 || '';
-    var canvas = container.querySelector('.js-home-scroll-film-canvas');
-    var videoP1 = container.querySelector('.js-home-scroll-film-video-p1');
-    var videoP2 = container.querySelector('.js-home-scroll-film-video-p2');
-
-    if (!videoP1Url || !videoP2Url) {
-      return null;
-    }
-
-    if (!videoP1) {
-      videoP1 = createHomeFilmVideo('js-home-scroll-film-video-p1', videoP1Url, posterUrl);
-
-      if (canvas) {
-        canvas.insertAdjacentElement('afterend', videoP1);
-      } else {
-        container.insertBefore(videoP1, container.firstChild);
-      }
-    }
-
-    if (!videoP2) {
-      videoP2 = createHomeFilmVideo('js-home-scroll-film-video-p2', videoP2Url, posterUrl);
-      videoP1.insertAdjacentElement('afterend', videoP2);
-    }
-
-    if (videoP1Url && !videoP1.getAttribute('src')) {
-      videoP1.src = videoP1Url;
-    }
-
-    if (videoP2Url && !videoP2.getAttribute('src')) {
-      videoP2.src = videoP2Url;
-    }
-
-    if (posterUrl) {
-      if (!videoP1.poster) {
-        videoP1.poster = posterUrl;
-      }
-
-      if (!videoP2.poster) {
-        videoP2.poster = posterUrl;
-      }
-    }
-
-    return {
-      videoP1: videoP1,
-      videoP2: videoP2,
-      posterUrl: posterUrl,
-      videoP1Url: videoP1Url,
-      videoP2Url: videoP2Url
-    };
-  }
-
   function initHomeScrollFilm() {
     var container = document.querySelector('.js-home-scroll-film');
     var canvas = document.querySelector('.js-home-scroll-film-canvas');
-    var filmMedia;
-    var videoP1;
-    var videoP2;
 
     if (!container || !canvas) {
       return;
@@ -3303,15 +3215,6 @@
       return;
     }
 
-    filmMedia = ensureHomeFilmVideos(container);
-
-    if (!filmMedia) {
-      return;
-    }
-
-    videoP1 = filmMedia.videoP1;
-    videoP2 = filmMedia.videoP2;
-
     var ctx = canvas.getContext('2d');
 
     if (!ctx) {
@@ -3320,43 +3223,61 @@
 
     window.gsap.registerPlugin(window.ScrollTrigger);
 
-    var posterUrl = filmMedia.posterUrl || '';
-    var videoP1Url = filmMedia.videoP1Url || videoP1.getAttribute('src') || '';
-    var videoP2Url = filmMedia.videoP2Url || videoP2.getAttribute('src') || '';
-    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var BASE_URL = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
+    var P1_LAST = 210;
+    var P1_COUNT = P1_LAST + 1;
+    var P2_FIRST = 28;
+    var P2_LAST_FRAME = 181;
+    var P2_COUNT = P2_LAST_FRAME - P2_FIRST + 1;
+    var P2_LAST = P2_COUNT - 1;
+    var FIRST_FRAME_URL = BASE_URL + 'ezgif-frame-001_result.webp';
+
+    canvas.style.backgroundImage = 'url("' + FIRST_FRAME_URL + '")';
+    canvas.style.backgroundSize = 'cover';
+    canvas.style.backgroundPosition = 'center';
+    canvas.style.backgroundRepeat = 'no-repeat';
+
+    var p1Images = container.__homeFilmP1Images;
+
+    if (!p1Images) {
+      p1Images = new Array(P1_COUNT).fill(null);
+      container.__homeFilmP1Images = p1Images;
+
+      for (var i1 = 0; i1 < P1_COUNT; i1++) {
+        (function (idx) {
+          var img = new Image();
+          img.onload = function () {
+            p1Images[idx] = img;
+
+            if (idx === 0) {
+              drawImage(img);
+            }
+          };
+          img.src = BASE_URL + 'ezgif-frame-' + String(idx + 1).padStart(3, '0') + '_result.webp';
+        })(i1);
+      }
+    }
+
+    var p2Images = container.__homeFilmP2Images;
+
+    if (!p2Images) {
+      p2Images = new Array(P2_COUNT).fill(null);
+      container.__homeFilmP2Images = p2Images;
+
+      for (var i2 = 0; i2 < P2_COUNT; i2++) {
+        (function (idx) {
+          var img = new Image();
+          img.onload = function () {
+            p2Images[idx] = img;
+          };
+          img.src = BASE_URL + 'ezgif-frame-' + String(P2_FIRST + idx).padStart(3, '0') + '_result-1.webp';
+        })(i2);
+      }
+    }
+
     var activePhase = 1;
-    var currentFrameIndex = -1;
-    var filmsReady = false;
+    var currentIndex = 0;
     var filmRafId = 0;
-    var p1Frames = container.__homeFilmP1Frames || null;
-    var p2Frames = container.__homeFilmP2Frames || null;
-    var FILM_FPS = 24;
-    var FILM_JPEG_QUALITY = 0.88;
-
-    [videoP1, videoP2].forEach(function (video) {
-      video.muted = true;
-      video.playsInline = true;
-      video.setAttribute('playsinline', '');
-      video.setAttribute('webkit-playsinline', '');
-      video.preload = 'auto';
-      video.pause();
-      video.classList.add('home-scroll-film__video--source');
-    });
-
-    if (videoP1Url && videoP1.getAttribute('src') !== videoP1Url) {
-      videoP1.src = videoP1Url;
-    }
-
-    if (videoP2Url && videoP2.getAttribute('src') !== videoP2Url) {
-      videoP2.src = videoP2Url;
-    }
-
-    if (posterUrl) {
-      canvas.style.backgroundImage = 'url("' + posterUrl + '")';
-      canvas.style.backgroundSize = 'cover';
-      canvas.style.backgroundPosition = 'center';
-      canvas.style.backgroundRepeat = 'no-repeat';
-    }
 
     function clamp(value, min, max) {
       return Math.min(max, Math.max(min, value));
@@ -3402,220 +3323,32 @@
       canvas.style.backgroundImage = 'none';
     }
 
-    function filmLastIndex(frames) {
-      if (!frames || !frames.length) {
-        return 0;
-      }
-
-      return frames.length - 1;
-    }
-
     function setFilmFrame(phase, index) {
-      if (!filmsReady) {
-        return;
-      }
+      var nextIndex = clamp(index, 0, phase === 1 ? P1_LAST : P2_LAST);
 
-      var frames = phase === 1 ? p1Frames : p2Frames;
-      var lastIndex = filmLastIndex(frames);
-      var nextIndex = clamp(index, 0, lastIndex);
-
-      if (!prefersReducedMotion && activePhase === phase && currentFrameIndex === nextIndex) {
+      if (activePhase === phase && currentIndex === nextIndex) {
         return;
       }
 
       activePhase = phase;
-      currentFrameIndex = nextIndex;
-      drawImage(frames[nextIndex]);
-    }
-
-    function waitForImage(img) {
-      return new Promise(function (resolve) {
-        if (!img) {
-          resolve();
-          return;
-        }
-
-        if (img.complete && img.naturalWidth) {
-          resolve();
-          return;
-        }
-
-        img.onload = function () {
-          resolve();
-        };
-        img.onerror = function () {
-          resolve();
-        };
-      });
-    }
-
-    function captureVideoFramesBySeek(video) {
-      return new Promise(function (resolve, reject) {
-        var duration = video.duration;
-
-        if (!duration || isNaN(duration)) {
-          reject(new Error('home-film: missing video duration'));
-          return;
-        }
-
-        var frameCount = Math.max(1, Math.round(duration * FILM_FPS));
-        var frames = new Array(frameCount);
-        var offscreen = document.createElement('canvas');
-        var offCtx = offscreen.getContext('2d');
-        var vw = video.videoWidth;
-        var vh = video.videoHeight;
-        var index = 0;
-
-        if (!offCtx || !vw || !vh) {
-          reject(new Error('home-film: cannot read video dimensions'));
-          return;
-        }
-
-        offscreen.width = vw;
-        offscreen.height = vh;
-        video.pause();
-
-        function captureNext() {
-          if (index >= frameCount) {
-            Promise.all(frames.map(waitForImage)).then(function () {
-              resolve(frames);
-            });
-            return;
-          }
-
-          var progress = frameCount === 1 ? 0 : index / (frameCount - 1);
-
-          video.currentTime = progress * duration;
-          video.addEventListener('seeked', function onSeeked() {
-            video.removeEventListener('seeked', onSeeked);
-            offCtx.drawImage(video, 0, 0, vw, vh);
-            var img = new Image();
-            frames[index] = img;
-            img.src = offscreen.toDataURL('image/jpeg', FILM_JPEG_QUALITY);
-            index += 1;
-            captureNext();
-          }, { once: true });
-        }
-
-        captureNext();
-      });
-    }
-
-    function captureVideoFramesByPlayback(video) {
-      return new Promise(function (resolve, reject) {
-        if (typeof video.requestVideoFrameCallback !== 'function') {
-          captureVideoFramesBySeek(video).then(resolve).catch(reject);
-          return;
-        }
-
-        var duration = video.duration;
-
-        if (!duration || isNaN(duration)) {
-          reject(new Error('home-film: missing video duration'));
-          return;
-        }
-
-        var frameCount = Math.max(1, Math.round(duration * FILM_FPS));
-        var frames = new Array(frameCount);
-        var seen = {};
-        var offscreen = document.createElement('canvas');
-        var offCtx = offscreen.getContext('2d');
-        var vw = video.videoWidth;
-        var vh = video.videoHeight;
-
-        if (!offCtx || !vw || !vh) {
-          captureVideoFramesBySeek(video).then(resolve).catch(reject);
-          return;
-        }
-
-        offscreen.width = vw;
-        offscreen.height = vh;
-
-        function finalize() {
-          video.pause();
-          video.playbackRate = 1;
-
-          var list = [];
-          var lastImg = null;
-
-          for (var i = 0; i < frameCount; i++) {
-            if (frames[i]) {
-              lastImg = frames[i];
-            }
-
-            if (lastImg) {
-              list.push(lastImg);
-            }
-          }
-
-          Promise.all(list.map(waitForImage)).then(function () {
-            resolve(list);
-          });
-        }
-
-        function onVideoFrame(now, metadata) {
-          var t = metadata.mediaTime;
-          var idx = Math.min(frameCount - 1, Math.round(t * FILM_FPS));
-
-          if (!seen[idx]) {
-            seen[idx] = true;
-            offCtx.drawImage(video, 0, 0, vw, vh);
-            var img = new Image();
-            img.src = offscreen.toDataURL('image/jpeg', FILM_JPEG_QUALITY);
-            frames[idx] = img;
-          }
-
-          if (t >= duration - (1 / FILM_FPS)) {
-            finalize();
-            return;
-          }
-
-          video.requestVideoFrameCallback(onVideoFrame);
-        }
-
-        video.pause();
-        video.currentTime = 0;
-        video.muted = true;
-        video.playbackRate = 1;
-
-        video.play().then(function () {
-          video.requestVideoFrameCallback(onVideoFrame);
-        }).catch(function () {
-          captureVideoFramesBySeek(video).then(resolve).catch(reject);
-        });
-      });
-    }
-
-    function getOrCaptureFrames(video, cacheKey) {
-      if (container[cacheKey]) {
-        return Promise.resolve(container[cacheKey]);
-      }
-
-      return captureVideoFramesByPlayback(video).then(function (frames) {
-        container[cacheKey] = frames;
-        return frames;
-      });
+      currentIndex = nextIndex;
+      drawImage(phase === 1 ? p1Images[currentIndex] : p2Images[currentIndex]);
     }
 
     function phase1PxPerFrame() {
       var p1 = window.ScrollTrigger.getById('home-scroll-p1');
-      var last = filmLastIndex(p1Frames);
 
       if (p1 && p1.end > p1.start) {
-        return (p1.end - p1.start) / Math.max(last, 1);
+        return (p1.end - p1.start) / P1_LAST;
       }
 
-      return (window.innerHeight * 2) / Math.max(last, 1);
+      return (window.innerHeight * 2) / P1_LAST;
     }
 
     function phase2ScrollSpanPx() {
-      return phase1PxPerFrame() * filmLastIndex(p2Frames);
+      return phase1PxPerFrame() * P2_LAST;
     }
 
-    /*
-     * Єдиний таймлайн скролу: фаза 1 до кінця showcase, далі без паузи фаза 2
-     * (як у старій frame-sequence на canvas).
-     */
     function syncHomeScrollFilmFrame() {
       var p1 = window.ScrollTrigger.getById('home-scroll-p1');
       var p2 = window.ScrollTrigger.getById('home-scroll-p2');
@@ -3629,18 +3362,16 @@
       var p1Start = p1.start;
       var p1End = p1.end;
       var p1Span = Math.max(p1End - p1Start, 1);
-      var p1Last = filmLastIndex(p1Frames);
-      var p2Last = filmLastIndex(p2Frames);
 
       if (!p2 || scroll <= p1End) {
         var p1Progress = clamp((scroll - p1Start) / p1Span, 0, 1);
-        setFilmFrame(1, Math.round(p1Progress * p1Last));
+        setFilmFrame(1, Math.round(p1Progress * P1_LAST));
         return;
       }
 
       var phase2Span = Math.max(p2.end - p1End, 1);
       var p2Progress = clamp((scroll - p1End) / phase2Span, 0, 1);
-      setFilmFrame(2, Math.round(p2Progress * p2Last));
+      setFilmFrame(2, Math.round(p2Progress * P2_LAST));
     }
 
     function onFilmScrollChange() {
@@ -3654,180 +3385,120 @@
       });
     }
 
-    function setHomeFilmLayerHidden(hidden) {
-      canvas.style.visibility = hidden ? 'hidden' : '';
-      canvas.style.pointerEvents = 'none';
-    }
+    destroyHomeScrollFilmTriggers();
 
-    function bindScrollFilm() {
-      if (container.__homeFilmScrollBound) {
-        syncHomeScrollFilmFrame();
-        return;
+    var showcase = container.querySelector('.home-showcase');
+    var chaos = container.querySelector('.home-chaos');
+
+    resizeCanvas();
+
+    var st1State = { frame: 0 };
+
+    window.gsap.to(st1State, {
+      frame: P1_LAST,
+      ease: 'none',
+      immediateRender: false,
+      scrollTrigger: {
+        id: 'home-scroll-p1',
+        trigger: container,
+        start: 'top top',
+        endTrigger: showcase || container,
+        end: 'bottom bottom',
+        scrub: true,
+        invalidateOnRefresh: true,
+        onRefresh: onFilmScrollChange,
+        onUpdate: onFilmScrollChange
       }
+    });
 
-      container.__homeFilmScrollBound = true;
-      destroyHomeScrollFilmTriggers();
+    if (chaos) {
+      var st2State = { frame: 0 };
 
-      var showcase = container.querySelector('.home-showcase');
-      var chaos = container.querySelector('.home-chaos');
-
-      resizeCanvas();
-
-      var st1State = { progress: 0 };
-
-      window.gsap.to(st1State, {
-        progress: 1,
+      window.gsap.to(st2State, {
+        frame: P2_LAST,
         ease: 'none',
         immediateRender: false,
         scrollTrigger: {
-          id: 'home-scroll-p1',
-          trigger: container,
-          start: 'top top',
-          endTrigger: showcase || container,
-          end: 'bottom bottom',
+          id: 'home-scroll-p2',
+          trigger: chaos,
+          start: 'top bottom',
+          end: function () {
+            return '+=' + Math.round(phase2ScrollSpanPx());
+          },
+          pin: true,
+          pinSpacing: true,
+          pinClass: 'pin-spacer-home-scroll-p2',
+          anticipatePin: 1,
           scrub: true,
           invalidateOnRefresh: true,
           onRefresh: onFilmScrollChange,
           onUpdate: onFilmScrollChange
         }
       });
-
-      if (chaos) {
-        var st2State = { progress: 0 };
-
-        window.gsap.to(st2State, {
-          progress: 1,
-          ease: 'none',
-          immediateRender: false,
-          scrollTrigger: {
-            id: 'home-scroll-p2',
-            trigger: chaos,
-            start: 'top bottom',
-            end: function () {
-              return '+=' + Math.round(phase2ScrollSpanPx());
-            },
-            pin: true,
-            pinSpacing: true,
-            pinClass: 'pin-spacer-home-scroll-p2',
-            anticipatePin: 1,
-            scrub: true,
-            invalidateOnRefresh: true,
-            onRefresh: onFilmScrollChange,
-            onUpdate: onFilmScrollChange
-          }
-        });
-      }
-
-      if (!container.__homeFilmResizeBound) {
-        container.__homeFilmResizeBound = true;
-
-        window.addEventListener('resize', function () {
-          resizeCanvas();
-
-          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
-            window.ScrollTrigger.refresh();
-          }
-        }, { passive: true });
-      }
-
-      if (!container.__homeFilmCanvasHideBound) {
-        container.__homeFilmCanvasHideBound = true;
-
-        function homeAboutNotchPx() {
-          var w = window.innerWidth || 1440;
-
-          if (w <= 1024) {
-            return Math.round((40 / 390) * w);
-          }
-
-          return Math.min(Math.round((90 / 1440) * w), 90);
-        }
-
-        function bindHomeFilmCanvasHide() {
-          var existing = window.ScrollTrigger.getById('home-scroll-film-canvas-hide');
-
-          if (existing) {
-            existing.kill();
-          }
-
-          var aboutViewport = document.querySelector('#home-about .services-clients__viewport');
-
-          if (!aboutViewport) {
-            return;
-          }
-
-          window.ScrollTrigger.create({
-            id: 'home-scroll-film-canvas-hide',
-            trigger: aboutViewport,
-            start: function () {
-              return 'top+=' + homeAboutNotchPx() + ' top';
-            },
-            onEnter: function () {
-              setHomeFilmLayerHidden(true);
-            },
-            onLeaveBack: function () {
-              setHomeFilmLayerHidden(false);
-              syncHomeScrollFilmFrame();
-            },
-            invalidateOnRefresh: true
-          });
-        }
-
-        bindHomeFilmCanvasHide();
-      }
-
-      window.ScrollTrigger.refresh();
-      syncHomeScrollFilmFrame();
     }
 
-    function markFilmsReady() {
-      if (filmsReady) {
-        return;
-      }
+    if (!container.__homeFilmResizeBound) {
+      container.__homeFilmResizeBound = true;
 
-      filmsReady = true;
-      currentFrameIndex = -1;
-      bindScrollFilm();
-      setFilmFrame(1, 0);
+      window.addEventListener('resize', function () {
+        resizeCanvas();
+
+        if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+          window.ScrollTrigger.refresh();
+        }
+      }, { passive: true });
     }
 
-    function waitForVideo(video) {
-      return new Promise(function (resolve) {
-        function done() {
-          resolve();
+    if (!container.__homeFilmCanvasHideBound) {
+      container.__homeFilmCanvasHideBound = true;
+
+      function homeAboutNotchPx() {
+        var w = window.innerWidth || 1440;
+
+        if (w <= 1024) {
+          return Math.round((40 / 390) * w);
         }
 
-        if (video.readyState >= 2 && video.duration && !isNaN(video.duration)) {
-          done();
+        return Math.min(Math.round((90 / 1440) * w), 90);
+      }
+
+      function bindHomeFilmCanvasHide() {
+        var existing = window.ScrollTrigger.getById('home-scroll-film-canvas-hide');
+
+        if (existing) {
+          existing.kill();
+        }
+
+        var aboutViewport = document.querySelector('#home-about .services-clients__viewport');
+
+        if (!aboutViewport) {
           return;
         }
 
-        video.addEventListener('loadeddata', done, { once: true });
-        video.addEventListener('loadedmetadata', done, { once: true });
-        video.addEventListener('canplay', done, { once: true });
-        video.addEventListener('error', done, { once: true });
-        video.load();
-      });
-    }
-
-    Promise.all([waitForVideo(videoP1), waitForVideo(videoP2)]).then(function () {
-      return Promise.all([
-        p1Frames ? Promise.resolve(p1Frames) : getOrCaptureFrames(videoP1, '__homeFilmP1Frames'),
-        p2Frames ? Promise.resolve(p2Frames) : getOrCaptureFrames(videoP2, '__homeFilmP2Frames')
-      ]);
-    }).then(function (results) {
-      p1Frames = results[0];
-      p2Frames = results[1];
-      container.__homeFilmP1Frames = p1Frames;
-      container.__homeFilmP2Frames = p2Frames;
-      markFilmsReady();
-    }).catch(function () {
-      if (posterUrl) {
-        return;
+        window.ScrollTrigger.create({
+          id: 'home-scroll-film-canvas-hide',
+          trigger: aboutViewport,
+          start: function () {
+            return 'top+=' + homeAboutNotchPx() + ' top';
+          },
+          onEnter: function () {
+            canvas.style.visibility = 'hidden';
+            canvas.style.pointerEvents = 'none';
+          },
+          onLeaveBack: function () {
+            canvas.style.visibility = '';
+            canvas.style.pointerEvents = '';
+            syncHomeScrollFilmFrame();
+          },
+          invalidateOnRefresh: true
+        });
       }
 
-      canvas.style.background = '#020914';
-    });
+      bindHomeFilmCanvasHide();
+    }
+
+    window.ScrollTrigger.refresh();
+    syncHomeScrollFilmFrame();
   }
 
   function initHomeChaosFilm() {
