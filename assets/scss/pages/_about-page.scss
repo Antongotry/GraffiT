@@ -2,6 +2,7 @@
 
 .site-main--about {
   --about-bow-spike: #{mixins.vw(90px)};
+  --about-bow-seam-overlap: 3px;
   background: #000102;
   overflow: visible !important;
 
@@ -34,14 +35,14 @@
   z-index: 70;
   overflow: visible;
   /* Підтяг під нижній виріз clients — шпиль .about-stack стикується без зазору. */
-  margin-top: calc(-1 * var(--about-bow-spike));
+  margin-top: calc(-1 * var(--about-bow-spike) - var(--about-bow-seam-overlap));
   --about-dark-flow-background: #000102;
   --about-dark-flow-background-mobile: #000102;
   /* Фон лише на дочірніх секціях — інакше прямокутник обгортки дає «наїзд» поверх шпиля .about-stack. */
   background: transparent;
 
   @include mixins.mobile {
-    margin-top: calc(-1 * var(--about-bow-spike));
+    margin-top: calc(-1 * var(--about-bow-spike) - var(--about-bow-seam-overlap));
   }
 }
 
@@ -408,8 +409,10 @@
   position: relative;
   z-index: 1;
   overflow: visible;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   /* Шпиль зверху — стик із нижнім вирізом #about-clients. */
-  margin-top: calc(-1 * var(--about-bow-spike));
+  margin-top: calc(-1 * var(--about-bow-spike) - var(--about-bow-seam-overlap));
   padding: calc((#{mixins.vw(132px)} * 0.4) + var(--about-bow-spike)) 0 calc(#{mixins.vw(144px)} + var(--about-bow-spike));
   background: var(--about-dark-flow-background);
   clip-path: polygon(
@@ -422,7 +425,7 @@
   );
 
   @include mixins.mobile {
-    margin-top: calc(-1 * var(--about-bow-spike));
+    margin-top: calc(-1 * var(--about-bow-spike) - var(--about-bow-seam-overlap));
     padding: calc(#{mixins.mvw(136px)} + var(--about-bow-spike)) 0 #{mixins.mvw(40px)};
     background: var(--about-dark-flow-background-mobile);
     clip-path: polygon(
@@ -657,13 +660,15 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: calc(-1 * var(--about-bow-seam-overlap));
     z-index: 0;
-    height: var(--about-bow-spike);
+    height: calc(var(--about-bow-spike) + (2 * var(--about-bow-seam-overlap)));
     background: #000102;
     clip-path: polygon(0 100%, 50% 0, 100% 100%);
     content: "";
     pointer-events: none;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   .services-clients__viewport {
@@ -735,11 +740,11 @@
 
     .services-clients__layout {
       align-items: start;
-      padding-top: #{mixins.vw(24px)};
+      padding-top: #{mixins.vw(48px)};
     }
 
     .services-clients__copy {
-      padding-top: #{mixins.vw(32px)};
+      padding-top: #{mixins.vw(64px)};
     }
 
     .services-clients__cards-stage {
@@ -769,7 +774,7 @@
 
     .services-clients__cards-track {
       margin-top: 0;
-      padding-top: #{mixins.vw(32px)};
+      padding-top: #{mixins.vw(64px)};
     }
 
     .services-clients__cards-track .trust-card::before {
@@ -791,7 +796,7 @@
         gap: #{mixins.vw(20px)};
         width: 100%;
         margin-top: 0;
-        padding-top: #{mixins.vw(32px)};
+        padding-top: #{mixins.vw(64px)};
         padding-bottom: #{mixins.vw(56px)};
         opacity: 1 !important;
         visibility: visible !important;
@@ -823,8 +828,27 @@
   }
 
   @media (min-width: 1921px) {
+    --about-bow-seam-overlap: 4px;
+
     .services-clients__layout {
-      padding-top: calc(#{mixins.vw(24px)} + 28px);
+      padding-top: calc(#{mixins.vw(48px)} + 28px);
+    }
+
+    .services-clients__viewport {
+      /* +1px overlap на діагоналі — прибирає hairline на ultrawide. */
+      clip-path: polygon(
+        0 0,
+        50% #{mixins.vw(90px)},
+        100% 0,
+        100% calc(100% + 1px),
+        50% calc(100% - #{mixins.vw(90px)} - 1px),
+        0 calc(100% + 1px)
+      );
+    }
+
+    &::after {
+      bottom: -4px;
+      height: calc(var(--about-bow-spike) + 8px);
     }
   }
 
@@ -852,7 +876,7 @@
     }
 
     .services-clients__copy {
-      padding-top: #{mixins.mvw(20px)};
+      padding-top: #{mixins.mvw(40px)};
       width: 100%;
     }
 
@@ -890,7 +914,7 @@
       width: min(100%, #{mixins.mvw(355px)}) !important;
       margin-inline: auto !important;
       margin-top: 0 !important;
-      padding-top: #{mixins.mvw(32px)} !important;
+      padding-top: #{mixins.mvw(64px)} !important;
       padding-bottom: #{mixins.mvw(56px)} !important;
       opacity: 1 !important;
       visibility: visible !important;
