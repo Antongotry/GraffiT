@@ -336,9 +336,16 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-chaos-about-flow #home-about {
   position: relative;
-  overflow: visible;
-  /* Вище .home-hex-projects-flow — pin лишається зверху під час scrub. */
+  isolation: isolate;
+  overflow: hidden;
+  /* Як .services-clients на /services/ — чорний фон у «крилах» bow-tie clip-path. */
+  background: #000102;
+  color: #000102;
   z-index: 91;
+
+  @include mixins.mobile {
+    overflow: visible;
+  }
 }
 
 .home-chaos-about-flow #home-about .pin-spacer {
@@ -347,44 +354,14 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   background: transparent;
 }
 
-/*
- * Homepage #home-about — інтеграція з chaos/hex (метрики viewport у _services-page.scss).
- */
-.home-chaos-about-flow #home-about {
-  overflow: visible;
-  background: transparent;
-
-  /* Суцільний фон лише під вирізом — верх лишається прозорим для шпиля chaos. */
-  &::after {
-    position: absolute;
-    top: #{mixins.vw(90px)};
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 0;
-    background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
-    content: "";
-    pointer-events: none;
-  }
-
-  @include mixins.mobile {
-    &::after {
-      top: #{mixins.mvw(40px)};
-    }
-  }
-}
-
 .home-chaos-about-flow #home-about .services-clients__viewport {
   z-index: 91;
-  overflow: visible;
+  overflow: hidden;
+  isolation: isolate;
 }
 
 .home-chaos-about-flow #home-about .services-clients__eyebrow-text {
   color: #000102;
-}
-
-.home-chaos-about-flow #home-about .services-clients__text {
-  color: rgba(0, 1, 2, 0.92);
 }
 
 .home-chaos-about-flow #home-about .services-clients__container {
@@ -730,12 +707,6 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 @media (min-width: 1440px) {
   .home-hero__summary {
     top: #{mixins.vw(166px)};
-  }
-
-  .home-chaos-about-flow #home-about {
-    &::after {
-      top: min(calc(90 / 1440 * 100vw), 90px);
-    }
   }
 
   .home-hex-projects-flow::after {

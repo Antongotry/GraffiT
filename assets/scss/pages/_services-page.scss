@@ -3813,10 +3813,25 @@ $services-benefits-bg:
   }
 }
 
-.site-main--services .services-clients__text,
-.home-chaos-about-flow #home-about .services-clients__text {
+.home-chaos-about-flow #home-about .services-clients__title {
+  line-height: 1.36;
+}
+
+.site-main--services .services-clients__text {
   width: #{mixins.vw(560px)};
   margin-top: #{mixins.vw(156px)};
+
+  @include mixins.mobile {
+    width: min(100%, #{mixins.mvw(355px)});
+    margin-top: #{mixins.mvw(24px)};
+  }
+}
+
+/* Довший заголовок на головній — менший зазор до підзаголовка, щільність як на /services/. */
+.home-chaos-about-flow #home-about .services-clients__text {
+  width: #{mixins.vw(560px)};
+  margin-top: #{mixins.vw(48px)};
+  color: rgba(0, 1, 2, 0.92);
 
   @include mixins.mobile {
     width: min(100%, #{mixins.mvw(355px)});
