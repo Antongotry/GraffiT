@@ -761,7 +761,8 @@
     }
 
     .services-clients__viewport {
-      overflow: hidden;
+      min-height: auto;
+      overflow: visible;
       clip-path: polygon(
         0 0,
         50% #{mixins.mvw(40px)},
@@ -832,9 +833,16 @@
       max-height: #{mixins.mvw(240px)} !important;
       padding: #{mixins.mvw(20px)} !important;
       border-radius: #{mixins.mvw(12px)} !important;
+      background-color: #ffffff;
+      box-shadow: 0 #{mixins.mvw(8px)} #{mixins.mvw(24px)} rgba(0, 0, 0, 0.08);
+      overflow: hidden;
       opacity: 1 !important;
       visibility: visible !important;
       transform: none !important;
+
+      &::before {
+        display: none;
+      }
     }
 
     .trust-card__content {
@@ -852,6 +860,19 @@
       .services-clients__cards-track .trust-card:nth-child(#{$i}) {
         z-index: 10 + $i;
         top: #{mixins.mvw(64px + ($i - 1) * 6px)} !important;
+      }
+    }
+
+    &.is-about-clients-stacked {
+      .services-clients__cards-stage {
+        height: auto !important;
+        overflow: visible !important;
+      }
+
+      .services-clients__cards-track {
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
       }
     }
   }
