@@ -3661,10 +3661,10 @@ $services-benefits-bg:
 }
 
 /*
- * /services/ «Чому клієнти» — точне дзеркало #home-about з головної.
- * Viewport: тільки верхній виріз (без нижнього шпиля), той самий градієнт, однакові відступи.
+ * «Чому клієнти» на /services/ і #home-about на головній — однакові метрики viewport.
  */
-.site-main--services .services-clients__viewport {
+.site-main--services .services-clients__viewport,
+.home-chaos-about-flow #home-about .services-clients__viewport {
   clip-path: polygon(
     0 0,
     50% #{mixins.vw(90px)},
@@ -3698,7 +3698,8 @@ $services-benefits-bg:
 }
 
 @media (min-width: 1025px) {
-  .site-main--services #services-clients {
+  .site-main--services #services-clients,
+  .home-chaos-about-flow #home-about {
     .services-clients__viewport {
       min-height: 0;
       height: auto;
@@ -3711,8 +3712,9 @@ $services-benefits-bg:
   }
 }
 
-/* Top-fade mask із CSS-змінною — як на головній; JS вже пише --clients-top-fade для #services-clients. */
-.site-main--services .services-clients__cards-stage {
+/* Top-fade mask із CSS-змінною — JS пише --clients-top-fade для обох секцій. */
+.site-main--services .services-clients__cards-stage,
+.home-chaos-about-flow #home-about .services-clients__cards-stage {
   --clients-top-fade: 0;
   mask-image: linear-gradient(
     to bottom,
@@ -3751,7 +3753,8 @@ $services-benefits-bg:
  * Коли JS додає .is-clients-top-fade, базовий статичний маск (специфічність 0,3,0)
  * перебиває наш CSS-змінний маск (0,2,0). Перевизначаємо з вищою специфічністю.
  */
-.site-main--services .services-clients.is-clients-top-fade .services-clients__cards-stage {
+.site-main--services .services-clients.is-clients-top-fade .services-clients__cards-stage,
+.home-chaos-about-flow #home-about.is-clients-top-fade .services-clients__cards-stage {
   mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
@@ -3781,11 +3784,13 @@ $services-benefits-bg:
   }
 }
 
-.site-main--services .services-clients__layout {
+.site-main--services .services-clients__layout,
+.home-chaos-about-flow #home-about .services-clients__layout {
   padding-top: #{mixins.vw(12px)};
 }
 
-.site-main--services .services-clients__copy {
+.site-main--services .services-clients__copy,
+.home-chaos-about-flow #home-about .services-clients__copy {
   padding-top: #{mixins.vw(16px)};
 
   @include mixins.mobile {
@@ -3793,7 +3798,8 @@ $services-benefits-bg:
   }
 }
 
-.site-main--services .services-clients__title {
+.site-main--services .services-clients__title,
+.home-chaos-about-flow #home-about .services-clients__title {
   width: #{mixins.vw(788px)};
   margin-top: #{mixins.vw(32px)};
   font-size: #{mixins.vw(32px)};
@@ -3807,7 +3813,8 @@ $services-benefits-bg:
   }
 }
 
-.site-main--services .services-clients__text {
+.site-main--services .services-clients__text,
+.home-chaos-about-flow #home-about .services-clients__text {
   width: #{mixins.vw(560px)};
   margin-top: #{mixins.vw(156px)};
 
@@ -3817,7 +3824,8 @@ $services-benefits-bg:
   }
 }
 
-.site-main--services .trust-card {
+.site-main--services .trust-card,
+.home-chaos-about-flow #home-about .trust-card {
   box-shadow: none;
 
   &::before {
