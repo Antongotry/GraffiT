@@ -3203,6 +3203,12 @@
     });
   }
 
+  var HOME_FILM_DEFAULT_URLS = {
+    videoP1: 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/%D0%92%D1%96%D0%B4%D0%B5%D0%BE-1-2-%D0%B5%D0%BA%D1%80%D0%B0%D0%BD.mp4',
+    videoP2: 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/%D0%92%D1%96%D0%B4%D0%B5%D0%BE-2-3-%D0%B5%D0%BA%D1%80%D0%B0%D0%BD.mp4',
+    poster: 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/ezgif-frame-001_result.webp'
+  };
+
   function createHomeFilmVideo(className, src, posterUrl) {
     var video = document.createElement('video');
 
@@ -3228,9 +3234,10 @@
 
   function ensureHomeFilmVideos(container) {
     var config = window.graffitHomeFilm || {};
-    var posterUrl = container.getAttribute('data-film-poster') || config.poster || '';
-    var videoP1Url = container.getAttribute('data-film-video-p1') || config.videoP1 || '';
-    var videoP2Url = container.getAttribute('data-film-video-p2') || config.videoP2 || '';
+    var defaults = HOME_FILM_DEFAULT_URLS;
+    var posterUrl = container.getAttribute('data-film-poster') || config.poster || defaults.poster || '';
+    var videoP1Url = container.getAttribute('data-film-video-p1') || config.videoP1 || defaults.videoP1 || '';
+    var videoP2Url = container.getAttribute('data-film-video-p2') || config.videoP2 || defaults.videoP2 || '';
     var canvas = container.querySelector('.js-home-scroll-film-canvas');
     var videoP1 = container.querySelector('.js-home-scroll-film-video-p1');
     var videoP2 = container.querySelector('.js-home-scroll-film-video-p2');
@@ -3305,6 +3312,12 @@
     videoP1 = filmMedia.videoP1;
     videoP2 = filmMedia.videoP2;
 
+    var ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+      return;
+    }
+
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     var posterUrl = filmMedia.posterUrl || '';
@@ -3312,48 +3325,9 @@
     var videoP2Url = filmMedia.videoP2Url || videoP2.getAttribute('src') || '';
     var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var activePhase = 1;
-    var activeProgress = -1;
+    var activeFilmTime = -1;
     var videosReady = false;
-    var pendingSeekId = 0;
-    var filmVideos = [videoP1, videoP2];
-
-    function setHomeFilmLayerHidden(hidden) {
-      filmVideos.forEach(function (video) {
-        if (!video) {
-          return;
-        }
-
-        video.style.visibility = hidden ? 'hidden' : '';
-      });
-
-      if (!canvas) {
-        return;
-      }
-
-      canvas.style.visibility = hidden ? 'hidden' : '';
-      canvas.style.pointerEvents = 'none';
-    }
-
-    function showActiveFilmVideo(video) {
-      filmVideos.forEach(function (item) {
-        if (!item) {
-          return;
-        }
-
-        var isActive = item === video;
-        item.classList.toggle('is-home-film-active', isActive);
-        item.style.visibility = isActive ? 'visible' : 'hidden';
-      });
-
-      canvas.style.opacity = video ? '0' : '1';
-    }
-
-    if (posterUrl) {
-      canvas.style.backgroundImage = 'url("' + posterUrl + '")';
-      canvas.style.backgroundSize = 'cover';
-      canvas.style.backgroundPosition = 'center';
-      canvas.style.backgroundRepeat = 'no-repeat';
-    }
+    var filmRafId = 0;
 
     [videoP1, videoP2].forEach(function (video) {
       video.muted = true;
@@ -3362,6 +3336,7 @@
       video.setAttribute('webkit-playsinline', '');
       video.preload = 'auto';
       video.pause();
+      video.classList.add('home-scroll-film__video--source');
     });
 
     if (videoP1Url && videoP1.getAttribute('src') !== videoP1Url) {
@@ -3370,6 +3345,13 @@
 
     if (videoP2Url && videoP2.getAttribute('src') !== videoP2Url) {
       videoP2.src = videoP2Url;
+    }
+
+    if (posterUrl) {
+      canvas.style.backgroundImage = 'url("' + posterUrl + '")';
+      canvas.style.backgroundSize = 'cover';
+      canvas.style.backgroundPosition = 'center';
+      canvas.style.backgroundRepeat = 'no-repeat';
     }
 
     function clamp(value, min, max) {
@@ -3398,80 +3380,86 @@
       syncHomeScrollFilmFrame();
     }
 
-    function paintFilmVideo(video, progress, force) {
-      if (!video) {
+    function drawVideoToCanvas(video) {
+      if (!video || video.readyState < 2) {
         return false;
       }
 
-      if (!videosReady) {
+      var vw = video.videoWidth;
+      var vh = video.videoHeight;
+
+      if (!vw || !vh) {
         return false;
       }
 
-      if (prefersReducedMotion) {
-        showActiveFilmVideo(video);
-        if (video.readyState >= 1) {
-          try {
-            video.currentTime = 0;
-          } catch (error) {
-            return false;
-          }
-        }
-        return true;
-      }
+      var cw = canvas.width;
+      var ch = canvas.height;
+      var scale = Math.max(cw / vw, ch / vh);
+      var w = vw * scale;
+      var h = vh * scale;
 
-      if (!video.duration || isNaN(video.duration)) {
-        return false;
-      }
-
-      var targetTime = clamp(progress, 0, 1) * video.duration;
-      showActiveFilmVideo(video);
-
-      function applySeekedFrame() {
-        canvas.style.opacity = '0';
-      }
-
-      if (!force && Math.abs(video.currentTime - targetTime) <= 0.034 && video.readyState >= 2) {
-        applySeekedFrame();
-        return true;
-      }
-
-      pendingSeekId += 1;
-      var seekId = pendingSeekId;
-
-      function onSeeked() {
-        if (seekId !== pendingSeekId) {
-          return;
-        }
-
-        applySeekedFrame();
-      }
-
-      video.addEventListener('seeked', onSeeked, { once: true });
-
-      try {
-        video.currentTime = targetTime;
-      } catch (error) {
-        return false;
-      }
-
-      if (video.readyState >= 2 && Math.abs(video.currentTime - targetTime) <= 0.05) {
-        onSeeked();
-      }
-
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(video, (cw - w) / 2, (ch - h) / 2, w, h);
       return true;
     }
 
-    function setFilmProgress(phase, progress) {
-      var nextProgress = clamp(progress, 0, 1);
-      var force = activeProgress < 0;
+    function seekFilmVideo(video, targetTime) {
+      if (Math.abs(video.currentTime - targetTime) <= 0.033) {
+        return;
+      }
 
-      if (!force && activePhase === phase && Math.abs(activeProgress - nextProgress) < 0.001) {
+      try {
+        if (typeof video.fastSeek === 'function') {
+          video.fastSeek(targetTime);
+        } else {
+          video.currentTime = targetTime;
+        }
+      } catch (error) {
+        /* ignore seek errors while scrubbing */
+      }
+    }
+
+    function scrubFilmVideo(phase, progress, force) {
+      if (!videosReady) {
+        return;
+      }
+
+      var video = phase === 1 ? videoP1 : videoP2;
+
+      if (!video || !video.duration || isNaN(video.duration)) {
+        return;
+      }
+
+      if (prefersReducedMotion) {
+        seekFilmVideo(video, 0);
+        drawVideoToCanvas(video);
+        canvas.style.backgroundImage = 'none';
+        return;
+      }
+
+      var targetTime = clamp(progress, 0, 1) * video.duration;
+
+      if (!force && activePhase === phase && Math.abs(activeFilmTime - targetTime) < 0.02) {
         return;
       }
 
       activePhase = phase;
-      activeProgress = nextProgress;
-      paintFilmVideo(phase === 1 ? videoP1 : videoP2, nextProgress, force);
+      activeFilmTime = targetTime;
+      seekFilmVideo(video, targetTime);
+
+      if (drawVideoToCanvas(video)) {
+        canvas.style.backgroundImage = 'none';
+        return;
+      }
+
+      function redrawAfterSeek() {
+        if (drawVideoToCanvas(video)) {
+          canvas.style.backgroundImage = 'none';
+        }
+      }
+
+      video.addEventListener('seeked', redrawAfterSeek, { once: true });
+      video.addEventListener('loadeddata', redrawAfterSeek, { once: true });
     }
 
     function phase1ScrollSpanPx() {
@@ -3494,12 +3482,16 @@
       return phase1ScrollSpanPx() * durationRatio;
     }
 
+    /*
+     * Єдиний таймлайн скролу: фаза 1 до кінця showcase, далі без паузи фаза 2
+     * (як у старій frame-sequence на canvas).
+     */
     function syncHomeScrollFilmFrame() {
       var p1 = window.ScrollTrigger.getById('home-scroll-p1');
       var p2 = window.ScrollTrigger.getById('home-scroll-p2');
 
       if (!p1) {
-        setFilmProgress(1, 0);
+        scrubFilmVideo(1, 0, true);
         return;
       }
 
@@ -3509,18 +3501,29 @@
       var p1Span = Math.max(p1End - p1Start, 1);
 
       if (!p2 || scroll <= p1End) {
-        var p1Progress = clamp((scroll - p1Start) / p1Span, 0, 1);
-        setFilmProgress(1, p1Progress);
+        scrubFilmVideo(1, clamp((scroll - p1Start) / p1Span, 0, 1), false);
         return;
       }
 
       var phase2Span = Math.max(p2.end - p1End, 1);
       var p2Progress = clamp((scroll - p1End) / phase2Span, 0, 1);
-      setFilmProgress(2, p2Progress);
+      scrubFilmVideo(2, p2Progress, false);
     }
 
     function onFilmScrollChange() {
-      syncHomeScrollFilmFrame();
+      if (filmRafId) {
+        return;
+      }
+
+      filmRafId = window.requestAnimationFrame(function () {
+        filmRafId = 0;
+        syncHomeScrollFilmFrame();
+      });
+    }
+
+    function setHomeFilmLayerHidden(hidden) {
+      canvas.style.visibility = hidden ? 'hidden' : '';
+      canvas.style.pointerEvents = 'none';
     }
 
     function bindScrollFilm() {
@@ -3650,15 +3653,9 @@
       }
 
       videosReady = true;
+      activeFilmTime = -1;
       bindScrollFilm();
-      activeProgress = -1;
-
-      if (prefersReducedMotion) {
-        paintFilmVideo(videoP1, 0, true);
-        return;
-      }
-
-      syncHomeScrollFilmFrame();
+      scrubFilmVideo(1, 0, true);
     }
 
     function waitForVideo(video) {
@@ -3673,6 +3670,8 @@
         }
 
         video.addEventListener('loadeddata', done, { once: true });
+        video.addEventListener('loadedmetadata', done, { once: true });
+        video.addEventListener('canplay', done, { once: true });
         video.addEventListener('error', done, { once: true });
         video.load();
       });

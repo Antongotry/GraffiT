@@ -550,31 +550,23 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   top: 0;
   left: 0;
   z-index: 0;
+  /* Below hero/showcase content (z-index: 2), above site-main background. */
   display: block;
   width: 100%;
   height: 100%;
   background: #020914;
   pointer-events: none;
-  transition: opacity 180ms ease;
 }
 
 .home-scroll-film__video {
   position: fixed;
+  width: 1px;
+  height: 1px;
+  left: -9999px;
   top: 0;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  pointer-events: none;
   opacity: 0;
+  pointer-events: none;
   visibility: hidden;
-
-  &.is-home-film-active {
-    opacity: 1;
-    visibility: visible;
-  }
 }
 
 /* Pin chaos: не обрізати bow-tie / шпиль (анімація canvas лишається видимою). */
@@ -591,7 +583,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   isolation: isolate;
   /* Desktop: transparent so the scroll-film canvas shows through. */
   background: transparent;
-  z-index: 1;
+  z-index: 2;
 
   @include mixins.mobile {
     min-height: 100svh;
@@ -958,7 +950,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   overflow: hidden;
   /* Desktop: transparent — scroll-film canvas provides the background. */
   background: transparent;
-  z-index: 1;
+  z-index: 2;
 
   /* Top-sticking gradient removed — single scroll-film canvas covers hero + showcase. */
   &::before {
