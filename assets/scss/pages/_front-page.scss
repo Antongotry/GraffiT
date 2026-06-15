@@ -285,9 +285,9 @@
 
 @media (min-width: 1025px) {
   .home-hex-projects-flow .services-inquiry {
-    min-height: #{mixins.vw(700px)};
-    padding-top: #{mixins.vw(96px)};
-    padding-bottom: calc(#{mixins.vw(132px)} * 0.7);
+    min-height: #{mixins.vw(620px)};
+    padding-top: #{mixins.vw(72px)};
+    padding-bottom: calc(#{mixins.vw(132px)} * 0.55);
   }
 }
 
