@@ -645,6 +645,7 @@ html.is-home-film-cached body.is-home-film-loading {
 .home-scroll-film .pin-spacer-home-scroll-p2,
 .pin-spacer-home-scroll-p2 {
   overflow: visible;
+  z-index: 89;
 }
 
 .home-hero {
@@ -1106,7 +1107,8 @@ html.is-home-film-cached body.is-home-film-loading {
   );
   isolation: isolate;
   background: transparent;
-  z-index: 2;
+  /* Той самий шар, що й .home-scroll-film — текст над canvas (88). */
+  z-index: 89;
 
   &::before {
     content: none;
