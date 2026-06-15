@@ -3489,11 +3489,17 @@
         return;
       }
 
-      if (!filmPhase2Latched) {
-        setFilmFrame(1, P1_LAST);
+      if (scroll < p2.start) {
+        var gap = Math.max(p2.start - p1End, 1);
+        var handoff = clamp((scroll - p1End) / gap, 0, 1);
+        var handoffLast = Math.min(16, P2_LAST);
+
+        setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
         return;
       }
 
+      filmPhase2Latched = true;
+      container.__homeFilmPhase2Latched = true;
       setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
     }
 
@@ -3589,16 +3595,17 @@
           existing.kill();
         }
 
-        var aboutViewport = document.querySelector('#home-about .services-clients__viewport');
+        var aboutSection = document.getElementById('home-about');
 
-        if (!aboutViewport) {
+        if (!aboutSection) {
           return;
         }
 
+        /* Canvas лишається під notch bow-tie під час pin «Про нас»; ховаємо після секції. */
         window.ScrollTrigger.create({
           id: 'home-scroll-film-canvas-hide',
-          trigger: aboutViewport,
-          start: 'top top',
+          trigger: aboutSection,
+          start: 'bottom top',
           onEnter: function () {
             canvas.style.visibility = 'hidden';
             canvas.style.pointerEvents = 'none';

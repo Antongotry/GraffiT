@@ -380,8 +380,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 .home-chaos-about-flow #home-about .pin-spacer {
   position: relative;
   z-index: 91 !important;
-  /* Чорні «крила» bow-tie під час pin (як .services-clients на /services/). */
-  background: #000102;
+  /* Прозорий — у вирізі bow-tie видно scroll-film canvas, не #000102. */
+  background: transparent;
 }
 
 .home-chaos-about-flow #home-about .services-clients__viewport {
