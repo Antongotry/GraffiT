@@ -1559,11 +1559,14 @@
       var nodes;
       var spacer;
       var stackedTriggerId;
+      var pinFlow;
+      var pinTarget;
 
       if (!clientsSection) {
         return;
       }
 
+      pinFlow = clientsSection.closest('.js-about-hero-clients-flow');
       stackedTriggerId = clientsSection.id + '-stacked';
       clientsSection.classList.remove('is-about-clients-stacked-desktop');
       clientsSection.classList.remove('is-clients-top-fade');
@@ -1579,20 +1582,30 @@
 
         if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
           window.ScrollTrigger.getAll().forEach(function (trigger) {
-            if (trigger.trigger === clientsSection || trigger.pin === viewport || trigger.trigger === viewport) {
+            if (
+              trigger.trigger === clientsSection
+              || trigger.pin === viewport
+              || trigger.pin === pinFlow
+              || trigger.trigger === viewport
+            ) {
               trigger.kill(true);
             }
           });
         }
 
         clientsSection.removeAttribute('data-about-clients-stacked-init');
+
+        if (pinFlow) {
+          pinFlow.removeAttribute('data-about-hero-clients-pinned');
+        }
+
         clientsSection.classList.remove('is-about-clients-stacked');
 
         if (stage) {
           stage.style.removeProperty('--about-clients-stage-height');
         }
 
-        [clientsSection, spacer, viewport, stage, track].concat(cards).forEach(function (node) {
+        [clientsSection, pinFlow, spacer, viewport, stage, track].concat(cards).forEach(function (node) {
           if (!node) {
             return;
           }
@@ -1637,16 +1650,27 @@
       stage = clientsSection.querySelector('.js-clients-stage');
       track = clientsSection.querySelector('.js-clients-track');
       cards = Array.prototype.slice.call(clientsSection.querySelectorAll('.trust-card'));
+      pinTarget = pinFlow || viewport;
 
       if (!viewport || !stage || !track || cards.length < 2) {
         clientsSection.removeAttribute('data-about-clients-stacked-init');
+
+        if (pinFlow) {
+          pinFlow.removeAttribute('data-about-hero-clients-pinned');
+        }
+
         clientsSection.classList.remove('is-about-clients-stacked');
         return;
       }
 
       if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
         window.ScrollTrigger.getAll().forEach(function (trigger) {
-          if (trigger.trigger === clientsSection || trigger.pin === viewport || trigger.trigger === viewport) {
+          if (
+            trigger.trigger === clientsSection
+            || trigger.pin === viewport
+            || trigger.pin === pinFlow
+            || trigger.trigger === viewport
+          ) {
             trigger.kill(true);
           }
         });
@@ -1738,7 +1762,7 @@
           end: function () {
             return 'clamp(+=' + aboutClientsPinDistance() + ')';
           },
-          pin: viewport,
+          pin: pinTarget,
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
@@ -1747,6 +1771,10 @@
             syncAboutClientsStackedLayout();
           },
           onToggle: function (self) {
+            if (pinFlow) {
+              pinFlow.toggleAttribute('data-about-hero-clients-pinned', self.isActive);
+            }
+
             if (self.isActive) {
               enforceClientsPinnedViewportWidth(viewport);
             }

@@ -16,6 +16,18 @@
   content: none;
 }
 
+/* Hero + clients pin разом — шов bow-tie не роз’їжджається при scrub карток. */
+.about-hero-clients-flow {
+  position: relative;
+  z-index: 91;
+}
+
+.pin-spacer:has(> .about-hero-clients-flow) {
+  position: relative;
+  z-index: 91 !important;
+  background: #000102;
+}
+
 .about-dark-flow {
   position: relative;
   /* Нижче #about-clients (91), інакше чорний фон «наїжджає» на pin viewport при скролі. */
@@ -51,7 +63,10 @@
 
 .about-hero__backdrop {
   position: absolute;
-  inset: 0 0 calc(-1 * var(--about-bow-spike));
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: #{mixins.vw(-90px)};
   z-index: 0;
   background-color: #0073e6;
   background-image: var(--about-hero-image);
@@ -61,9 +76,9 @@
   clip-path: polygon(
     0 0,
     100% 0,
-    100% calc(100% - var(--about-bow-spike)),
+    100% calc(100% - #{mixins.vw(90px)}),
     50% 100%,
-    0 calc(100% - var(--about-bow-spike))
+    0 calc(100% - #{mixins.vw(90px)})
   );
   pointer-events: none;
 
