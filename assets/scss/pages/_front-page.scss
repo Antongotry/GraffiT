@@ -359,52 +359,38 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 }
 
-/* Під час phase 2: прозора секція + чорні «крила» лише по боках верхнього шва. */
-.home-chaos-about-flow.is-film-handoff #home-about {
+/*
+ * Окремий шар кадрів у верхньому трикутнику-шві (не «дірка» в секції).
+ * Маленький canvas копіює смугу з основного scroll-film canvas.
+ */
+.home-film-wedge {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 93;
+  width: 100%;
+  height: #{mixins.vw(90px)};
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
   background: transparent;
-
-  &::before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 2;
-    height: #{mixins.vw(90px)};
-    background: #000102;
-    content: "";
-    pointer-events: none;
-    /* Дірка вниз по центру — кадри scroll-film у верхньому трикутнику-шві. */
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Crect width='1440' height='90' fill='%23fff'/%3E%3Cpolygon points='0,0 720,90 1440,0' fill='%23000'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Crect width='1440' height='90' fill='%23fff'/%3E%3Cpolygon points='0,0 720,90 1440,0' fill='%23000'/%3E%3C/svg%3E");
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-  }
-
-  &::after {
-    position: absolute;
-    top: #{mixins.vw(90px)};
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 0;
-    background: #000102;
-    content: "";
-    pointer-events: none;
-  }
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: top;
 
   @include mixins.mobile {
-    &::before {
-      height: #{mixins.mvw(40px)};
-      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 40' preserveAspectRatio='none'%3E%3Crect width='390' height='40' fill='%23fff'/%3E%3Cpolygon points='0,0 195,40 390,0' fill='%23000'/%3E%3C/svg%3E");
-      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 40' preserveAspectRatio='none'%3E%3Crect width='390' height='40' fill='%23fff'/%3E%3Cpolygon points='0,0 195,40 390,0' fill='%23000'/%3E%3C/svg%3E");
-    }
-
-    &::after {
-      top: #{mixins.mvw(40px)};
-    }
+    height: #{mixins.mvw(40px)};
   }
+}
+
+.home-film-wedge__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.home-chaos-about-flow.is-film-wedge-active .home-film-wedge {
+  opacity: 1;
+  visibility: visible;
 }
 
 .home-chaos-about-flow #home-about .pin-spacer {

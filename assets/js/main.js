@@ -1979,7 +1979,7 @@
           return;
         }
 
-        flow.classList.toggle('is-film-handoff', !!active);
+        flow.classList.toggle('is-film-wedge-active', !!active);
       }
 
       window.gsap.to(track, {
@@ -2004,6 +2004,10 @@
           invalidateOnRefresh: true,
           onUpdate: function (self) {
             updateClientsTopFade(self.progress);
+
+            if (section.id === 'home-about' && typeof window.syncHomeFilmWedge === 'function') {
+              window.syncHomeFilmWedge();
+            }
           },
           onToggle: function (self) {
             var header;
@@ -3400,6 +3404,104 @@
       return Math.min(Math.round((90 / 1440) * w), 90);
     }
 
+    function setHomeFilmHandoff(active) {
+      var flow = document.querySelector('.home-chaos-about-flow');
+
+      if (!flow) {
+        return;
+      }
+
+      flow.classList.toggle('is-film-wedge-active', !!active);
+    }
+
+    function ensureWedgeCanvas(wedge) {
+      if (!wedge.__canvas) {
+        var wedgeCanvas = document.createElement('canvas');
+
+        wedgeCanvas.className = 'home-film-wedge__canvas';
+        wedgeCanvas.setAttribute('aria-hidden', 'true');
+        wedge.appendChild(wedgeCanvas);
+        wedge.__canvas = wedgeCanvas;
+      }
+
+      return wedge.__canvas;
+    }
+
+    function syncFilmWedge() {
+      var wedge = document.querySelector('.js-home-film-wedge');
+      var about = document.getElementById('home-about');
+      var p2 = window.ScrollTrigger.getById('home-scroll-p2');
+      var latched = filmPhase2Latched || !!container.__homeFilmPhase2Latched;
+
+      if (!wedge) {
+        return;
+      }
+
+      var flow = document.querySelector('.home-chaos-about-flow');
+      var wedgeActive = !!(flow && flow.classList.contains('is-film-wedge-active'));
+      var show = wedgeActive
+        && latched
+        && lastDrawnImage
+        && canvas.style.visibility !== 'hidden';
+
+      if (!show || !about || !canvas.width || !canvas.height) {
+        wedge.style.opacity = '0';
+        wedge.style.visibility = 'hidden';
+        return;
+      }
+
+      var notch = homeFilmNotchPx();
+      var aboutTop = about.getBoundingClientRect().top;
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      var chaos = document.querySelector('.home-chaos');
+      var chaosBottom = chaos ? chaos.getBoundingClientRect().bottom : aboutTop + notch;
+      var seamTop = aboutTop;
+
+      if (aboutTop > viewportHeight - notch * 0.5) {
+        seamTop = chaosBottom - notch;
+      }
+
+      seamTop = clamp(seamTop, 0, viewportHeight);
+
+      if (seamTop + notch < 0 || seamTop > viewportHeight) {
+        wedge.style.opacity = '0';
+        wedge.style.visibility = 'hidden';
+        return;
+      }
+
+      if (p2 && p2.progress >= 0.995) {
+        var viewport = about.querySelector('.services-clients__viewport');
+
+        if (viewport) {
+          var vpRect = viewport.getBoundingClientRect();
+
+          if (vpRect.top <= 1) {
+            wedge.style.opacity = '0';
+            wedge.style.visibility = 'hidden';
+            return;
+          }
+        }
+      }
+
+      var wedgeW = window.innerWidth || document.documentElement.clientWidth;
+      var wedgeCanvas = ensureWedgeCanvas(wedge);
+      var wctx = wedgeCanvas.getContext('2d');
+      var dpr = window.devicePixelRatio || 1;
+
+      wedgeCanvas.width = Math.round(wedgeW * dpr);
+      wedgeCanvas.height = Math.round(notch * dpr);
+      wedgeCanvas.style.width = wedgeW + 'px';
+      wedgeCanvas.style.height = notch + 'px';
+      wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      wctx.clearRect(0, 0, wedgeW, notch);
+      wctx.drawImage(canvas, 0, seamTop, wedgeW, notch, 0, 0, wedgeW, notch);
+
+      wedge.style.visibility = 'visible';
+      wedge.style.opacity = '1';
+      wedge.style.top = seamTop + 'px';
+      wedge.style.height = notch + 'px';
+    }
+
     function drawImage(img, drawPhase) {
       if (!img || !img.complete || !img.naturalWidth) {
         return;
@@ -3428,6 +3530,20 @@
       ctx.drawImage(img, x, y, w, h);
       canvas.style.backgroundImage = 'none';
       lastDrawnImage = img;
+      container.__homeFilmDraw = {
+        url: img.currentSrc || img.src,
+        w: w,
+        h: h,
+        posX: x,
+        posY: y
+      };
+
+      if (!container.__homeFilmWedgeRaf) {
+        container.__homeFilmWedgeRaf = window.requestAnimationFrame(function () {
+          container.__homeFilmWedgeRaf = 0;
+          syncFilmWedge();
+        });
+      }
     }
 
     function progressToFrameIndex(progress, lastIndex) {
@@ -3458,6 +3574,7 @@
       }
 
       if (activePhase === phase && currentIndex === nextIndex && img === lastDrawnImage) {
+        syncFilmWedge();
         return;
       }
 
@@ -3494,16 +3611,6 @@
       return phase1PxPerFrame() * P2_LAST * FILM_PHASE2_SCROLL_PACE;
     }
 
-    function setHomeFilmHandoff(active) {
-      var flow = document.querySelector('.home-chaos-about-flow');
-
-      if (!flow) {
-        return;
-      }
-
-      flow.classList.toggle('is-film-handoff', !!active);
-    }
-
     function syncHomeScrollFilmFrame() {
       var p1 = window.ScrollTrigger.getById('home-scroll-p1');
       var p2 = window.ScrollTrigger.getById('home-scroll-p2');
@@ -3521,12 +3628,15 @@
       if (scroll <= p1End) {
         filmPhase2Latched = false;
         container.__homeFilmPhase2Latched = false;
+        setHomeFilmHandoff(false);
         setFilmFrame(1, progressToFrameIndex(clamp((scroll - p1Start) / p1Span, 0, 1), P1_LAST));
+        syncFilmWedge();
         return;
       }
 
       if (!p2) {
         setFilmFrame(1, P1_LAST);
+        syncFilmWedge();
         return;
       }
 
@@ -3535,13 +3645,17 @@
         var handoff = clamp((scroll - p1End) / gap, 0, 1);
         var handoffLast = Math.min(16, P2_LAST);
 
+        setHomeFilmHandoff(true);
         setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
+        syncFilmWedge();
         return;
       }
 
       filmPhase2Latched = true;
       container.__homeFilmPhase2Latched = true;
+      setHomeFilmHandoff(true);
       setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
+      syncFilmWedge();
     }
 
     function onFilmScrollChange() {
@@ -3605,7 +3719,8 @@
             syncHomeScrollFilmFrame();
           },
           onLeave: function () {
-            setHomeFilmHandoff(false);
+            setHomeFilmHandoff(true);
+            syncFilmWedge();
           },
           onLeaveBack: function () {
             filmPhase2Latched = false;
@@ -3617,6 +3732,11 @@
           onUpdate: onFilmScrollChange
         }
       });
+    }
+
+    if (!container.__homeFilmWedgeScrollBound) {
+      container.__homeFilmWedgeScrollBound = true;
+      window.addEventListener('scroll', syncFilmWedge, { passive: true });
     }
 
     if (!container.__homeFilmResizeBound) {
@@ -3655,6 +3775,8 @@
           onEnter: function () {
             canvas.style.visibility = 'hidden';
             canvas.style.pointerEvents = 'none';
+            setHomeFilmHandoff(false);
+            syncFilmWedge();
           },
           onLeaveBack: function () {
             canvas.style.visibility = '';
@@ -3670,6 +3792,7 @@
 
     window.ScrollTrigger.refresh();
     syncHomeScrollFilmFrame();
+    window.syncHomeFilmWedge = syncFilmWedge;
   }
 
   function initHomeChaosFilm() {
