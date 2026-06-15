@@ -1285,56 +1285,81 @@
   }
 }
 
-/* Клієнти: bow-tie стик із process (зверху) та FAQ (знизу), як на /services/. */
+/* Клієнти MediaHub повторюють bow-tie viewport і pin-метрики сторінки /services/. */
 .mediahub-about {
   position: relative;
-  margin-top: #{mixins.vw(-96px)};
-  overflow: visible;
-  z-index: 75;
+  margin-top: 0;
+  overflow: hidden;
+  z-index: 70;
   isolation: isolate;
+  background: #000102;
 
   @include mixins.mobile {
     margin-top: 0;
+    overflow: visible;
   }
 }
 
 .mediahub-about .pin-spacer {
   position: relative;
-  z-index: 75 !important;
-  overflow: visible;
+  z-index: 70 !important;
 }
 
 .mediahub-about .services-clients__viewport {
-  z-index: 75;
-  overflow: visible;
-  /* Верх — bow-tie; низ плоский. Один «шпиль» дає .mediahub-faq (як home-faq → CTA). */
-  clip-path: polygon(0 0, 50% 6.5%, 100% 0, 100% 100%, 0 100%);
+  z-index: 70;
+  clip-path: polygon(
+    0 0,
+    50% #{mixins.vw(90px)},
+    100% 0,
+    100% 100%,
+    50% calc(100% - #{mixins.vw(90px)}),
+    0 100%
+  );
+  padding-top: calc(#{mixins.vw(40px)} + #{mixins.vw(113px)});
+  padding-bottom: #{mixins.vw(140px)};
+  background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
 
-  @media (min-width: 1441px) {
-    clip-path: polygon(
-      0 0,
-      50% min(calc(93.6 / 1440 * 100vw), 93.6px),
-      100% 0,
-      100% 100%,
-      0 100%
-    );
+  &::before,
+  &::after {
+    display: none;
   }
 
   @include mixins.mobile {
-    clip-path: polygon(0 0, 50% #{mixins.mvw(36px)}, 100% 0, 100% 100%, 0 100%);
-    padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(36px)});
+    clip-path: polygon(
+      0 0,
+      50% #{mixins.mvw(40px)},
+      100% 0,
+      100% 100%,
+      50% calc(100% - #{mixins.mvw(40px)}),
+      0 100%
+    );
+    padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
     padding-bottom: #{mixins.mvw(40px)};
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
+  }
+}
 
-    &::before,
-    &::after {
-      display: none;
+@media (min-width: 1025px) {
+  .site-main--product-mediahub #mediahub-clients {
+    .services-clients__viewport {
+      box-sizing: border-box;
+      min-height: 0;
+      height: calc(
+        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
+      );
+      min-height: calc(
+        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
+      );
+    }
+
+    .services-clients__cards-stage {
+      height: #{mixins.vw(640px)};
     }
   }
 }
 
 .mediahub-about .services-clients__container {
-  padding-top: calc(#{mixins.vw(48px)} + #{mixins.vw(96px)});
+  padding-top: 0;
 
   @include mixins.mobile {
     padding-top: 0;
@@ -1342,13 +1367,15 @@
 }
 
 .mediahub-about .services-clients__layout {
+  padding-top: #{mixins.vw(12px)};
+
   @include mixins.mobile {
     padding-top: 0;
   }
 }
 
 .mediahub-about .services-clients__copy {
-  padding-top: 0;
+  padding-top: #{mixins.vw(16px)};
 
   @include mixins.mobile {
     padding-top: #{mixins.mvw(10px)};
@@ -1366,17 +1393,22 @@
 
 .mediahub-about .services-clients__container {
   @include mixins.mobile {
-    width: min(100% - #{mixins.mvw(20px)}, 100%);
+    width: min(100% - #{mixins.mvw(32px)}, 100%);
   }
 }
 
 .mediahub-about .services-clients__title {
-  font-size: #{mixins.vw(37px)};
+  width: #{mixins.vw(788px)};
+  margin-top: #{mixins.vw(32px)};
+  font-size: #{mixins.vw(32px)};
+  line-height: 1.48;
 
   @include mixins.mobile {
-    font-size: #{mixins.mvw(28px)};
-    width: min(100%, #{mixins.mvw(355px)});
+    width: 100%;
+    margin-top: #{mixins.mvw(24px)};
     margin-inline: auto;
+    font-size: #{mixins.mvw(22px)};
+    line-height: 1.36;
     text-align: center;
 
     br {
@@ -1387,7 +1419,7 @@
 
 .mediahub-about .services-clients__text {
   width: #{mixins.vw(560px)};
-  margin-top: #{mixins.vw(240px)};
+  margin-top: #{mixins.vw(156px)};
 
   @include mixins.mobile {
     margin-top: #{mixins.mvw(24px)};
@@ -1436,8 +1468,8 @@
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
     #000 #{mixins.vw(180px)},
-    #000 calc(100% - #{mixins.vw(280px)}),
-    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    #000 calc(100% - #{mixins.vw(200px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
@@ -1447,8 +1479,8 @@
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
     #000 #{mixins.vw(180px)},
-    #000 calc(100% - #{mixins.vw(280px)}),
-    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    #000 calc(100% - #{mixins.vw(200px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
     transparent 100%
   );
 
@@ -1471,8 +1503,8 @@
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
     #000 #{mixins.vw(180px)},
-    #000 calc(100% - #{mixins.vw(280px)}),
-    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    #000 calc(100% - #{mixins.vw(200px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
@@ -1482,8 +1514,8 @@
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
     rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
     #000 #{mixins.vw(180px)},
-    #000 calc(100% - #{mixins.vw(280px)}),
-    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(120px)}),
+    #000 calc(100% - #{mixins.vw(200px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
     transparent 100%
   );
 
@@ -1518,15 +1550,22 @@
   }
 }
 
+.mediahub-about .trust-card {
+  box-shadow: none;
+
+  &::before {
+    box-shadow: none;
+  }
+}
+
 .mediahub-faq {
   position: relative;
-  z-index: 76;
-  margin-top: #{mixins.vw(-96px)};
+  z-index: 70;
+  margin-top: 0;
   overflow: hidden;
   isolation: isolate;
   background: #000102;
-  /* Один шпиль вгору в світлу секцію (не виріз вниз). */
-  clip-path: polygon(0 6.5%, 50% 0, 100% 6.5%, 100% 100%, 0 100%);
+  clip-path: none;
 
   /* М’яке затухання свічення до низу (без різкого clip-path / overflow-різу). */
   &::before {
@@ -1557,8 +1596,8 @@
   }
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(-40px)};
-    clip-path: polygon(0 4%, 50% 0, 100% 4%, 100% 100%, 0 100%);
+    margin-top: 0;
+    clip-path: none;
   }
 }
 
@@ -1567,11 +1606,11 @@
   z-index: 1;
   width: min(100%, #{mixins.vw(1360px)});
   margin-inline: auto;
-  padding: calc(#{mixins.vw(96px)} + #{mixins.vw(96px)}) #{mixins.vw(28px)} #{mixins.vw(128px)};
+  padding: #{mixins.vw(132px)} #{mixins.vw(28px)} #{mixins.vw(128px)};
 
   @include mixins.mobile {
     width: 100%;
-    padding: calc(#{mixins.mvw(56px)} + #{mixins.mvw(40px)}) #{mixins.mvw(16px)} #{mixins.mvw(72px)};
+    padding: #{mixins.mvw(84px)} #{mixins.mvw(16px)} #{mixins.mvw(72px)};
   }
 }
 

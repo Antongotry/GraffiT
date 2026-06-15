@@ -1907,7 +1907,7 @@
         var w = window.innerWidth || 1440;
         var extra = Math.round((200 / 1440) * w);
 
-        if (section.id === 'home-about' || section.id === 'services-clients') {
+        if (section.id === 'home-about' || section.id === 'services-clients' || section.id === 'mediahub-clients') {
           extra = Math.round((56 / 1440) * w);
           extra = Math.min(Math.max(extra, 40), 72);
         } else {
@@ -1918,25 +1918,11 @@
       }
 
       function clientsPinScrollDistance() {
-        var raw = clientsTrackScrollDistance();
-
-        if (section.id !== 'mediahub-clients') {
-          return raw;
-        }
-
-        // Enough scroll to finish the card stack; cap excess pin-spacer on the product page.
-        var minDistance = Math.round(window.innerHeight * 0.92);
-        var maxDistance = Math.round(window.innerHeight * 1.75);
-
-        return Math.min(Math.max(raw, minDistance), maxDistance);
+        return clientsTrackScrollDistance();
       }
 
       function clientsScrollTriggerStart() {
-        if (section.id === 'mediahub-clients') {
-          return 'top top-=150';
-        }
-
-        if (section.id === 'services-clients') {
+        if (section.id === 'services-clients' || section.id === 'mediahub-clients') {
           return 'center center';
         }
 
@@ -2001,7 +1987,7 @@
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          /* services-clients starts when the bow-tie viewport is centered in the screen. */
+          /* services-clients/mediahub-clients start when the bow-tie viewport is centered in the screen. */
           start: clientsScrollTriggerStart,
           end: function () {
             // Clamp pin distance to the document scroll bounds so the spacer
