@@ -1532,19 +1532,32 @@
   }
 
   function enforceClientsPinnedViewportWidth(viewport) {
-    if (!viewport || window.innerWidth <= 1024) {
+    if (!viewport) {
       return;
     }
 
-    // GSAP pin can freeze the viewport at content width (~1360px) on ultrawide screens.
-    viewport.style.setProperty('width', '100%', 'important');
-    viewport.style.setProperty('max-width', '100vw', 'important');
-    viewport.style.setProperty('left', '0', 'important');
-    viewport.style.setProperty('right', '0', 'important');
+    if (window.innerWidth > 1024 || viewport.closest('#home-about')) {
+      viewport.style.setProperty('width', '100%', 'important');
+      viewport.style.setProperty('max-width', '100vw', 'important');
+      viewport.style.setProperty('left', '0', 'important');
+      viewport.style.setProperty('right', '0', 'important');
+    }
   }
 
   function isMobileClientsLayout() {
     return (window.innerWidth || document.documentElement.clientWidth || 1440) <= 1024;
+  }
+
+  function shouldUseClientsPinScroller(section) {
+    if (!section) {
+      return false;
+    }
+
+    if (!isMobileClientsLayout()) {
+      return true;
+    }
+
+    return section.id === 'home-about';
   }
 
   function resetHomeFilmHandoffState() {
@@ -1666,7 +1679,7 @@
       clientsSection.classList.remove('is-about-clients-stacked-desktop');
       clientsSection.classList.remove('is-clients-top-fade');
 
-      if (isMobileClientsLayout()) {
+      if (isMobileClientsLayout() && !shouldUseClientsPinScroller(clientsSection)) {
         resetClientsScrollerMobileState(clientsSection);
         return;
       }
@@ -1850,13 +1863,12 @@
       }, { passive: true });
     }
 
-    if (isMobileClientsLayout()) {
-      document.querySelectorAll('.js-clients-scroller').forEach(resetClientsScrollerMobileState);
-      window.ScrollTrigger.refresh();
-      return;
-    }
-
     document.querySelectorAll('.js-clients-scroller').forEach(function (section) {
+      if (isMobileClientsLayout() && !shouldUseClientsPinScroller(section)) {
+        resetClientsScrollerMobileState(section);
+        return;
+      }
+
       // Product MediaHub page: allow only the dedicated #mediahub-clients section
       // to use the standard clients pin flow; skip any stale/extra client sections.
       if (section.closest('.site-main--product-mediahub') && section.id !== 'mediahub-clients') {
@@ -3370,10 +3382,6 @@
       return '';
     }
 
-    function isMobileFilmLayout() {
-      return (window.innerWidth || document.documentElement.clientWidth || 1440) <= 1024;
-    }
-
     function markFilmCacheReady() {
       if (!FILM_CACHE_KEY) {
         return;
@@ -3638,11 +3646,6 @@
         return;
       }
 
-      if (isMobileFilmLayout()) {
-        active = false;
-        stopFilmOverlayLoop();
-      }
-
       flow.classList.toggle('is-film-wedge-active', !!active);
 
       if (active) {
@@ -3703,12 +3706,6 @@
       var wedgeActive = isHomeFilmHandoffActive();
 
       if (!wing) {
-        return;
-      }
-
-      if (isMobileFilmLayout()) {
-        wing.style.opacity = '0';
-        wing.style.visibility = 'hidden';
         return;
       }
 
@@ -3908,17 +3905,17 @@
         var handoff = clamp((scroll - p1End) / gap, 0, 1);
         var handoffLast = Math.min(16, P2_LAST);
 
-        filmPhase2Latched = !isMobileFilmLayout();
-        container.__homeFilmPhase2Latched = filmPhase2Latched;
-        setHomeFilmHandoff(!isMobileFilmLayout());
+        filmPhase2Latched = true;
+        container.__homeFilmPhase2Latched = true;
+        setHomeFilmHandoff(true);
         setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
         syncFilmBowTieOverlays();
         return;
       }
 
-      filmPhase2Latched = !isMobileFilmLayout();
-      container.__homeFilmPhase2Latched = filmPhase2Latched;
-      setHomeFilmHandoff(!isMobileFilmLayout());
+      filmPhase2Latched = true;
+      container.__homeFilmPhase2Latched = true;
+      setHomeFilmHandoff(true);
       setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
       syncFilmBowTieOverlays();
     }
@@ -3957,7 +3954,6 @@
     if (chaos) {
       var st2State = { frame: 0 };
       var aboutFlow = document.querySelector('.home-chaos-about-flow');
-      var mobileFilm = isMobileFilmLayout();
 
       window.gsap.to(st2State, {
         frame: P2_LAST,
@@ -3967,50 +3963,28 @@
           id: 'home-scroll-p2',
           trigger: chaos,
           start: 'top top',
-          endTrigger: mobileFilm ? chaos : (aboutFlow || chaos),
+          endTrigger: aboutFlow || chaos,
           /* Pin до входу «Про нас» — phase 2 кадри проходять через трикутник-перехід. */
-          end: mobileFilm
-            ? function () {
-              return '+=' + Math.round(phase2ScrollSpanPx());
-            }
-            : (aboutFlow ? 'top top' : function () {
-              return '+=' + Math.round(phase2ScrollSpanPx());
-            }),
-          pin: !mobileFilm,
-          pinSpacing: !mobileFilm,
+          end: aboutFlow ? 'top top' : function () {
+            return '+=' + Math.round(phase2ScrollSpanPx());
+          },
+          pin: true,
+          pinSpacing: true,
           pinClass: 'pin-spacer-home-scroll-p2',
           anticipatePin: 0,
           scrub: true,
           invalidateOnRefresh: true,
           onEnter: function () {
-            if (mobileFilm) {
-              return;
-            }
-
             filmPhase2Latched = true;
             container.__homeFilmPhase2Latched = true;
             setHomeFilmHandoff(true);
             syncHomeScrollFilmFrame();
           },
           onLeave: function () {
-            if (mobileFilm) {
-              setHomeFilmHandoff(false);
-              syncFilmBowTieOverlays();
-              return;
-            }
-
             setHomeFilmHandoff(true);
             syncFilmBowTieOverlays();
           },
           onLeaveBack: function () {
-            if (mobileFilm) {
-              filmPhase2Latched = false;
-              container.__homeFilmPhase2Latched = false;
-              setHomeFilmHandoff(false);
-              syncHomeScrollFilmFrame();
-              return;
-            }
-
             filmPhase2Latched = false;
             container.__homeFilmPhase2Latched = false;
             setHomeFilmHandoff(true);
