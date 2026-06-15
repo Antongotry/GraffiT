@@ -1305,16 +1305,21 @@ body.is-home-film-loading {
  */
 .home-faq + .services-final-cta {
   z-index: 3;
-  margin-top: -2px;
+  margin-top: #{mixins.vw(-48px)};
   background: linear-gradient(180deg, #edf0f4 0%, #cfd4db 100%);
   clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 93.5%, 0 100%);
 
   @include mixins.mobile {
+    margin-top: -2px;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 96%, 0 100%);
   }
 }
 
 @media (min-width: 1025px) {
+  .site-main--home .home-faq__container {
+    padding-bottom: #{mixins.vw(40px)};
+  }
+
   .site-main--home .services-final-cta .services-final-cta__container {
     padding-top: 0;
   }

@@ -5406,12 +5406,9 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   position: relative;
   width: #{mixins.vw(1360px)};
   margin-inline: auto;
-  padding: #{mixins.vw(132px)} 0 #{mixins.vw(132px)};
+  padding-top: 0;
+  padding-bottom: #{mixins.vw(132px)};
   text-align: center;
-
-  @media (min-width: 1025px) {
-    padding-top: 0;
-  }
 
   &::before,
   &::after {
@@ -5439,7 +5436,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
-    padding: #{mixins.mvw(84px)} 0 #{mixins.mvw(84px)};
+    padding-top: #{mixins.mvw(84px)};
+    padding-bottom: #{mixins.mvw(84px)};
 
     &::before,
     &::after {
