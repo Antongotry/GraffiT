@@ -3281,6 +3281,19 @@
     var P2_FRAME_EXT = filmConfig.p2Ext || (isLegacyFilm ? '_result.webp' : FRAME_EXT);
     var P2_FRAME_OFFSET = configInteger(filmConfig.p2FrameOffset, isLegacyFilm ? 1 : 0);
     var FIRST_FRAME_URL = filmConfig.poster || (P1_BASE + String(1).padStart(FRAME_PAD, '0') + FRAME_EXT);
+    var FILM_CACHE_STORAGE_KEY = 'graffitHomeFilmCacheKey';
+    var FILM_CACHE_KEY = filmConfig.cacheKey
+      || (loader ? loader.getAttribute('data-film-cache-key') : '')
+      || [
+        filmConfig.source || 'film',
+        P1_BASE,
+        P2_BASE,
+        P1_LAST,
+        P2_LAST,
+        FRAME_EXT,
+        P2_FRAME_EXT,
+        P2_FRAME_OFFSET
+      ].join('|');
 
     canvas.style.backgroundImage = 'url("' + FIRST_FRAME_URL + '")';
     canvas.style.backgroundSize = 'cover';
@@ -3310,7 +3323,8 @@
     var lastDrawnImage = null;
     var FILM_BOTTOM_WING_BLEED = 8;
     var filmOverlayRaf = 0;
-    var shouldUseFilmLoader = !(p1Images && p2Images);
+    var hasWarmFilmCache = isFilmCacheMarkedReady();
+    var shouldUseFilmLoader = !(p1Images && p2Images) && !hasWarmFilmCache;
     var filmLoaderStartedAt = 0;
     var filmLoaderReady = false;
     var filmLoaderTargets = Object.create(null);
@@ -3320,6 +3334,38 @@
 
     function filmLoaderKey(phase, index) {
       return phase + ':' + index;
+    }
+
+    function readLocalStorage(key) {
+      try {
+        if (!window.localStorage) {
+          return '';
+        }
+
+        return window.localStorage.getItem(key) || '';
+      } catch (error) {
+        return '';
+      }
+    }
+
+    function writeLocalStorage(key, value) {
+      try {
+        if (window.localStorage) {
+          window.localStorage.setItem(key, value);
+        }
+      } catch (error) {}
+    }
+
+    function isFilmCacheMarkedReady() {
+      return !!FILM_CACHE_KEY && readLocalStorage(FILM_CACHE_STORAGE_KEY) === FILM_CACHE_KEY;
+    }
+
+    function markFilmCacheReady() {
+      if (!FILM_CACHE_KEY) {
+        return;
+      }
+
+      writeLocalStorage(FILM_CACHE_STORAGE_KEY, FILM_CACHE_KEY);
     }
 
     function addFilmLoaderTarget(phase, index) {
@@ -3338,6 +3384,10 @@
 
       for (i = 0; i < P1_COUNT; i += 1) {
         addFilmLoaderTarget(1, i);
+      }
+
+      for (i = 0; i < P2_COUNT; i += 1) {
+        addFilmLoaderTarget(2, i);
       }
     }
 
@@ -3446,10 +3496,13 @@
       return new Promise(function (resolve) {
         var nextIndex = 0;
         var activeLoads = 0;
+        var failedLoads = 0;
 
         function pump() {
           if (nextIndex >= count && activeLoads === 0) {
-            resolve();
+            resolve({
+              failed: failedLoads,
+            });
             return;
           }
 
@@ -3457,10 +3510,16 @@
             (function (idx) {
               activeLoads += 1;
               var img = new Image();
+              var failed = false;
 
               function finish() {
                 targetArray[idx] = img;
                 activeLoads -= 1;
+
+                if (failed || !isImageReady(img)) {
+                  failedLoads += 1;
+                }
+
                 markFilmLoaderFrame(phase, idx);
 
                 if (idx === 0 && phase === 1 && isImageReady(img)) {
@@ -3478,7 +3537,10 @@
 
                 finish();
               };
-              img.onerror = finish;
+              img.onerror = function () {
+                failed = true;
+                finish();
+              };
 
               if (idx < 8) {
                 img.fetchPriority = 'high';
@@ -3503,11 +3565,15 @@
 
       showFilmLoader();
 
-      preloadFilmPhase(1, P1_COUNT, p1Images).then(function () {
-        hideFilmLoader();
+      preloadFilmPhase(1, P1_COUNT, p1Images).then(function (p1Result) {
         syncHomeScrollFilmFrame();
 
-        preloadFilmPhase(2, P2_COUNT, p2Images).then(function () {
+        preloadFilmPhase(2, P2_COUNT, p2Images).then(function (p2Result) {
+          if ((p1Result.failed + p2Result.failed) === 0) {
+            markFilmCacheReady();
+          }
+
+          hideFilmLoader();
           syncHomeScrollFilmFrame();
         });
       });

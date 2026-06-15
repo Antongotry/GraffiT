@@ -25,7 +25,8 @@ function graffit_home_film_enabled(): bool
  *     poster: string,
  *     pad: int,
  *     ext: string,
- *     source: string
+ *     source: string,
+ *     cacheKey: string
  * }
  */
 function graffit_home_film_config(): array
@@ -81,6 +82,15 @@ function graffit_home_film_config(): array
         return graffit_home_film_legacy_config();
     }
 
+    $cache_key_parts = [
+        'designer-webp',
+        (string) $defaults['p1Last'],
+        (string) $defaults['p2Last'],
+        (string) $defaults['pad'],
+        (string) $defaults['ext'],
+        is_readable($manifest_path) ? (string) filemtime($manifest_path) : 'no-manifest',
+    ];
+
     return [
         'enabled' => graffit_home_film_enabled(),
         'p1Base' => $p1_base,
@@ -93,6 +103,7 @@ function graffit_home_film_config(): array
         'scrollPace' => (float) ($defaults['scrollPace'] ?? 1),
         'phase2ScrollPace' => (float) ($defaults['phase2ScrollPace'] ?? 1.85),
         'source' => 'designer-webp',
+        'cacheKey' => 'home-film-' . substr(sha1(implode('|', $cache_key_parts)), 0, 16),
     ];
 }
 
@@ -108,7 +119,8 @@ function graffit_home_film_config(): array
  *     pad: int,
  *     ext: string,
  *     source: string,
- *     p2FrameOffset: int
+ *     p2FrameOffset: int,
+ *     cacheKey: string
  * }
  */
 function graffit_home_film_legacy_config(): array
@@ -130,8 +142,9 @@ function graffit_home_film_legacy_config(): array
         /*
          * 2026/06 fallback keeps the two uploaded frame series separate:
          * phase 1: 001-211 *_result-scaled.webp, phase 2: 001-241 *_result.webp.
-         */
+        */
         'p2FrameOffset' => 1,
         'p2Ext' => '_result.webp',
+        'cacheKey' => 'home-film-' . substr(sha1($base . '|211|241|result-scaled|result'), 0, 16),
     ];
 }
