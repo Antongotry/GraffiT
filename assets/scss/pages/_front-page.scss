@@ -288,7 +288,7 @@
     display: block;
     min-height: auto;
     /* Картки directions заходять на −220px; без flex-end контент ближче до сітки. */
-    padding: #{mixins.vw(152px)} 0 #{mixins.vw(80px)};
+    padding: #{mixins.vw(72px)} 0 #{mixins.vw(80px)};
   }
 }
 
@@ -304,7 +304,7 @@
 
 @media (min-width: 1921px) {
   .home-hex-projects-flow .services-inquiry {
-    padding-top: 152px;
+    padding-top: 72px;
     padding-bottom: 80px;
   }
 
