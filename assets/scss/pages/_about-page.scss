@@ -735,11 +735,11 @@
 
     .services-clients__layout {
       align-items: start;
-      padding-top: #{mixins.vw(12px)};
+      padding-top: #{mixins.vw(24px)};
     }
 
     .services-clients__copy {
-      padding-top: #{mixins.vw(16px)};
+      padding-top: #{mixins.vw(32px)};
     }
 
     .services-clients__cards-stage {
@@ -769,7 +769,7 @@
 
     .services-clients__cards-track {
       margin-top: 0;
-      padding-top: #{mixins.vw(16px)};
+      padding-top: #{mixins.vw(32px)};
     }
 
     .services-clients__cards-track .trust-card::before {
@@ -791,7 +791,7 @@
         gap: #{mixins.vw(20px)};
         width: 100%;
         margin-top: 0;
-        padding-top: #{mixins.vw(16px)};
+        padding-top: #{mixins.vw(32px)};
         padding-bottom: #{mixins.vw(56px)};
         opacity: 1 !important;
         visibility: visible !important;
@@ -824,7 +824,7 @@
 
   @media (min-width: 1921px) {
     .services-clients__layout {
-      padding-top: calc(#{mixins.vw(12px)} + 28px);
+      padding-top: calc(#{mixins.vw(24px)} + 28px);
     }
   }
 
@@ -852,7 +852,7 @@
     }
 
     .services-clients__copy {
-      padding-top: #{mixins.mvw(10px)};
+      padding-top: #{mixins.mvw(20px)};
       width: 100%;
     }
 
@@ -890,7 +890,7 @@
       width: min(100%, #{mixins.mvw(355px)}) !important;
       margin-inline: auto !important;
       margin-top: 0 !important;
-      padding-top: #{mixins.mvw(16px)} !important;
+      padding-top: #{mixins.mvw(32px)} !important;
       padding-bottom: #{mixins.mvw(56px)} !important;
       opacity: 1 !important;
       visibility: visible !important;
