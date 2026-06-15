@@ -3305,7 +3305,6 @@
     var filmPhase2Latched = !!container.__homeFilmPhase2Latched;
     var FILM_PRELOAD_CONCURRENCY = 12;
     var FILM_LOADER_MIN_MS = 520;
-    var FILM_LOADER_MAX_MS = 4500;
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
@@ -3313,7 +3312,6 @@
     var filmOverlayRaf = 0;
     var shouldUseFilmLoader = !(p1Images && p2Images);
     var filmLoaderStartedAt = 0;
-    var filmLoaderTimer = 0;
     var filmLoaderReady = false;
     var filmLoaderTargets = Object.create(null);
     var filmLoaderDone = Object.create(null);
@@ -3336,17 +3334,10 @@
     }
 
     function setupFilmLoaderTargets() {
-      var isMobile = (window.innerWidth || 1440) <= 1024;
-      var p1CriticalCount = Math.min(P1_COUNT, isMobile ? 16 : 28);
-      var p2CriticalCount = Math.min(P2_COUNT, isMobile ? 8 : 12);
       var i;
 
-      for (i = 0; i < p1CriticalCount; i += 1) {
+      for (i = 0; i < P1_COUNT; i += 1) {
         addFilmLoaderTarget(1, i);
-      }
-
-      for (i = 0; i < p2CriticalCount; i += 1) {
-        addFilmLoaderTarget(2, i);
       }
     }
 
@@ -3366,7 +3357,6 @@
       }
 
       filmLoaderReady = true;
-      window.clearTimeout(filmLoaderTimer);
       updateFilmLoaderProgress(1);
 
       wait = Math.max(0, FILM_LOADER_MIN_MS - (Date.now() - filmLoaderStartedAt));
@@ -3419,8 +3409,6 @@
       loader.classList.add('is-active');
       document.body.classList.add('is-home-film-loading');
       updateFilmLoaderProgress(0.08);
-
-      filmLoaderTimer = window.setTimeout(hideFilmLoader, FILM_LOADER_MAX_MS);
     }
 
     if (!shouldUseFilmLoader) {
@@ -3515,12 +3503,13 @@
 
       showFilmLoader();
 
-      Promise.all([
-        preloadFilmPhase(1, P1_COUNT, p1Images),
-        preloadFilmPhase(2, P2_COUNT, p2Images)
-      ]).then(function () {
+      preloadFilmPhase(1, P1_COUNT, p1Images).then(function () {
         hideFilmLoader();
         syncHomeScrollFilmFrame();
+
+        preloadFilmPhase(2, P2_COUNT, p2Images).then(function () {
+          syncHomeScrollFilmFrame();
+        });
       });
     }
 
