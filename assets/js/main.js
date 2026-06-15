@@ -3225,18 +3225,33 @@
   function initHomeScrollFilm() {
     var container = document.querySelector('.js-home-scroll-film');
     var canvas = document.querySelector('.js-home-scroll-film-canvas');
+    var loader = document.querySelector('.js-home-film-loader');
+    var loaderProgress = loader ? loader.querySelector('.js-home-film-loader-progress') : null;
+
+    function dismissInitialFilmLoader() {
+      if (!loader) {
+        return;
+      }
+
+      loader.classList.add('is-ready');
+      loader.classList.remove('is-active');
+      document.body.classList.remove('is-home-film-loading');
+    }
 
     if (!container || !canvas) {
+      dismissInitialFilmLoader();
       return;
     }
 
     if (!window.gsap || !window.ScrollTrigger) {
+      dismissInitialFilmLoader();
       return;
     }
 
     var ctx = canvas.getContext('2d');
 
     if (!ctx) {
+      dismissInitialFilmLoader();
       return;
     }
 
@@ -3289,11 +3304,128 @@
     var FILM_PHASE2_SCROLL_PACE = configNumber(filmConfig.phase2ScrollPace, 1.85);
     var filmPhase2Latched = !!container.__homeFilmPhase2Latched;
     var FILM_PRELOAD_CONCURRENCY = 12;
+    var FILM_LOADER_MIN_MS = 520;
+    var FILM_LOADER_MAX_MS = 4500;
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
     var FILM_BOTTOM_WING_BLEED = 8;
     var filmOverlayRaf = 0;
+    var shouldUseFilmLoader = !(p1Images && p2Images);
+    var filmLoaderStartedAt = 0;
+    var filmLoaderTimer = 0;
+    var filmLoaderReady = false;
+    var filmLoaderTargets = Object.create(null);
+    var filmLoaderDone = Object.create(null);
+    var filmLoaderTargetCount = 0;
+    var filmLoaderDoneCount = 0;
+
+    function filmLoaderKey(phase, index) {
+      return phase + ':' + index;
+    }
+
+    function addFilmLoaderTarget(phase, index) {
+      var key = filmLoaderKey(phase, index);
+
+      if (filmLoaderTargets[key]) {
+        return;
+      }
+
+      filmLoaderTargets[key] = true;
+      filmLoaderTargetCount += 1;
+    }
+
+    function setupFilmLoaderTargets() {
+      var isMobile = (window.innerWidth || 1440) <= 1024;
+      var p1CriticalCount = Math.min(P1_COUNT, isMobile ? 16 : 28);
+      var p2CriticalCount = Math.min(P2_COUNT, isMobile ? 8 : 12);
+      var i;
+
+      for (i = 0; i < p1CriticalCount; i += 1) {
+        addFilmLoaderTarget(1, i);
+      }
+
+      for (i = 0; i < p2CriticalCount; i += 1) {
+        addFilmLoaderTarget(2, i);
+      }
+    }
+
+    function updateFilmLoaderProgress(progress) {
+      if (!loaderProgress) {
+        return;
+      }
+
+      loaderProgress.style.transform = 'scaleX(' + Math.max(0.08, Math.min(progress, 1)).toFixed(3) + ')';
+    }
+
+    function hideFilmLoader() {
+      var wait;
+
+      if (!loader || filmLoaderReady) {
+        return;
+      }
+
+      filmLoaderReady = true;
+      window.clearTimeout(filmLoaderTimer);
+      updateFilmLoaderProgress(1);
+
+      wait = Math.max(0, FILM_LOADER_MIN_MS - (Date.now() - filmLoaderStartedAt));
+
+      window.setTimeout(function () {
+        loader.classList.add('is-ready');
+        document.body.classList.remove('is-home-film-loading');
+
+        window.setTimeout(function () {
+          loader.classList.remove('is-active');
+        }, 460);
+      }, wait);
+    }
+
+    function markFilmLoaderFrame(phase, index) {
+      var key;
+
+      if (!shouldUseFilmLoader || filmLoaderReady) {
+        return;
+      }
+
+      key = filmLoaderKey(phase, index);
+
+      if (!filmLoaderTargets[key] || filmLoaderDone[key]) {
+        return;
+      }
+
+      filmLoaderDone[key] = true;
+      filmLoaderDoneCount += 1;
+      updateFilmLoaderProgress(filmLoaderDoneCount / Math.max(filmLoaderTargetCount, 1));
+
+      if (filmLoaderDoneCount >= filmLoaderTargetCount) {
+        hideFilmLoader();
+      }
+    }
+
+    function showFilmLoader() {
+      if (!loader || !shouldUseFilmLoader) {
+        return;
+      }
+
+      setupFilmLoaderTargets();
+
+      if (filmLoaderTargetCount <= 0) {
+        return;
+      }
+
+      filmLoaderStartedAt = Date.now();
+      loader.classList.remove('is-ready');
+      loader.classList.add('is-active');
+      document.body.classList.add('is-home-film-loading');
+      updateFilmLoaderProgress(0.08);
+
+      filmLoaderTimer = window.setTimeout(hideFilmLoader, FILM_LOADER_MAX_MS);
+    }
+
+    if (!shouldUseFilmLoader) {
+      dismissInitialFilmLoader();
+    }
 
     function isImageReady(img) {
       return !!(img && img.complete && img.naturalWidth);
@@ -3341,6 +3473,7 @@
               function finish() {
                 targetArray[idx] = img;
                 activeLoads -= 1;
+                markFilmLoaderFrame(phase, idx);
 
                 if (idx === 0 && phase === 1 && isImageReady(img)) {
                   drawImage(img);
@@ -3358,11 +3491,13 @@
                 finish();
               };
               img.onerror = finish;
-              img.src = filmFrameUrl(phase, idx);
 
               if (idx < 8) {
                 img.fetchPriority = 'high';
               }
+
+              img.decoding = 'async';
+              img.src = filmFrameUrl(phase, idx);
             })(nextIndex);
             nextIndex += 1;
           }
@@ -3378,10 +3513,13 @@
       container.__homeFilmP1Images = p1Images;
       container.__homeFilmP2Images = p2Images;
 
+      showFilmLoader();
+
       Promise.all([
         preloadFilmPhase(1, P1_COUNT, p1Images),
         preloadFilmPhase(2, P2_COUNT, p2Images)
       ]).then(function () {
+        hideFilmLoader();
         syncHomeScrollFilmFrame();
       });
     }
