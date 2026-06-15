@@ -3327,26 +3327,63 @@
     var FILM_SCROLL_PACE = configNumber(filmConfig.scrollPace, 1);
     var FILM_PHASE2_SCROLL_PACE = configNumber(filmConfig.phase2ScrollPace, 1.85);
     var filmPhase2Latched = !!container.__homeFilmPhase2Latched;
-    var FILM_PRELOAD_CONCURRENCY = 12;
+    var FILM_PRELOAD_CONCURRENCY = 18;
     var FILM_LOADER_MIN_MS = 520;
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
     var FILM_BOTTOM_WING_BLEED = 8;
     var filmOverlayRaf = 0;
-    var shouldUseFilmLoader = !(p1Images && p2Images);
     var filmCacheHit = !!(FILM_CACHE_KEY && readLocalStorage(FILM_CACHE_STORAGE_KEY) === FILM_CACHE_KEY);
-
-    if (filmCacheHit) {
-      shouldUseFilmLoader = false;
-      dismissInitialFilmLoader();
-    }
+    var filmPreloadComplete = false;
     var filmLoaderStartedAt = 0;
     var filmLoaderReady = false;
     var filmLoaderTargets = Object.create(null);
     var filmLoaderDone = Object.create(null);
     var filmLoaderTargetCount = 0;
     var filmLoaderDoneCount = 0;
+
+    function countFilmImagesReady(images, count) {
+      var ready = 0;
+      var i;
+
+      if (!images) {
+        return 0;
+      }
+
+      for (i = 0; i < count; i += 1) {
+        if (isImageReady(images[i])) {
+          ready += 1;
+        }
+      }
+
+      return ready;
+    }
+
+    function areStoredFilmImagesComplete() {
+      return countFilmImagesReady(p1Images, P1_COUNT) === P1_COUNT
+        && countFilmImagesReady(p2Images, P2_COUNT) === P2_COUNT;
+    }
+
+    function shouldShowFilmLoaderUi() {
+      return !filmCacheHit && !areStoredFilmImagesComplete();
+    }
+
+    function finishFilmPreload(p1Result, p2Result) {
+      var failed = (p1Result ? p1Result.failed : 0) + (p2Result ? p2Result.failed : 0);
+      var ready = countFilmImagesReady(p1Images, P1_COUNT) + countFilmImagesReady(p2Images, P2_COUNT);
+
+      filmPreloadComplete = ready === (P1_COUNT + P2_COUNT);
+
+      if (filmPreloadComplete && failed === 0) {
+        markFilmCacheReady();
+      }
+
+      hideFilmLoader();
+      document.body.classList.remove('is-home-film-loading');
+      dismissInitialFilmLoader();
+      syncHomeScrollFilmFrame();
+    }
 
     function filmLoaderKey(phase, index) {
       return phase + ':' + index;
@@ -3528,7 +3565,7 @@
     function markFilmLoaderFrame(phase, index) {
       var key;
 
-      if (!shouldUseFilmLoader || filmLoaderReady) {
+      if (!shouldShowFilmLoaderUi() || filmLoaderReady) {
         return;
       }
 
@@ -3548,7 +3585,7 @@
     }
 
     function showFilmLoader() {
-      if (!loader || !shouldUseFilmLoader) {
+      if (!loader || !shouldShowFilmLoaderUi()) {
         return;
       }
 
@@ -3565,12 +3602,62 @@
       updateFilmLoaderProgress(0.08);
     }
 
-    if (!shouldUseFilmLoader) {
-      dismissInitialFilmLoader();
-    }
-
     function isImageReady(img) {
       return !!(img && img.complete && img.naturalWidth);
+    }
+
+    function queueFilmFrameLoad(phase, index) {
+      var images = phase === 1 ? p1Images : p2Images;
+      var count = phase === 1 ? P1_COUNT : P2_COUNT;
+      var img;
+      var safeIndex;
+
+      if (!images || index < 0 || index >= count) {
+        return;
+      }
+
+      safeIndex = index;
+      img = images[safeIndex];
+
+      if (isImageReady(img)) {
+        return;
+      }
+
+      if (img && img.__homeFilmLoadBound) {
+        return;
+      }
+
+      img = new Image();
+      images[safeIndex] = img;
+      img.__homeFilmLoadBound = true;
+      img.decoding = 'async';
+
+      img.addEventListener('load', function () {
+        if (activePhase === phase && currentIndex === safeIndex) {
+          syncHomeScrollFilmFrame();
+        }
+      }, { once: true });
+
+      img.addEventListener('error', function () {
+        if (!img.__homeFilmRetried) {
+          img.__homeFilmRetried = true;
+          img.src = filmFrameUrl(phase, safeIndex);
+        }
+      }, { once: true });
+
+      img.src = filmFrameUrl(phase, safeIndex);
+    }
+
+    function warmFilmFramesAround(phase, index) {
+      var lastIndex = phase === 1 ? P1_LAST : P2_LAST;
+      var spread = 20;
+      var start = Math.max(0, index - spread);
+      var end = Math.min(lastIndex, index + spread);
+      var i;
+
+      for (i = start; i <= end; i += 1) {
+        queueFilmFrameLoad(phase, i);
+      }
     }
 
     function resolveFilmImage(images, index) {
@@ -3642,6 +3729,12 @@
                 finish();
               };
               img.onerror = function () {
+                if (!img.__homeFilmRetried) {
+                  img.__homeFilmRetried = true;
+                  img.src = filmFrameUrl(phase, idx);
+                  return;
+                }
+
                 failed = true;
                 finish();
               };
@@ -3661,26 +3754,28 @@
       });
     }
 
-    if (!p1Images || !p2Images) {
-      p1Images = new Array(P1_COUNT).fill(null);
-      p2Images = new Array(P2_COUNT).fill(null);
-      container.__homeFilmP1Images = p1Images;
-      container.__homeFilmP2Images = p2Images;
+    if (areStoredFilmImagesComplete()) {
+      filmPreloadComplete = true;
+      dismissInitialFilmLoader();
+    } else {
+      if (!p1Images || !p2Images) {
+        p1Images = new Array(P1_COUNT).fill(null);
+        p2Images = new Array(P2_COUNT).fill(null);
+        container.__homeFilmP1Images = p1Images;
+        container.__homeFilmP2Images = p2Images;
+      }
 
-      if (shouldUseFilmLoader) {
+      if (shouldShowFilmLoaderUi()) {
         showFilmLoader();
+      } else {
+        document.body.classList.add('is-home-film-loading');
       }
 
       preloadFilmPhase(1, P1_COUNT, p1Images).then(function (p1Result) {
         syncHomeScrollFilmFrame();
 
         preloadFilmPhase(2, P2_COUNT, p2Images).then(function (p2Result) {
-          if ((p1Result.failed + p2Result.failed) === 0) {
-            markFilmCacheReady();
-          }
-
-          hideFilmLoader();
-          syncHomeScrollFilmFrame();
+          finishFilmPreload(p1Result, p2Result);
         });
       });
     }
@@ -3913,15 +4008,10 @@
       var nextIndex = clamp(index, 0, lastIndex);
       var img = resolveFilmImage(images, nextIndex);
 
-      if (!img) {
-        var pending = images[nextIndex];
+      warmFilmFramesAround(phase, nextIndex);
 
-        if (pending && !pending.__homeFilmRetryBound) {
-          pending.__homeFilmRetryBound = true;
-          pending.addEventListener('load', function () {
-            syncHomeScrollFilmFrame();
-          }, { once: true });
-        }
+      if (!img) {
+        queueFilmFrameLoad(phase, nextIndex);
 
         return;
       }
@@ -3965,6 +4055,10 @@
     }
 
     function syncHomeScrollFilmFrame() {
+      if (!filmPreloadComplete && !areStoredFilmImagesComplete()) {
+        return;
+      }
+
       syncHomeFilmCanvasVisibility();
 
       if (isMobileFilmLayout() && isHomeFilmCanvasHidden()) {

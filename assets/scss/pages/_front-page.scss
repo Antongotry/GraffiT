@@ -509,7 +509,7 @@ html.is-home-film-cached .home-film-loader.is-active {
 }
 
 html.is-home-film-cached body.is-home-film-loading {
-  overflow: auto;
+  overflow: hidden;
 }
 
 .home-film-loader {
