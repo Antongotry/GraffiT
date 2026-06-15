@@ -3422,13 +3422,65 @@
       flow.classList.toggle('is-film-wedge-active', !!active);
     }
 
-    function mountFilmWedge(wedge) {
-      if (!wedge || wedge.getAttribute('data-film-wedge-mounted') === '1') {
+    function mountFilmOverlay(node) {
+      if (!node || node.getAttribute('data-film-overlay-mounted') === '1') {
         return;
       }
 
-      document.body.appendChild(wedge);
-      wedge.setAttribute('data-film-wedge-mounted', '1');
+      document.body.appendChild(node);
+      node.setAttribute('data-film-overlay-mounted', '1');
+    }
+
+    function mountFilmWedge(wedge) {
+      mountFilmOverlay(wedge);
+    }
+
+    function syncFilmBottomWing() {
+      var wing = document.querySelector('.js-home-film-bottom-wing');
+      var about = document.getElementById('home-about');
+      var flow = document.querySelector('.home-chaos-about-flow');
+      var wedgeActive = !!(flow && flow.classList.contains('is-film-wedge-active'));
+
+      if (!wing) {
+        return;
+      }
+
+      mountFilmOverlay(wing);
+
+      if (!wedgeActive || !about || canvas.style.visibility === 'hidden') {
+        wing.style.opacity = '0';
+        wing.style.visibility = 'hidden';
+        return;
+      }
+
+      var viewport = about.querySelector('.services-clients__viewport');
+
+      if (!viewport) {
+        wing.style.opacity = '0';
+        wing.style.visibility = 'hidden';
+        return;
+      }
+
+      var notch = homeFilmNotchPx();
+      var vpRect = viewport.getBoundingClientRect();
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      var wingTop = vpRect.bottom - notch;
+
+      if (vpRect.bottom < notch * 0.25 || vpRect.top > viewportHeight || wingTop > viewportHeight) {
+        wing.style.opacity = '0';
+        wing.style.visibility = 'hidden';
+        return;
+      }
+
+      wing.style.visibility = 'visible';
+      wing.style.opacity = '1';
+      wing.style.top = wingTop + 'px';
+      wing.style.height = notch + 'px';
+    }
+
+    function syncFilmBowTieOverlays() {
+      syncFilmWedge();
+      syncFilmBottomWing();
     }
 
     function clientsTopFadeAmount(section) {
@@ -3526,6 +3578,7 @@
       wedge.style.opacity = '1';
       wedge.style.top = seamTop + 'px';
       wedge.style.height = notch + 'px';
+      syncFilmBottomWing();
     }
 
     function drawImage(img, drawPhase) {
@@ -3567,7 +3620,7 @@
       if (!container.__homeFilmWedgeRaf) {
         container.__homeFilmWedgeRaf = window.requestAnimationFrame(function () {
           container.__homeFilmWedgeRaf = 0;
-          syncFilmWedge();
+          syncFilmBowTieOverlays();
         });
       }
     }
@@ -3600,7 +3653,7 @@
       }
 
       if (activePhase === phase && currentIndex === nextIndex && img === lastDrawnImage) {
-        syncFilmWedge();
+        syncFilmBowTieOverlays();
         return;
       }
 
@@ -3656,13 +3709,13 @@
         container.__homeFilmPhase2Latched = false;
         setHomeFilmHandoff(false);
         setFilmFrame(1, progressToFrameIndex(clamp((scroll - p1Start) / p1Span, 0, 1), P1_LAST));
-        syncFilmWedge();
+        syncFilmBowTieOverlays();
         return;
       }
 
       if (!p2) {
         setFilmFrame(1, P1_LAST);
-        syncFilmWedge();
+        syncFilmBowTieOverlays();
         return;
       }
 
@@ -3675,7 +3728,7 @@
         container.__homeFilmPhase2Latched = true;
         setHomeFilmHandoff(true);
         setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
-        syncFilmWedge();
+        syncFilmBowTieOverlays();
         return;
       }
 
@@ -3683,7 +3736,7 @@
       container.__homeFilmPhase2Latched = true;
       setHomeFilmHandoff(true);
       setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
-      syncFilmWedge();
+      syncFilmBowTieOverlays();
     }
 
     function onFilmScrollChange() {
@@ -3748,7 +3801,7 @@
           },
           onLeave: function () {
             setHomeFilmHandoff(true);
-            syncFilmWedge();
+            syncFilmBowTieOverlays();
           },
           onLeaveBack: function () {
             filmPhase2Latched = false;
@@ -3764,7 +3817,7 @@
 
     if (!container.__homeFilmWedgeScrollBound) {
       container.__homeFilmWedgeScrollBound = true;
-      window.addEventListener('scroll', syncFilmWedge, { passive: true });
+      window.addEventListener('scroll', syncFilmBowTieOverlays, { passive: true });
     }
 
     if (!container.__homeFilmResizeBound) {
@@ -3804,7 +3857,7 @@
             canvas.style.visibility = 'hidden';
             canvas.style.pointerEvents = 'none';
             setHomeFilmHandoff(false);
-            syncFilmWedge();
+            syncFilmBowTieOverlays();
           },
           onLeaveBack: function () {
             canvas.style.visibility = '';
@@ -3820,7 +3873,7 @@
 
     window.ScrollTrigger.refresh();
     syncHomeScrollFilmFrame();
-    window.syncHomeFilmWedge = syncFilmWedge;
+    window.syncHomeFilmWedge = syncFilmBowTieOverlays;
   }
 
   function initHomeChaosFilm() {

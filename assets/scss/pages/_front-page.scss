@@ -361,27 +361,10 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 /*
  * Під час phase-2: верхнє «крило» не малюємо чорним — крізь виріз viewport
- * видно scroll-film canvas (z-88). Нижнє крило лишається на ::after.
+ * видно scroll-film canvas (z-88). Нижнє крило — fixed-шар .home-film-bottom-wing.
  */
 .home-chaos-about-flow.is-film-wedge-active #home-about {
   background: transparent;
-
-  &::after {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    z-index: 0;
-    width: 100%;
-    height: #{mixins.vw(90px)};
-    background: #000102;
-    clip-path: polygon(0 100%, 50% 0, 100% 100%);
-    pointer-events: none;
-    content: "";
-
-    @include mixins.mobile {
-      height: #{mixins.mvw(40px)};
-    }
-  }
 }
 
 /*
@@ -416,6 +399,33 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow.is-film-wedge-active .home-film-wedge {
+  opacity: 1;
+  visibility: visible;
+}
+
+/*
+ * Нижнє bow-tie крило: fixed-оверлей #000102 поверх canvas у вирізі viewport.
+ * Не можна малювати через ::after на секції — при pin viewport лишається на екрані без нього.
+ */
+.home-film-bottom-wing {
+  position: fixed;
+  left: 0;
+  z-index: 119;
+  width: 100%;
+  height: #{mixins.vw(90px)};
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  background: #000102;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: top;
+
+  @include mixins.mobile {
+    height: #{mixins.mvw(40px)};
+  }
+}
+
+.home-chaos-about-flow.is-film-wedge-active .home-film-bottom-wing {
   opacity: 1;
   visibility: visible;
 }
