@@ -177,6 +177,13 @@
   z-index: 3;
 }
 
+@media (min-width: 1025px) {
+  .home-hex-projects-flow .services-overview--home-directions {
+    /* Менший нахлест на CTA — легше підібрати padding без наїзду карток на текст. */
+    margin-bottom: #{mixins.vw(-168px)};
+  }
+}
+
 .home-hex-projects-flow .services-overview--home-directions,
 .home-hex-projects-flow .hex-reasons--home,
 .home-hex-projects-flow .services-inquiry.cta-band--light {
@@ -287,8 +294,9 @@
   .home-hex-projects-flow .services-inquiry {
     display: block;
     min-height: auto;
-    /* Картки directions заходять на −220px; без flex-end контент ближче до сітки. */
-    padding: #{mixins.vw(152px)} 0 #{mixins.vw(80px)};
+    /* padding-top = |margin-bottom directions| + зазор під картки. */
+    padding-top: calc(#{mixins.vw(168px)} + #{mixins.vw(24px)});
+    padding-bottom: #{mixins.vw(80px)};
   }
 }
 
@@ -303,8 +311,12 @@
 }
 
 @media (min-width: 1921px) {
+  .home-hex-projects-flow .services-overview--home-directions {
+    margin-bottom: -168px;
+  }
+
   .home-hex-projects-flow .services-inquiry {
-    padding-top: 152px;
+    padding-top: calc(168px + 24px);
     padding-bottom: 80px;
   }
 
