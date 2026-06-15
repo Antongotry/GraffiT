@@ -33,14 +33,15 @@
   /* Нижче #about-clients (91), інакше чорний фон «наїжджає» на pin viewport при скролі. */
   z-index: 70;
   overflow: visible;
-  margin-top: -2px;
+  /* Підтяг під нижній виріз clients — шпиль .about-stack стикується без зазору. */
+  margin-top: calc(-1 * var(--about-bow-spike));
   --about-dark-flow-background: #000102;
   --about-dark-flow-background-mobile: #000102;
   /* Фон лише на дочірніх секціях — інакше прямокутник обгортки дає «наїзд» поверх шпиля .about-stack. */
   background: transparent;
 
   @include mixins.mobile {
-    margin-top: -2px;
+    margin-top: calc(-1 * var(--about-bow-spike));
   }
 }
 
@@ -407,28 +408,30 @@
   position: relative;
   z-index: 1;
   overflow: visible;
-  /* Шпиль — геометрія самого блоку, не окремий шар і не фон .about-dark-flow. */
-  margin-top: #{mixins.vw(-90px)};
-  padding: calc((#{mixins.vw(132px)} * 0.4) + #{mixins.vw(90px)}) 0 #{mixins.vw(144px)};
+  /* Шпиль зверху — стик із нижнім вирізом #about-clients. */
+  margin-top: calc(-1 * var(--about-bow-spike));
+  padding: calc((#{mixins.vw(132px)} * 0.4) + var(--about-bow-spike)) 0 calc(#{mixins.vw(144px)} + var(--about-bow-spike));
   background: var(--about-dark-flow-background);
   clip-path: polygon(
-    0 #{mixins.vw(90px)},
+    0 var(--about-bow-spike),
     50% 0,
-    100% #{mixins.vw(90px)},
-    100% 100%,
-    0 100%
+    100% var(--about-bow-spike),
+    100% calc(100% - var(--about-bow-spike)),
+    50% 100%,
+    0 calc(100% - var(--about-bow-spike))
   );
 
   @include mixins.mobile {
-    margin-top: #{mixins.mvw(-40px)};
-    padding: calc(#{mixins.mvw(136px)} + #{mixins.mvw(40px)}) 0 0;
+    margin-top: calc(-1 * var(--about-bow-spike));
+    padding: calc(#{mixins.mvw(136px)} + var(--about-bow-spike)) 0 #{mixins.mvw(40px)};
     background: var(--about-dark-flow-background-mobile);
     clip-path: polygon(
-      0 #{mixins.mvw(40px)},
+      0 var(--about-bow-spike),
       50% 0,
-      100% #{mixins.mvw(40px)},
-      100% 100%,
-      0 100%
+      100% var(--about-bow-spike),
+      100% calc(100% - var(--about-bow-spike)),
+      50% 100%,
+      0 calc(100% - var(--about-bow-spike))
     );
   }
 }
@@ -649,6 +652,20 @@
     color: #000102;
   }
 
+  /* Темний шпиль у нижньому вирізі viewport (сірий clients не затуляє #000102). */
+  &::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    height: var(--about-bow-spike);
+    background: #000102;
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    content: "";
+    pointer-events: none;
+  }
+
   .services-clients__viewport {
     position: relative;
     z-index: 1;
@@ -656,10 +673,10 @@
     box-sizing: border-box;
     clip-path: polygon(
       0 0,
-      50% var(--about-bow-spike),
+      50% #{mixins.vw(90px)},
       100% 0,
       100% 100%,
-      50% calc(100% - var(--about-bow-spike)),
+      50% calc(100% - #{mixins.vw(90px)}),
       0 100%
     );
     background: linear-gradient(90deg, #bfc6d0 0%, #ffffff 100%);
@@ -699,13 +716,21 @@
     .services-clients__viewport {
       min-height: 0;
       height: calc(
-        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
+        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)} + #{mixins.vw(90px)}
       );
       min-height: calc(
-        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)}
+        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)} + #{mixins.vw(90px)}
       );
       padding-top: calc(#{mixins.vw(40px)} + #{mixins.vw(113px)});
-      padding-bottom: #{mixins.vw(140px)};
+      padding-bottom: calc(#{mixins.vw(140px)} + #{mixins.vw(90px)});
+      clip-path: polygon(
+        0 0,
+        50% #{mixins.vw(90px)},
+        100% 0,
+        100% 100%,
+        50% calc(100% - #{mixins.vw(90px)}),
+        0 100%
+      );
     }
 
     .services-clients__layout {
@@ -816,14 +841,14 @@
       overflow: visible;
       clip-path: polygon(
         0 0,
-        50% var(--about-bow-spike),
+        50% #{mixins.mvw(40px)},
         100% 0,
         100% 100%,
-        50% calc(100% - var(--about-bow-spike)),
+        50% calc(100% - #{mixins.mvw(40px)}),
         0 100%
       ) !important;
-      padding-top: calc(#{mixins.mvw(84px)} + var(--about-bow-spike));
-      padding-bottom: #{mixins.mvw(47px)};
+      padding-top: calc(#{mixins.mvw(84px)} + #{mixins.mvw(40px)});
+      padding-bottom: calc(#{mixins.mvw(47px)} + #{mixins.mvw(40px)});
     }
 
     .services-clients__copy {
