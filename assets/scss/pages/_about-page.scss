@@ -782,6 +782,32 @@
     }
   }
 
+  /* >1920: без overlap з hero — шпиль не «їде» при pin; більше повітря зверху. */
+  @media (min-width: 1921px) {
+    margin-top: 72px;
+
+    .pin-spacer {
+      background: #000102;
+    }
+
+    .services-clients__viewport {
+      padding-top: calc(#{mixins.vw(40px)} + #{mixins.vw(113px)} + 72px);
+      height: calc(
+        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)} + 72px
+      );
+      min-height: calc(
+        #{mixins.vw(640px)} + #{mixins.vw(40px)} + #{mixins.vw(113px)} + #{mixins.vw(140px)} + 72px
+      );
+      clip-path: polygon(
+        0 0,
+        100% 0,
+        100% 100%,
+        50% calc(100% - #{mixins.vw(90px)}),
+        0 100%
+      );
+    }
+  }
+
   @include mixins.mobile {
     .pin-spacer {
       height: auto !important;

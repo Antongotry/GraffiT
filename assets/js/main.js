@@ -1721,11 +1721,25 @@
         return ((cards.length - 2) * 0.42) + 1.35;
       }
 
+      function aboutClientsScrollTriggerStart() {
+        var w = window.innerWidth || 1440;
+
+        if (w > 1920) {
+          return 'center center+=64';
+        }
+
+        return 'center center';
+      }
+
       function aboutClientsPinDistance() {
         var w = window.innerWidth || 1440;
         var scrollStep = w <= 1024
           ? Math.round(window.innerHeight * 0.62)
           : Math.round(window.innerHeight * 0.42);
+
+        if (w > 1920) {
+          scrollStep = Math.round(scrollStep * (1.35 + Math.min((w - 1920) / 3840, 0.25)));
+        }
 
         return Math.round(aboutClientsTimelineDuration() * scrollStep);
       }
@@ -1734,13 +1748,13 @@
         scrollTrigger: {
           id: stackedTriggerId,
           trigger: clientsSection,
-          start: 'center center',
+          start: aboutClientsScrollTriggerStart,
           end: function () {
             return 'clamp(+=' + aboutClientsPinDistance() + ')';
           },
           pin: viewport,
           scrub: 1,
-          anticipatePin: 1,
+          anticipatePin: (window.innerWidth || 1440) > 1920 ? 0 : 1,
           invalidateOnRefresh: true,
           onRefresh: function () {
             enforceClientsPinnedViewportWidth(viewport);
