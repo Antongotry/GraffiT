@@ -3147,8 +3147,10 @@
   function initHomeScrollFilm() {
     var container = document.querySelector('.js-home-scroll-film');
     var canvas = document.querySelector('.js-home-scroll-film-canvas');
+    var videoP1 = container ? container.querySelector('.js-home-scroll-film-video-p1') : null;
+    var videoP2 = container ? container.querySelector('.js-home-scroll-film-video-p2') : null;
 
-    if (!container || !canvas) {
+    if (!container || !canvas || !videoP1 || !videoP2) {
       return;
     }
 
@@ -3164,60 +3166,37 @@
 
     window.gsap.registerPlugin(window.ScrollTrigger);
 
-    var BASE_URL = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/05/';
-    var P1_LAST = 210;
-    var P1_COUNT = P1_LAST + 1;
-    var P2_FIRST = 28;
-    var P2_LAST_FRAME = 181;
-    var P2_COUNT = P2_LAST_FRAME - P2_FIRST + 1;
-    var P2_LAST = P2_COUNT - 1;
-    var FIRST_FRAME_URL = BASE_URL + 'ezgif-frame-001_result.webp';
-
-    // Fallback poster to avoid black flash before first decoded frame.
-    canvas.style.backgroundImage = 'url("' + FIRST_FRAME_URL + '")';
-    canvas.style.backgroundSize = 'cover';
-    canvas.style.backgroundPosition = 'center';
-    canvas.style.backgroundRepeat = 'no-repeat';
-
-    var p1Images = container.__homeFilmP1Images;
-
-    if (!p1Images) {
-      p1Images = new Array(P1_COUNT).fill(null);
-      container.__homeFilmP1Images = p1Images;
-
-      for (var i1 = 0; i1 < P1_COUNT; i1++) {
-        (function (idx) {
-          var img = new Image();
-          img.onload = function () {
-            p1Images[idx] = img;
-            if (idx === 0) {
-              drawImage(img);
-            }
-          };
-          img.src = BASE_URL + 'ezgif-frame-' + String(idx + 1).padStart(3, '0') + '_result.webp';
-        })(i1);
-      }
-    }
-
-    var p2Images = container.__homeFilmP2Images;
-
-    if (!p2Images) {
-      p2Images = new Array(P2_COUNT).fill(null);
-      container.__homeFilmP2Images = p2Images;
-
-      for (var i2 = 0; i2 < P2_COUNT; i2++) {
-        (function (idx) {
-          var img = new Image();
-          img.onload = function () {
-            p2Images[idx] = img;
-          };
-          img.src = BASE_URL + 'ezgif-frame-' + String(P2_FIRST + idx).padStart(3, '0') + '_result-1.webp';
-        })(i2);
-      }
-    }
-
+    var posterUrl = container.getAttribute('data-film-poster') || '';
+    var videoP1Url = container.getAttribute('data-film-video-p1') || videoP1.getAttribute('src') || '';
+    var videoP2Url = container.getAttribute('data-film-video-p2') || videoP2.getAttribute('src') || '';
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var activePhase = 1;
-    var currentIndex = 0;
+    var activeProgress = 0;
+    var videosReady = false;
+
+    if (posterUrl) {
+      canvas.style.backgroundImage = 'url("' + posterUrl + '")';
+      canvas.style.backgroundSize = 'cover';
+      canvas.style.backgroundPosition = 'center';
+      canvas.style.backgroundRepeat = 'no-repeat';
+    }
+
+    [videoP1, videoP2].forEach(function (video) {
+      video.muted = true;
+      video.playsInline = true;
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.preload = 'auto';
+      video.pause();
+    });
+
+    if (videoP1Url && videoP1.getAttribute('src') !== videoP1Url) {
+      videoP1.src = videoP1Url;
+    }
+
+    if (videoP2Url && videoP2.getAttribute('src') !== videoP2Url) {
+      videoP2.src = videoP2Url;
+    }
 
     function clamp(value, min, max) {
       return Math.min(max, Math.max(min, value));
@@ -3245,8 +3224,8 @@
       syncHomeScrollFilmFrame();
     }
 
-    function drawImage(img) {
-      if (!img || !img.complete || !img.naturalWidth) {
+    function drawVideoFrame(video) {
+      if (!video || video.readyState < 2 || !video.videoWidth) {
         return;
       }
 
@@ -3255,50 +3234,76 @@
 
       ctx.clearRect(0, 0, cw, ch);
 
-      var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-      var w = img.naturalWidth * scale;
-      var h = img.naturalHeight * scale;
+      var scale = Math.max(cw / video.videoWidth, ch / video.videoHeight);
+      var w = video.videoWidth * scale;
+      var h = video.videoHeight * scale;
 
-      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      ctx.drawImage(video, (cw - w) / 2, (ch - h) / 2, w, h);
       canvas.style.backgroundImage = 'none';
     }
 
-    function setFilmFrame(phase, index) {
-      var nextIndex = clamp(index, 0, phase === 1 ? P1_LAST : P2_LAST);
+    function seekVideo(video, progress) {
+      if (!video || !video.duration || isNaN(video.duration)) {
+        return false;
+      }
 
-      if (activePhase === phase && currentIndex === nextIndex) {
+      var targetTime = clamp(progress, 0, 1) * video.duration;
+
+      if (Math.abs(video.currentTime - targetTime) > 0.034) {
+        try {
+          video.currentTime = targetTime;
+        } catch (error) {
+          return false;
+        }
+      }
+
+      drawVideoFrame(video);
+      return true;
+    }
+
+    function setFilmProgress(phase, progress) {
+      var nextProgress = clamp(progress, 0, 1);
+
+      if (activePhase === phase && Math.abs(activeProgress - nextProgress) < 0.001) {
         return;
       }
 
       activePhase = phase;
-      currentIndex = nextIndex;
-      drawImage(phase === 1 ? p1Images[currentIndex] : p2Images[currentIndex]);
+      activeProgress = nextProgress;
+
+      if (!videosReady || prefersReducedMotion) {
+        return;
+      }
+
+      seekVideo(phase === 1 ? videoP1 : videoP2, nextProgress);
     }
 
-    function phase1PxPerFrame() {
+    function phase1ScrollSpanPx() {
       var p1 = window.ScrollTrigger.getById('home-scroll-p1');
 
       if (p1 && p1.end > p1.start) {
-        return (p1.end - p1.start) / P1_LAST;
+        return p1.end - p1.start;
       }
 
-      return (window.innerHeight * 2) / P1_LAST;
+      return window.innerHeight * 2;
     }
 
     function phase2ScrollSpanPx() {
-      return phase1PxPerFrame() * P2_LAST;
+      var durationRatio = 1;
+
+      if (videoP1.duration && videoP2.duration && !isNaN(videoP1.duration) && !isNaN(videoP2.duration)) {
+        durationRatio = videoP2.duration / videoP1.duration;
+      }
+
+      return phase1ScrollSpanPx() * durationRatio;
     }
 
-    /*
-     * One timeline: phase 1 until showcase end, then phase 2 from that point through
-     * chaos pin (including any DOM gap) — same px/frame, no frozen pause.
-     */
     function syncHomeScrollFilmFrame() {
       var p1 = window.ScrollTrigger.getById('home-scroll-p1');
       var p2 = window.ScrollTrigger.getById('home-scroll-p2');
 
       if (!p1) {
-        setFilmFrame(1, 0);
+        setFilmProgress(1, 0);
         return;
       }
 
@@ -3309,132 +3314,179 @@
 
       if (!p2 || scroll <= p1End) {
         var p1Progress = clamp((scroll - p1Start) / p1Span, 0, 1);
-        setFilmFrame(1, Math.round(p1Progress * P1_LAST));
+        setFilmProgress(1, p1Progress);
         return;
       }
 
       var phase2Span = Math.max(p2.end - p1End, 1);
       var p2Progress = clamp((scroll - p1End) / phase2Span, 0, 1);
-      setFilmFrame(2, Math.round(p2Progress * P2_LAST));
+      setFilmProgress(2, p2Progress);
     }
 
     function onFilmScrollChange() {
       syncHomeScrollFilmFrame();
     }
 
-    destroyHomeScrollFilmTriggers();
-
-    var showcase = container.querySelector('.home-showcase');
-    var chaos = container.querySelector('.home-chaos');
-
-    resizeCanvas();
-
-    var st1State = { frame: 0 };
-
-    window.gsap.to(st1State, {
-      frame: P1_LAST,
-      ease: 'none',
-      immediateRender: false,
-      scrollTrigger: {
-        id: 'home-scroll-p1',
-        trigger: container,
-        start: 'top top',
-        endTrigger: showcase || container,
-        end: 'bottom bottom',
-        scrub: true,
-        invalidateOnRefresh: true,
-        onRefresh: onFilmScrollChange,
-        onUpdate: onFilmScrollChange
+    function bindScrollFilm() {
+      if (container.__homeFilmScrollBound) {
+        syncHomeScrollFilmFrame();
+        return;
       }
-    });
 
-    if (chaos) {
-      var st2State = { frame: 0 };
+      container.__homeFilmScrollBound = true;
+      destroyHomeScrollFilmTriggers();
 
-      window.gsap.to(st2State, {
-        frame: P2_LAST,
+      var showcase = container.querySelector('.home-showcase');
+      var chaos = container.querySelector('.home-chaos');
+
+      resizeCanvas();
+
+      var st1State = { progress: 0 };
+
+      window.gsap.to(st1State, {
+        progress: 1,
         ease: 'none',
         immediateRender: false,
         scrollTrigger: {
-          id: 'home-scroll-p2',
-          trigger: chaos,
-          start: 'top bottom',
-          end: function () {
-            return '+=' + Math.round(phase2ScrollSpanPx());
-          },
-          pin: true,
-          pinSpacing: true,
-          pinClass: 'pin-spacer-home-scroll-p2',
-          anticipatePin: 1,
+          id: 'home-scroll-p1',
+          trigger: container,
+          start: 'top top',
+          endTrigger: showcase || container,
+          end: 'bottom bottom',
           scrub: true,
           invalidateOnRefresh: true,
           onRefresh: onFilmScrollChange,
           onUpdate: onFilmScrollChange
         }
       });
-    }
 
-    if (!container.__homeFilmResizeBound) {
-      container.__homeFilmResizeBound = true;
+      if (chaos) {
+        var st2State = { progress: 0 };
 
-      window.addEventListener('resize', function () {
-        resizeCanvas();
-
-        if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
-          window.ScrollTrigger.refresh();
-        }
-      }, { passive: true });
-    }
-
-    if (!container.__homeFilmCanvasHideBound) {
-      container.__homeFilmCanvasHideBound = true;
-
-      function homeAboutNotchPx() {
-        var w = window.innerWidth || 1440;
-
-        if (w <= 1024) {
-          return Math.round((40 / 390) * w);
-        }
-
-        return Math.min(Math.round((90 / 1440) * w), 90);
-      }
-
-      function bindHomeFilmCanvasHide() {
-        var existing = window.ScrollTrigger.getById('home-scroll-film-canvas-hide');
-
-        if (existing) {
-          existing.kill();
-        }
-
-        var aboutViewport = document.querySelector('#home-about .services-clients__viewport');
-
-        if (!aboutViewport) {
-          return;
-        }
-
-        window.ScrollTrigger.create({
-          id: 'home-scroll-film-canvas-hide',
-          trigger: aboutViewport,
-          start: function () {
-            return 'top+=' + homeAboutNotchPx() + ' top';
-          },
-          onEnter: function () {
-            canvas.style.visibility = 'hidden';
-            canvas.style.pointerEvents = 'none';
-          },
-          onLeaveBack: function () {
-            canvas.style.visibility = '';
-            canvas.style.pointerEvents = '';
-          },
-          invalidateOnRefresh: true
+        window.gsap.to(st2State, {
+          progress: 1,
+          ease: 'none',
+          immediateRender: false,
+          scrollTrigger: {
+            id: 'home-scroll-p2',
+            trigger: chaos,
+            start: 'top bottom',
+            end: function () {
+              return '+=' + Math.round(phase2ScrollSpanPx());
+            },
+            pin: true,
+            pinSpacing: true,
+            pinClass: 'pin-spacer-home-scroll-p2',
+            anticipatePin: 1,
+            scrub: true,
+            invalidateOnRefresh: true,
+            onRefresh: onFilmScrollChange,
+            onUpdate: onFilmScrollChange
+          }
         });
       }
 
-      bindHomeFilmCanvasHide();
+      if (!container.__homeFilmResizeBound) {
+        container.__homeFilmResizeBound = true;
+
+        window.addEventListener('resize', function () {
+          resizeCanvas();
+
+          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+            window.ScrollTrigger.refresh();
+          }
+        }, { passive: true });
+      }
+
+      if (!container.__homeFilmCanvasHideBound) {
+        container.__homeFilmCanvasHideBound = true;
+
+        function homeAboutNotchPx() {
+          var w = window.innerWidth || 1440;
+
+          if (w <= 1024) {
+            return Math.round((40 / 390) * w);
+          }
+
+          return Math.min(Math.round((90 / 1440) * w), 90);
+        }
+
+        function bindHomeFilmCanvasHide() {
+          var existing = window.ScrollTrigger.getById('home-scroll-film-canvas-hide');
+
+          if (existing) {
+            existing.kill();
+          }
+
+          var aboutViewport = document.querySelector('#home-about .services-clients__viewport');
+
+          if (!aboutViewport) {
+            return;
+          }
+
+          window.ScrollTrigger.create({
+            id: 'home-scroll-film-canvas-hide',
+            trigger: aboutViewport,
+            start: function () {
+              return 'top+=' + homeAboutNotchPx() + ' top';
+            },
+            onEnter: function () {
+              canvas.style.visibility = 'hidden';
+              canvas.style.pointerEvents = 'none';
+            },
+            onLeaveBack: function () {
+              canvas.style.visibility = '';
+              canvas.style.pointerEvents = '';
+            },
+            invalidateOnRefresh: true
+          });
+        }
+
+        bindHomeFilmCanvasHide();
+      }
+
+      window.ScrollTrigger.refresh();
+      syncHomeScrollFilmFrame();
     }
 
-    window.ScrollTrigger.refresh();
-    syncHomeScrollFilmFrame();
+    function markVideosReady() {
+      if (videosReady) {
+        return;
+      }
+
+      videosReady = true;
+      bindScrollFilm();
+
+      if (prefersReducedMotion) {
+        seekVideo(videoP1, 0);
+        return;
+      }
+
+      syncHomeScrollFilmFrame();
+    }
+
+    function waitForVideo(video) {
+      return new Promise(function (resolve) {
+        if (video.readyState >= 1 && video.duration && !isNaN(video.duration)) {
+          resolve();
+          return;
+        }
+
+        function onReady() {
+          video.removeEventListener('loadedmetadata', onReady);
+          video.removeEventListener('error', onReady);
+          resolve();
+        }
+
+        video.addEventListener('loadedmetadata', onReady, { once: true });
+        video.addEventListener('error', onReady, { once: true });
+        video.load();
+      });
+    }
+
+    Promise.all([waitForVideo(videoP1), waitForVideo(videoP2)]).then(function () {
+      markVideosReady();
+    });
   }
 
   function initHomeChaosFilm() {

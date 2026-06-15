@@ -547,6 +547,15 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 }
 
+.home-scroll-film__video {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 /* Pin chaos: не обрізати bow-tie / шпиль (анімація canvas лишається видимою). */
 .home-scroll-film .pin-spacer,
 .home-scroll-film .pin-spacer-home-scroll-p2 {
