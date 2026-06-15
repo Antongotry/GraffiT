@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "sass --watch assets/scss/main.scss:assets/css/main.css --style=expanded",
     "build": "sass assets/scss/main.scss:assets/css/main.css --style=compressed",
-    "slice:home-film": "bash scripts/slice-home-film.sh"
+    "slice:home-film": "bash scripts/slice-home-film.sh",
+    "import:home-film": "bash scripts/import-home-film-webp.sh"
   },
   "devDependencies": {
     "sass": "^1.93.0"

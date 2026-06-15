@@ -1,16 +1,18 @@
 {
-  "version": 1,
+  "version": 2,
   "fps": 24,
   "pad": 4,
   "ext": ".webp",
+  "scrollPace": 1,
+  "phase2ScrollPace": 1.85,
   "p1": {
-    "count": 169,
-    "lastIndex": 168,
-    "source": "Відео-1-2-екран.mp4"
+    "count": 211,
+    "lastIndex": 210,
+    "source": "Анімація - 1-2 екран"
   },
   "p2": {
-    "count": 193,
-    "lastIndex": 192,
-    "source": "Відео-2-3-екран.mp4"
+    "count": 241,
+    "lastIndex": 240,
+    "source": "Анімація - 2-3 екран"
   }
 }

@@ -1876,7 +1876,7 @@
       var stage = section.querySelector('.js-clients-stage');
       var track = section.querySelector('.js-clients-track');
       var shouldHideHeader = section.id === 'about-clients';
-      var shouldForceZeroBottomPadding = section.id === 'home-about';
+      var shouldForceZeroBottomPadding = false;
 
       if (!viewport || !stage || !track) {
         return;
@@ -3254,46 +3254,105 @@
     }
 
     var p1Images = container.__homeFilmP1Images;
+    var p2Images = container.__homeFilmP2Images;
+    var FILM_SCROLL_PACE = typeof filmConfig.scrollPace === 'number' ? filmConfig.scrollPace : 1;
+    var FILM_PHASE2_SCROLL_PACE = typeof filmConfig.phase2ScrollPace === 'number' ? filmConfig.phase2ScrollPace : 1.85;
+    var filmPhase2Latched = !!container.__homeFilmPhase2Latched;
+    var FILM_PRELOAD_CONCURRENCY = 12;
+    var activePhase = 1;
+    var currentIndex = -1;
+    var lastDrawnImage = null;
 
-    if (!p1Images) {
-      p1Images = new Array(P1_COUNT).fill(null);
-      container.__homeFilmP1Images = p1Images;
-
-      for (var i1 = 0; i1 < P1_COUNT; i1++) {
-        (function (idx) {
-          var img = new Image();
-          img.onload = function () {
-            p1Images[idx] = img;
-
-            if (idx === 0) {
-              drawImage(img);
-            }
-          };
-          img.src = filmFrameUrl(1, idx);
-        })(i1);
-      }
+    function isImageReady(img) {
+      return !!(img && img.complete && img.naturalWidth);
     }
 
-    var p2Images = container.__homeFilmP2Images;
+    function resolveFilmImage(images, index) {
+      if (isImageReady(images[index])) {
+        return images[index];
+      }
 
-    if (!p2Images) {
+      var offset = 1;
+      var maxOffset = Math.min(32, images.length);
+
+      while (offset <= maxOffset) {
+        if (isImageReady(images[index - offset])) {
+          return images[index - offset];
+        }
+
+        if (isImageReady(images[index + offset])) {
+          return images[index + offset];
+        }
+
+        offset += 1;
+      }
+
+      return null;
+    }
+
+    function preloadFilmPhase(phase, count, targetArray) {
+      return new Promise(function (resolve) {
+        var nextIndex = 0;
+        var activeLoads = 0;
+
+        function pump() {
+          if (nextIndex >= count && activeLoads === 0) {
+            resolve();
+            return;
+          }
+
+          while (activeLoads < FILM_PRELOAD_CONCURRENCY && nextIndex < count) {
+            (function (idx) {
+              activeLoads += 1;
+              var img = new Image();
+
+              function finish() {
+                targetArray[idx] = img;
+                activeLoads -= 1;
+
+                if (idx === 0 && phase === 1 && isImageReady(img)) {
+                  drawImage(img);
+                }
+
+                pump();
+              }
+
+              img.onload = function () {
+                if (typeof img.decode === 'function') {
+                  img.decode().then(finish).catch(finish);
+                  return;
+                }
+
+                finish();
+              };
+              img.onerror = finish;
+              img.src = filmFrameUrl(phase, idx);
+
+              if (idx < 8) {
+                img.fetchPriority = 'high';
+              }
+            })(nextIndex);
+            nextIndex += 1;
+          }
+        }
+
+        pump();
+      });
+    }
+
+    if (!p1Images || !p2Images) {
+      p1Images = new Array(P1_COUNT).fill(null);
       p2Images = new Array(P2_COUNT).fill(null);
+      container.__homeFilmP1Images = p1Images;
       container.__homeFilmP2Images = p2Images;
 
-      for (var i2 = 0; i2 < P2_COUNT; i2++) {
-        (function (idx) {
-          var img = new Image();
-          img.onload = function () {
-            p2Images[idx] = img;
-          };
-          img.src = filmFrameUrl(2, idx);
-        })(i2);
-      }
+      Promise.all([
+        preloadFilmPhase(1, P1_COUNT, p1Images),
+        preloadFilmPhase(2, P2_COUNT, p2Images)
+      ]).then(function () {
+        syncHomeScrollFilmFrame();
+      });
     }
-
-    var activePhase = 1;
-    var currentIndex = 0;
-    var filmRafId = 0;
 
     function clamp(value, min, max) {
       return Math.min(max, Math.max(min, value));
@@ -3337,32 +3396,71 @@
 
       ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
       canvas.style.backgroundImage = 'none';
+      lastDrawnImage = img;
+    }
+
+    function progressToFrameIndex(progress, lastIndex) {
+      if (lastIndex <= 0) {
+        return 0;
+      }
+
+      return clamp(Math.round(progress * lastIndex), 0, lastIndex);
     }
 
     function setFilmFrame(phase, index) {
-      var nextIndex = clamp(index, 0, phase === 1 ? P1_LAST : P2_LAST);
+      var images = phase === 1 ? p1Images : p2Images;
+      var lastIndex = phase === 1 ? P1_LAST : P2_LAST;
+      var nextIndex = clamp(index, 0, lastIndex);
+      var img = resolveFilmImage(images, nextIndex);
 
-      if (activePhase === phase && currentIndex === nextIndex) {
+      if (!img) {
+        var pending = images[nextIndex];
+
+        if (pending && !pending.__homeFilmRetryBound) {
+          pending.__homeFilmRetryBound = true;
+          pending.addEventListener('load', function () {
+            syncHomeScrollFilmFrame();
+          }, { once: true });
+        }
+
+        return;
+      }
+
+      if (activePhase === phase && currentIndex === nextIndex && img === lastDrawnImage) {
         return;
       }
 
       activePhase = phase;
       currentIndex = nextIndex;
-      drawImage(phase === 1 ? p1Images[currentIndex] : p2Images[currentIndex]);
+      drawImage(img);
+    }
+
+    function phase1BaseSpanPx() {
+      var hero = container.querySelector('.home-hero');
+      var showcase = container.querySelector('.home-showcase');
+      var span = 0;
+
+      if (hero) {
+        span += hero.offsetHeight;
+      }
+
+      if (showcase) {
+        span += showcase.offsetHeight;
+      }
+
+      return span || window.innerHeight * 2;
     }
 
     function phase1PxPerFrame() {
-      var p1 = window.ScrollTrigger.getById('home-scroll-p1');
+      return (phase1BaseSpanPx() / P1_LAST) * FILM_SCROLL_PACE;
+    }
 
-      if (p1 && p1.end > p1.start) {
-        return (p1.end - p1.start) / P1_LAST;
-      }
-
-      return (window.innerHeight * 2) / P1_LAST;
+    function phase1ScrollSpanPx() {
+      return phase1PxPerFrame() * P1_LAST;
     }
 
     function phase2ScrollSpanPx() {
-      return phase1PxPerFrame() * P2_LAST;
+      return phase1PxPerFrame() * P2_LAST * FILM_PHASE2_SCROLL_PACE;
     }
 
     function syncHomeScrollFilmFrame() {
@@ -3379,26 +3477,28 @@
       var p1End = p1.end;
       var p1Span = Math.max(p1End - p1Start, 1);
 
-      if (!p2 || scroll <= p1End) {
-        var p1Progress = clamp((scroll - p1Start) / p1Span, 0, 1);
-        setFilmFrame(1, Math.round(p1Progress * P1_LAST));
+      if (scroll <= p1End) {
+        filmPhase2Latched = false;
+        container.__homeFilmPhase2Latched = false;
+        setFilmFrame(1, progressToFrameIndex(clamp((scroll - p1Start) / p1Span, 0, 1), P1_LAST));
         return;
       }
 
-      var phase2Span = Math.max(p2.end - p1End, 1);
-      var p2Progress = clamp((scroll - p1End) / phase2Span, 0, 1);
-      setFilmFrame(2, Math.round(p2Progress * P2_LAST));
+      if (!p2) {
+        setFilmFrame(1, P1_LAST);
+        return;
+      }
+
+      if (!filmPhase2Latched) {
+        setFilmFrame(1, P1_LAST);
+        return;
+      }
+
+      setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
     }
 
     function onFilmScrollChange() {
-      if (filmRafId) {
-        return;
-      }
-
-      filmRafId = window.requestAnimationFrame(function () {
-        filmRafId = 0;
-        syncHomeScrollFilmFrame();
-      });
+      syncHomeScrollFilmFrame();
     }
 
     destroyHomeScrollFilmTriggers();
@@ -3418,8 +3518,9 @@
         id: 'home-scroll-p1',
         trigger: container,
         start: 'top top',
-        endTrigger: showcase || container,
-        end: 'bottom bottom',
+        end: function () {
+          return '+=' + Math.round(phase1ScrollSpanPx());
+        },
         scrub: true,
         invalidateOnRefresh: true,
         onRefresh: onFilmScrollChange,
@@ -3437,16 +3538,26 @@
         scrollTrigger: {
           id: 'home-scroll-p2',
           trigger: chaos,
-          start: 'top bottom',
+          start: 'top top',
           end: function () {
             return '+=' + Math.round(phase2ScrollSpanPx());
           },
           pin: true,
           pinSpacing: true,
           pinClass: 'pin-spacer-home-scroll-p2',
-          anticipatePin: 1,
+          anticipatePin: 0,
           scrub: true,
           invalidateOnRefresh: true,
+          onEnter: function () {
+            filmPhase2Latched = true;
+            container.__homeFilmPhase2Latched = true;
+            syncHomeScrollFilmFrame();
+          },
+          onLeaveBack: function () {
+            filmPhase2Latched = false;
+            container.__homeFilmPhase2Latched = false;
+            syncHomeScrollFilmFrame();
+          },
           onRefresh: onFilmScrollChange,
           onUpdate: onFilmScrollChange
         }

@@ -41,8 +41,15 @@ function graffit_home_film_config(): array
             $defaults['p2Last'] = (int) ($manifest['p2']['lastIndex'] ?? $defaults['p2Last']);
             $defaults['pad'] = (int) ($manifest['pad'] ?? $defaults['pad']);
             $defaults['ext'] = (string) ($manifest['ext'] ?? $defaults['ext']);
+            $defaults['scrollPace'] = (float) ($manifest['scrollPace'] ?? 1);
+            $defaults['phase2ScrollPace'] = (float) ($manifest['phase2ScrollPace'] ?? 1.85);
         }
     }
+
+    $defaults = array_merge($defaults, [
+        'scrollPace' => $defaults['scrollPace'] ?? 1,
+        'phase2ScrollPace' => $defaults['phase2ScrollPace'] ?? 1.85,
+    ]);
 
     $p1_dir = $film_root . '/p1';
     $p2_dir = $film_root . '/p2';
@@ -73,7 +80,9 @@ function graffit_home_film_config(): array
         'poster' => $poster,
         'pad' => $defaults['pad'],
         'ext' => $defaults['ext'],
-        'source' => 'sliced-mp4',
+        'scrollPace' => (float) ($defaults['scrollPace'] ?? 1),
+        'phase2ScrollPace' => (float) ($defaults['phase2ScrollPace'] ?? 1.85),
+        'source' => 'designer-webp',
     ];
 }
 

@@ -349,8 +349,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 /*
- * Homepage #home-about — mirror .about-clients from the About page exactly.
- * Uses all default services-clients styles; only text sizing is adjusted.
+ * Homepage #home-about — mirror #services-clients on /services/ (spacing, viewport, cards).
+ * Homepage copy only; layout metrics match the services clients block.
  */
 .home-chaos-about-flow #home-about {
   overflow: visible;
@@ -393,8 +393,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
     50% calc(100% - #{mixins.vw(90px)}),
     0 100%
   ) !important;
-  padding-top: calc(#{mixins.vw(16px)} + #{mixins.vw(90px)});
-  padding-bottom: #{mixins.vw(90px)};
+  padding-top: calc(#{mixins.vw(40px)} + #{mixins.vw(113px)});
+  padding-bottom: #{mixins.vw(140px)};
 
   &::before,
   &::after {
@@ -424,12 +424,12 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__layout {
-  padding-top: 0;
+  padding-top: #{mixins.vw(12px)};
 }
 
 .home-chaos-about-flow #home-about .services-clients__title {
   width: #{mixins.vw(788px)};
-  margin-top: #{mixins.vw(16px)};
+  margin-top: #{mixins.vw(32px)};
   font-size: #{mixins.vw(32px)};
   line-height: 1.48;
 
@@ -442,9 +442,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__text {
-  width: #{mixins.vw(598px)};
-  /* Більший зазор під заголовком на високих екранах; стискається на низьких. */
-  margin-top: clamp(#{mixins.vw(48px)}, 10svh, #{mixins.vw(156px)});
+  width: #{mixins.vw(560px)};
+  margin-top: #{mixins.vw(156px)};
   color: rgba(0, 1, 2, 0.92);
 
   @include mixins.mobile {
@@ -454,8 +453,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about .services-clients__copy {
-  /* Desktop: мінімальний верх (базовий 72px вимкнено); cap 1440. */
-  padding-top: calc((#{mixins.vw(16px)} + #{mixins.vw(104.8px)}) * 0.45);
+  padding-top: #{mixins.vw(16px)};
 
   @include mixins.mobile {
     padding-top: #{mixins.mvw(10px)};
@@ -464,7 +462,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 .home-chaos-about-flow #home-about .services-clients__cards-stage {
   --clients-top-fade: 0;
-  height: #{mixins.vw(820px)};
+  height: #{mixins.vw(640px)};
   /* Верхній fade + коротший низ — менше порожнього скролу до hex. */
   mask-image: linear-gradient(
     to bottom,
@@ -502,6 +500,29 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 }
 
 .home-chaos-about-flow #home-about.is-clients-top-fade .services-clients__cards-stage {
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.92)) #{mixins.vw(32px)},
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
+    #000 #{mixins.vw(180px)},
+    #000 calc(100% - #{mixins.vw(200px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0))) 0,
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.92)) #{mixins.vw(32px)},
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.55)) #{mixins.vw(88px)},
+    rgba(0, 0, 0, calc(1 - var(--clients-top-fade, 0) * 0.12)) #{mixins.vw(140px)},
+    #000 #{mixins.vw(180px)},
+    #000 calc(100% - #{mixins.vw(200px)}),
+    rgba(0, 0, 0, 0.5) calc(100% - #{mixins.vw(72px)}),
+    transparent 100%
+  );
+
   @include mixins.mobile {
     mask-image: none;
     -webkit-mask-image: none;
@@ -859,8 +880,15 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
 /* Desktop #home-about: висота по контенту; ≥1440 — cap вирізу й трикутника hex. */
 @media (min-width: 1025px) {
-  .home-chaos-about-flow #home-about .services-clients__viewport {
-    min-height: 0;
+  .home-chaos-about-flow #home-about {
+    .services-clients__viewport {
+      min-height: 0;
+      height: auto;
+    }
+
+    .services-clients__cards-stage {
+      height: #{mixins.vw(640px)};
+    }
   }
 
   /* Сфери лише для мобільного декору — на desktop дають «анімаційний» шум у pin-spacer. */
@@ -889,8 +917,8 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
       50% calc(100% - min(calc(90 / 1440 * 100vw), 90px)),
       0 100%
     ) !important;
-    padding-top: calc(#{mixins.vw(16px)} + min(calc(90 / 1440 * 100vw), 90px));
-    padding-bottom: min(calc(90 / 1440 * 100vw), 90px);
+    padding-top: calc(40px + 113px);
+    padding-bottom: 140px;
   }
 
   .home-hex-projects-flow::after {
