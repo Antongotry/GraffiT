@@ -3447,7 +3447,7 @@
       if (about) {
         var aboutRect = about.getBoundingClientRect();
 
-        if (aboutRect.bottom < notch * 1.5) {
+        if (aboutRect.bottom <= viewportHeight + notch) {
           return false;
         }
       }
@@ -3482,7 +3482,7 @@
         return false;
       }
 
-      if (aboutRect.top > viewportHeight * 0.72) {
+      if (aboutRect.top > viewportHeight + notch) {
         return false;
       }
 
@@ -3504,7 +3504,7 @@
       }
 
       hideHomeFilmCanvas();
-      setHomeFilmHandoff(false);
+      setHomeFilmHandoff(false, true);
       stopFilmOverlayLoop();
     }
 
@@ -3828,7 +3828,7 @@
       return Math.min((90 / 1440) * w, 90);
     }
 
-    function setHomeFilmHandoff(active) {
+    function setHomeFilmHandoff(active, skipSync) {
       var flow = document.querySelector('.home-chaos-about-flow');
 
       if (!flow) {
@@ -3839,7 +3839,12 @@
         active = false;
       }
 
-      flow.classList.toggle('is-film-wedge-active', !!active);
+      active = !!active;
+      flow.classList.toggle('is-film-wedge-active', active);
+
+      if (skipSync) {
+        return;
+      }
 
       if (active) {
         syncFilmBowTieOverlays();
@@ -4085,9 +4090,9 @@
       var inPhase2 = !!(p2 && (p2.isActive || p2.progress > 0));
 
       if (inPhase2) {
-        filmPhase2Latched = !isMobileFilmLayout();
+        filmPhase2Latched = true;
         container.__homeFilmPhase2Latched = filmPhase2Latched;
-        setHomeFilmHandoff(!isMobileFilmLayout());
+        setHomeFilmHandoff(true);
         setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
         syncFilmBowTieOverlays();
         return;
@@ -4113,9 +4118,9 @@
       var handoff = clamp((scroll - p1.end) / gap, 0, 1);
       var handoffLast = Math.min(16, P2_LAST);
 
-      filmPhase2Latched = !isMobileFilmLayout();
+      filmPhase2Latched = true;
       container.__homeFilmPhase2Latched = filmPhase2Latched;
-      setHomeFilmHandoff(!isMobileFilmLayout());
+      setHomeFilmHandoff(true);
       setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
       syncFilmBowTieOverlays();
     }

@@ -116,6 +116,12 @@
   }
 
   @include mixins.mobile {
+    /*
+     * Mobile has no pinned bottom-wing JS shield. Keep the next flow above the
+     * fixed film canvas so phase-2 frames cannot cover following content.
+     */
+    z-index: 92;
+
     &::before {
       display: none;
     }
@@ -357,6 +363,10 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   @include mixins.mobile {
     overflow: visible;
   }
+
+  &::after {
+    content: none;
+  }
 }
 
 /*
@@ -365,6 +375,21 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
  */
 .home-chaos-about-flow.is-film-wedge-active #home-about {
   background: transparent;
+}
+
+.home-chaos-about-flow.is-film-wedge-active #home-about::after {
+  @include mixins.mobile {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    z-index: 0;
+    display: block;
+    height: calc(#{mixins.mvw(40px)} + 2px);
+    background: #000102;
+    content: "";
+    pointer-events: none;
+  }
 }
 
 /*
