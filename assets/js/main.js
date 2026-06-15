@@ -3325,9 +3325,13 @@
     var videoP2Url = filmMedia.videoP2Url || videoP2.getAttribute('src') || '';
     var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var activePhase = 1;
-    var activeFilmTime = -1;
-    var videosReady = false;
+    var currentFrameIndex = -1;
+    var filmsReady = false;
     var filmRafId = 0;
+    var p1Frames = container.__homeFilmP1Frames || null;
+    var p2Frames = container.__homeFilmP2Frames || null;
+    var FILM_FPS = 24;
+    var FILM_JPEG_QUALITY = 0.88;
 
     [videoP1, videoP2].forEach(function (video) {
       video.muted = true;
@@ -3380,106 +3384,232 @@
       syncHomeScrollFilmFrame();
     }
 
-    function drawVideoToCanvas(video) {
-      if (!video || video.readyState < 2) {
-        return false;
-      }
-
-      var vw = video.videoWidth;
-      var vh = video.videoHeight;
-
-      if (!vw || !vh) {
-        return false;
+    function drawImage(img) {
+      if (!img || !img.complete || !img.naturalWidth) {
+        return;
       }
 
       var cw = canvas.width;
       var ch = canvas.height;
-      var scale = Math.max(cw / vw, ch / vh);
-      var w = vw * scale;
-      var h = vh * scale;
 
       ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(video, (cw - w) / 2, (ch - h) / 2, w, h);
-      return true;
+
+      var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      var w = img.naturalWidth * scale;
+      var h = img.naturalHeight * scale;
+
+      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      canvas.style.backgroundImage = 'none';
     }
 
-    function seekFilmVideo(video, targetTime) {
-      if (Math.abs(video.currentTime - targetTime) <= 0.033) {
-        return;
+    function filmLastIndex(frames) {
+      if (!frames || !frames.length) {
+        return 0;
       }
 
-      try {
-        if (typeof video.fastSeek === 'function') {
-          video.fastSeek(targetTime);
-        } else {
-          video.currentTime = targetTime;
-        }
-      } catch (error) {
-        /* ignore seek errors while scrubbing */
-      }
+      return frames.length - 1;
     }
 
-    function scrubFilmVideo(phase, progress, force) {
-      if (!videosReady) {
+    function setFilmFrame(phase, index) {
+      if (!filmsReady) {
         return;
       }
 
-      var video = phase === 1 ? videoP1 : videoP2;
+      var frames = phase === 1 ? p1Frames : p2Frames;
+      var lastIndex = filmLastIndex(frames);
+      var nextIndex = clamp(index, 0, lastIndex);
 
-      if (!video || !video.duration || isNaN(video.duration)) {
-        return;
-      }
-
-      if (prefersReducedMotion) {
-        seekFilmVideo(video, 0);
-        drawVideoToCanvas(video);
-        canvas.style.backgroundImage = 'none';
-        return;
-      }
-
-      var targetTime = clamp(progress, 0, 1) * video.duration;
-
-      if (!force && activePhase === phase && Math.abs(activeFilmTime - targetTime) < 0.02) {
+      if (!prefersReducedMotion && activePhase === phase && currentFrameIndex === nextIndex) {
         return;
       }
 
       activePhase = phase;
-      activeFilmTime = targetTime;
-      seekFilmVideo(video, targetTime);
-
-      if (drawVideoToCanvas(video)) {
-        canvas.style.backgroundImage = 'none';
-        return;
-      }
-
-      function redrawAfterSeek() {
-        if (drawVideoToCanvas(video)) {
-          canvas.style.backgroundImage = 'none';
-        }
-      }
-
-      video.addEventListener('seeked', redrawAfterSeek, { once: true });
-      video.addEventListener('loadeddata', redrawAfterSeek, { once: true });
+      currentFrameIndex = nextIndex;
+      drawImage(frames[nextIndex]);
     }
 
-    function phase1ScrollSpanPx() {
-      var p1 = window.ScrollTrigger.getById('home-scroll-p1');
+    function waitForImage(img) {
+      return new Promise(function (resolve) {
+        if (!img) {
+          resolve();
+          return;
+        }
 
-      if (p1 && p1.end > p1.start) {
-        return p1.end - p1.start;
+        if (img.complete && img.naturalWidth) {
+          resolve();
+          return;
+        }
+
+        img.onload = function () {
+          resolve();
+        };
+        img.onerror = function () {
+          resolve();
+        };
+      });
+    }
+
+    function captureVideoFramesBySeek(video) {
+      return new Promise(function (resolve, reject) {
+        var duration = video.duration;
+
+        if (!duration || isNaN(duration)) {
+          reject(new Error('home-film: missing video duration'));
+          return;
+        }
+
+        var frameCount = Math.max(1, Math.round(duration * FILM_FPS));
+        var frames = new Array(frameCount);
+        var offscreen = document.createElement('canvas');
+        var offCtx = offscreen.getContext('2d');
+        var vw = video.videoWidth;
+        var vh = video.videoHeight;
+        var index = 0;
+
+        if (!offCtx || !vw || !vh) {
+          reject(new Error('home-film: cannot read video dimensions'));
+          return;
+        }
+
+        offscreen.width = vw;
+        offscreen.height = vh;
+        video.pause();
+
+        function captureNext() {
+          if (index >= frameCount) {
+            Promise.all(frames.map(waitForImage)).then(function () {
+              resolve(frames);
+            });
+            return;
+          }
+
+          var progress = frameCount === 1 ? 0 : index / (frameCount - 1);
+
+          video.currentTime = progress * duration;
+          video.addEventListener('seeked', function onSeeked() {
+            video.removeEventListener('seeked', onSeeked);
+            offCtx.drawImage(video, 0, 0, vw, vh);
+            var img = new Image();
+            frames[index] = img;
+            img.src = offscreen.toDataURL('image/jpeg', FILM_JPEG_QUALITY);
+            index += 1;
+            captureNext();
+          }, { once: true });
+        }
+
+        captureNext();
+      });
+    }
+
+    function captureVideoFramesByPlayback(video) {
+      return new Promise(function (resolve, reject) {
+        if (typeof video.requestVideoFrameCallback !== 'function') {
+          captureVideoFramesBySeek(video).then(resolve).catch(reject);
+          return;
+        }
+
+        var duration = video.duration;
+
+        if (!duration || isNaN(duration)) {
+          reject(new Error('home-film: missing video duration'));
+          return;
+        }
+
+        var frameCount = Math.max(1, Math.round(duration * FILM_FPS));
+        var frames = new Array(frameCount);
+        var seen = {};
+        var offscreen = document.createElement('canvas');
+        var offCtx = offscreen.getContext('2d');
+        var vw = video.videoWidth;
+        var vh = video.videoHeight;
+
+        if (!offCtx || !vw || !vh) {
+          captureVideoFramesBySeek(video).then(resolve).catch(reject);
+          return;
+        }
+
+        offscreen.width = vw;
+        offscreen.height = vh;
+
+        function finalize() {
+          video.pause();
+          video.playbackRate = 1;
+
+          var list = [];
+          var lastImg = null;
+
+          for (var i = 0; i < frameCount; i++) {
+            if (frames[i]) {
+              lastImg = frames[i];
+            }
+
+            if (lastImg) {
+              list.push(lastImg);
+            }
+          }
+
+          Promise.all(list.map(waitForImage)).then(function () {
+            resolve(list);
+          });
+        }
+
+        function onVideoFrame(now, metadata) {
+          var t = metadata.mediaTime;
+          var idx = Math.min(frameCount - 1, Math.round(t * FILM_FPS));
+
+          if (!seen[idx]) {
+            seen[idx] = true;
+            offCtx.drawImage(video, 0, 0, vw, vh);
+            var img = new Image();
+            img.src = offscreen.toDataURL('image/jpeg', FILM_JPEG_QUALITY);
+            frames[idx] = img;
+          }
+
+          if (t >= duration - (1 / FILM_FPS)) {
+            finalize();
+            return;
+          }
+
+          video.requestVideoFrameCallback(onVideoFrame);
+        }
+
+        video.pause();
+        video.currentTime = 0;
+        video.muted = true;
+        video.playbackRate = 1;
+
+        video.play().then(function () {
+          video.requestVideoFrameCallback(onVideoFrame);
+        }).catch(function () {
+          captureVideoFramesBySeek(video).then(resolve).catch(reject);
+        });
+      });
+    }
+
+    function getOrCaptureFrames(video, cacheKey) {
+      if (container[cacheKey]) {
+        return Promise.resolve(container[cacheKey]);
       }
 
-      return window.innerHeight * 2;
+      return captureVideoFramesByPlayback(video).then(function (frames) {
+        container[cacheKey] = frames;
+        return frames;
+      });
+    }
+
+    function phase1PxPerFrame() {
+      var p1 = window.ScrollTrigger.getById('home-scroll-p1');
+      var last = filmLastIndex(p1Frames);
+
+      if (p1 && p1.end > p1.start) {
+        return (p1.end - p1.start) / Math.max(last, 1);
+      }
+
+      return (window.innerHeight * 2) / Math.max(last, 1);
     }
 
     function phase2ScrollSpanPx() {
-      var durationRatio = 1;
-
-      if (videoP1.duration && videoP2.duration && !isNaN(videoP1.duration) && !isNaN(videoP2.duration)) {
-        durationRatio = videoP2.duration / videoP1.duration;
-      }
-
-      return phase1ScrollSpanPx() * durationRatio;
+      return phase1PxPerFrame() * filmLastIndex(p2Frames);
     }
 
     /*
@@ -3491,7 +3621,7 @@
       var p2 = window.ScrollTrigger.getById('home-scroll-p2');
 
       if (!p1) {
-        scrubFilmVideo(1, 0, true);
+        setFilmFrame(1, 0);
         return;
       }
 
@@ -3499,15 +3629,18 @@
       var p1Start = p1.start;
       var p1End = p1.end;
       var p1Span = Math.max(p1End - p1Start, 1);
+      var p1Last = filmLastIndex(p1Frames);
+      var p2Last = filmLastIndex(p2Frames);
 
       if (!p2 || scroll <= p1End) {
-        scrubFilmVideo(1, clamp((scroll - p1Start) / p1Span, 0, 1), false);
+        var p1Progress = clamp((scroll - p1Start) / p1Span, 0, 1);
+        setFilmFrame(1, Math.round(p1Progress * p1Last));
         return;
       }
 
       var phase2Span = Math.max(p2.end - p1End, 1);
       var p2Progress = clamp((scroll - p1End) / phase2Span, 0, 1);
-      scrubFilmVideo(2, p2Progress, false);
+      setFilmFrame(2, Math.round(p2Progress * p2Last));
     }
 
     function onFilmScrollChange() {
@@ -3647,15 +3780,15 @@
       syncHomeScrollFilmFrame();
     }
 
-    function markVideosReady() {
-      if (videosReady) {
+    function markFilmsReady() {
+      if (filmsReady) {
         return;
       }
 
-      videosReady = true;
-      activeFilmTime = -1;
+      filmsReady = true;
+      currentFrameIndex = -1;
       bindScrollFilm();
-      scrubFilmVideo(1, 0, true);
+      setFilmFrame(1, 0);
     }
 
     function waitForVideo(video) {
@@ -3678,7 +3811,22 @@
     }
 
     Promise.all([waitForVideo(videoP1), waitForVideo(videoP2)]).then(function () {
-      markVideosReady();
+      return Promise.all([
+        p1Frames ? Promise.resolve(p1Frames) : getOrCaptureFrames(videoP1, '__homeFilmP1Frames'),
+        p2Frames ? Promise.resolve(p2Frames) : getOrCaptureFrames(videoP2, '__homeFilmP2Frames')
+      ]);
+    }).then(function (results) {
+      p1Frames = results[0];
+      p2Frames = results[1];
+      container.__homeFilmP1Frames = p1Frames;
+      container.__homeFilmP2Frames = p2Frames;
+      markFilmsReady();
+    }).catch(function () {
+      if (posterUrl) {
+        return;
+      }
+
+      canvas.style.background = '#020914';
     });
   }
 
