@@ -3230,8 +3230,41 @@
     var videoP2Url = container.getAttribute('data-film-video-p2') || videoP2.getAttribute('src') || '';
     var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var activePhase = 1;
-    var activeProgress = 0;
+    var activeProgress = -1;
     var videosReady = false;
+    var pendingSeekId = 0;
+    var filmVideos = [videoP1, videoP2];
+
+    function setHomeFilmLayerHidden(hidden) {
+      filmVideos.forEach(function (video) {
+        if (!video) {
+          return;
+        }
+
+        video.style.visibility = hidden ? 'hidden' : '';
+      });
+
+      if (!canvas) {
+        return;
+      }
+
+      canvas.style.visibility = hidden ? 'hidden' : '';
+      canvas.style.pointerEvents = 'none';
+    }
+
+    function showActiveFilmVideo(video) {
+      filmVideos.forEach(function (item) {
+        if (!item) {
+          return;
+        }
+
+        var isActive = item === video;
+        item.classList.toggle('is-home-film-active', isActive);
+        item.style.visibility = isActive ? 'visible' : 'hidden';
+      });
+
+      canvas.style.opacity = video ? '0' : '1';
+    }
 
     if (posterUrl) {
       canvas.style.backgroundImage = 'url("' + posterUrl + '")';
@@ -3283,58 +3316,80 @@
       syncHomeScrollFilmFrame();
     }
 
-    function drawVideoFrame(video) {
-      if (!video || video.readyState < 2 || !video.videoWidth) {
-        return;
+    function paintFilmVideo(video, progress, force) {
+      if (!video) {
+        return false;
       }
 
-      var cw = canvas.width;
-      var ch = canvas.height;
+      if (!videosReady) {
+        return false;
+      }
 
-      ctx.clearRect(0, 0, cw, ch);
+      if (prefersReducedMotion) {
+        showActiveFilmVideo(video);
+        if (video.readyState >= 1) {
+          try {
+            video.currentTime = 0;
+          } catch (error) {
+            return false;
+          }
+        }
+        return true;
+      }
 
-      var scale = Math.max(cw / video.videoWidth, ch / video.videoHeight);
-      var w = video.videoWidth * scale;
-      var h = video.videoHeight * scale;
-
-      ctx.drawImage(video, (cw - w) / 2, (ch - h) / 2, w, h);
-      canvas.style.backgroundImage = 'none';
-    }
-
-    function seekVideo(video, progress) {
-      if (!video || !video.duration || isNaN(video.duration)) {
+      if (!video.duration || isNaN(video.duration)) {
         return false;
       }
 
       var targetTime = clamp(progress, 0, 1) * video.duration;
+      showActiveFilmVideo(video);
 
-      if (Math.abs(video.currentTime - targetTime) > 0.034) {
-        try {
-          video.currentTime = targetTime;
-        } catch (error) {
-          return false;
-        }
+      function applySeekedFrame() {
+        canvas.style.opacity = '0';
       }
 
-      drawVideoFrame(video);
+      if (!force && Math.abs(video.currentTime - targetTime) <= 0.034 && video.readyState >= 2) {
+        applySeekedFrame();
+        return true;
+      }
+
+      pendingSeekId += 1;
+      var seekId = pendingSeekId;
+
+      function onSeeked() {
+        if (seekId !== pendingSeekId) {
+          return;
+        }
+
+        applySeekedFrame();
+      }
+
+      video.addEventListener('seeked', onSeeked, { once: true });
+
+      try {
+        video.currentTime = targetTime;
+      } catch (error) {
+        return false;
+      }
+
+      if (video.readyState >= 2 && Math.abs(video.currentTime - targetTime) <= 0.05) {
+        onSeeked();
+      }
+
       return true;
     }
 
     function setFilmProgress(phase, progress) {
       var nextProgress = clamp(progress, 0, 1);
+      var force = activeProgress < 0;
 
-      if (activePhase === phase && Math.abs(activeProgress - nextProgress) < 0.001) {
+      if (!force && activePhase === phase && Math.abs(activeProgress - nextProgress) < 0.001) {
         return;
       }
 
       activePhase = phase;
       activeProgress = nextProgress;
-
-      if (!videosReady || prefersReducedMotion) {
-        return;
-      }
-
-      seekVideo(phase === 1 ? videoP1 : videoP2, nextProgress);
+      paintFilmVideo(phase === 1 ? videoP1 : videoP2, nextProgress, force);
     }
 
     function phase1ScrollSpanPx() {
@@ -3490,12 +3545,11 @@
               return 'top+=' + homeAboutNotchPx() + ' top';
             },
             onEnter: function () {
-              canvas.style.visibility = 'hidden';
-              canvas.style.pointerEvents = 'none';
+              setHomeFilmLayerHidden(true);
             },
             onLeaveBack: function () {
-              canvas.style.visibility = '';
-              canvas.style.pointerEvents = '';
+              setHomeFilmLayerHidden(false);
+              syncHomeScrollFilmFrame();
             },
             invalidateOnRefresh: true
           });
@@ -3515,9 +3569,10 @@
 
       videosReady = true;
       bindScrollFilm();
+      activeProgress = -1;
 
       if (prefersReducedMotion) {
-        seekVideo(videoP1, 0);
+        paintFilmVideo(videoP1, 0, true);
         return;
       }
 
@@ -3526,19 +3581,17 @@
 
     function waitForVideo(video) {
       return new Promise(function (resolve) {
-        if (video.readyState >= 1 && video.duration && !isNaN(video.duration)) {
+        function done() {
           resolve();
+        }
+
+        if (video.readyState >= 2 && video.duration && !isNaN(video.duration)) {
+          done();
           return;
         }
 
-        function onReady() {
-          video.removeEventListener('loadedmetadata', onReady);
-          video.removeEventListener('error', onReady);
-          resolve();
-        }
-
-        video.addEventListener('loadedmetadata', onReady, { once: true });
-        video.addEventListener('error', onReady, { once: true });
+        video.addEventListener('loadeddata', done, { once: true });
+        video.addEventListener('error', done, { once: true });
         video.load();
       });
     }

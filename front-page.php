@@ -25,6 +25,7 @@ get_header();
         <video
             class="home-scroll-film__video js-home-scroll-film-video-p1"
             src="<?php echo esc_url($home_film_video_p1); ?>"
+            poster="<?php echo esc_url($home_film_poster); ?>"
             muted
             playsinline
             preload="auto"
@@ -33,6 +34,7 @@ get_header();
         <video
             class="home-scroll-film__video js-home-scroll-film-video-p2"
             src="<?php echo esc_url($home_film_video_p2); ?>"
+            poster="<?php echo esc_url($home_film_poster); ?>"
             muted
             playsinline
             preload="auto"
