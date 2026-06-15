@@ -1314,6 +1314,12 @@ body.is-home-film-loading {
   }
 }
 
+@media (min-width: 1025px) {
+  .site-main--home .services-final-cta .services-final-cta__container {
+    padding-top: 0;
+  }
+}
+
 .home-faq__container {
   position: relative;
   width: #{mixins.vw(1360px)};
