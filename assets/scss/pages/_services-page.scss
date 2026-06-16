@@ -4843,7 +4843,12 @@ $services-benefits-bg:
     flex: 0 0 auto;
 
     &::before {
-      background: linear-gradient(180deg, rgba(53, 62, 77, 0) 0%, #353e4d 100%);
+      background: linear-gradient(
+        180deg,
+        #353e4d 0%,
+        rgba(53, 62, 77, 0.82) #{mixins.mvw(14px)},
+        rgba(53, 62, 77, 0) #{mixins.mvw(52px)}
+      );
     }
   }
 }
