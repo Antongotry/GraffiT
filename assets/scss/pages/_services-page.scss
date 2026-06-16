@@ -4860,6 +4860,12 @@ $services-benefits-bg:
   background: var(--project-case-media-image) center / cover no-repeat;
 }
 
+@include mixins.mobile {
+  .project-case-card__media-overlay[style*='--project-case-media-image-mobile'] {
+    background: var(--project-case-media-image-mobile, var(--project-case-media-image)) center / cover no-repeat;
+  }
+}
+
 .services-process {
   --process-visual-sticky-top: #{mixins.vw(122px)};
   position: relative;

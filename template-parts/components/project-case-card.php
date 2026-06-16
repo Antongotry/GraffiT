@@ -16,6 +16,7 @@ $args = wp_parse_args(
         'detail_href' => '#',
         'media_class' => '',
         'media_image_url' => '',
+        'media_image_mobile_url' => '',
     ]
 );
 
@@ -29,6 +30,10 @@ $media_style = '';
 
 if (is_string($args['media_image_url']) && $args['media_image_url'] !== '') {
     $media_style = sprintf("--project-case-media-image: url('%s');", esc_url_raw($args['media_image_url']));
+}
+
+if (is_string($args['media_image_mobile_url']) && $args['media_image_mobile_url'] !== '') {
+    $media_style .= sprintf("--project-case-media-image-mobile: url('%s');", esc_url_raw($args['media_image_mobile_url']));
 }
 ?>
 <article class="<?php echo esc_attr(implode(' ', $card_classes)); ?>">

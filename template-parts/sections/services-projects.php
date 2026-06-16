@@ -22,6 +22,7 @@ $project_cases = [
         ],
         'media_class' => 'is-pizzeria',
         'media_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/1im_result.webp',
+        'media_image_mobile_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/мережа-піцерій-моб_result.webp',
     ],
     [
         'title' => 'Мережа пекарень – розробка комплексного рішення для автоматизації каси та складу',
@@ -34,6 +35,7 @@ $project_cases = [
         ],
         'media_class' => 'is-bakery',
         'media_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2im_result.webp',
+        'media_image_mobile_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/пекарень-моб_result.webp',
     ],
     [
         'title' => 'Ритейл – розробка гнучкої програми лояльності',
@@ -46,6 +48,7 @@ $project_cases = [
         ],
         'media_class' => 'is-loyalty',
         'media_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/3im_result.webp',
+        'media_image_mobile_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/ритейл_result.webp',
     ],
     [
         'title' => 'Роздрібна мережа – розробка системи розпізнавання та обліку співробітників',
@@ -58,6 +61,7 @@ $project_cases = [
         ],
         'media_class' => 'is-retail-staff',
         'media_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/4im_result.webp',
+        'media_image_mobile_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/роздрібна-моб_result.webp',
     ],
     [
         'title' => 'Крупний ритейл – розробка касових рішень',
@@ -70,6 +74,7 @@ $project_cases = [
         ],
         'media_class' => 'is-enterprise-retail',
         'media_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/5im_result.webp',
+        'media_image_mobile_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/крупний-ритейл_result.webp',
     ],
     [
         'title' => 'Торговельні мережі – розробка системи управління рекламою на екранах (Digital Signage)',
@@ -82,6 +87,7 @@ $project_cases = [
         ],
         'media_class' => 'is-signage',
         'media_image_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/6im_result.webp',
+        'media_image_mobile_url' => 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/торг-моб_result.webp',
     ],
 ];
 ?>
