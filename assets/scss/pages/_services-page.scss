@@ -5451,7 +5451,7 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
   @include mixins.mobile {
     width: min(100% - #{mixins.mvw(32px)}, 100%);
-    padding-top: #{mixins.mvw(84px)};
+    padding-top: #{mixins.mvw(59px)};
     padding-bottom: #{mixins.mvw(84px)};
 
     &::before,
