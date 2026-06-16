@@ -519,6 +519,8 @@
 
   .single-related .blog-post--featured {
     min-height: #{mixins.mvw(246px)};
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
     padding: #{mixins.mvw(20px)} 0;
     grid-template-columns: #{mixins.mvw(175px)} #{mixins.mvw(175px)};
     gap: #{mixins.mvw(5px)};
@@ -535,9 +537,15 @@
 
   .single-related .blog-post--compact {
     min-height: #{mixins.mvw(126px)};
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
     padding: #{mixins.mvw(20px)} 0;
     grid-template-columns: #{mixins.mvw(251px)} #{mixins.mvw(90px)};
     gap: #{mixins.mvw(14px)};
+  }
+
+  .single-related .blog-post--compact:last-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   }
 
   .single-related .blog-post__media--compact {
