@@ -3515,7 +3515,7 @@ $services-benefits-bg:
   @include mixins.mobile {
     width: 100%;
     margin-top: #{mixins.mvw(20px)};
-    font-size: #{mixins.mvw(24px)};
+    font-size: #{mixins.mvw(18px)};
   }
 }
 
@@ -3534,7 +3534,7 @@ $services-benefits-bg:
 .benefit-card__text {
   width: 100%;
   margin-top: #{mixins.vw(28px)};
-  color: var(--color-text-muted);
+  color: #ffffff;
   font-size: #{mixins.vw(16px)};
   line-height: 1.36;
 
