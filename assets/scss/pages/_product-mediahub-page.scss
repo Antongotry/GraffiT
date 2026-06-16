@@ -713,6 +713,10 @@
   overflow: visible;
   padding-top: #{mixins.vw(56px)};
   padding-bottom: 0;
+
+  @include mixins.mobile {
+    padding-top: #{mixins.mvw(84px)};
+  }
 }
 
 .mediahub-capabilities.services-projects:has(.services-projects__bg) .services-projects__container {
