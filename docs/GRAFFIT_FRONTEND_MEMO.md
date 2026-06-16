@@ -329,3 +329,15 @@ width: min(100% - mvw(32px), 100%);
 - Структура page/section/component не развалена
 - Для GraffiT по умолчанию ветка и push target: `main`
 
+## Desktop baseline frozen (2026-06)
+
+**Desktop (> 1024px) сейчас эталон.** На главной корректно работают:
+
+- scroll-film: фаза 1 (hero + showcase), handoff, фаза 2 (chaos → «Про нас»)
+- pin chaos на desktop, bow-tie / wedge, текст chaos над canvas
+- секция `#home-about`, карточки, canvas visibility
+
+Любые **мобильные правки** — только внутри `@include mixins.mobile` или mobile-веток в `main.js` (`isMobileFilmLayout()`, `innerWidth <= 1024`). **Не менять desktop-стили и desktop-логику**, если пользователь явно не попросил.
+
+Правило для агента: `.cursor/rules/mobile-only-no-desktop-regressions.mdc`
+

@@ -1,0 +1,49 @@
+---
+description: GraffiT mobile fixes must not change desktop — desktop homepage baseline is frozen
+alwaysApply: true
+---
+
+# Mobile-only fixes — do not touch desktop
+
+**Desktop (viewport > 1024px) is the approved baseline.** As of 2026-06, homepage film (phase 1/2), chaos pin, bow-tie handoff, `#home-about` cards, and related scroll behavior work correctly on desktop. Do not regress it.
+
+## When the user asks for mobile / phone fixes
+
+1. **Scope changes to mobile only** — breakpoint `1024px` via `@include mixins.mobile` in SCSS, or `isMobileFilmLayout()` / `window.innerWidth <= 1024` in JS.
+2. **Never change shared desktop rules** outside a mobile block. Prefer adding or editing code inside `@include mixins.mobile { ... }` rather than changing base/desktop values.
+3. **JS**: branch early with `if (isMobileFilmLayout()) { ... }` or equivalent; keep the existing desktop path unchanged.
+4. **Do not** remove desktop GSAP pin/scrub, Lenis coupling, or film phase logic to “simplify” mobile — add a parallel mobile path instead.
+5. **Before finishing**, mentally diff: “Does anything above 1024px change?” If yes, revert or isolate.
+
+## Safe patterns
+
+```scss
+// ✅ GOOD — desktop untouched
+.home-chaos {
+  z-index: 89; // desktop baseline
+
+  @include mixins.mobile {
+    padding-top: #{mixins.mvw(24px)};
+  }
+}
+```
+
+```scss
+// ❌ BAD — changes desktop too
+.home-chaos {
+  padding-top: 12px;
+}
+```
+
+```javascript
+// ✅ GOOD
+if (isMobileFilmLayout()) {
+  hideHomeFilmCanvas();
+  return;
+}
+// existing desktop logic below, unchanged
+```
+
+## If a fix seems to require a shared change
+
+Stop and either: (a) use a mobile-only override, or (b) ask the user before touching desktop.
