@@ -1771,13 +1771,17 @@
   overflow: hidden;
   opacity: 0;
   padding: 0 #{mixins.vw(32px)};
-  color: rgba(255, 255, 255, 0.76);
+  color: #ffffff;
   font-size: #{mixins.vw(15px)};
   line-height: 1.5;
   transition:
     max-height 450ms cubic-bezier(0.33, 1, 0.68, 1),
     opacity 380ms cubic-bezier(0.33, 1, 0.68, 1),
     padding 450ms cubic-bezier(0.33, 1, 0.68, 1);
+
+  p {
+    color: #ffffff;
+  }
 
   .mediahub-faq__item[open] & {
     opacity: 1;
