@@ -82,6 +82,11 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
         esc_url_raw($hex_home_desktop_card_bg_hover)
     )
     : $stack_style;
+
+$hex_mobile_card_blue_style = $primary_style;
+$hex_mobile_card_dark_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
+    ? $home_card_style
+    : $stack_style;
 ?>
 <section class="<?php echo esc_attr( $reasons_section_classes ); ?>" aria-labelledby="<?php echo esc_attr( (string) $reasons_hex['title_id'] ); ?>">
     <div class="hex-reasons__head">
@@ -246,7 +251,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             <div class="hex-reasons__m-pair">
                 <article
                     class="hex-reasons__m-shape"
-                    style="<?php echo esc_attr( $reasons_hex['section_extra_class'] === 'hex-reasons--home' ? $home_card_style : $primary_style ); ?>"
+                    style="<?php echo esc_attr( $hex_mobile_card_blue_style ); ?>"
                     aria-label="Ми не нав'язуємо готову коробку"
                 >
                     <div class="hex-reasons__m-shape__inner">
@@ -256,7 +261,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
                 </article>
                 <article
                     class="hex-reasons__m-shape"
-                    style="<?php echo esc_attr( $reasons_hex['section_extra_class'] === 'hex-reasons--home' ? $home_card_style : $stack_style ); ?>"
+                    style="<?php echo esc_attr( $hex_mobile_card_dark_style ); ?>"
                     aria-label="Працюємо в стеку, який сумісний з вимогами enterprise"
                 >
                     <div class="hex-reasons__m-shape__inner hex-reasons__m-shape__inner--stack">
@@ -294,7 +299,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             >
             <article
                 class="hex-reasons__m-shape hex-reasons__m-shape--center"
-                style="<?php echo esc_attr( $reasons_hex['section_extra_class'] === 'hex-reasons--home' ? $home_card_style : $primary_style ); ?>"
+                style="<?php echo esc_attr( $hex_mobile_card_dark_style ); ?>"
                 aria-label="Допомагаємо в складних кейсах"
             >
                 <div class="hex-reasons__m-shape__inner">
@@ -305,26 +310,27 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
         </div>
 
         <div class="hex-reasons__m-row hex-reasons__m-row--bot">
-            <img
-                class="hex-reasons__m-row__composite"
-                src="<?php echo esc_url( $hex_mobile_row3_composite_url ); ?>"
-                alt=""
-                width="900"
-                height="476"
-                loading="lazy"
-                decoding="async"
-            >
-            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--left">
-                <div class="hex-reasons__m-row__copy">
-                    <p class="hex-reasons__m-row__lead"><?php echo esc_html( 'Даємо чітку документацію, ' ); ?></p>
-                    <p class="hex-reasons__m-row__caption"><?php echo esc_html( 'підтримку після запуску і прозору комунікацію' ); ?></p>
-                </div>
-            </div>
-            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--right">
-                <div class="hex-reasons__m-row__copy">
-                    <p class="hex-reasons__m-row__lead"><?php echo esc_html( 'Інтегруємось у вже існуючий ландшафт' ); ?></p>
-                    <p class="hex-reasons__m-row__caption"><?php echo esc_html( '(1С, CRM, ERP, маркетплейси, POS тощо)' ); ?></p>
-                </div>
+            <div class="hex-reasons__m-pair">
+                <article
+                    class="hex-reasons__m-shape"
+                    style="<?php echo esc_attr( $hex_mobile_card_dark_style ); ?>"
+                    aria-label="Даємо чітку документацію"
+                >
+                    <div class="hex-reasons__m-shape__inner">
+                        <p class="hex-reasons__m-shape__lead"><?php echo esc_html( 'Даємо чітку документацію, ' ); ?></p>
+                        <p class="hex-reasons__m-shape__caption"><?php echo esc_html( 'підтримку після запуску і прозору комунікацію' ); ?></p>
+                    </div>
+                </article>
+                <article
+                    class="hex-reasons__m-shape"
+                    style="<?php echo esc_attr( $hex_mobile_card_dark_style ); ?>"
+                    aria-label="Інтегруємось у вже існуючий ландшафт"
+                >
+                    <div class="hex-reasons__m-shape__inner">
+                        <p class="hex-reasons__m-shape__lead"><?php echo esc_html( 'Інтегруємось у вже існуючий ландшафт' ); ?></p>
+                        <p class="hex-reasons__m-shape__caption"><?php echo esc_html( '(1С, CRM, ERP, маркетплейси, POS тощо)' ); ?></p>
+                    </div>
+                </article>
             </div>
         </div>
 
