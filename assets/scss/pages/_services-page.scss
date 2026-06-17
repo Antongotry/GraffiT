@@ -2710,6 +2710,23 @@
   }
 }
 
+.hex-reasons__m-row--top {
+  @include mixins.mobile {
+    width: #{mixins.mvw(450px)};
+    margin-left: auto;
+    margin-right: auto;
+    overflow: visible;
+  }
+
+  .hex-reasons__m-row__composite {
+    @include mixins.mobile {
+      width: 100%;
+      max-width: #{mixins.mvw(450px)};
+      margin-inline: auto;
+    }
+  }
+}
+
 .hex-reasons__m-row__composite {
   @include mixins.mobile {
     display: block;
