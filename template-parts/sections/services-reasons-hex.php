@@ -60,12 +60,14 @@ $reasons_stack_icons = [
 
 $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
-/** Mobile row 2: single composite (three hexes in one asset). */
-$hex_mobile_row2_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Group-1707480427_result.webp';
-/** Mobile row 3: two hexes + side FiCSS blocks. */
-$hex_mobile_row3_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/2134_result.webp';
-/** Mobile row 4: single hex photo composite. */
-$hex_mobile_row4_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/44444_result.webp';
+/** Mobile row 1: top hex row composite. */
+$hex_mobile_row1_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/top-geks_result.webp';
+/** Mobile row 2: middle hex row composite. */
+$hex_mobile_row2_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/mid-geks_result.webp';
+/** Mobile row 3: bottom hex row composite. */
+$hex_mobile_row3_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/bot-geks_result.webp';
+/** Mobile row 4: hex photo. */
+$hex_mobile_row4_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/late-gerks_result.webp';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
@@ -241,56 +243,41 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
     <!-- Mobile row1: 238×238 boxes, tight gap; WebP under FiCSS-scaled copy + icon row -->
     <div class="hex-reasons__mobi" role="region" aria-label="Переваги GraffiT">
             <div class="hex-reasons__m-row1">
-                <div class="hex-reasons__m-slot hex-reasons__m-slot--card">
-                    <article class="hex-reasons__m-card-tile">
-                        <img
-                            class="hex-reasons__m-card-bg"
-                            src="<?php echo esc_url( $hex_card_images['stack'] ); ?>"
-                            alt=""
-                            width="374"
-                            height="374"
-                            loading="lazy"
-                            decoding="async"
-                            aria-hidden="true"
-                        >
-                        <div class="hex-reasons__m-card-overlay hex-reasons__m-card-overlay--box">
-                            <h3 class="hex-reasons__m-card-boxtitle"><?php echo esc_html( 'Ми не нав\'язуємо готову "коробку"' ); ?></h3>
-                            <p class="hex-reasons__m-card-boxcaption">створюємо рішення під ваші задачі</p>
-                        </div>
-                    </article>
+                <img
+                    class="hex-reasons__m-row1-composite"
+                    src="<?php echo esc_url( $hex_mobile_row1_composite_url ); ?>"
+                    alt=""
+                    width="1125"
+                    height="732"
+                    loading="lazy"
+                    decoding="async"
+                >
+                <div class="hex-reasons__m-row1-hit hex-reasons__m-row1-hit--left">
+                    <div class="hex-reasons__m-card-overlay hex-reasons__m-card-overlay--box">
+                        <h3 class="hex-reasons__m-card-boxtitle"><?php echo esc_html( 'Ми не нав\'язуємо готову "коробку"' ); ?></h3>
+                        <p class="hex-reasons__m-card-boxcaption">створюємо рішення під ваші задачі</p>
+                    </div>
                 </div>
-                <div class="hex-reasons__m-slot hex-reasons__m-slot--card">
-                    <article class="hex-reasons__m-card-tile">
-                        <img
-                            class="hex-reasons__m-card-bg"
-                            src="<?php echo esc_url( $hex_card_images['stack'] ); ?>"
-                            alt=""
-                            width="374"
-                            height="374"
-                            loading="lazy"
-                            decoding="async"
-                            aria-hidden="true"
-                        >
-                        <div class="hex-reasons__m-card-overlay hex-reasons__m-card-overlay--stack">
-                            <p class="hex-reasons__m-stack-lead">Працюємо в стеку, який сумісний з вимогами enterprise:</p>
-                            <div class="hex-reasons__m-stack-icons" aria-hidden="true">
-                                <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
-                                    <span class="hex-reasons__m-stack-icon-cell">
-                                        <img
-                                            class="hex-reasons__m-stack-icon-img"
-                                            src="<?php echo esc_url( $icon_url ); ?>"
-                                            alt=""
-                                            width="32"
-                                            height="32"
-                                            loading="lazy"
-                                            decoding="async"
-                                        >
-                                    </span>
-                                <?php endforeach; ?>
-                            </div>
-                            <p class="hex-reasons__m-stack-caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
+                <div class="hex-reasons__m-row1-hit hex-reasons__m-row1-hit--right">
+                    <div class="hex-reasons__m-card-overlay hex-reasons__m-card-overlay--stack">
+                        <p class="hex-reasons__m-stack-lead">Працюємо в стеку, який сумісний з вимогами enterprise:</p>
+                        <div class="hex-reasons__m-stack-icons" aria-hidden="true">
+                            <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
+                                <span class="hex-reasons__m-stack-icon-cell">
+                                    <img
+                                        class="hex-reasons__m-stack-icon-img"
+                                        src="<?php echo esc_url( $icon_url ); ?>"
+                                        alt=""
+                                        width="32"
+                                        height="32"
+                                        loading="lazy"
+                                        decoding="async"
+                                    >
+                                </span>
+                            <?php endforeach; ?>
                         </div>
-                    </article>
+                        <p class="hex-reasons__m-stack-caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
+                    </div>
                 </div>
             </div>
 
