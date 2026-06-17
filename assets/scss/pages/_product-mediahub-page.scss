@@ -1661,9 +1661,11 @@
   text-align: center;
 
   @include mixins.mobile {
+    width: min(100%, #{mixins.mvw(355px)});
+    max-width: 100%;
     margin-top: #{mixins.mvw(20px)};
-    font-size: #{mixins.mvw(40px)};
-    line-height: 1.05;
+    font-size: #{mixins.mvw(34px)};
+    line-height: 1.12;
   }
 }
 
