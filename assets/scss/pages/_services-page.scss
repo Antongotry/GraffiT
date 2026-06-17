@@ -2507,10 +2507,32 @@
 
   min-height: #{mixins.vw(873px)};
   height: #{mixins.vw(873px)};
+
+  @include mixins.mobile {
+    display: none !important;
+    min-height: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
 }
 
-.hex-reasons__scene--desktop {
-  @include mixins.mobile {
+/* Legacy mobile hex markup (pre–June 2026 composites) — never show if cached HTML lingers. */
+@include mixins.mobile {
+  .hex-reasons__m-row1,
+  .hex-reasons__m-row-bottom,
+  .hex-reasons__m-row3,
+  .hex-reasons__m-row4,
+  .hex-reasons__m-slot,
+  .hex-reasons__m-card-tile,
+  .hex-reasons__m-card-overlay,
+  .hex-reasons__m-card-bg,
+  .hex-reasons__m-stack-icons,
+  .hex-reasons__m-row1-composite,
+  .hex-reasons__m-row2-composite,
+  .hex-reasons__m-row3-composite,
+  .hex-reasons__m-row4-composite {
     display: none !important;
   }
 }
