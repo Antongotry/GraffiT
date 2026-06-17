@@ -2707,14 +2707,14 @@
   object-position: center;
 }
 
-/* ─── Mobile honeycomb: top composite row (450 mvw, centered, bleeds past viewport) ─── */
+/* ─── Mobile honeycomb: top composite row (450 mvw, viewport-centered, bleeds past edges) ─── */
 .hex-reasons__mobi {
   display: none;
 
   @include mixins.mobile {
     display: block;
-    width: 100%;
-    margin: #{mixins.mvw(28px)} 0 0;
+    width: 100vw;
+    margin: #{mixins.mvw(28px)} calc(50% - 50vw) 0;
     padding: 0;
     overflow: visible;
   }
@@ -2730,18 +2730,21 @@
 
 .hex-reasons__m-row--top {
   @include mixins.mobile {
+    position: relative;
+    left: 50%;
     width: #{mixins.mvw(450px)};
-    margin-inline: auto;
+    margin: 0;
     overflow: visible;
+    transform: translateX(-50%);
   }
 
   .hex-reasons__m-row__composite {
     @include mixins.mobile {
       display: block;
-      width: #{mixins.mvw(450px)};
+      width: 100%;
       max-width: none;
       height: auto;
-      margin-inline: auto;
+      margin: 0;
       object-fit: contain;
       object-position: center top;
     }
