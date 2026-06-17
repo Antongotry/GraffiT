@@ -330,14 +330,13 @@
 }
 
 .services-hero__description {
-  color: var(--color-text-muted);
+  color: #ffffff;
   font-size: #{mixins.vw(16px)};
   line-height: 1.36;
 
   @include mixins.mobile {
     font-size: #{mixins.mvw(15px)};
     line-height: 1.45;
-    color: rgba(255, 255, 255, 0.58);
   }
 }
 
