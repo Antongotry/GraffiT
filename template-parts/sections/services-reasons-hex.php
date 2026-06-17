@@ -288,25 +288,29 @@ $hex_mobile_card_dark_style = $reasons_hex['section_extra_class'] === 'hex-reaso
         </div>
 
         <div class="hex-reasons__m-row hex-reasons__m-row--mid">
-            <img
-                class="hex-reasons__m-row__composite"
-                src="<?php echo esc_url( $hex_mobile_row2_composite_url ); ?>"
-                alt=""
-                width="1344"
-                height="488"
-                loading="lazy"
-                decoding="async"
-            >
-            <article
-                class="hex-reasons__m-shape hex-reasons__m-shape--center"
-                style="<?php echo esc_attr( $hex_mobile_card_dark_style ); ?>"
-                aria-label="Допомагаємо в складних кейсах"
-            >
-                <div class="hex-reasons__m-shape__inner">
-                    <p class="hex-reasons__m-shape__lead"><?php echo esc_html( 'Допомагаємо в складних кейсах, ' ); ?></p>
-                    <p class="hex-reasons__m-shape__caption"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
+            <div class="hex-reasons__m-mid">
+                <article
+                    class="hex-reasons__m-shape"
+                    style="<?php echo esc_attr( $hex_mobile_card_dark_style ); ?>"
+                    aria-label="Допомагаємо в складних кейсах"
+                >
+                    <div class="hex-reasons__m-shape__inner">
+                        <p class="hex-reasons__m-shape__lead"><?php echo esc_html( 'Допомагаємо в складних кейсах, ' ); ?></p>
+                        <p class="hex-reasons__m-shape__caption"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
+                    </div>
+                </article>
+                <div class="hex-reasons__m-shape hex-reasons__m-shape--media" aria-hidden="true">
+                    <img
+                        class="hex-reasons__m-shape__photo"
+                        src="<?php echo esc_url( $reasons_side_photo ); ?>"
+                        alt=""
+                        width="559"
+                        height="559"
+                        loading="lazy"
+                        decoding="async"
+                    >
                 </div>
-            </article>
+            </div>
         </div>
 
         <div class="hex-reasons__m-row hex-reasons__m-row--bot">
