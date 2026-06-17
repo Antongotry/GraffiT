@@ -240,102 +240,99 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
         </div>
     </div>
 
-    <!-- Mobile row1: 238×238 boxes, tight gap; WebP under FiCSS-scaled copy + icon row -->
+    <!-- Mobile: 4 composite rows (top → mid → bot → photo) -->
     <div class="hex-reasons__mobi" role="region" aria-label="Переваги GraffiT">
-            <div class="hex-reasons__m-row1">
-                <img
-                    class="hex-reasons__m-row1-composite"
-                    src="<?php echo esc_url( $hex_mobile_row1_composite_url ); ?>"
-                    alt=""
-                    width="1125"
-                    height="732"
-                    loading="lazy"
-                    decoding="async"
-                >
-                <div class="hex-reasons__m-row1-hit hex-reasons__m-row1-hit--left">
-                    <div class="hex-reasons__m-card-overlay hex-reasons__m-card-overlay--box">
-                        <h3 class="hex-reasons__m-card-boxtitle"><?php echo esc_html( 'Ми не нав\'язуємо готову "коробку"' ); ?></h3>
-                        <p class="hex-reasons__m-card-boxcaption">створюємо рішення під ваші задачі</p>
-                    </div>
-                </div>
-                <div class="hex-reasons__m-row1-hit hex-reasons__m-row1-hit--right">
-                    <div class="hex-reasons__m-card-overlay hex-reasons__m-card-overlay--stack">
-                        <p class="hex-reasons__m-stack-lead">Працюємо в стеку, який сумісний з вимогами enterprise:</p>
-                        <div class="hex-reasons__m-stack-icons" aria-hidden="true">
-                            <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
-                                <span class="hex-reasons__m-stack-icon-cell">
-                                    <img
-                                        class="hex-reasons__m-stack-icon-img"
-                                        src="<?php echo esc_url( $icon_url ); ?>"
-                                        alt=""
-                                        width="32"
-                                        height="32"
-                                        loading="lazy"
-                                        decoding="async"
-                                    >
-                                </span>
-                            <?php endforeach; ?>
-                        </div>
-                        <p class="hex-reasons__m-stack-caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
-                    </div>
+        <div class="hex-reasons__m-row hex-reasons__m-row--top">
+            <img
+                class="hex-reasons__m-row__composite"
+                src="<?php echo esc_url( $hex_mobile_row1_composite_url ); ?>"
+                alt=""
+                width="900"
+                height="478"
+                loading="lazy"
+                decoding="async"
+            >
+            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--left">
+                <div class="hex-reasons__m-row__copy">
+                    <h3 class="hex-reasons__m-row__title"><?php echo esc_html( 'Ми не нав\'язуємо готову "коробку"' ); ?></h3>
+                    <p class="hex-reasons__m-row__caption">створюємо рішення під ваші задачі</p>
                 </div>
             </div>
+            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--right">
+                <div class="hex-reasons__m-row__copy hex-reasons__m-row__copy--stack">
+                    <p class="hex-reasons__m-row__lead">Працюємо в стеку, який сумісний з вимогами enterprise:</p>
+                    <div class="hex-reasons__m-row__icons" aria-hidden="true">
+                        <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
+                            <span class="hex-reasons__m-row__icon-cell">
+                                <img
+                                    class="hex-reasons__m-row__icon-img"
+                                    src="<?php echo esc_url( $icon_url ); ?>"
+                                    alt=""
+                                    width="32"
+                                    height="32"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                            </span>
+                        <?php endforeach; ?>
+                    </div>
+                    <p class="hex-reasons__m-row__caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
+                </div>
+            </div>
+        </div>
 
-            <!-- Row 2 (mobile): composite + centered 238 tile overlay (FiCSS 144×82 block) -->
-            <div class="hex-reasons__m-row-bottom">
-                <img
-                    class="hex-reasons__m-row2-composite"
-                    src="<?php echo esc_url( $hex_mobile_row2_composite_url ); ?>"
-                    alt=""
-                    width="1125"
-                    height="732"
-                    loading="lazy"
-                    decoding="async"
-                >
-                <div class="hex-reasons__m-row2-hit">
-                    <div class="hex-reasons__m-row2-block">
-                        <p class="hex-reasons__m-row2-body-sm"><?php echo esc_html( 'Допомагаємо в складних кейсах, ' ); ?></p>
-                        <p class="hex-reasons__m-row2-caption"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
-                    </div>
+        <div class="hex-reasons__m-row hex-reasons__m-row--mid">
+            <img
+                class="hex-reasons__m-row__composite"
+                src="<?php echo esc_url( $hex_mobile_row2_composite_url ); ?>"
+                alt=""
+                width="1344"
+                height="488"
+                loading="lazy"
+                decoding="async"
+            >
+            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--center">
+                <div class="hex-reasons__m-row__copy">
+                    <p class="hex-reasons__m-row__lead"><?php echo esc_html( 'Допомагаємо в складних кейсах, ' ); ?></p>
+                    <p class="hex-reasons__m-row__caption"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
                 </div>
             </div>
+        </div>
 
-            <!-- Row 3 (mobile): two-hex composite + 238 tiles left/right (FiCSS blocks) -->
-            <div class="hex-reasons__m-row3">
-                <img
-                    class="hex-reasons__m-row3-composite"
-                    src="<?php echo esc_url( $hex_mobile_row3_composite_url ); ?>"
-                    alt=""
-                    width="1125"
-                    height="714"
-                    loading="lazy"
-                    decoding="async"
-                >
-                <div class="hex-reasons__m-row3-hit hex-reasons__m-row3-hit--left">
-                    <div class="hex-reasons__m-row3-block">
-                        <p class="hex-reasons__m-row3-body-sm"><?php echo esc_html( 'Даємо чітку документацію, ' ); ?></p>
-                        <p class="hex-reasons__m-row3-caption"><?php echo esc_html( 'підтримку після запуску і прозору комунікацію' ); ?></p>
-                    </div>
-                </div>
-                <div class="hex-reasons__m-row3-hit hex-reasons__m-row3-hit--right">
-                    <div class="hex-reasons__m-row3-block-2">
-                        <p class="hex-reasons__m-row3-body-sm"><?php echo esc_html( 'Інтегруємось у вже існуючий ландшафт' ); ?></p>
-                        <p class="hex-reasons__m-row3-caption-2"><?php echo esc_html( '(1С, CRM, ERP, маркетплейси, POS тощо)' ); ?></p>
-                    </div>
+        <div class="hex-reasons__m-row hex-reasons__m-row--bot">
+            <img
+                class="hex-reasons__m-row__composite"
+                src="<?php echo esc_url( $hex_mobile_row3_composite_url ); ?>"
+                alt=""
+                width="900"
+                height="476"
+                loading="lazy"
+                decoding="async"
+            >
+            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--left">
+                <div class="hex-reasons__m-row__copy">
+                    <p class="hex-reasons__m-row__lead"><?php echo esc_html( 'Даємо чітку документацію, ' ); ?></p>
+                    <p class="hex-reasons__m-row__caption"><?php echo esc_html( 'підтримку після запуску і прозору комунікацію' ); ?></p>
                 </div>
             </div>
+            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--right">
+                <div class="hex-reasons__m-row__copy">
+                    <p class="hex-reasons__m-row__lead"><?php echo esc_html( 'Інтегруємось у вже існуючий ландшафт' ); ?></p>
+                    <p class="hex-reasons__m-row__caption"><?php echo esc_html( '(1С, CRM, ERP, маркетплейси, POS тощо)' ); ?></p>
+                </div>
+            </div>
+        </div>
 
-            <!-- Row 4 (mobile): hex photo strip -->
-            <div class="hex-reasons__m-row4">
-                <img
-                    class="hex-reasons__m-row4-composite"
-                    src="<?php echo esc_url( $hex_mobile_row4_composite_url ); ?>"
-                    alt=""
-                    width="1089"
-                    height="1251"
-                    loading="lazy"
-                    decoding="async"
-                >
-            </div>
+        <div class="hex-reasons__m-row hex-reasons__m-row--photo">
+            <img
+                class="hex-reasons__m-row__composite"
+                src="<?php echo esc_url( $hex_mobile_row4_composite_url ); ?>"
+                alt=""
+                width="726"
+                height="834"
+                loading="lazy"
+                decoding="async"
+            >
+        </div>
     </div>
 </section>

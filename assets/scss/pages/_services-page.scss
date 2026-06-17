@@ -2685,40 +2685,33 @@
   object-position: center;
 }
 
-/* ─── Mobile honeycomb: fixed 238 tracks; row1 tight gap; bleed past viewport ──── */
+/* ─── Mobile honeycomb: 4 composite rows (top / mid / bot / photo) ─── */
 .hex-reasons__mobi {
   display: none;
 
   @include mixins.mobile {
     display: block;
-    box-sizing: border-box;
     width: 100%;
-    max-width: none;
     margin: #{mixins.mvw(28px)} 0 0;
     padding: 0 0 #{mixins.mvw(40px)};
     overflow: visible;
   }
 }
 
-/* Row 1: top hex composite + left/right 238 hits */
-.hex-reasons__m-row1 {
+.hex-reasons__m-row {
   @include mixins.mobile {
     position: relative;
     display: block;
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
-    padding: 0;
     line-height: 0;
-    box-sizing: border-box;
     overflow: hidden;
   }
 }
 
-.hex-reasons__m-row1-composite {
+.hex-reasons__m-row__composite {
   @include mixins.mobile {
-    position: relative;
-    z-index: 0;
     display: block;
     width: 100%;
     height: auto;
@@ -2727,484 +2720,161 @@
   }
 }
 
-.hex-reasons__m-row1-hit {
+.hex-reasons__m-row__hit {
   @include mixins.mobile {
     position: absolute;
     z-index: 1;
-    top: 50%;
+    top: 49%;
     display: flex;
-    width: #{mixins.mvw(238px)};
-    height: #{mixins.mvw(238px)};
-    box-sizing: border-box;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
     transform: translate(-50%, -50%);
     pointer-events: none;
   }
 }
 
-.hex-reasons__m-row1-hit--left {
+.hex-reasons__m-row__hit--left {
   @include mixins.mobile {
     left: 25%;
+    width: 46%;
+    height: 88%;
   }
 }
 
-.hex-reasons__m-row1-hit--right {
+.hex-reasons__m-row__hit--right {
   @include mixins.mobile {
     left: 75%;
+    width: 46%;
+    height: 88%;
   }
 }
 
-.hex-reasons__m-row1-hit .hex-reasons__m-card-overlay {
+.hex-reasons__m-row__hit--center {
   @include mixins.mobile {
-    position: relative;
-    inset: auto;
-    width: 100%;
-    height: 100%;
+    left: 50%;
+    width: 32%;
+    height: 88%;
   }
 }
 
-.hex-reasons__m-slot {
+.hex-reasons__m-row__copy {
   @include mixins.mobile {
     display: flex;
-    flex: 0 0 auto;
-    align-items: center;
-    justify-content: center;
-    overflow: visible;
-  }
-}
-
-.hex-reasons__m-slot--card {
-  @include mixins.mobile {
-    width: #{mixins.mvw(238px)};
-    min-width: #{mixins.mvw(238px)};
-    height: #{mixins.mvw(238px)};
-    min-height: #{mixins.mvw(238px)};
-  }
-}
-
-/* ~10% of 238px tile → pull pair together (~12mvw each side) */
-.hex-reasons__m-slot--card:first-child {
-  @include mixins.mobile {
-    margin-right: -#{mixins.mvw(12px)};
-  }
-}
-
-.hex-reasons__m-slot--card:last-child {
-  @include mixins.mobile {
-    margin-left: -#{mixins.mvw(12px)};
-  }
-}
-
-.hex-reasons__m-card-tile {
-  @include mixins.mobile {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-}
-
-.hex-reasons__m-card-bg {
-  @include mixins.mobile {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    pointer-events: none;
-  }
-}
-
-/* FiCSS block-8: 144×82 — centered in tile */
-.hex-reasons__m-card-overlay {
-  @include mixins.mobile {
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    display: flex;
-    box-sizing: border-box;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: #{mixins.mvw(8px)};
-  }
-}
-
-.hex-reasons__m-card-overlay--box {
-  @include mixins.mobile {
-    gap: #{mixins.mvw(10px)};
-    padding-top: #{mixins.mvw(40px)};
-  }
-}
-
-.hex-reasons__m-card-boxtitle {
-  @include mixins.mobile {
-    max-width: #{mixins.mvw(144px)};
-    margin: 0;
-    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: #{mixins.mvw(14px)};
-    font-weight: 500;
-    line-height: 1.2;
-    color: #ffffff;
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: break-word;
-  }
-}
-
-.hex-reasons__m-card-boxcaption {
-  @include mixins.mobile {
-    max-width: #{mixins.mvw(164px)};
-    margin: 0;
-    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: #{mixins.mvw(12px)};
-    font-weight: 400;
-    line-height: 1.36;
-    color: rgba(255, 255, 255, 0.56);
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: break-word;
-  }
-}
-
-/* FiCSS enterprise block: .body-sm + .block 119×18 + .caption */
-.hex-reasons__m-card-overlay--stack {
-  @include mixins.mobile {
     gap: #{mixins.mvw(6px)};
-    padding-top: #{mixins.mvw(28px)};
-    padding-bottom: #{mixins.mvw(12px)};
-    justify-content: center;
-  }
-}
-
-.hex-reasons__m-stack-lead {
-  @include mixins.mobile {
-    max-width: #{mixins.mvw(144px)};
-    margin: 0;
-    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: #{mixins.mvw(14px)};
-    font-weight: 500;
-    line-height: 1.2;
-    color: #ffffff;
+    width: 100%;
+    padding: #{mixins.mvw(8px)} #{mixins.mvw(6px)};
     text-align: center;
-    white-space: normal;
-    overflow-wrap: break-word;
   }
 }
 
-.hex-reasons__m-stack-icons {
+.hex-reasons__m-row__copy--stack {
+  @include mixins.mobile {
+    gap: #{mixins.mvw(4px)};
+    padding: #{mixins.mvw(6px)} #{mixins.mvw(4px)};
+  }
+}
+
+.hex-reasons__m-row__title {
+  @include mixins.mobile {
+    margin: 0;
+    max-width: #{mixins.mvw(132px)};
+    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: #{mixins.mvw(12px)};
+    font-weight: 500;
+    line-height: 1.15;
+    color: #ffffff;
+  }
+}
+
+.hex-reasons__m-row__lead {
+  @include mixins.mobile {
+    margin: 0;
+    max-width: #{mixins.mvw(132px)};
+    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: #{mixins.mvw(11px)};
+    font-weight: 500;
+    line-height: 1.15;
+    color: #ffffff;
+  }
+}
+
+.hex-reasons__m-row__caption {
+  @include mixins.mobile {
+    margin: 0;
+    max-width: #{mixins.mvw(140px)};
+    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: #{mixins.mvw(10px)};
+    font-weight: 400;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.56);
+  }
+}
+
+.hex-reasons__m-row__icons {
   @include mixins.mobile {
     display: flex;
-    width: #{mixins.mvw(119px)};
-    max-width: 100%;
-    height: #{mixins.mvw(18px)};
-    flex-wrap: nowrap;
+    width: #{mixins.mvw(108px)};
+    height: #{mixins.mvw(16px)};
     align-items: center;
     justify-content: center;
-    gap: #{mixins.mvw(2px)};
+    gap: #{mixins.mvw(1px)};
   }
 }
 
-.hex-reasons__m-stack-icon-cell {
+.hex-reasons__m-row__icon-cell {
   @include mixins.mobile {
     display: flex;
-    flex: 0 0 #{mixins.mvw(18px)};
+    flex: 0 0 #{mixins.mvw(16px)};
     align-items: center;
     justify-content: center;
-    width: #{mixins.mvw(18px)};
-    height: #{mixins.mvw(18px)};
+    width: #{mixins.mvw(16px)};
+    height: #{mixins.mvw(16px)};
   }
 }
 
-.hex-reasons__m-stack-icon-img {
+.hex-reasons__m-row__icon-img {
   @include mixins.mobile {
     display: block;
-    width: #{mixins.mvw(13px)};
-    height: #{mixins.mvw(13px)};
+    width: #{mixins.mvw(11px)};
+    height: #{mixins.mvw(11px)};
     object-fit: contain;
   }
 }
 
-.hex-reasons__m-stack-caption {
+.hex-reasons__m-row--mid {
   @include mixins.mobile {
-    max-width: #{mixins.mvw(152px)};
-    margin: 0;
-    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    margin-top: calc(-100vw * 478 / 900 * 0.205);
+  }
+
+  .hex-reasons__m-row__lead {
+    max-width: #{mixins.mvw(118px)};
     font-size: #{mixins.mvw(12px)};
-    font-weight: 400;
-    line-height: 1.36;
-    color: rgba(255, 255, 255, 0.56);
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: break-word;
+  }
+
+  .hex-reasons__m-row__caption {
+    max-width: #{mixins.mvw(124px)};
   }
 }
 
-/* Mobile row 2: composite + centered 238×238 hit (aligns with row1 card slot), FiCSS block inside */
-.hex-reasons__m-row-bottom {
+.hex-reasons__m-row--bot {
   @include mixins.mobile {
-    position: relative;
-    display: block;
-    width: 100vw;
-    /* Pull up 23% of mobile hex tile (238mvw) toward row1 (was 25%, −2%) */
-    margin-top: calc(-1 * #{mixins.mvw(238px)} * 0.23);
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    margin-bottom: 0;
-    padding: 0;
-    line-height: 0;
-    box-sizing: border-box;
-    overflow: hidden;
+    margin-top: calc(-100vw * 488 / 1344 * 0.205);
   }
 }
 
-.hex-reasons__m-row2-composite {
+.hex-reasons__m-row--photo {
   @include mixins.mobile {
-    position: relative;
-    z-index: 0;
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    object-position: center top;
-  }
-}
-
-/* Same footprint as .hex-reasons__m-slot--card — centers copy on middle hex */
-.hex-reasons__m-row2-hit {
-  @include mixins.mobile {
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: 50%;
-    display: flex;
-    width: #{mixins.mvw(238px)};
-    height: #{mixins.mvw(238px)};
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
-}
-
-/* FiCSS .block — 144×82, scaled with mvw */
-.hex-reasons__m-row2-block {
-  @include mixins.mobile {
-    position: relative;
-    flex: 0 0 auto;
-    width: #{mixins.mvw(144px)};
-    height: #{mixins.mvw(82px)};
-    margin: 0;
-  }
-}
-
-.hex-reasons__m-row2-body-sm {
-  @include mixins.mobile {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: #{mixins.mvw(34px)};
-    margin: 0;
-    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: #{mixins.mvw(14px)};
-    font-weight: 500;
-    line-height: 1.2;
-    color: #ffffff;
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: break-word;
-  }
-}
-
-.hex-reasons__m-row2-caption {
-  @include mixins.mobile {
-    position: absolute;
-    top: #{mixins.mvw(50px)};
-    left: 0;
-    width: 100%;
-    min-height: #{mixins.mvw(32px)};
-    margin: 0;
-    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: #{mixins.mvw(12px)};
-    font-weight: 400;
-    line-height: 1.36;
-    color: rgba(255, 255, 255, 0.56);
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: break-word;
-  }
-}
-
-/* Mobile row 3: two-hex WebP + left/right 238 hits (~25% / ~75% — hex centers) */
-.hex-reasons__m-row3 {
-  @include mixins.mobile {
-    position: relative;
-    display: block;
-    width: 100vw;
-    /* Pull up 22% of mobile hex tile (238mvw): was 12%, +10% */
-    margin-top: calc(-1 * #{mixins.mvw(238px)} * 0.22);
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    margin-bottom: 0;
-    padding: 0;
-    line-height: 0;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-}
-
-.hex-reasons__m-row3-composite {
-  @include mixins.mobile {
-    position: relative;
-    z-index: 0;
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    object-position: center top;
-  }
-}
-
-.hex-reasons__m-row3-hit {
-  @include mixins.mobile {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    display: flex;
-    width: #{mixins.mvw(238px)};
-    height: #{mixins.mvw(238px)};
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
-}
-
-.hex-reasons__m-row3-hit--left {
-  @include mixins.mobile {
-    left: 25%;
-  }
-}
-
-.hex-reasons__m-row3-hit--right {
-  @include mixins.mobile {
-    left: 75%;
-  }
-}
-
-/* FiCSS .block — 144×82 */
-.hex-reasons__m-row3-block {
-  @include mixins.mobile {
-    position: relative;
-    flex: 0 0 auto;
-    width: #{mixins.mvw(144px)};
-    height: #{mixins.mvw(82px)};
-    margin: 0;
-  }
-}
-
-/* FiCSS .block-2 — 144×98 */
-.hex-reasons__m-row3-block-2 {
-  @include mixins.mobile {
-    position: relative;
-    flex: 0 0 auto;
-    width: #{mixins.mvw(144px)};
-    height: #{mixins.mvw(98px)};
-    margin: 0;
-  }
-}
-
-.hex-reasons__m-row3-body-sm {
-  @include mixins.mobile {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: #{mixins.mvw(34px)};
-    margin: 0;
-    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: #{mixins.mvw(14px)};
-    font-weight: 500;
-    line-height: 1.2;
-    color: #ffffff;
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: break-word;
-  }
-}
-
-.hex-reasons__m-row3-caption {
-  @include mixins.mobile {
-    position: absolute;
-    top: #{mixins.mvw(50px)};
-    left: 0;
-    width: 100%;
-    min-height: #{mixins.mvw(32px)};
-    margin: 0;
-    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: #{mixins.mvw(12px)};
-    font-weight: 400;
-    line-height: 1.36;
-    color: rgba(255, 255, 255, 0.56);
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: break-word;
-  }
-}
-
-.hex-reasons__m-row3-caption-2 {
-  @include mixins.mobile {
-    position: absolute;
-    top: #{mixins.mvw(50px)};
-    left: 0;
-    width: 100%;
-    min-height: #{mixins.mvw(48px)};
-    margin: 0;
-    font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: #{mixins.mvw(12px)};
-    font-weight: 400;
-    line-height: 1.36;
-    color: rgba(255, 255, 255, 0.56);
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: break-word;
-  }
-}
-
-/* Mobile row 4: hex photo — full bleed, pull up 10% tile */
-.hex-reasons__m-row4 {
-  @include mixins.mobile {
-    position: relative;
-    display: block;
     width: 90vw;
-    margin-top: calc(-1 * #{mixins.mvw(238px)} * 0.2);
+    margin-top: calc(-100vw * 476 / 900 * 0.205);
     margin-left: calc(50% - 45vw);
     margin-right: calc(50% - 45vw);
-    margin-bottom: 0;
-    padding: 0;
-    line-height: 0;
-    box-sizing: border-box;
-    overflow: hidden;
   }
 }
 
-.hex-reasons__m-row4-composite {
-  @include mixins.mobile {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    object-position: center top;
-  }
-}
 
 $services-benefits-bg:
   radial-gradient(circle at 0% 112%, rgba(0, 115, 230, 0.18) 0%, rgba(0, 115, 230, 0) 34%),
