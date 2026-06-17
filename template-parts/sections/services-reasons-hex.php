@@ -60,6 +60,8 @@ $reasons_stack_icons = [
 
 $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
+/** Mobile honeycomb composite (672×606 @ 375). */
+$hex_mobile_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/%D1%96_result.webp';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
@@ -108,6 +110,18 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             }
             ?>
         </h2>
+    </div>
+
+    <div class="hex-reasons__mobi" aria-hidden="true">
+        <img
+            class="hex-reasons__mobi-img"
+            src="<?php echo esc_url( $hex_mobile_composite_url ); ?>"
+            alt=""
+            width="672"
+            height="606"
+            loading="lazy"
+            decoding="async"
+        >
     </div>
 
     <div class="hex-reasons__scene" role="list" aria-label="Переваги GraffiT">
