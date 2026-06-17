@@ -119,7 +119,8 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             alt=""
             width="672"
             height="607"
-            loading="lazy"
+            loading="eager"
+            fetchpriority="high"
             decoding="async"
         >
     </div>
