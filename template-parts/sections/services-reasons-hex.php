@@ -62,6 +62,8 @@ $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
 /** Mobile honeycomb composite (672×607 @ 375). */
 $hex_mobile_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/phonemob_result.webp';
+/** Mobile row 1 right hex: enterprise stack logos strip (120px wide). */
+$hex_mobile_stack_logos_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/Frame-2087325633_result.webp';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
@@ -112,7 +114,7 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
         </h2>
     </div>
 
-    <div class="hex-reasons__mobi" aria-hidden="true">
+    <div class="hex-reasons__mobi" role="region" aria-label="Переваги GraffiT">
         <img
             class="hex-reasons__mobi-img"
             src="<?php echo esc_url( $hex_mobile_composite_url ); ?>"
@@ -123,6 +125,39 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             fetchpriority="high"
             decoding="async"
         >
+        <div class="hex-reasons__m-overlay">
+            <div class="hex-reasons__m-row hex-reasons__m-row--top">
+                <div class="hex-reasons__m-pair">
+                    <article
+                        class="hex-reasons__m-cell"
+                        aria-label="Ми не нав'язуємо готову коробку"
+                    >
+                        <div class="hex-reasons__m-cell__inner">
+                            <h3 class="hex-reasons__m-cell__title"><?php echo esc_html( 'Ми не нав\'язуємо готову "коробку"' ); ?></h3>
+                            <p class="hex-reasons__m-cell__caption">створюємо рішення під ваші задачі</p>
+                        </div>
+                    </article>
+                    <article
+                        class="hex-reasons__m-cell"
+                        aria-label="Працюємо в стеку, який сумісний з вимогами enterprise"
+                    >
+                        <div class="hex-reasons__m-cell__inner hex-reasons__m-cell__inner--stack">
+                            <p class="hex-reasons__m-cell__lead">Працюємо в стеку, який сумісний з вимогами enterprise:</p>
+                            <img
+                                class="hex-reasons__m-cell__logos"
+                                src="<?php echo esc_url( $hex_mobile_stack_logos_url ); ?>"
+                                alt=""
+                                width="120"
+                                height="16"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                            <p class="hex-reasons__m-cell__caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="hex-reasons__scene" role="list" aria-label="Переваги GraffiT">
