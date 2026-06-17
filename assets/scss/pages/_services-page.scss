@@ -2707,37 +2707,52 @@
   object-position: center;
 }
 
-/* ─── Mobile honeycomb: hidden on phone (composite rows removed) ─── */
+/* ─── Mobile honeycomb: top composite row (450 mvw, centered, bleeds past viewport) ─── */
 .hex-reasons__mobi {
-  display: none !important;
+  display: none;
+
+  @include mixins.mobile {
+    display: block;
+    width: 100%;
+    margin: #{mixins.mvw(28px)} 0 0;
+    padding: 0;
+    overflow: visible;
+  }
 }
 
 .hex-reasons__m-row {
   @include mixins.mobile {
     position: relative;
     display: block;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
     line-height: 0;
-    overflow: hidden;
   }
 }
 
 .hex-reasons__m-row--top {
   @include mixins.mobile {
     width: #{mixins.mvw(450px)};
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
     overflow: visible;
   }
 
   .hex-reasons__m-row__composite {
     @include mixins.mobile {
-      width: 100%;
-      max-width: #{mixins.mvw(450px)};
+      display: block;
+      width: #{mixins.mvw(450px)};
+      max-width: none;
+      height: auto;
       margin-inline: auto;
+      object-fit: contain;
+      object-position: center top;
     }
+  }
+}
+
+.hex-reasons__m-row--mid,
+.hex-reasons__m-row--bot,
+.hex-reasons__m-row--photo {
+  @include mixins.mobile {
+    display: none !important;
   }
 }
 
