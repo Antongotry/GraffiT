@@ -2786,6 +2786,14 @@
   @include mixins.mobile {
     gap: #{mixins.mvw(8px)};
     padding: 0 #{mixins.mvw(43px)};
+
+    .hex-reasons__m-cell__lead,
+    .hex-reasons__m-cell__caption {
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 100%;
+      margin-inline: auto;
+    }
   }
 }
 
