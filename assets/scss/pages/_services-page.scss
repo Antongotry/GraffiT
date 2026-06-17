@@ -2808,7 +2808,10 @@
 
 .hex-reasons__m-cell__caption {
   @include mixins.mobile {
-    margin: 0;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 50%;
+    margin: 0 auto;
     font-family: "Involve", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: #{mixins.mvw(12px)};
     font-weight: 400;
