@@ -2688,7 +2688,7 @@
   object-position: center;
 }
 
-/* Mobile: single honeycomb composite — 672×606 @ 375, centered, bleeds past viewport. */
+/* Mobile: single honeycomb composite — 672×607 @ 375, centered, bleeds past viewport. */
 .hex-reasons__mobi {
   display: none;
 
@@ -2707,7 +2707,7 @@
 .hex-reasons__mobi-img {
   display: block;
   width: #{mixins.mvw(672px)};
-  height: #{mixins.mvw(606px)};
+  height: #{mixins.mvw(607px)};
   max-width: none;
   object-fit: contain;
   object-position: center;
