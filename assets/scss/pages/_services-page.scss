@@ -2749,6 +2749,102 @@
       object-position: center top;
     }
   }
+
+  /* top-geks 900×478: flat face ≈ 238×238, centers at 225px and 675px */
+  .hex-reasons__m-row__hit--square {
+    @include mixins.mobile {
+      top: 45.6%;
+      width: 26.444%;
+      height: auto;
+      aspect-ratio: 1;
+    }
+  }
+
+  .hex-reasons__m-row__hit--left.hex-reasons__m-row__hit--square {
+    @include mixins.mobile {
+      left: 25%;
+      width: 26.444%;
+      height: auto;
+    }
+  }
+
+  .hex-reasons__m-row__hit--right.hex-reasons__m-row__hit--square {
+    @include mixins.mobile {
+      left: 75%;
+      width: 26.444%;
+      height: auto;
+    }
+  }
+
+  .hex-reasons__m-row__cell {
+    @include mixins.mobile {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: #{mixins.mvw(5px)};
+      padding: 8%;
+      text-align: center;
+    }
+  }
+
+  .hex-reasons__m-row__cell--stack {
+    @include mixins.mobile {
+      gap: #{mixins.mvw(3px)};
+      padding: 7% 6%;
+    }
+  }
+
+  .hex-reasons__m-row__title {
+    @include mixins.mobile {
+      max-width: 100%;
+      font-size: #{mixins.mvw(11px)};
+      line-height: 1.12;
+    }
+  }
+
+  .hex-reasons__m-row__lead {
+    @include mixins.mobile {
+      max-width: 100%;
+      font-size: #{mixins.mvw(10px)};
+      line-height: 1.12;
+    }
+  }
+
+  .hex-reasons__m-row__caption {
+    @include mixins.mobile {
+      max-width: 100%;
+      font-size: #{mixins.mvw(9px)};
+      line-height: 1.25;
+    }
+  }
+
+  .hex-reasons__m-row__icons {
+    @include mixins.mobile {
+      width: 100%;
+      max-width: #{mixins.mvw(100px)};
+      height: #{mixins.mvw(14px)};
+      gap: #{mixins.mvw(1px)};
+    }
+  }
+
+  .hex-reasons__m-row__icon-cell {
+    @include mixins.mobile {
+      flex: 1 1 0;
+      width: auto;
+      height: #{mixins.mvw(14px)};
+    }
+  }
+
+  .hex-reasons__m-row__icon-img {
+    @include mixins.mobile {
+      width: #{mixins.mvw(10px)};
+      height: #{mixins.mvw(10px)};
+    }
+  }
 }
 
 .hex-reasons__m-row--mid,

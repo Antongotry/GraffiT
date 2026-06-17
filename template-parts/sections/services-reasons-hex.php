@@ -252,14 +252,14 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
                 loading="lazy"
                 decoding="async"
             >
-            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--left">
-                <div class="hex-reasons__m-row__copy">
+            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--left hex-reasons__m-row__hit--square">
+                <div class="hex-reasons__m-row__cell">
                     <h3 class="hex-reasons__m-row__title"><?php echo esc_html( 'Ми не нав\'язуємо готову "коробку"' ); ?></h3>
                     <p class="hex-reasons__m-row__caption">створюємо рішення під ваші задачі</p>
                 </div>
             </div>
-            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--right">
-                <div class="hex-reasons__m-row__copy hex-reasons__m-row__copy--stack">
+            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--right hex-reasons__m-row__hit--square">
+                <div class="hex-reasons__m-row__cell hex-reasons__m-row__cell--stack">
                     <p class="hex-reasons__m-row__lead">Працюємо в стеку, який сумісний з вимогами enterprise:</p>
                     <div class="hex-reasons__m-row__icons" aria-hidden="true">
                         <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
