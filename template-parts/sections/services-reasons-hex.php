@@ -60,14 +60,10 @@ $reasons_stack_icons = [
 
 $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
-/** Mobile row 1: top hex row composite. */
-$hex_mobile_row1_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/top-geks_result.webp';
-/** Mobile row 2: middle strip — outline + center slot + photo (1344×488). */
-$hex_mobile_row2_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/Group-1707480467_result.webp';
-/** Mobile row 3: bottom hex row composite. */
-$hex_mobile_row3_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/bot-geks_result.webp';
-/** Mobile row 4: hex photo. */
-$hex_mobile_row4_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/late-gerks_result.webp';
+/** Mobile only: right hex in mid row (thinking man). */
+$hex_mobile_mid_photo_url = $reasons_side_photo;
+/** Mobile only: large bottom hex (man + laptop). */
+$hex_mobile_bottom_photo_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/late-gerks_result.webp';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
@@ -245,7 +241,7 @@ $hex_mobile_card_dark_style = $reasons_hex['section_extra_class'] === 'hex-reaso
         </div>
     </div>
 
-    <!-- Mobile: 4 composite rows (top → mid → bot → photo) -->
+    <!-- Mobile: CSS hex grid — text tiles + 2 photos only (mid-right, bottom-large) -->
     <div class="hex-reasons__mobi" role="region" aria-label="Переваги GraffiT">
         <div class="hex-reasons__m-row hex-reasons__m-row--top">
             <div class="hex-reasons__m-pair">
@@ -302,7 +298,7 @@ $hex_mobile_card_dark_style = $reasons_hex['section_extra_class'] === 'hex-reaso
                 <div class="hex-reasons__m-shape hex-reasons__m-shape--media" aria-hidden="true">
                     <img
                         class="hex-reasons__m-shape__photo"
-                        src="<?php echo esc_url( $reasons_side_photo ); ?>"
+                        src="<?php echo esc_url( $hex_mobile_mid_photo_url ); ?>"
                         alt=""
                         width="559"
                         height="559"
@@ -342,10 +338,10 @@ $hex_mobile_card_dark_style = $reasons_hex['section_extra_class'] === 'hex-reaso
             <div class="hex-reasons__m-shape hex-reasons__m-shape--media hex-reasons__m-shape--photo-large" aria-hidden="true">
                 <img
                     class="hex-reasons__m-shape__photo"
-                    src="<?php echo esc_url( $reasons_lower_photo ); ?>"
+                    src="<?php echo esc_url( $hex_mobile_bottom_photo_url ); ?>"
                     alt=""
-                    width="365"
-                    height="365"
+                    width="726"
+                    height="834"
                     loading="lazy"
                     decoding="async"
                 >
