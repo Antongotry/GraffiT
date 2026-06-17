@@ -2785,7 +2785,7 @@
 .hex-reasons__m-cell__inner--stack {
   @include mixins.mobile {
     gap: #{mixins.mvw(8px)};
-    padding: 0 #{mixins.mvw(8px)};
+    padding: 0 #{mixins.mvw(43px)};
   }
 }
 
