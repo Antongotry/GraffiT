@@ -2707,17 +2707,9 @@
   object-position: center;
 }
 
-/* ─── Mobile honeycomb: 4 composite rows (top / mid / bot / photo) ─── */
+/* ─── Mobile honeycomb: hidden on phone (composite rows removed) ─── */
 .hex-reasons__mobi {
-  display: none;
-
-  @include mixins.mobile {
-    display: block;
-    width: 100%;
-    margin: #{mixins.mvw(28px)} 0 0;
-    padding: 0 0 #{mixins.mvw(40px)};
-    overflow: visible;
-  }
+  display: none !important;
 }
 
 .hex-reasons__m-row {
