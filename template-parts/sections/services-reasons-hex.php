@@ -60,10 +60,6 @@ $reasons_stack_icons = [
 
 $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
-/** Mobile only: right hex in mid row (thinking man). */
-$hex_mobile_mid_photo_url = $reasons_side_photo;
-/** Mobile only: large bottom hex (man + laptop). */
-$hex_mobile_bottom_photo_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/late-gerks_result.webp';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
@@ -77,11 +73,6 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
         esc_url_raw($hex_home_desktop_card_bg),
         esc_url_raw($hex_home_desktop_card_bg_hover)
     )
-    : $stack_style;
-
-$hex_mobile_card_blue_style = $primary_style;
-$hex_mobile_card_dark_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
-    ? $home_card_style
     : $stack_style;
 ?>
 <section class="<?php echo esc_attr( $reasons_section_classes ); ?>" aria-labelledby="<?php echo esc_attr( (string) $reasons_hex['title_id'] ); ?>">
@@ -119,7 +110,7 @@ $hex_mobile_card_dark_style = $reasons_hex['section_extra_class'] === 'hex-reaso
         </h2>
     </div>
 
-    <div class="hex-reasons__scene hex-reasons__scene--desktop" role="list" aria-label="Переваги GraffiT">
+    <div class="hex-reasons__scene" role="list" aria-label="Переваги GraffiT">
 
         <!-- ═ row 0 · col 0 – decorative outline (half off-screen left) ═ -->
         <div
@@ -238,114 +229,6 @@ $hex_mobile_card_dark_style = $reasons_hex['section_extra_class'] === 'hex-reaso
                 loading="lazy"
                 decoding="async"
             >
-        </div>
-    </div>
-
-    <!-- Mobile: CSS hex grid — text tiles + 2 photos only (mid-right, bottom-large) -->
-    <div class="hex-reasons__mobi" role="region" aria-label="Переваги GraffiT">
-        <div class="hex-reasons__m-row hex-reasons__m-row--top">
-            <div class="hex-reasons__m-pair">
-                <article
-                    class="hex-reasons__m-shape"
-                    style="<?php echo esc_attr( $hex_mobile_card_blue_style ); ?>"
-                    aria-label="Ми не нав'язуємо готову коробку"
-                >
-                    <div class="hex-reasons__m-shape__inner">
-                        <h3 class="hex-reasons__m-shape__title"><?php echo esc_html( 'Ми не нав\'язуємо готову "коробку"' ); ?></h3>
-                        <p class="hex-reasons__m-shape__caption">створюємо рішення під ваші задачі</p>
-                    </div>
-                </article>
-                <article
-                    class="hex-reasons__m-shape"
-                    style="<?php echo esc_attr( $hex_mobile_card_dark_style ); ?>"
-                    aria-label="Працюємо в стеку, який сумісний з вимогами enterprise"
-                >
-                    <div class="hex-reasons__m-shape__inner hex-reasons__m-shape__inner--stack">
-                        <p class="hex-reasons__m-shape__lead">Працюємо в стеку, який сумісний з вимогами enterprise:</p>
-                        <div class="hex-reasons__m-shape__icons" aria-hidden="true">
-                            <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
-                                <span class="hex-reasons__m-shape__icon-cell">
-                                    <img
-                                        class="hex-reasons__m-shape__icon-img"
-                                        src="<?php echo esc_url( $icon_url ); ?>"
-                                        alt=""
-                                        width="32"
-                                        height="32"
-                                        loading="lazy"
-                                        decoding="async"
-                                    >
-                                </span>
-                            <?php endforeach; ?>
-                        </div>
-                        <p class="hex-reasons__m-shape__caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
-                    </div>
-                </article>
-            </div>
-        </div>
-
-        <div class="hex-reasons__m-row hex-reasons__m-row--mid">
-            <div class="hex-reasons__m-mid">
-                <article
-                    class="hex-reasons__m-shape"
-                    style="<?php echo esc_attr( $hex_mobile_card_dark_style ); ?>"
-                    aria-label="Допомагаємо в складних кейсах"
-                >
-                    <div class="hex-reasons__m-shape__inner">
-                        <p class="hex-reasons__m-shape__lead"><?php echo esc_html( 'Допомагаємо в складних кейсах, ' ); ?></p>
-                        <p class="hex-reasons__m-shape__caption"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
-                    </div>
-                </article>
-                <div class="hex-reasons__m-shape hex-reasons__m-shape--media" aria-hidden="true">
-                    <img
-                        class="hex-reasons__m-shape__photo"
-                        src="<?php echo esc_url( $hex_mobile_mid_photo_url ); ?>"
-                        alt=""
-                        width="559"
-                        height="559"
-                        loading="lazy"
-                        decoding="async"
-                    >
-                </div>
-            </div>
-        </div>
-
-        <div class="hex-reasons__m-row hex-reasons__m-row--bot">
-            <div class="hex-reasons__m-pair">
-                <article
-                    class="hex-reasons__m-shape"
-                    style="<?php echo esc_attr( $hex_mobile_card_dark_style ); ?>"
-                    aria-label="Даємо чітку документацію"
-                >
-                    <div class="hex-reasons__m-shape__inner">
-                        <p class="hex-reasons__m-shape__lead"><?php echo esc_html( 'Даємо чітку документацію, ' ); ?></p>
-                        <p class="hex-reasons__m-shape__caption"><?php echo esc_html( 'підтримку після запуску і прозору комунікацію' ); ?></p>
-                    </div>
-                </article>
-                <article
-                    class="hex-reasons__m-shape"
-                    style="<?php echo esc_attr( $hex_mobile_card_dark_style ); ?>"
-                    aria-label="Інтегруємось у вже існуючий ландшафт"
-                >
-                    <div class="hex-reasons__m-shape__inner">
-                        <p class="hex-reasons__m-shape__lead"><?php echo esc_html( 'Інтегруємось у вже існуючий ландшафт' ); ?></p>
-                        <p class="hex-reasons__m-shape__caption"><?php echo esc_html( '(1С, CRM, ERP, маркетплейси, POS тощо)' ); ?></p>
-                    </div>
-                </article>
-            </div>
-        </div>
-
-        <div class="hex-reasons__m-row hex-reasons__m-row--photo">
-            <div class="hex-reasons__m-shape hex-reasons__m-shape--media hex-reasons__m-shape--photo-large" aria-hidden="true">
-                <img
-                    class="hex-reasons__m-shape__photo"
-                    src="<?php echo esc_url( $hex_mobile_bottom_photo_url ); ?>"
-                    alt=""
-                    width="726"
-                    height="834"
-                    loading="lazy"
-                    decoding="async"
-                >
-            </div>
         </div>
     </div>
 </section>
