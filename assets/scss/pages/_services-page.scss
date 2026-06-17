@@ -2856,7 +2856,39 @@
   }
 }
 
-.hex-reasons__m-row--mid,
+.hex-reasons__m-row--mid {
+  @include mixins.mobile {
+    position: relative;
+    width: 100vw;
+    margin-top: #{mixins.mvw(-40px)};
+    margin-left: calc(50% - 50vw);
+    line-height: normal;
+    overflow: visible;
+  }
+
+  .hex-reasons__m-row__composite {
+    @include mixins.mobile {
+      display: block;
+      width: 100%;
+      max-width: none;
+      height: auto;
+      margin: 0;
+      object-fit: contain;
+      object-position: center top;
+    }
+  }
+
+  .hex-reasons__m-shape--center {
+    @include mixins.mobile {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
 .hex-reasons__m-row--bot,
 .hex-reasons__m-row--photo {
   @include mixins.mobile {
@@ -2999,20 +3031,6 @@
   }
 }
 
-.hex-reasons__m-row--mid {
-  @include mixins.mobile {
-    margin-top: calc(-100vw * 478 / 900 * 0.205);
-  }
-
-  .hex-reasons__m-row__lead {
-    max-width: #{mixins.mvw(118px)};
-    font-size: #{mixins.mvw(12px)};
-  }
-
-  .hex-reasons__m-row__caption {
-    max-width: #{mixins.mvw(124px)};
-  }
-}
 
 .hex-reasons__m-row--bot {
   @include mixins.mobile {

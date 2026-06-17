@@ -62,8 +62,8 @@ $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-co
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
 /** Mobile row 1: top hex row composite. */
 $hex_mobile_row1_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/top-geks_result.webp';
-/** Mobile row 2: middle hex row composite. */
-$hex_mobile_row2_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/mid-geks_result.webp';
+/** Mobile row 2: middle strip — outline + center slot + photo (1344×488). */
+$hex_mobile_row2_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/Group-1707480467_result.webp';
 /** Mobile row 3: bottom hex row composite. */
 $hex_mobile_row3_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/bot-geks_result.webp';
 /** Mobile row 4: hex photo. */
@@ -292,12 +292,16 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
                 loading="lazy"
                 decoding="async"
             >
-            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--center">
-                <div class="hex-reasons__m-row__copy">
-                    <p class="hex-reasons__m-row__lead"><?php echo esc_html( 'Допомагаємо в складних кейсах, ' ); ?></p>
-                    <p class="hex-reasons__m-row__caption"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
+            <article
+                class="hex-reasons__m-shape hex-reasons__m-shape--center"
+                style="<?php echo esc_attr( $reasons_hex['section_extra_class'] === 'hex-reasons--home' ? $home_card_style : $primary_style ); ?>"
+                aria-label="Допомагаємо в складних кейсах"
+            >
+                <div class="hex-reasons__m-shape__inner">
+                    <p class="hex-reasons__m-shape__lead"><?php echo esc_html( 'Допомагаємо в складних кейсах, ' ); ?></p>
+                    <p class="hex-reasons__m-shape__caption"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
                 </div>
-            </div>
+            </article>
         </div>
 
         <div class="hex-reasons__m-row hex-reasons__m-row--bot">
