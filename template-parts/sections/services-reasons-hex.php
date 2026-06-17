@@ -243,41 +243,42 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
     <!-- Mobile: 4 composite rows (top → mid → bot → photo) -->
     <div class="hex-reasons__mobi" role="region" aria-label="Переваги GraffiT">
         <div class="hex-reasons__m-row hex-reasons__m-row--top">
-            <img
-                class="hex-reasons__m-row__composite"
-                src="<?php echo esc_url( $hex_mobile_row1_composite_url ); ?>"
-                alt=""
-                width="900"
-                height="478"
-                loading="lazy"
-                decoding="async"
-            >
-            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--left hex-reasons__m-row__hit--square">
-                <div class="hex-reasons__m-row__cell">
-                    <h3 class="hex-reasons__m-row__title"><?php echo esc_html( 'Ми не нав\'язуємо готову "коробку"' ); ?></h3>
-                    <p class="hex-reasons__m-row__caption">створюємо рішення під ваші задачі</p>
-                </div>
-            </div>
-            <div class="hex-reasons__m-row__hit hex-reasons__m-row__hit--right hex-reasons__m-row__hit--square">
-                <div class="hex-reasons__m-row__cell hex-reasons__m-row__cell--stack">
-                    <p class="hex-reasons__m-row__lead">Працюємо в стеку, який сумісний з вимогами enterprise:</p>
-                    <div class="hex-reasons__m-row__icons" aria-hidden="true">
-                        <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
-                            <span class="hex-reasons__m-row__icon-cell">
-                                <img
-                                    class="hex-reasons__m-row__icon-img"
-                                    src="<?php echo esc_url( $icon_url ); ?>"
-                                    alt=""
-                                    width="32"
-                                    height="32"
-                                    loading="lazy"
-                                    decoding="async"
-                                >
-                            </span>
-                        <?php endforeach; ?>
+            <div class="hex-reasons__m-pair">
+                <article
+                    class="hex-reasons__m-shape"
+                    style="<?php echo esc_attr( $reasons_hex['section_extra_class'] === 'hex-reasons--home' ? $home_card_style : $primary_style ); ?>"
+                    aria-label="Ми не нав'язуємо готову коробку"
+                >
+                    <div class="hex-reasons__m-shape__inner">
+                        <h3 class="hex-reasons__m-shape__title"><?php echo esc_html( 'Ми не нав\'язуємо готову "коробку"' ); ?></h3>
+                        <p class="hex-reasons__m-shape__caption">створюємо рішення під ваші задачі</p>
                     </div>
-                    <p class="hex-reasons__m-row__caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
-                </div>
+                </article>
+                <article
+                    class="hex-reasons__m-shape"
+                    style="<?php echo esc_attr( $reasons_hex['section_extra_class'] === 'hex-reasons--home' ? $home_card_style : $stack_style ); ?>"
+                    aria-label="Працюємо в стеку, який сумісний з вимогами enterprise"
+                >
+                    <div class="hex-reasons__m-shape__inner hex-reasons__m-shape__inner--stack">
+                        <p class="hex-reasons__m-shape__lead">Працюємо в стеку, який сумісний з вимогами enterprise:</p>
+                        <div class="hex-reasons__m-shape__icons" aria-hidden="true">
+                            <?php foreach ( $reasons_stack_icons as $icon_url ) : ?>
+                                <span class="hex-reasons__m-shape__icon-cell">
+                                    <img
+                                        class="hex-reasons__m-shape__icon-img"
+                                        src="<?php echo esc_url( $icon_url ); ?>"
+                                        alt=""
+                                        width="32"
+                                        height="32"
+                                        loading="lazy"
+                                        decoding="async"
+                                    >
+                                </span>
+                            <?php endforeach; ?>
+                        </div>
+                        <p class="hex-reasons__m-shape__caption">Java, Kotlin, Spring Boot, PostgreSQL, Angular, Kafka, Docker, мікросервіси, API-first</p>
+                    </div>
+                </article>
             </div>
         </div>
 
