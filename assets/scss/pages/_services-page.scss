@@ -2717,6 +2717,11 @@
     margin: #{mixins.mvw(28px)} calc(50% - 50vw) 0;
     padding: 0 0 #{mixins.mvw(40px)};
     overflow: visible;
+
+    /* Legacy composite rows — never render on phone (stale deploy/cache). */
+    .hex-reasons__m-row__composite {
+      display: none !important;
+    }
   }
 }
 
@@ -2904,26 +2909,24 @@
   }
 }
 
+.hex-reasons__m-shape--photo-large {
+  @include mixins.mobile {
+    flex: 0 0 auto;
+    width: #{mixins.mvw(331px)};
+    height: #{mixins.mvw(380px)};
+    margin-inline: auto;
+  }
+}
+
 .hex-reasons__m-row--photo {
   @include mixins.mobile {
     position: relative;
-    width: 90vw;
+    left: 50%;
+    width: #{mixins.mvw(331px)};
     margin-top: #{mixins.mvw(-48px)};
-    margin-left: calc(50% - 45vw);
-    line-height: normal;
     overflow: visible;
-  }
-
-  .hex-reasons__m-row__composite {
-    @include mixins.mobile {
-      display: block;
-      width: 100%;
-      max-width: none;
-      height: auto;
-      margin: 0;
-      object-fit: contain;
-      object-position: center top;
-    }
+    transform: translateX(-50%);
+    line-height: normal;
   }
 }
 

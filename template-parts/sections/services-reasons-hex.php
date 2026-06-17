@@ -339,15 +339,17 @@ $hex_mobile_card_dark_style = $reasons_hex['section_extra_class'] === 'hex-reaso
         </div>
 
         <div class="hex-reasons__m-row hex-reasons__m-row--photo">
-            <img
-                class="hex-reasons__m-row__composite"
-                src="<?php echo esc_url( $hex_mobile_row4_composite_url ); ?>"
-                alt=""
-                width="726"
-                height="834"
-                loading="lazy"
-                decoding="async"
-            >
+            <div class="hex-reasons__m-shape hex-reasons__m-shape--media hex-reasons__m-shape--photo-large" aria-hidden="true">
+                <img
+                    class="hex-reasons__m-shape__photo"
+                    src="<?php echo esc_url( $reasons_lower_photo ); ?>"
+                    alt=""
+                    width="365"
+                    height="365"
+                    loading="lazy"
+                    decoding="async"
+                >
+            </div>
         </div>
     </div>
 </section>
