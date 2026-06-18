@@ -161,15 +161,14 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             <div class="hex-reasons__m-row hex-reasons__m-row--mid">
                 <div class="hex-reasons__m-mid">
                     <article
-                        class="hex-reasons__m-cell"
+                        class="hex-reasons__m-cell hex-reasons__m-cell--center"
                         aria-label="Допомагаємо в складних кейсах"
                     >
-                        <div class="hex-reasons__m-cell__inner">
+                        <div class="hex-reasons__m-cell__inner hex-reasons__m-cell__inner--cases">
                             <p class="hex-reasons__m-cell__lead"><?php echo esc_html( 'Допомагаємо в складних кейсах, ' ); ?></p>
                             <p class="hex-reasons__m-cell__caption"><?php echo esc_html( 'де інші кажуть "так не робиться"' ); ?></p>
                         </div>
                     </article>
-                    <div class="hex-reasons__m-cell hex-reasons__m-cell--spacer" aria-hidden="true"></div>
                 </div>
             </div>
         </div>
