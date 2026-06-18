@@ -2842,8 +2842,10 @@
 
 .hex-reasons__m-cell__inner--cases {
   @include mixins.mobile {
+    width: #{mixins.mvw(144px)};
+    max-width: #{mixins.mvw(144px)};
     gap: #{mixins.mvw(8px)};
-    padding: 0 #{mixins.mvw(10px)};
+    padding: 0;
 
     .hex-reasons__m-cell__lead,
     .hex-reasons__m-cell__caption {
