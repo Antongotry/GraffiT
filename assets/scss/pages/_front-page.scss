@@ -524,6 +524,20 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   pointer-events: none;
 }
 
+@include mixins.mobile {
+  .home-scroll-film__canvas.is-mobile-static {
+    contain: paint;
+    will-change: auto;
+  }
+
+  .site-main--home .services-process,
+  .site-main--home .home-faq,
+  .site-main--home .services-final-cta {
+    position: relative;
+    z-index: 92;
+  }
+}
+
 body.is-home-film-loading {
   overflow: hidden;
 }

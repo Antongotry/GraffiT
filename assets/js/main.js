@@ -1,5 +1,18 @@
 /* Theme scripts entry point. */
 (function () {
+  var GRAFFIT_MOBILE_MAX_WIDTH = 1024;
+
+  function isMobileViewport() {
+    return (window.innerWidth || document.documentElement.clientWidth || 1440) <= GRAFFIT_MOBILE_MAX_WIDTH;
+  }
+
+  function prefersReducedMotion() {
+    return !!(
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
+  }
+
   function initCriticalCssFallback() {
     if (window.__graffitCssFallbackChecked) {
       return;
@@ -46,6 +59,20 @@
 
     if (window.console && typeof window.console.warn === 'function') {
       window.console.warn('GraffiT: primary CSS appears incomplete, fallback stylesheet requested.');
+    }
+  }
+
+  function initScrollPerformanceConfig() {
+    if (!window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    if (typeof window.ScrollTrigger.config === 'function') {
+      window.ScrollTrigger.config({
+        ignoreMobileResize: true
+      });
     }
   }
 
@@ -186,8 +213,35 @@
       return window.scrollY || document.documentElement.scrollTop || 0;
     }
 
+    var headerTicking = false;
+    var headerThreshold = headerScrollThreshold();
+    var headerScrolled = null;
+
+    function applySync() {
+      headerTicking = false;
+
+      var nextScrolled = scrollY() > headerThreshold;
+
+      if (nextScrolled === headerScrolled) {
+        return;
+      }
+
+      headerScrolled = nextScrolled;
+      header.classList.toggle(scrolledClass, nextScrolled);
+    }
+
     function sync() {
-      header.classList.toggle(scrolledClass, scrollY() > headerScrollThreshold());
+      if (headerTicking) {
+        return;
+      }
+
+      headerTicking = true;
+      window.requestAnimationFrame(applySync);
+    }
+
+    function syncAfterResize() {
+      headerThreshold = headerScrollThreshold();
+      sync();
     }
 
     var lenis = window.__graffitLenis;
@@ -197,8 +251,8 @@
     }
 
     window.addEventListener('scroll', sync, { passive: true });
-    window.addEventListener('resize', sync, { passive: true });
-    window.requestAnimationFrame(sync);
+    window.addEventListener('resize', syncAfterResize, { passive: true });
+    sync();
   }
 
   function initBenefitsScroller() {
@@ -1639,6 +1693,21 @@
   }
 
   function initClientsScroller() {
+    if (isMobileClientsLayout()) {
+      document.querySelectorAll('.js-clients-scroller').forEach(resetClientsScrollerMobileState);
+
+      if (
+        window.ScrollTrigger &&
+        typeof window.ScrollTrigger.getAll === 'function' &&
+        window.ScrollTrigger.getAll().length > 0 &&
+        typeof window.ScrollTrigger.refresh === 'function'
+      ) {
+        window.ScrollTrigger.refresh();
+      }
+
+      return;
+    }
+
     if (!window.gsap || !window.ScrollTrigger) {
       return;
     }
@@ -1848,12 +1917,6 @@
           }
         }, 120);
       }, { passive: true });
-    }
-
-    if (isMobileClientsLayout()) {
-      document.querySelectorAll('.js-clients-scroller').forEach(resetClientsScrollerMobileState);
-      window.ScrollTrigger.refresh();
-      return;
     }
 
     document.querySelectorAll('.js-clients-scroller').forEach(function (section) {
@@ -2074,7 +2137,15 @@
       window.__graffitClientsScrollerResizeTimer = window.setTimeout(function () {
         initClientsScroller();
 
-        if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+        if (
+          window.ScrollTrigger &&
+          typeof window.ScrollTrigger.refresh === 'function' &&
+          (
+            !isMobileViewport() ||
+            typeof window.ScrollTrigger.getAll !== 'function' ||
+            window.ScrollTrigger.getAll().length > 0
+          )
+        ) {
           window.ScrollTrigger.refresh();
         }
       }, 120);
@@ -3251,6 +3322,110 @@
 
     if (!container || !canvas) {
       dismissInitialFilmLoader();
+      return;
+    }
+
+    function cssImageUrl(url) {
+      return 'url("' + String(url || '').replace(/"/g, '\\"') + '")';
+    }
+
+    function versionStaticFilmUrl(url, cacheKey) {
+      if (!url || !cacheKey) {
+        return url;
+      }
+
+      return url + (url.indexOf('?') === -1 ? '?' : '&') + 'v=' + encodeURIComponent(cacheKey);
+    }
+
+    function initMobileStaticHomeFilm() {
+      var filmConfig = window.graffitHomeFilm || {};
+      var poster = filmConfig.poster || 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/ezgif-frame-001_result-scaled.webp';
+      var cacheKey = filmConfig.cacheKey || '';
+      var staticVisible = null;
+      var staticTicking = false;
+
+      canvas.width = 1;
+      canvas.height = 1;
+      canvas.classList.add('is-mobile-static');
+      canvas.style.backgroundImage = cssImageUrl(versionStaticFilmUrl(poster, cacheKey));
+      canvas.style.backgroundSize = 'cover';
+      canvas.style.backgroundPosition = 'center';
+      canvas.style.backgroundRepeat = 'no-repeat';
+
+      document.body.classList.remove('is-home-film-loading');
+      dismissInitialFilmLoader();
+      resetHomeFilmHandoffState();
+
+      function mobileStaticNotchPx() {
+        var w = window.innerWidth || 375;
+
+        return Math.min((40 / 375) * w, 40);
+      }
+
+      function shouldShowStaticCanvas() {
+        if (!isMobileViewport()) {
+          return false;
+        }
+
+        var about = document.getElementById('home-about');
+        var hexFlow = document.querySelector('.home-hex-projects-flow');
+        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        var notch = mobileStaticNotchPx();
+
+        if (about) {
+          var aboutRect = about.getBoundingClientRect();
+
+          if (aboutRect.bottom <= viewportHeight + notch) {
+            return false;
+          }
+        }
+
+        if (hexFlow) {
+          var hexRect = hexFlow.getBoundingClientRect();
+
+          if (hexRect.top <= viewportHeight * 0.12) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      function setStaticCanvasVisible(visible) {
+        if (visible === staticVisible) {
+          return;
+        }
+
+        staticVisible = visible;
+        canvas.style.visibility = visible ? '' : 'hidden';
+        canvas.style.pointerEvents = visible ? '' : 'none';
+      }
+
+      function syncStaticCanvas() {
+        staticTicking = false;
+        setStaticCanvasVisible(shouldShowStaticCanvas());
+      }
+
+      function requestStaticCanvasSync() {
+        if (staticTicking) {
+          return;
+        }
+
+        staticTicking = true;
+        window.requestAnimationFrame(syncStaticCanvas);
+      }
+
+      if (!container.__homeFilmMobileStaticBound) {
+        container.__homeFilmMobileStaticBound = true;
+        window.addEventListener('scroll', requestStaticCanvasSync, { passive: true });
+        window.addEventListener('resize', requestStaticCanvasSync, { passive: true });
+      }
+
+      requestStaticCanvasSync();
+    }
+
+    if (isMobileViewport()) {
+      initMobileStaticHomeFilm();
       return;
     }
 
@@ -4445,7 +4620,7 @@
       return;
     }
 
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (isMobileViewport() || prefersReducedMotion()) {
       return;
     }
 
@@ -4671,6 +4846,7 @@
   runInit(initMobileMenu, 'mobile-menu');
   runInit(initProductsNavDropdowns, 'products-nav-dropdowns');
   runInit(initRequestPopup, 'request-popup');
+  runInit(initScrollPerformanceConfig, 'scroll-performance-config');
   runInit(initLenis, 'lenis');
   runInit(initHeaderScrollBlur, 'header-scroll-blur');
   runInit(initHomeScrollFilm, 'home-scroll-film');
@@ -4706,6 +4882,14 @@
 
       window.requestAnimationFrame(function () {
         window.requestAnimationFrame(function () {
+          if (
+            isMobileViewport() &&
+            typeof window.ScrollTrigger.getAll === 'function' &&
+            window.ScrollTrigger.getAll().length === 0
+          ) {
+            return;
+          }
+
           if (isProductsPageMain()) {
             finalizeProductsPageScrollTriggers();
             return;

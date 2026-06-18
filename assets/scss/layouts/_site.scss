@@ -65,6 +65,15 @@
   }
 }
 
+@include mixins.mobile {
+  .site-main:not(.site-main--home)::before,
+  .site-main:not(.site-main--home)::after {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}
+
 .site-main--blank-front {
   min-height: 100vh;
   background: #ffffff;
