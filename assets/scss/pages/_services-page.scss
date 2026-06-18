@@ -4437,10 +4437,10 @@ $services-benefits-bg:
     overflow-x: auto;
     overflow-y: visible;
     -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x proximity;
+    scroll-snap-type: x mandatory;
     scroll-padding-inline: 0;
     overscroll-behavior-x: contain;
-    touch-action: auto;
+    touch-action: pan-y;
   }
 }
 
@@ -4494,7 +4494,7 @@ $services-benefits-bg:
     border-radius: #{mixins.mvw(12px)};
     background: #353e4d;
     scroll-snap-align: start;
-    scroll-snap-stop: normal;
+    scroll-snap-stop: always;
     box-sizing: border-box;
 
     @supports (width: 1cqw) {

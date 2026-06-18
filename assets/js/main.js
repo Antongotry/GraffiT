@@ -1299,6 +1299,7 @@
       }
 
       section.setAttribute('data-projects-mobile-carousel', '1');
+      var currentIndex = 0;
 
       function getMaxIndex() {
         return Math.max(cards.length - 1, 0);
@@ -1323,6 +1324,7 @@
 
       function updateButtons() {
         var idx = nearestIndex();
+        currentIndex = idx;
 
         if (prevButton) {
           prevButton.disabled = idx <= 0;
@@ -1341,6 +1343,8 @@
           return;
         }
 
+        currentIndex = clamped;
+
         stage.scrollTo({
           left: card.offsetLeft,
           behavior: 'smooth'
@@ -1351,6 +1355,92 @@
 
       stage.addEventListener('scroll', updateButtons, { passive: true });
       window.requestAnimationFrame(updateButtons);
+
+      var touchStartX = 0;
+      var touchStartY = 0;
+      var touchStartTime = 0;
+      var touchStartIndex = 0;
+      var touchAxis = '';
+
+      function resetTouchPaging() {
+        touchStartX = 0;
+        touchStartY = 0;
+        touchStartTime = 0;
+        touchStartIndex = currentIndex;
+        touchAxis = '';
+      }
+
+      function onTouchStart(event) {
+        if (!event.touches || event.touches.length !== 1) {
+          resetTouchPaging();
+          return;
+        }
+
+        var touch = event.touches[0];
+
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        touchStartTime = Date.now();
+        touchStartIndex = nearestIndex();
+        currentIndex = touchStartIndex;
+        touchAxis = '';
+      }
+
+      function onTouchMove(event) {
+        if (!event.touches || event.touches.length !== 1 || touchStartTime === 0) {
+          return;
+        }
+
+        var touch = event.touches[0];
+        var dx = touch.clientX - touchStartX;
+        var dy = touch.clientY - touchStartY;
+        var absX = Math.abs(dx);
+        var absY = Math.abs(dy);
+
+        if (!touchAxis && (absX > 8 || absY > 8)) {
+          touchAxis = absX > absY * 1.15 ? 'x' : 'y';
+        }
+
+        if (touchAxis === 'x' && event.cancelable) {
+          event.preventDefault();
+        }
+      }
+
+      function onTouchEnd(event) {
+        if (!touchStartTime) {
+          return;
+        }
+
+        var touch = event.changedTouches && event.changedTouches[0];
+
+        if (!touch) {
+          resetTouchPaging();
+          return;
+        }
+
+        var dx = touch.clientX - touchStartX;
+        var dy = touch.clientY - touchStartY;
+        var absX = Math.abs(dx);
+        var absY = Math.abs(dy);
+        var elapsed = Math.max(Date.now() - touchStartTime, 1);
+        var velocity = absX / elapsed;
+        var threshold = Math.min(Math.max(stage.clientWidth * 0.16, 44), 96);
+
+        if (touchAxis === 'x' || absX > absY * 1.15) {
+          if (absX >= threshold || velocity > 0.35) {
+            scrollToIndex(touchStartIndex + (dx < 0 ? 1 : -1));
+          } else {
+            scrollToIndex(touchStartIndex);
+          }
+        }
+
+        resetTouchPaging();
+      }
+
+      stage.addEventListener('touchstart', onTouchStart, { passive: true });
+      stage.addEventListener('touchmove', onTouchMove, { passive: false });
+      stage.addEventListener('touchend', onTouchEnd, { passive: true });
+      stage.addEventListener('touchcancel', resetTouchPaging, { passive: true });
 
       if (prevButton) {
         prevButton.addEventListener('click', function () {
