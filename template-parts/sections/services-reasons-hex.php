@@ -117,17 +117,18 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
     </div>
 
     <div class="hex-reasons__mobi" role="region" aria-label="Переваги GraffiT">
-        <img
-            class="hex-reasons__mobi-img"
-            src="<?php echo esc_url( $hex_mobile_composite_url ); ?>"
-            alt=""
-            width="672"
-            height="607"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-        >
-        <div class="hex-reasons__m-overlay">
+        <div class="hex-reasons__mobi-stack">
+            <img
+                class="hex-reasons__mobi-img"
+                src="<?php echo esc_url( $hex_mobile_composite_url ); ?>"
+                alt=""
+                width="672"
+                height="607"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+            >
+            <div class="hex-reasons__m-overlay">
             <div class="hex-reasons__m-row hex-reasons__m-row--top">
                 <div class="hex-reasons__m-pair">
                     <article
@@ -196,22 +197,19 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
                     </article>
                 </div>
             </div>
-
-            <div class="hex-reasons__m-row hex-reasons__m-row--photo">
-                <div class="hex-reasons__m-photo">
-                    <div class="hex-reasons__m-cell hex-reasons__m-cell--photo" aria-hidden="true">
-                        <img
-                            class="hex-reasons__m-photo-img"
-                            src="<?php echo esc_url( $hex_mobile_photo_url ); ?>"
-                            alt=""
-                            width="365"
-                            height="365"
-                            loading="lazy"
-                            decoding="async"
-                        >
-                    </div>
-                </div>
             </div>
+        </div>
+
+        <div class="hex-reasons__m-photo-below" aria-hidden="true">
+            <img
+                class="hex-reasons__m-photo-img"
+                src="<?php echo esc_url( $hex_mobile_photo_url ); ?>"
+                alt=""
+                width="365"
+                height="365"
+                loading="lazy"
+                decoding="async"
+            >
         </div>
     </div>
 
