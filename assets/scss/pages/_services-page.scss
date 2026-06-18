@@ -2748,8 +2748,11 @@
 
 .hex-reasons__m-row--mid {
   @include mixins.mobile {
+    position: relative;
+    z-index: 5;
     display: flex;
     flex: 0 0 #{mixins.mvw(238px)};
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -2773,6 +2776,7 @@
 .hex-reasons__m-cell--center {
   @include mixins.mobile {
     position: relative;
+    z-index: 6;
     top: auto;
     left: auto;
     margin: 0;
@@ -2829,23 +2833,6 @@
   @include mixins.mobile {
     gap: #{mixins.mvw(8px)};
     padding: 0 #{mixins.mvw(43px)};
-
-    .hex-reasons__m-cell__lead,
-    .hex-reasons__m-cell__caption {
-      box-sizing: border-box;
-      width: 100%;
-      max-width: 100%;
-      margin-inline: auto;
-    }
-  }
-}
-
-.hex-reasons__m-cell__inner--cases {
-  @include mixins.mobile {
-    width: #{mixins.mvw(144px)};
-    max-width: #{mixins.mvw(144px)};
-    gap: #{mixins.mvw(8px)};
-    padding: 0;
 
     .hex-reasons__m-cell__lead,
     .hex-reasons__m-cell__caption {
