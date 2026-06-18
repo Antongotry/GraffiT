@@ -3310,51 +3310,121 @@
 
       var isAnimating = false;
 
+      function forceAnswerLayout() {
+        return answer.offsetHeight;
+      }
+
+      function finishAnimation() {
+        answer.style.removeProperty('transition');
+        answer.style.removeProperty('max-height');
+        answer.style.removeProperty('opacity');
+        answer.style.removeProperty('padding-bottom');
+        isAnimating = false;
+      }
+
+      function closeAnswer() {
+        var computedStyle = window.getComputedStyle(answer);
+        var currentHeight = answer.scrollHeight;
+        var currentPaddingBottom = computedStyle.paddingBottom;
+        var closeTimer;
+        var didClose = false;
+
+        isAnimating = true;
+        answer.style.transition = 'none';
+        answer.style.maxHeight = currentHeight + 'px';
+        answer.style.opacity = '1';
+        answer.style.paddingBottom = currentPaddingBottom;
+        forceAnswerLayout();
+        answer.style.removeProperty('transition');
+
+        requestAnimationFrame(function () {
+          answer.style.maxHeight = '0px';
+          answer.style.opacity = '0';
+          answer.style.paddingBottom = '0px';
+        });
+
+        function completeClose() {
+          if (didClose) {
+            return;
+          }
+
+          didClose = true;
+          window.clearTimeout(closeTimer);
+          details.open = false;
+          finishAnimation();
+          answer.removeEventListener('transitionend', onClose);
+        }
+
+        var onClose = function (ev) {
+          if (ev.propertyName !== 'max-height') return;
+          completeClose();
+        };
+
+        answer.addEventListener('transitionend', onClose);
+        closeTimer = window.setTimeout(completeClose, 560);
+      }
+
+      function openAnswer() {
+        var targetHeight;
+        var targetPaddingBottom;
+        var openTimer;
+        var didOpen = false;
+
+        isAnimating = true;
+        details.open = true;
+        answer.style.transition = 'none';
+        answer.style.maxHeight = 'none';
+        answer.style.opacity = '1';
+        answer.style.removeProperty('padding-bottom');
+
+        targetPaddingBottom = window.getComputedStyle(answer).paddingBottom;
+        targetHeight = answer.scrollHeight;
+
+        answer.style.maxHeight = '0px';
+        answer.style.opacity = '0';
+        answer.style.paddingBottom = '0px';
+        forceAnswerLayout();
+        answer.style.removeProperty('transition');
+
+        requestAnimationFrame(function () {
+          answer.style.maxHeight = targetHeight + 'px';
+          answer.style.opacity = '1';
+          answer.style.paddingBottom = targetPaddingBottom;
+        });
+
+        function completeOpen() {
+          if (didOpen) {
+            return;
+          }
+
+          didOpen = true;
+          window.clearTimeout(openTimer);
+          answer.style.maxHeight = 'none';
+          answer.style.removeProperty('opacity');
+          answer.style.removeProperty('padding-bottom');
+          isAnimating = false;
+          answer.removeEventListener('transitionend', onOpen);
+        }
+
+        var onOpen = function (ev) {
+          if (ev.propertyName !== 'max-height') return;
+          completeOpen();
+        };
+
+        answer.addEventListener('transitionend', onOpen);
+        openTimer = window.setTimeout(completeOpen, 560);
+      }
+
       summary.addEventListener('click', function (e) {
         e.preventDefault();
         if (isAnimating) return;
 
         if (details.open) {
-          isAnimating = true;
-          answer.style.maxHeight = answer.scrollHeight + 'px';
-          answer.style.opacity = '1';
-          requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-              answer.style.maxHeight = '0px';
-              answer.style.opacity = '0';
-            });
-          });
-          var onClose = function (ev) {
-            if (ev.propertyName !== 'max-height') return;
-            details.open = false;
-            answer.style.maxHeight = '';
-            answer.style.opacity = '';
-            isAnimating = false;
-            answer.removeEventListener('transitionend', onClose);
-          };
-          answer.addEventListener('transitionend', onClose);
-        } else {
-          details.open = true;
-          isAnimating = true;
-          answer.style.opacity = '';
-          var h = answer.scrollHeight;
-          answer.style.maxHeight = '0px';
-          answer.style.opacity = '0';
-          requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-              answer.style.maxHeight = h + 'px';
-              answer.style.opacity = '1';
-            });
-          });
-          var onOpen = function (ev) {
-            if (ev.propertyName !== 'max-height') return;
-            answer.style.maxHeight = 'none';
-            answer.style.opacity = '';
-            isAnimating = false;
-            answer.removeEventListener('transitionend', onOpen);
-          };
-          answer.addEventListener('transitionend', onOpen);
+          closeAnswer();
+          return;
         }
+
+        openAnswer();
       });
     });
   }
