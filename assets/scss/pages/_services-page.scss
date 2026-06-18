@@ -4279,9 +4279,12 @@ $services-benefits-bg:
   @include mixins.mobile {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    width: 100%;
     gap: #{mixins.mvw(4px)};
-    margin-top: #{mixins.mvw(16px)};
-    padding: 0 #{mixins.mvw(2px)};
+    margin-top: #{mixins.mvw(12px)};
+    padding: 0;
+    box-sizing: border-box;
   }
 }
 
@@ -4323,6 +4326,9 @@ $services-benefits-bg:
   padding-right: #{mixins.vw(148px)};
 
   @include mixins.mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: #{mixins.mvw(12px)};
     margin-top: #{mixins.mvw(12px)};
     padding-right: 0;
   }
@@ -4359,7 +4365,7 @@ $services-benefits-bg:
   @include mixins.mobile {
     position: static;
     z-index: auto;
-    margin-top: #{mixins.mvw(20px)};
+    margin-top: 0;
     align-self: flex-start;
     gap: 8px;
   }

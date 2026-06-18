@@ -63,6 +63,31 @@ $mediahub_capabilities_cards = [
                     <h2 class="services-projects__title" id="mediahub-capabilities-title">
                         Розроблений на основі досвіду управління контентом у великих торговельних мережах, MediaHub об’єднує стабільність enterprise-рішень і простоту впровадження SaaS-продукту.
                     </h2>
+
+                    <div class="services-projects__nav">
+                        <button class="services-projects__nav-button services-projects__nav-button--prev js-projects-prev" type="button" aria-label="Попередня картка">
+                            <img
+                                class="services-projects__nav-icon"
+                                src="<?php echo esc_url($mediahub_capabilities_nav_l); ?>"
+                                alt=""
+                                width="18"
+                                height="20"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                        </button>
+                        <button class="services-projects__nav-button services-projects__nav-button--next js-projects-next" type="button" aria-label="Наступна картка">
+                            <img
+                                class="services-projects__nav-icon"
+                                src="<?php echo esc_url($mediahub_capabilities_nav_r); ?>"
+                                alt=""
+                                width="18"
+                                height="20"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                        </button>
+                    </div>
                 </div>
 
                 <div class="services-projects__swipe-hint">
@@ -122,31 +147,6 @@ $mediahub_capabilities_cards = [
                         </button>
                     </article>
                 </div>
-            </div>
-
-            <div class="services-projects__nav">
-                <button class="services-projects__nav-button services-projects__nav-button--prev js-projects-prev" type="button" aria-label="Попередня картка">
-                    <img
-                        class="services-projects__nav-icon"
-                        src="<?php echo esc_url($mediahub_capabilities_nav_l); ?>"
-                        alt=""
-                        width="18"
-                        height="20"
-                        loading="lazy"
-                        decoding="async"
-                    >
-                </button>
-                <button class="services-projects__nav-button services-projects__nav-button--next js-projects-next" type="button" aria-label="Наступна картка">
-                    <img
-                        class="services-projects__nav-icon"
-                        src="<?php echo esc_url($mediahub_capabilities_nav_r); ?>"
-                        alt=""
-                        width="18"
-                        height="20"
-                        loading="lazy"
-                        decoding="async"
-                    >
-                </button>
             </div>
         </div>
     </div>

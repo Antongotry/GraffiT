@@ -1218,6 +1218,9 @@
     }
 
     .services-projects__top-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: #{mixins.mvw(12px)};
       margin-top: #{mixins.mvw(12px)};
       padding-right: 0;
     }
@@ -1306,7 +1309,7 @@
     .services-projects__nav {
       position: static;
       z-index: auto;
-      margin-top: #{mixins.mvw(20px)};
+      margin-top: 0;
       align-self: flex-start;
       gap: 8px;
     }
