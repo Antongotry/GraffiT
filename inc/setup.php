@@ -403,6 +403,15 @@ function graffit_preload_home_hero(): void
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_home_hero_image_url()) . '">' . "\n";
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_home_hero_image_mobile_url()) . '" media="(max-width: 1024px)">' . "\n";
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_home_hero_cta_image_url()) . '">' . "\n";
+
+    if (function_exists('graffit_home_film_mobile_config')) {
+        $home_film_mobile = graffit_home_film_mobile_config();
+        $home_film_mobile_poster = (string) ($home_film_mobile['poster'] ?? '');
+
+        if ($home_film_mobile_poster !== '') {
+            echo '<link rel="preload" as="image" href="' . esc_url($home_film_mobile_poster) . '" media="(max-width: 1024px)">' . "\n";
+        }
+    }
 }
 add_action('wp_head', 'graffit_preload_home_hero', 3);
 

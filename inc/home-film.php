@@ -104,6 +104,47 @@ function graffit_home_film_config(): array
         'phase2ScrollPace' => (float) ($defaults['phase2ScrollPace'] ?? 1.85),
         'source' => 'designer-webp',
         'cacheKey' => 'home-film-' . substr(sha1(implode('|', $cache_key_parts)), 0, 16),
+        'mobile' => graffit_home_film_mobile_config(),
+    ];
+}
+
+/**
+ * Mobile-only homepage scroll-film frame URLs.
+ *
+ * @return array{
+ *     p1Base: string,
+ *     p2Base: string,
+ *     p1Last: int,
+ *     p2Last: int,
+ *     poster: string,
+ *     pad: int,
+ *     ext: string,
+ *     source: string,
+ *     p2FrameOffset: int,
+ *     cacheKey: string
+ * }
+ */
+function graffit_home_film_mobile_config(): array
+{
+    $base = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/';
+
+    return [
+        'enabled' => graffit_home_film_enabled(),
+        'p1Base' => $base . 'ezgif-frame-',
+        'p2Base' => $base . 'ezgif-frame-',
+        'p1Last' => 180,
+        'p2Last' => 240,
+        'poster' => $base . 'ezgif-frame-001_result-2-scaled.webp',
+        'pad' => 3,
+        'ext' => '_result-2-scaled.webp',
+        'scrollPace' => 1,
+        'phase2ScrollPace' => 1.85,
+        'source' => 'mobile-ezgif',
+        'p2FrameOffset' => 1,
+        'p2Ext' => '_result-1-scaled.webp',
+        'p2AltExt' => '_result-3-scaled.webp',
+        'p2AltLastFrame' => 181,
+        'cacheKey' => 'home-film-mobile-' . substr(sha1($base . '|p1:001-181:result-2|p2:001-181:result-3|p2:182-241:result-1|query-v1'), 0, 16),
     ];
 }
 
@@ -148,5 +189,6 @@ function graffit_home_film_legacy_config(): array
         'p2AltExt' => '_result-1-scaled.webp',
         'p2AltLastFrame' => 211,
         'cacheKey' => 'home-film-' . substr(sha1($base . '|211|75-241|result-scaled|result-1-scaled|query-v3'), 0, 16),
+        'mobile' => graffit_home_film_mobile_config(),
     ];
 }

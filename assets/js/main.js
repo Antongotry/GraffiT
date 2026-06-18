@@ -3415,110 +3415,6 @@
       return;
     }
 
-    function cssImageUrl(url) {
-      return 'url("' + String(url || '').replace(/"/g, '\\"') + '")';
-    }
-
-    function versionStaticFilmUrl(url, cacheKey) {
-      if (!url || !cacheKey) {
-        return url;
-      }
-
-      return url + (url.indexOf('?') === -1 ? '?' : '&') + 'v=' + encodeURIComponent(cacheKey);
-    }
-
-    function initMobileStaticHomeFilm() {
-      var filmConfig = window.graffitHomeFilm || {};
-      var poster = filmConfig.poster || 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/ezgif-frame-001_result-scaled.webp';
-      var cacheKey = filmConfig.cacheKey || '';
-      var staticVisible = null;
-      var staticTicking = false;
-
-      canvas.width = 1;
-      canvas.height = 1;
-      canvas.classList.add('is-mobile-static');
-      canvas.style.backgroundImage = cssImageUrl(versionStaticFilmUrl(poster, cacheKey));
-      canvas.style.backgroundSize = 'cover';
-      canvas.style.backgroundPosition = 'center';
-      canvas.style.backgroundRepeat = 'no-repeat';
-
-      document.body.classList.remove('is-home-film-loading');
-      dismissInitialFilmLoader();
-      resetHomeFilmHandoffState();
-
-      function mobileStaticNotchPx() {
-        var w = window.innerWidth || 375;
-
-        return Math.min((40 / 375) * w, 40);
-      }
-
-      function shouldShowStaticCanvas() {
-        if (!isMobileViewport()) {
-          return false;
-        }
-
-        var about = document.getElementById('home-about');
-        var hexFlow = document.querySelector('.home-hex-projects-flow');
-        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-        var notch = mobileStaticNotchPx();
-
-        if (about) {
-          var aboutRect = about.getBoundingClientRect();
-
-          if (aboutRect.bottom <= viewportHeight + notch) {
-            return false;
-          }
-        }
-
-        if (hexFlow) {
-          var hexRect = hexFlow.getBoundingClientRect();
-
-          if (hexRect.top <= viewportHeight * 0.12) {
-            return false;
-          }
-        }
-
-        return true;
-      }
-
-      function setStaticCanvasVisible(visible) {
-        if (visible === staticVisible) {
-          return;
-        }
-
-        staticVisible = visible;
-        canvas.style.visibility = visible ? '' : 'hidden';
-        canvas.style.pointerEvents = visible ? '' : 'none';
-      }
-
-      function syncStaticCanvas() {
-        staticTicking = false;
-        setStaticCanvasVisible(shouldShowStaticCanvas());
-      }
-
-      function requestStaticCanvasSync() {
-        if (staticTicking) {
-          return;
-        }
-
-        staticTicking = true;
-        window.requestAnimationFrame(syncStaticCanvas);
-      }
-
-      if (!container.__homeFilmMobileStaticBound) {
-        container.__homeFilmMobileStaticBound = true;
-        window.addEventListener('scroll', requestStaticCanvasSync, { passive: true });
-        window.addEventListener('resize', requestStaticCanvasSync, { passive: true });
-      }
-
-      requestStaticCanvasSync();
-    }
-
-    if (isMobileViewport()) {
-      initMobileStaticHomeFilm();
-      return;
-    }
-
     if (!window.gsap || !window.ScrollTrigger) {
       dismissInitialFilmLoader();
       return;
@@ -3543,9 +3439,17 @@
       return Math.max(0, Math.round(configNumber(value, fallback)));
     }
 
-    var filmConfig = window.graffitHomeFilm || {};
+    var rootFilmConfig = window.graffitHomeFilm || {};
+    var filmConfig = isMobileViewport() && rootFilmConfig.mobile
+      ? rootFilmConfig.mobile
+      : rootFilmConfig;
     var DEFAULT_LEGACY_BASE = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/ezgif-frame-';
     var isLegacyFilm = filmConfig.source === 'legacy-ezgif' || !filmConfig.p1Base;
+    var usesSegmentedP2Frames = !!(
+      filmConfig.p2Ext ||
+      filmConfig.p2AltExt ||
+      filmConfig.p2FrameOffset
+    );
     var P1_BASE = filmConfig.p1Base || DEFAULT_LEGACY_BASE;
     var P2_BASE = filmConfig.p2Base || P1_BASE;
     var P1_LAST = configInteger(filmConfig.p1Last, 210);
@@ -3592,7 +3496,7 @@
     function filmFrameUrl(phase, index) {
       var frameNumber = index + 1;
 
-      if (phase === 2 && isLegacyFilm) {
+      if (phase === 2 && (isLegacyFilm || usesSegmentedP2Frames)) {
         var p2FrameNumber = P2_FRAME_OFFSET + index;
         var p2FrameExt = P2_FRAME_ALT_EXT && p2FrameNumber <= P2_FRAME_ALT_LAST
           ? P2_FRAME_ALT_EXT
