@@ -2728,11 +2728,35 @@
   }
 }
 
-.hex-reasons__m-row--top {
+.hex-reasons__m-row--top,
+.hex-reasons__m-row--mid {
   @include mixins.mobile {
     box-sizing: border-box;
     padding: 0 #{mixins.mvw(110px)};
     line-height: normal;
+  }
+}
+
+.hex-reasons__m-row--mid {
+  @include mixins.mobile {
+    margin-top: #{mixins.mvw(-48px)};
+  }
+}
+
+.hex-reasons__m-mid {
+  @include mixins.mobile {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+}
+
+.hex-reasons__m-cell--spacer {
+  @include mixins.mobile {
+    pointer-events: none;
+    visibility: hidden;
   }
 }
 
