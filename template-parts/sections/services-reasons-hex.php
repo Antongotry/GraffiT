@@ -171,6 +171,29 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
                     </article>
                 </div>
             </div>
+
+            <div class="hex-reasons__m-row hex-reasons__m-row--bot">
+                <div class="hex-reasons__m-pair">
+                    <article
+                        class="hex-reasons__m-cell"
+                        aria-label="Даємо чітку документацію"
+                    >
+                        <div class="hex-reasons__m-cell__inner hex-reasons__m-cell__inner--docs">
+                            <h3 class="hex-reasons__m-cell__title"><?php echo esc_html( 'Даємо чітку документацію,' ); ?></h3>
+                            <p class="hex-reasons__m-cell__caption"><?php echo esc_html( 'підтримку після запуску і прозору комунікацію' ); ?></p>
+                        </div>
+                    </article>
+                    <article
+                        class="hex-reasons__m-cell"
+                        aria-label="Інтегруємось у вже існуючий ландшафт"
+                    >
+                        <div class="hex-reasons__m-cell__inner hex-reasons__m-cell__inner--landscape">
+                            <h3 class="hex-reasons__m-cell__title"><?php echo esc_html( 'Інтегруємось у вже існуючий ландшафт' ); ?></h3>
+                            <p class="hex-reasons__m-cell__caption"><?php echo esc_html( '(1С, CRM, ERP, маркетплейси, POS тощо)' ); ?></p>
+                        </div>
+                    </article>
+                </div>
+            </div>
         </div>
     </div>
 
