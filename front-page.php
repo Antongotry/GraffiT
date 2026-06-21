@@ -7,36 +7,11 @@
 
 declare(strict_types=1);
 
-$home_film_config = graffit_home_film_config();
-$home_film_cache_key = (string) ($home_film_config['cacheKey'] ?? '');
-$home_loader_mark_url = get_template_directory_uri() . '/assets/images/logo-mark.svg';
-
 get_header();
 ?>
 <?php get_template_part('template-parts/layout/site', 'header'); ?>
 <main id="primary" class="site-main site-main--home" aria-label="<?php esc_attr_e('Front page', 'graffit'); ?>">
     <canvas class="home-scroll-film__canvas js-home-scroll-film-canvas" aria-hidden="true"></canvas>
-    <div
-        class="home-film-loader js-home-film-loader is-active"
-        aria-hidden="true"
-        data-film-cache-key="<?php echo esc_attr($home_film_cache_key); ?>"
-    >
-        <div class="home-film-loader__inner">
-            <span class="home-film-loader__halo" aria-hidden="true"></span>
-            <img
-                class="home-film-loader__mark"
-                src="<?php echo esc_url($home_loader_mark_url); ?>"
-                alt=""
-                width="48"
-                height="55"
-                loading="eager"
-                decoding="async"
-            >
-            <span class="home-film-loader__bar" aria-hidden="true">
-                <span class="home-film-loader__bar-fill js-home-film-loader-progress"></span>
-            </span>
-        </div>
-    </div>
     <div class="home-scroll-film js-home-scroll-film">
         <?php get_template_part('template-parts/sections/home', 'hero'); ?>
         <?php get_template_part('template-parts/sections/home', 'showcase'); ?>

@@ -3471,6 +3471,8 @@
     var loaderProgress = loader ? loader.querySelector('.js-home-film-loader-progress') : null;
 
     function dismissInitialFilmLoader() {
+      document.body.classList.remove('is-home-film-loading');
+
       if (!loader) {
         return;
       }
@@ -4020,7 +4022,7 @@
 
       if (shouldShowFilmLoaderUi()) {
         showFilmLoader();
-      } else {
+      } else if (loader) {
         document.body.classList.add('is-home-film-loading');
       }
 
@@ -4319,6 +4321,12 @@
       return phase1PxPerFrame() * P2_LAST * FILM_PHASE2_SCROLL_PACE;
     }
 
+    function phase2MobileScrollSpanPx() {
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 844;
+
+      return Math.round(clamp(viewportHeight * 0.38, 260, 360));
+    }
+
     function syncHomeScrollFilmFrame() {
       syncHomeFilmCanvasVisibility();
 
@@ -4408,6 +4416,9 @@
       var st2State = { frame: 0 };
       var aboutFlow = document.querySelector('.home-chaos-about-flow');
       var mobileFilm = isMobileFilmLayout();
+      var phase2Trigger = mobileFilm
+        ? (chaos.querySelector('.home-chaos__inner') || chaos)
+        : chaos;
 
       window.gsap.to(st2State, {
         frame: P2_LAST,
@@ -4415,11 +4426,13 @@
         immediateRender: false,
         scrollTrigger: {
           id: 'home-scroll-p2',
-          trigger: chaos,
-          start: 'top top',
-          endTrigger: aboutFlow || chaos,
-          /* Pin до входу «Про нас» на desktop; на mobile — той самий scrub без pin. */
-          end: aboutFlow ? 'top top' : function () {
+          trigger: phase2Trigger,
+          start: mobileFilm ? 'center center' : 'top top',
+          endTrigger: mobileFilm ? undefined : (aboutFlow || chaos),
+          /* Desktop keeps the pinned chaos handoff; mobile starts at centered copy and finishes faster before it scrolls away. */
+          end: mobileFilm ? function () {
+            return '+=' + phase2MobileScrollSpanPx();
+          } : aboutFlow ? 'top top' : function () {
             return '+=' + Math.round(phase2ScrollSpanPx());
           },
           pin: !mobileFilm,
