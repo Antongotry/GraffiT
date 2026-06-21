@@ -285,8 +285,8 @@
 
   @include mixins.mobile {
     min-height: auto;
-    padding-top: #{mixins.mvw(32px)};
-    padding-bottom: calc(#{mixins.mvw(84px)} * 0.7);
+    padding-top: #{mixins.mvw(84px)};
+    padding-bottom: #{mixins.mvw(84px)};
   }
 }
 
