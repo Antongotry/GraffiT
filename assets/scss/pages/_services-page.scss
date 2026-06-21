@@ -5,6 +5,11 @@
   overflow-x: clip;
   /* visible — інакше position: sticky у .services-process__visual не працює */
   overflow-y: visible;
+
+  @include mixins.mobile {
+    /* Sticky client cards jitter on mobile when any page-level ancestor clips overflow. */
+    overflow: visible;
+  }
 }
 
 /* Як на MediaHub: псевдо-фони inner-page не розтягують сторінку під футером. */
@@ -3392,6 +3397,13 @@ $services-benefits-bg:
 
   @include mixins.mobile {
     overflow: visible;
+  }
+}
+
+.site-main--services #services-clients {
+  @include mixins.mobile {
+    /* Match the working home/about flows: client sticky stack paints above the next dark section. */
+    z-index: 91;
   }
 }
 
