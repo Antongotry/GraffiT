@@ -121,6 +121,7 @@ function graffit_home_film_config(): array
  *     ext: string,
  *     source: string,
  *     p2FrameOffset: int,
+ *     p2TailFrameSkip: int,
  *     cacheKey: string
  * }
  */
@@ -133,7 +134,7 @@ function graffit_home_film_mobile_config(): array
         'p1Base' => $base . 'ezgif-frame-',
         'p2Base' => $base . 'ezgif-frame-',
         'p1Last' => 180,
-        'p2Last' => 240,
+        'p2Last' => 210,
         'poster' => $base . 'ezgif-frame-001_result-2-scaled.webp',
         'pad' => 3,
         'ext' => '_result-2-scaled.webp',
@@ -144,7 +145,8 @@ function graffit_home_film_mobile_config(): array
         'p2Ext' => '_result-1-scaled.webp',
         'p2AltExt' => '_result-3-scaled.webp',
         'p2AltLastFrame' => 181,
-        'cacheKey' => 'home-film-mobile-' . substr(sha1($base . '|p1:001-181:result-2|p2:001-181:result-3|p2:182-241:result-1|query-v1'), 0, 16),
+        'p2TailFrameSkip' => 30,
+        'cacheKey' => 'home-film-mobile-' . substr(sha1($base . '|p1:001-181:result-2|p2:001-181:result-3|p2:212-241:result-1|skip:182-211|query-v2'), 0, 16),
     ];
 }
 
