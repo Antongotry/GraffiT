@@ -3517,11 +3517,34 @@
       return Math.max(0, Math.round(configNumber(value, fallback)));
     }
 
+    function mobileFilmFallbackConfig(baseConfig) {
+      var base = (baseConfig && baseConfig.p1Base) || DEFAULT_LEGACY_BASE;
+
+      return {
+        enabled: true,
+        p1Base: base,
+        p2Base: base,
+        p1Last: 180,
+        p2Last: 240,
+        poster: base + '001_result-2-scaled.webp',
+        pad: 3,
+        ext: '_result-2-scaled.webp',
+        scrollPace: 1,
+        phase2ScrollPace: 1.85,
+        source: 'mobile-ezgif',
+        p2FrameOffset: 1,
+        p2Ext: '_result-1-scaled.webp',
+        p2AltExt: '_result-3-scaled.webp',
+        p2AltLastFrame: 181,
+        cacheKey: 'home-film-mobile-51c482e4a15c304d'
+      };
+    }
+
     var rootFilmConfig = window.graffitHomeFilm || {};
-    var filmConfig = isMobileViewport() && rootFilmConfig.mobile
-      ? rootFilmConfig.mobile
-      : rootFilmConfig;
     var DEFAULT_LEGACY_BASE = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/ezgif-frame-';
+    var filmConfig = isMobileViewport()
+      ? (rootFilmConfig.mobile || mobileFilmFallbackConfig(rootFilmConfig))
+      : rootFilmConfig;
     var isLegacyFilm = filmConfig.source === 'legacy-ezgif' || !filmConfig.p1Base;
     var usesSegmentedP2Frames = !!(
       filmConfig.p2Ext ||
@@ -3854,8 +3877,8 @@
                   failedLoads += 1;
                 }
 
-                if (idx === 0 && phase === 1 && isImageReady(img)) {
-                  drawImage(img);
+                if (idx === 0 && phase === 1 && isImageReady(img) && activePhase === 1 && currentIndex <= 0) {
+                  drawImage(img, phase);
                 }
 
                 pump();
