@@ -3844,8 +3844,10 @@
               var img = new Image();
               var failed = false;
 
+              targetArray[idx] = img;
+              img.__homeFilmLoadBound = true;
+
               function finish() {
-                targetArray[idx] = img;
                 activeLoads -= 1;
 
                 if (failed || !isImageReady(img)) {
@@ -4202,7 +4204,7 @@
     function phase2MobileScrollSpanPx() {
       var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 844;
 
-      return Math.round(clamp(viewportHeight * 0.38, 260, 360));
+      return Math.round(clamp(viewportHeight * 1.18, 760, 1120));
     }
 
     function syncHomeScrollFilmFrame() {
@@ -4307,16 +4309,16 @@
           trigger: phase2Trigger,
           start: mobileFilm ? 'center center' : 'top top',
           endTrigger: mobileFilm ? undefined : (aboutFlow || chaos),
-          /* Desktop keeps the pinned chaos handoff; mobile starts at centered copy and finishes faster before it scrolls away. */
+          /* Desktop pins the chaos section; mobile pins the centered copy until the final frame is reached. */
           end: mobileFilm ? function () {
             return '+=' + phase2MobileScrollSpanPx();
           } : aboutFlow ? 'top top' : function () {
             return '+=' + Math.round(phase2ScrollSpanPx());
           },
-          pin: !mobileFilm,
-          pinSpacing: !mobileFilm,
+          pin: true,
+          pinSpacing: true,
           pinClass: 'pin-spacer-home-scroll-p2',
-          anticipatePin: 0,
+          anticipatePin: mobileFilm ? 1 : 0,
           scrub: true,
           invalidateOnRefresh: true,
           onEnter: function () {
@@ -4327,6 +4329,10 @@
           },
           onLeave: function () {
             if (mobileFilm) {
+              filmPhase2Latched = true;
+              container.__homeFilmPhase2Latched = true;
+              setHomeFilmHandoff(true);
+              setFilmFrame(2, P2_LAST);
               syncHomeFilmCanvasVisibility();
               syncFilmBowTieOverlays();
               return;
