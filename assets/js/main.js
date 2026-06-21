@@ -3647,6 +3647,9 @@
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
+    var lastDrawnFrameIndex = -1;
+    var pendingFilmFrame = null;
+    var pendingFilmFrameRaf = 0;
     var filmPhase2DrawProgress = 0;
     var FILM_BOTTOM_WING_BLEED = 8;
     var filmOverlayRaf = 0;
@@ -3865,24 +3868,65 @@
       }
     }
 
-    function resolveFilmImage(images, index) {
+    function resolveFilmImage(images, index, phase) {
       if (isImageReady(images[index])) {
-        return images[index];
+        return {
+          img: images[index],
+          frameIndex: index
+        };
       }
 
       var offset = 1;
       var maxOffset = Math.min(32, images.length);
+      var mobileFilm = isMobileFilmLayout();
+      var isReverse = mobileFilm && activePhase === phase && currentIndex > index;
+      var previousMatch = null;
+      var nextMatch = null;
 
       while (offset <= maxOffset) {
-        if (isImageReady(images[index - offset])) {
-          return images[index - offset];
+        if (!previousMatch && isImageReady(images[index - offset])) {
+          previousMatch = {
+            img: images[index - offset],
+            frameIndex: index - offset
+          };
         }
 
-        if (isImageReady(images[index + offset])) {
-          return images[index + offset];
+        if (!nextMatch && isImageReady(images[index + offset])) {
+          nextMatch = {
+            img: images[index + offset],
+            frameIndex: index + offset
+          };
+        }
+
+        if (!mobileFilm && (previousMatch || nextMatch)) {
+          return previousMatch || nextMatch;
+        }
+
+        if (mobileFilm && isReverse && nextMatch) {
+          return nextMatch;
+        }
+
+        if (mobileFilm && !isReverse && previousMatch) {
+          return previousMatch;
         }
 
         offset += 1;
+      }
+
+      if (
+        mobileFilm &&
+        activePhase === phase &&
+        lastDrawnImage &&
+        images[lastDrawnFrameIndex] === lastDrawnImage
+      ) {
+        return {
+          img: lastDrawnImage,
+          frameIndex: lastDrawnFrameIndex
+        };
+      }
+
+      if (mobileFilm) {
+        return isReverse ? (nextMatch || previousMatch) : (previousMatch || nextMatch);
       }
 
       return null;
@@ -3985,6 +4029,9 @@
                 }
 
                 if (idx === 0 && phase === 1 && isImageReady(img) && activePhase === 1 && currentIndex <= 0) {
+                  activePhase = phase;
+                  currentIndex = 0;
+                  lastDrawnFrameIndex = 0;
                   drawImage(img, phase);
                 }
 
@@ -4282,16 +4329,17 @@
       return clamp(Math.round(progress * lastIndex), 0, lastIndex);
     }
 
-    function setFilmFrame(phase, index) {
+    function renderFilmFrame(phase, index) {
       var images = phase === 1 ? p1Images : p2Images;
       var lastIndex = phase === 1 ? P1_LAST : P2_LAST;
       var nextIndex = clamp(index, 0, lastIndex);
-      var img = resolveFilmImage(images, nextIndex);
+      var resolved = resolveFilmImage(images, nextIndex, phase);
+      var img = resolved ? resolved.img : null;
 
       warmFilmFramesAround(phase, nextIndex);
 
       if (!img) {
-        queueFilmFrameLoad(phase, nextIndex);
+        queueFilmFrameLoad(phase, nextIndex, true);
 
         return;
       }
@@ -4303,7 +4351,37 @@
 
       activePhase = phase;
       currentIndex = nextIndex;
+      lastDrawnFrameIndex = resolved.frameIndex;
       drawImage(img, phase);
+    }
+
+    function setFilmFrame(phase, index) {
+      if (!isMobileFilmLayout()) {
+        renderFilmFrame(phase, index);
+        return;
+      }
+
+      pendingFilmFrame = {
+        phase: phase,
+        index: index
+      };
+
+      if (pendingFilmFrameRaf) {
+        return;
+      }
+
+      pendingFilmFrameRaf = window.requestAnimationFrame(function () {
+        var nextFrame = pendingFilmFrame;
+
+        pendingFilmFrame = null;
+        pendingFilmFrameRaf = 0;
+
+        if (!nextFrame) {
+          return;
+        }
+
+        renderFilmFrame(nextFrame.phase, nextFrame.index);
+      });
     }
 
     function phase1BaseSpanPx() {
