@@ -3647,6 +3647,7 @@
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
+    var filmPhase2DrawProgress = 0;
     var FILM_BOTTOM_WING_BLEED = 8;
     var filmOverlayRaf = 0;
     var filmPreloadComplete = false;
@@ -4248,7 +4249,7 @@
       if (drawPhase === 2) {
         var notch = homeFilmNotchPx();
         var p2 = window.ScrollTrigger.getById('home-scroll-p2');
-        var progress = p2 ? clamp(p2.progress, 0, 1) : 0;
+        var progress = p2 ? filmPhase2DrawProgress : 0;
 
         /* Прив’язка нижнього краю кадра до шва chaos → «Про нас» (не center-crop). */
         y = ch - h + notch * (0.42 + progress * 0.36);
@@ -4336,7 +4337,23 @@
     function phase2MobileScrollSpanPx() {
       var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 844;
 
-      return Math.round(clamp(viewportHeight * 1.18, 760, 1120));
+      return Math.round(clamp(viewportHeight * 1.33, 860, 1240));
+    }
+
+    function phase2EffectiveProgress(p1, p2) {
+      var rawProgress = p2 ? clamp(p2.progress, 0, 1) : 0;
+
+      if (!isMobileFilmLayout() || !p1 || !p2) {
+        return rawProgress;
+      }
+
+      var start = Math.max(p1.end, p2.start);
+      var end = Math.max(p2.end, start + 1);
+      var scroll = typeof p1.scroll === 'function'
+        ? p1.scroll()
+        : (window.pageYOffset || document.documentElement.scrollTop || 0);
+
+      return clamp((scroll - start) / (end - start), 0, 1);
     }
 
     function syncHomeScrollFilmFrame() {
@@ -4361,7 +4378,15 @@
         filmPhase2Latched = true;
         container.__homeFilmPhase2Latched = filmPhase2Latched;
         setHomeFilmHandoff(true);
-        setFilmFrame(2, progressToFrameIndex(clamp(p2.progress, 0, 1), P2_LAST));
+
+        if (isMobileFilmLayout() && p1Progress < 1) {
+          setFilmFrame(1, progressToFrameIndex(p1Progress, P1_LAST));
+          syncFilmBowTieOverlays();
+          return;
+        }
+
+        filmPhase2DrawProgress = phase2EffectiveProgress(p1, p2);
+        setFilmFrame(2, progressToFrameIndex(filmPhase2DrawProgress, P2_LAST));
         syncFilmBowTieOverlays();
         return;
       }
@@ -4389,6 +4414,7 @@
       filmPhase2Latched = true;
       container.__homeFilmPhase2Latched = filmPhase2Latched;
       setHomeFilmHandoff(true);
+      filmPhase2DrawProgress = handoff;
       setFilmFrame(2, progressToFrameIndex(handoff, handoffLast));
       syncFilmBowTieOverlays();
     }
@@ -4464,6 +4490,7 @@
               filmPhase2Latched = true;
               container.__homeFilmPhase2Latched = true;
               setHomeFilmHandoff(true);
+              filmPhase2DrawProgress = 1;
               setFilmFrame(2, P2_LAST);
               syncHomeFilmCanvasVisibility();
               syncFilmBowTieOverlays();
