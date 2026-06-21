@@ -3643,7 +3643,7 @@
     var FILM_SCROLL_PACE = configNumber(filmConfig.scrollPace, 1);
     var FILM_PHASE2_SCROLL_PACE = configNumber(filmConfig.phase2ScrollPace, 1.85);
     var filmPhase2Latched = !!container.__homeFilmPhase2Latched;
-    var FILM_PRELOAD_CONCURRENCY = 18;
+    var FILM_PRELOAD_CONCURRENCY = isMobileViewport() ? 10 : 18;
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
@@ -3800,7 +3800,7 @@
       return !!(img && img.complete && img.naturalWidth);
     }
 
-    function queueFilmFrameLoad(phase, index) {
+    function queueFilmFrameLoad(phase, index, highPriority) {
       var images = phase === 1 ? p1Images : p2Images;
       var count = phase === 1 ? P1_COUNT : P2_COUNT;
       var img;
@@ -3824,9 +3824,19 @@
       img = new Image();
       images[safeIndex] = img;
       img.__homeFilmLoadBound = true;
+      img.loading = 'eager';
       img.decoding = 'async';
 
+      if (highPriority) {
+        img.fetchPriority = 'high';
+      }
+
       img.addEventListener('load', function () {
+        if (typeof img.decode === 'function') {
+          img.decode().then(syncHomeScrollFilmFrame).catch(syncHomeScrollFilmFrame);
+          return;
+        }
+
         syncHomeScrollFilmFrame();
       }, { once: true });
 
@@ -3842,13 +3852,15 @@
 
     function warmFilmFramesAround(phase, index) {
       var lastIndex = phase === 1 ? P1_LAST : P2_LAST;
-      var spread = 20;
-      var start = Math.max(0, index - spread);
-      var end = Math.min(lastIndex, index + spread);
+      var mobileFilm = isMobileFilmLayout();
+      var behind = mobileFilm ? (phase === 2 ? 18 : 10) : 20;
+      var ahead = mobileFilm ? (phase === 2 ? 48 : 34) : 20;
+      var start = Math.max(0, index - behind);
+      var end = Math.min(lastIndex, index + ahead);
       var i;
 
       for (i = start; i <= end; i += 1) {
-        queueFilmFrameLoad(phase, i);
+        queueFilmFrameLoad(phase, i, mobileFilm && Math.abs(i - index) <= 10);
       }
     }
 
@@ -3875,25 +3887,91 @@
       return null;
     }
 
+    function buildFilmPreloadOrder(phase, count) {
+      var order = [];
+      var seen = new Set();
+      var mobileFilm = isMobileFilmLayout();
+      var leadCount = mobileFilm ? (phase === 2 ? 28 : 36) : count;
+      var keyframeStep = phase === 2 ? 4 : 5;
+      var i;
+
+      function pushIndex(index) {
+        if (index < 0 || index >= count || seen.has(index)) {
+          return;
+        }
+
+        seen.add(index);
+        order.push(index);
+      }
+
+      if (!mobileFilm) {
+        for (i = 0; i < count; i += 1) {
+          pushIndex(i);
+        }
+
+        return order;
+      }
+
+      for (i = 0; i < Math.min(count, leadCount); i += 1) {
+        pushIndex(i);
+      }
+
+      pushIndex(count - 1);
+
+      for (i = 0; i < count; i += keyframeStep) {
+        pushIndex(i);
+      }
+
+      for (i = Math.floor(keyframeStep / 2); i < count; i += keyframeStep) {
+        pushIndex(i);
+      }
+
+      for (i = 0; i < count; i += 1) {
+        pushIndex(i);
+      }
+
+      return order;
+    }
+
     function preloadFilmPhase(phase, count, targetArray) {
       return new Promise(function (resolve) {
+        var order = buildFilmPreloadOrder(phase, count);
         var nextIndex = 0;
         var activeLoads = 0;
         var failedLoads = 0;
+        var preloadResolved = false;
 
-        function pump() {
-          if (nextIndex >= count && activeLoads === 0) {
+        function resolvePreload() {
+          if (!preloadResolved && nextIndex >= order.length && activeLoads === 0) {
+            preloadResolved = true;
             resolve({
               failed: failedLoads,
             });
+          }
+        }
+
+        function pump() {
+          if (nextIndex >= order.length && activeLoads === 0) {
+            resolvePreload();
             return;
           }
 
-          while (activeLoads < FILM_PRELOAD_CONCURRENCY && nextIndex < count) {
-            (function (idx) {
+          while (activeLoads < FILM_PRELOAD_CONCURRENCY && nextIndex < order.length) {
+            var preloadIndex = nextIndex;
+            var preloadFrame = order[preloadIndex];
+
+            nextIndex += 1;
+
+            (function (idx, orderPosition) {
+              var existing = targetArray[idx];
               activeLoads += 1;
               var img = new Image();
               var failed = false;
+
+              if (isImageReady(existing) || (existing && existing.__homeFilmLoadBound)) {
+                activeLoads -= 1;
+                return;
+              }
 
               targetArray[idx] = img;
               img.__homeFilmLoadBound = true;
@@ -3931,15 +4009,18 @@
                 finish();
               };
 
-              if (idx < 8) {
+              img.loading = 'eager';
+
+              if (orderPosition < (isMobileFilmLayout() ? 36 : 8)) {
                 img.fetchPriority = 'high';
               }
 
               img.decoding = 'async';
               img.src = filmFrameUrl(phase, idx);
-            })(nextIndex);
-            nextIndex += 1;
+            })(preloadFrame, preloadIndex);
           }
+
+          resolvePreload();
         }
 
         pump();
