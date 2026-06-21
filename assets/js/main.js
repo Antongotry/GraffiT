@@ -3468,7 +3468,6 @@
     var container = document.querySelector('.js-home-scroll-film');
     var canvas = document.querySelector('.js-home-scroll-film-canvas');
     var loader = document.querySelector('.js-home-film-loader');
-    var loaderProgress = loader ? loader.querySelector('.js-home-film-loader-progress') : null;
 
     function dismissInitialFilmLoader() {
       document.body.classList.remove('is-home-film-loading');
@@ -3479,8 +3478,15 @@
 
       loader.classList.add('is-ready');
       loader.classList.remove('is-active');
-      document.body.classList.remove('is-home-film-loading');
+
+      if (loader.parentNode) {
+        loader.parentNode.removeChild(loader);
+      }
+
+      loader = null;
     }
+
+    dismissInitialFilmLoader();
 
     if (!container || !canvas) {
       dismissInitialFilmLoader();
@@ -3587,20 +3593,12 @@
     var FILM_PHASE2_SCROLL_PACE = configNumber(filmConfig.phase2ScrollPace, 1.85);
     var filmPhase2Latched = !!container.__homeFilmPhase2Latched;
     var FILM_PRELOAD_CONCURRENCY = 18;
-    var FILM_LOADER_MIN_MS = 520;
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
     var FILM_BOTTOM_WING_BLEED = 8;
     var filmOverlayRaf = 0;
-    var filmCacheHit = !!(FILM_CACHE_KEY && readLocalStorage(FILM_CACHE_STORAGE_KEY) === FILM_CACHE_KEY);
     var filmPreloadComplete = false;
-    var filmLoaderStartedAt = 0;
-    var filmLoaderReady = false;
-    var filmLoaderTargets = Object.create(null);
-    var filmLoaderDone = Object.create(null);
-    var filmLoaderTargetCount = 0;
-    var filmLoaderDoneCount = 0;
 
     function countFilmImagesReady(images, count) {
       var ready = 0;
@@ -3624,10 +3622,6 @@
         && countFilmImagesReady(p2Images, P2_COUNT) === P2_COUNT;
     }
 
-    function shouldShowFilmLoaderUi() {
-      return !filmCacheHit && !areStoredFilmImagesComplete();
-    }
-
     function finishFilmPreload(p1Result, p2Result) {
       var failed = (p1Result ? p1Result.failed : 0) + (p2Result ? p2Result.failed : 0);
       var ready = countFilmImagesReady(p1Images, P1_COUNT) + countFilmImagesReady(p2Images, P2_COUNT);
@@ -3638,14 +3632,9 @@
         markFilmCacheReady();
       }
 
-      hideFilmLoader();
       document.body.classList.remove('is-home-film-loading');
       dismissInitialFilmLoader();
       syncHomeScrollFilmFrame();
-    }
-
-    function filmLoaderKey(phase, index) {
-      return phase + ':' + index;
     }
 
     function writeLocalStorage(key, value) {
@@ -3654,16 +3643,6 @@
           window.localStorage.setItem(key, value);
         }
       } catch (error) {}
-    }
-
-    function readLocalStorage(key) {
-      try {
-        if (window.localStorage) {
-          return window.localStorage.getItem(key);
-        }
-      } catch (error) {}
-
-      return '';
     }
 
     function isMobileFilmLayout() {
@@ -3764,99 +3743,6 @@
       }
 
       writeLocalStorage(FILM_CACHE_STORAGE_KEY, FILM_CACHE_KEY);
-    }
-
-    function addFilmLoaderTarget(phase, index) {
-      var key = filmLoaderKey(phase, index);
-
-      if (filmLoaderTargets[key]) {
-        return;
-      }
-
-      filmLoaderTargets[key] = true;
-      filmLoaderTargetCount += 1;
-    }
-
-    function setupFilmLoaderTargets() {
-      var i;
-
-      for (i = 0; i < P1_COUNT; i += 1) {
-        addFilmLoaderTarget(1, i);
-      }
-
-      for (i = 0; i < P2_COUNT; i += 1) {
-        addFilmLoaderTarget(2, i);
-      }
-    }
-
-    function updateFilmLoaderProgress(progress) {
-      if (!loaderProgress) {
-        return;
-      }
-
-      loaderProgress.style.transform = 'scaleX(' + Math.max(0.08, Math.min(progress, 1)).toFixed(3) + ')';
-    }
-
-    function hideFilmLoader() {
-      var wait;
-
-      if (!loader || filmLoaderReady) {
-        return;
-      }
-
-      filmLoaderReady = true;
-      updateFilmLoaderProgress(1);
-
-      wait = Math.max(0, FILM_LOADER_MIN_MS - (Date.now() - filmLoaderStartedAt));
-
-      window.setTimeout(function () {
-        loader.classList.add('is-ready');
-        document.body.classList.remove('is-home-film-loading');
-
-        window.setTimeout(function () {
-          loader.classList.remove('is-active');
-        }, 460);
-      }, wait);
-    }
-
-    function markFilmLoaderFrame(phase, index) {
-      var key;
-
-      if (!shouldShowFilmLoaderUi() || filmLoaderReady) {
-        return;
-      }
-
-      key = filmLoaderKey(phase, index);
-
-      if (!filmLoaderTargets[key] || filmLoaderDone[key]) {
-        return;
-      }
-
-      filmLoaderDone[key] = true;
-      filmLoaderDoneCount += 1;
-      updateFilmLoaderProgress(filmLoaderDoneCount / Math.max(filmLoaderTargetCount, 1));
-
-      if (filmLoaderDoneCount >= filmLoaderTargetCount) {
-        hideFilmLoader();
-      }
-    }
-
-    function showFilmLoader() {
-      if (!loader || !shouldShowFilmLoaderUi()) {
-        return;
-      }
-
-      setupFilmLoaderTargets();
-
-      if (filmLoaderTargetCount <= 0) {
-        return;
-      }
-
-      filmLoaderStartedAt = Date.now();
-      loader.classList.remove('is-ready');
-      loader.classList.add('is-active');
-      document.body.classList.add('is-home-film-loading');
-      updateFilmLoaderProgress(0.08);
     }
 
     function isImageReady(img) {
@@ -3966,8 +3852,6 @@
                   failedLoads += 1;
                 }
 
-                markFilmLoaderFrame(phase, idx);
-
                 if (idx === 0 && phase === 1 && isImageReady(img)) {
                   drawImage(img);
                 }
@@ -4018,12 +3902,6 @@
         p2Images = new Array(P2_COUNT).fill(null);
         container.__homeFilmP1Images = p1Images;
         container.__homeFilmP2Images = p2Images;
-      }
-
-      if (shouldShowFilmLoaderUi()) {
-        showFilmLoader();
-      } else if (loader) {
-        document.body.classList.add('is-home-film-loading');
       }
 
       var p1Preload = preloadFilmPhase(1, P1_COUNT, p1Images);
