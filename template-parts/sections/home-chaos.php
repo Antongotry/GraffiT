@@ -17,6 +17,13 @@ declare(strict_types=1);
         </h2>
 
         <div class="home-chaos__content">
+            <style>
+                @media (max-width: 1024px) {
+                    .home-chaos__headline-line {
+                        display: block;
+                    }
+                }
+            </style>
             <p class="home-chaos__headline">
                 <span class="home-chaos__headline-line">Коли шаблонні </span><span class="home-chaos__headline-line">рішення не працюють </span><span class="home-chaos__headline-line">– ми створюємо свої</span>
             </p>
