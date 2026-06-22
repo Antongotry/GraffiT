@@ -3314,11 +3314,26 @@
         return answer.offsetHeight;
       }
 
+      function refreshFaqLayout() {
+        window.requestAnimationFrame(function () {
+          var lenis = window.__graffitLenis;
+
+          if (lenis && typeof lenis.resize === 'function') {
+            lenis.resize();
+          }
+
+          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+            window.ScrollTrigger.refresh();
+          }
+        });
+      }
+
       function finishAnimation() {
         answer.style.removeProperty('transition');
         answer.style.removeProperty('max-height');
         answer.style.removeProperty('opacity');
         answer.style.removeProperty('padding-bottom');
+        details.classList.remove('is-faq-animating');
         isAnimating = false;
       }
 
@@ -3330,6 +3345,7 @@
         var didClose = false;
 
         isAnimating = true;
+        details.classList.add('is-faq-animating');
         answer.style.transition = 'none';
         answer.style.maxHeight = currentHeight + 'px';
         answer.style.opacity = '1';
@@ -3352,6 +3368,7 @@
           window.clearTimeout(closeTimer);
           details.open = false;
           finishAnimation();
+          refreshFaqLayout();
           answer.removeEventListener('transitionend', onClose);
         }
 
@@ -3371,6 +3388,7 @@
         var didOpen = false;
 
         isAnimating = true;
+        details.classList.add('is-faq-animating');
         details.open = true;
         answer.style.transition = 'none';
         answer.style.maxHeight = 'none';
@@ -3399,11 +3417,21 @@
 
           didOpen = true;
           window.clearTimeout(openTimer);
-          answer.style.maxHeight = 'none';
-          answer.style.removeProperty('opacity');
-          answer.style.removeProperty('padding-bottom');
-          isAnimating = false;
           answer.removeEventListener('transitionend', onOpen);
+
+          var finalHeight = answer.scrollHeight;
+          answer.style.maxHeight = finalHeight + 'px';
+
+          window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(function () {
+              answer.style.maxHeight = 'none';
+              answer.style.removeProperty('opacity');
+              answer.style.removeProperty('padding-bottom');
+              details.classList.remove('is-faq-animating');
+              isAnimating = false;
+              refreshFaqLayout();
+            });
+          });
         }
 
         var onOpen = function (ev) {
