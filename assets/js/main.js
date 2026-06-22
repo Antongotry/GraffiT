@@ -4219,9 +4219,30 @@
       });
     }
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    function homeFilmCanvasTargetSize() {
+      var rect = canvas.getBoundingClientRect();
+
+      return {
+        width: Math.max(1, Math.round(rect.width || window.innerWidth || 1)),
+        height: Math.max(1, Math.round(rect.height || window.innerHeight || 1))
+      };
+    }
+
+    function resizeCanvas(options) {
+      var targetSize = homeFilmCanvasTargetSize();
+      var previousImage = lastDrawnImage;
+      var previousPhase = activePhase;
+      var didResize = canvas.width !== targetSize.width || canvas.height !== targetSize.height;
+
+      if (didResize) {
+        canvas.width = targetSize.width;
+        canvas.height = targetSize.height;
+      }
+
+      if (didResize && options && options.redrawLastFrame && isImageReady(previousImage)) {
+        drawImage(previousImage, previousPhase);
+      }
+
       syncHomeScrollFilmFrame();
     }
 
@@ -4749,11 +4770,11 @@
           homeFilmResizeRaf = 0;
 
           if (!shouldRefreshLayout) {
-            syncHomeScrollFilmFrame();
+            resizeCanvas({ redrawLastFrame: true });
             return;
           }
 
-          resizeCanvas();
+          resizeCanvas({ redrawLastFrame: true });
 
           if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
             window.ScrollTrigger.refresh();
