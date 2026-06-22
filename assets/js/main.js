@@ -3535,6 +3535,9 @@
       return Math.max(0, Math.round(configNumber(value, fallback)));
     }
 
+    var MOBILE_FILM_SOURCE = 'mobile-ezgif-121';
+    var MOBILE_FILM_CACHE_KEY = 'home-film-mobile-59266015f41124da';
+
     function mobileFilmFallbackConfig(baseConfig) {
       var base = (baseConfig && baseConfig.p1Base) || DEFAULT_LEGACY_BASE;
 
@@ -3542,40 +3545,54 @@
         enabled: true,
         p1Base: base,
         p2Base: base,
-        p1Last: 180,
-        p2Last: 210,
-        poster: base + '001_result-2-scaled.webp',
+        p1Last: 120,
+        p2Last: 120,
+        poster: base + '001_result-4.webp',
         pad: 3,
-        ext: '_result-2-scaled.webp',
+        ext: '_result-4.webp',
         scrollPace: 1,
         phase2ScrollPace: 1.85,
-        source: 'mobile-ezgif',
+        source: MOBILE_FILM_SOURCE,
         p2FrameOffset: 1,
-        p2Ext: '_result-1-scaled.webp',
-        p2AltExt: '_result-3-scaled.webp',
-        p2AltLastFrame: 181,
-        p2TailFrameSkip: 30,
-        cacheKey: 'home-film-mobile-43ea98d768e92cd2'
+        p2Ext: '_result-5.webp',
+        p2AltExt: '',
+        p2AltLastFrame: 0,
+        p2TailFrameSkip: 0,
+        cacheKey: MOBILE_FILM_CACHE_KEY
       };
     }
 
     function normalizeMobileFilmConfig(config) {
       var normalized;
 
-      if (!config || config.source !== 'mobile-ezgif') {
+      if (!config) {
         return config;
       }
 
-      if (config.p2Ext !== '_result-1-scaled.webp' || config.p2AltExt !== '_result-3-scaled.webp') {
+      if (
+        config.source !== 'mobile-ezgif' &&
+        config.ext !== '_result-2-scaled.webp' &&
+        config.p2Ext !== '_result-1-scaled.webp' &&
+        config.p2AltExt !== '_result-3-scaled.webp'
+      ) {
+        if (config.source === MOBILE_FILM_SOURCE) {
+          normalized = Object.assign({}, config);
+          normalized.p1Last = 120;
+          normalized.p2Last = 120;
+          normalized.p2FrameOffset = 1;
+          normalized.p2Ext = '_result-5.webp';
+          normalized.p2AltExt = '';
+          normalized.p2AltLastFrame = 0;
+          normalized.p2TailFrameSkip = 0;
+          normalized.cacheKey = MOBILE_FILM_CACHE_KEY;
+
+          return normalized;
+        }
+
         return config;
       }
 
-      normalized = Object.assign({}, config);
-      normalized.p2Last = Math.min(configInteger(normalized.p2Last, 210), 210);
-      normalized.p2TailFrameSkip = configInteger(normalized.p2TailFrameSkip, 30) || 30;
-      normalized.cacheKey = 'home-film-mobile-43ea98d768e92cd2';
-
-      return normalized;
+      return mobileFilmFallbackConfig(config);
     }
 
     var rootFilmConfig = window.graffitHomeFilm || {};
