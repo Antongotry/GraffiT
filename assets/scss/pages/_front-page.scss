@@ -1420,16 +1420,14 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 .home-faq__answer {
   overflow: hidden;
   max-height: 0;
-  opacity: 0;
   box-sizing: border-box;
-  transition:
-    max-height 450ms cubic-bezier(0.33, 1, 0.68, 1),
-    opacity 380ms cubic-bezier(0.33, 1, 0.68, 1),
-    padding 450ms cubic-bezier(0.33, 1, 0.68, 1);
+  --faq-answer-padding-bottom: #{mixins.vw(24px)};
   padding: 0 #{mixins.vw(24px)};
+  padding-bottom: 0;
   color: #3a3f47;
   font-size: #{mixins.vw(15px)};
   line-height: 1.5;
+  transition: max-height 450ms cubic-bezier(0.33, 1, 0.68, 1);
 
   p {
     margin: 0;
@@ -1437,16 +1435,13 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
 
   .home-faq__item[open]:not(.is-faq-animating) & {
     max-height: none;
-    opacity: 1;
-    padding-bottom: #{mixins.vw(24px)};
+    padding-bottom: var(--faq-answer-padding-bottom);
   }
 
   @include mixins.mobile {
+    --faq-answer-padding-bottom: #{mixins.mvw(16px)};
     padding: 0 #{mixins.mvw(16px)};
+    padding-bottom: 0;
     font-size: #{mixins.mvw(13px)};
-
-    .home-faq__item[open]:not(.is-faq-animating) & {
-      padding-bottom: #{mixins.mvw(16px)};
-    }
   }
 }
