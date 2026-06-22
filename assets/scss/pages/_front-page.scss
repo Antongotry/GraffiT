@@ -1124,6 +1124,14 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   }
 }
 
+.home-chaos__headline-break {
+  display: none;
+
+  @include mixins.mobile {
+    display: inline;
+  }
+}
+
 .home-chaos__content {
   display: flex;
   flex-direction: column;
