@@ -6,6 +6,33 @@
     return (window.innerWidth || document.documentElement.clientWidth || 1440) <= GRAFFIT_MOBILE_MAX_WIDTH;
   }
 
+  function readViewportResizeState() {
+    var width = window.innerWidth || document.documentElement.clientWidth || 1440;
+    var height = window.innerHeight || document.documentElement.clientHeight || 900;
+
+    return {
+      width: width,
+      height: height,
+      dpr: window.devicePixelRatio || 1,
+      landscape: width > height
+    };
+  }
+
+  function shouldRefreshLayoutForViewportResize(previousState) {
+    var nextState = readViewportResizeState();
+    var isMeaningfulResize = !isMobileViewport()
+      || Math.abs(nextState.width - previousState.width) > 2
+      || Math.abs(nextState.dpr - previousState.dpr) > 0.01
+      || nextState.landscape !== previousState.landscape;
+
+    previousState.width = nextState.width;
+    previousState.height = nextState.height;
+    previousState.dpr = nextState.dpr;
+    previousState.landscape = nextState.landscape;
+
+    return isMeaningfulResize;
+  }
+
   function prefersReducedMotion() {
     return !!(
       window.matchMedia &&
@@ -2222,7 +2249,13 @@
 
   if (!window.__graffitClientsScrollerResize) {
     window.__graffitClientsScrollerResize = true;
+    window.__graffitClientsScrollerResizeState = readViewportResizeState();
+
     window.addEventListener('resize', function () {
+      if (!shouldRefreshLayoutForViewportResize(window.__graffitClientsScrollerResizeState)) {
+        return;
+      }
+
       window.clearTimeout(window.__graffitClientsScrollerResizeTimer);
       window.__graffitClientsScrollerResizeTimer = window.setTimeout(function () {
         initClientsScroller();
@@ -3678,7 +3711,7 @@
     var FILM_SCROLL_PACE = configNumber(filmConfig.scrollPace, 1);
     var FILM_PHASE2_SCROLL_PACE = configNumber(filmConfig.phase2ScrollPace, 1.85);
     var filmPhase2Latched = !!container.__homeFilmPhase2Latched;
-    var FILM_PRELOAD_CONCURRENCY = isMobileViewport() ? 10 : 18;
+    var FILM_PRELOAD_CONCURRENCY = isMobileViewport() ? 6 : 18;
     var activePhase = 1;
     var currentIndex = -1;
     var lastDrawnImage = null;
@@ -3839,6 +3872,35 @@
       return !!(img && img.complete && img.naturalWidth);
     }
 
+    function syncFilmFrameWhenReady(img) {
+      if (!img || img.__homeFilmSyncBound || isImageReady(img)) {
+        return;
+      }
+
+      img.__homeFilmSyncBound = true;
+      img.addEventListener('load', function () {
+        if (typeof img.decode === 'function') {
+          img.decode().then(syncHomeScrollFilmFrame).catch(syncHomeScrollFilmFrame);
+          return;
+        }
+
+        syncHomeScrollFilmFrame();
+      }, { once: true });
+    }
+
+    function promoteFilmImagePriority(img) {
+      if (!img || img.__homeFilmHighPriority) {
+        return;
+      }
+
+      img.__homeFilmHighPriority = true;
+      img.loading = 'eager';
+
+      try {
+        img.fetchPriority = 'high';
+      } catch (error) {}
+    }
+
     function queueFilmFrameLoad(phase, index, highPriority) {
       var images = phase === 1 ? p1Images : p2Images;
       var count = phase === 1 ? P1_COUNT : P2_COUNT;
@@ -3857,6 +3919,11 @@
       }
 
       if (img && img.__homeFilmLoadBound) {
+        if (highPriority) {
+          promoteFilmImagePriority(img);
+        }
+
+        syncFilmFrameWhenReady(img);
         return;
       }
 
@@ -3867,17 +3934,10 @@
       img.decoding = 'async';
 
       if (highPriority) {
-        img.fetchPriority = 'high';
+        promoteFilmImagePriority(img);
       }
 
-      img.addEventListener('load', function () {
-        if (typeof img.decode === 'function') {
-          img.decode().then(syncHomeScrollFilmFrame).catch(syncHomeScrollFilmFrame);
-          return;
-        }
-
-        syncHomeScrollFilmFrame();
-      }, { once: true });
+      syncFilmFrameWhenReady(img);
 
       img.addEventListener('error', function () {
         if (!img.__homeFilmRetried) {
@@ -3892,8 +3952,8 @@
     function warmFilmFramesAround(phase, index) {
       var lastIndex = phase === 1 ? P1_LAST : P2_LAST;
       var mobileFilm = isMobileFilmLayout();
-      var behind = mobileFilm ? (phase === 2 ? 18 : 10) : 20;
-      var ahead = mobileFilm ? (phase === 2 ? 48 : 34) : 20;
+      var behind = mobileFilm ? (phase === 2 ? 20 : 12) : 20;
+      var ahead = mobileFilm ? (phase === 2 ? 56 : 42) : 20;
       var start = Math.max(0, index - behind);
       var end = Math.min(lastIndex, index + ahead);
       var i;
@@ -3971,8 +4031,8 @@
       var order = [];
       var seen = new Set();
       var mobileFilm = isMobileFilmLayout();
-      var leadCount = mobileFilm ? (phase === 2 ? 28 : 36) : count;
-      var keyframeStep = phase === 2 ? 4 : 5;
+      var leadCount = mobileFilm ? (phase === 2 ? 56 : 52) : count;
+      var keyframeStep = mobileFilm ? 3 : (phase === 2 ? 4 : 5);
       var i;
 
       function pushIndex(index) {
@@ -4094,7 +4154,8 @@
 
               img.loading = 'eager';
 
-              if (orderPosition < (isMobileFilmLayout() ? 36 : 8)) {
+              if (orderPosition < (isMobileFilmLayout() ? 48 : 8)) {
+                img.__homeFilmHighPriority = true;
                 img.fetchPriority = 'high';
               }
 
@@ -4542,6 +4603,8 @@
     var chaos = document.querySelector('.home-chaos');
 
     resizeCanvas();
+    var homeFilmViewportState = readViewportResizeState();
+    var homeFilmResizeRaf = 0;
 
     var st1State = { frame: 0 };
 
@@ -4642,11 +4705,26 @@
       container.__homeFilmResizeBound = true;
 
       window.addEventListener('resize', function () {
-        resizeCanvas();
-
-        if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
-          window.ScrollTrigger.refresh();
+        if (homeFilmResizeRaf) {
+          return;
         }
+
+        homeFilmResizeRaf = window.requestAnimationFrame(function () {
+          var shouldRefreshLayout = shouldRefreshLayoutForViewportResize(homeFilmViewportState);
+
+          homeFilmResizeRaf = 0;
+
+          if (!shouldRefreshLayout) {
+            syncHomeScrollFilmFrame();
+            return;
+          }
+
+          resizeCanvas();
+
+          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
+            window.ScrollTrigger.refresh();
+          }
+        });
       }, { passive: true });
     }
 
@@ -5120,6 +5198,10 @@
             typeof window.ScrollTrigger.getAll === 'function' &&
             window.ScrollTrigger.getAll().length === 0
           ) {
+            return;
+          }
+
+          if (isMobileViewport() && document.querySelector('.site-main--home')) {
             return;
           }
 
