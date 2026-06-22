@@ -303,6 +303,16 @@
     padding-top: #{mixins.mvw(24px)};
   }
 
+  .home-hex-projects-flow #services-projects .services-projects__stage {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 0;
+    overscroll-behavior-x: contain;
+    touch-action: pan-y;
+  }
+
   .home-hex-projects-flow #services-projects.services-projects:has(.services-projects__bg) .services-projects__container {
     margin-top: #{mixins.mvw(24px)};
   }
