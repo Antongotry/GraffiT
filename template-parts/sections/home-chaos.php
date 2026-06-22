@@ -18,9 +18,9 @@ declare(strict_types=1);
 
         <div class="home-chaos__content">
             <p class="home-chaos__headline">
-                Коли шаблонні<br class="home-chaos__headline-break">
-                рішення не працюють<br class="home-chaos__headline-break">
-                – ми створюємо свої
+                Коли шаблонні рішення не<br class="home-chaos__headline-break">
+                працюють – ми<br class="home-chaos__headline-break">
+                створюємо свої
             </p>
 
             <p class="home-chaos__experience">&gt;18 років<br>досвіду</p>
