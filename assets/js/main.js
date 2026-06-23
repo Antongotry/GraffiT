@@ -3445,8 +3445,8 @@
             lenis.resize();
           }
 
-          if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
-            window.ScrollTrigger.refresh();
+          if (window.ScrollTrigger && typeof window.ScrollTrigger.update === 'function') {
+            window.ScrollTrigger.update();
           }
         });
       }
@@ -3472,10 +3472,12 @@
       }
 
       function closeAnswer() {
-        var currentHeight = answer.scrollHeight;
+        var paddingBottom = getFaqPaddingBottom();
         var closeTimer;
         var didClose = false;
 
+        answer.style.paddingBottom = paddingBottom;
+        var currentHeight = answer.scrollHeight;
         isAnimating = true;
         details.classList.add('is-faq-animating');
         answer.style.transition = 'none';
@@ -3484,6 +3486,7 @@
         answer.style.removeProperty('transition');
 
         requestAnimationFrame(function () {
+          answer.style.paddingBottom = '0px';
           answer.style.maxHeight = '0px';
         });
 
@@ -3511,13 +3514,13 @@
 
       function openAnswer() {
         var paddingBottom = getFaqPaddingBottom();
-        var targetHeight = measureOpenHeight(paddingBottom);
         var openTimer;
         var didOpen = false;
 
         isAnimating = true;
         details.classList.add('is-faq-animating');
         details.open = true;
+        var targetHeight = measureOpenHeight(paddingBottom);
         answer.style.maxHeight = '0px';
         answer.style.paddingBottom = '0px';
         forceAnswerLayout();
@@ -3562,6 +3565,33 @@
 
         openAnswer();
       });
+    });
+  }
+
+  function initImageFallbacks() {
+    var images = document.querySelectorAll('img[data-fallback-src]');
+
+    images.forEach(function (img) {
+      var fallbackSrc = img.getAttribute('data-fallback-src');
+
+      if (!fallbackSrc) {
+        return;
+      }
+
+      function applyFallback() {
+        if (img.getAttribute('src') === fallbackSrc || img.currentSrc === fallbackSrc) {
+          return;
+        }
+
+        img.removeAttribute('srcset');
+        img.src = fallbackSrc;
+      }
+
+      img.addEventListener('error', applyFallback, { once: true });
+
+      if (img.complete && !img.naturalWidth) {
+        applyFallback();
+      }
     });
   }
 
@@ -5300,6 +5330,7 @@
   runInit(initScrollPerformanceConfig, 'scroll-performance-config');
   runInit(initLenis, 'lenis');
   runInit(initHeaderScrollBlur, 'header-scroll-blur');
+  runInit(initImageFallbacks, 'image-fallbacks');
   runInit(initHomeScrollFilm, 'home-scroll-film');
   runInit(initHomeChaosFilm, 'home-chaos-film');
   runInit(initHomeShowcaseParallax, 'home-showcase-parallax');

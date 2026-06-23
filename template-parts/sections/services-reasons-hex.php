@@ -61,11 +61,13 @@ $reasons_stack_icons = [
 $reasons_side_photo  = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/621_result.webp';
 $reasons_lower_photo = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
 /** Mobile honeycomb composite (672×607 @ 375). */
-$hex_mobile_composite_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/phonemob_result.webp';
+$hex_mobile_composite_url = graffit_hex_reasons_mobile_composite_url();
 /** Mobile row 1 right hex: enterprise stack logos strip (120px wide). */
-$hex_mobile_stack_logos_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/Frame-2087325633_result.webp';
+$hex_mobile_stack_logos_url = graffit_hex_reasons_mobile_stack_logos_url();
 /** Mobile bottom photo hex (masked portrait). */
-$hex_mobile_photo_url = 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/Polygon-26.png';
+$hex_mobile_photo_url = graffit_hex_reasons_mobile_photo_url();
+$hex_mobile_photo_fallback_url = graffit_hex_reasons_mobile_photo_fallback_url();
+$hex_mobile_photo_is_priority = graffit_current_request_path() === 'services';
 
 $cover_style   = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['cover'] ) );
 $primary_style = sprintf( "--hex-card-bg: url('%s');", esc_url_raw( $hex_card_images['primary'] ) );
@@ -204,10 +206,14 @@ $home_card_style = $reasons_hex['section_extra_class'] === 'hex-reasons--home'
             <img
                 class="hex-reasons__m-photo-img"
                 src="<?php echo esc_url( $hex_mobile_photo_url ); ?>"
+                data-fallback-src="<?php echo esc_url( $hex_mobile_photo_fallback_url ); ?>"
                 alt=""
                 width="365"
                 height="365"
-                loading="lazy"
+                loading="<?php echo esc_attr( $hex_mobile_photo_is_priority ? 'eager' : 'lazy' ); ?>"
+                <?php if ( $hex_mobile_photo_is_priority ) : ?>
+                    fetchpriority="high"
+                <?php endif; ?>
                 decoding="async"
             >
         </div>

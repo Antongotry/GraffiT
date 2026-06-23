@@ -1561,7 +1561,9 @@ $home-gradient-sphere-url: "https://lavenderblush-bat-855084.hostingersite.com/w
   color: #3a3f47;
   font-size: #{mixins.vw(15px)};
   line-height: 1.5;
-  transition: max-height 450ms cubic-bezier(0.33, 1, 0.68, 1);
+  transition:
+    max-height 450ms cubic-bezier(0.33, 1, 0.68, 1),
+    padding-bottom 450ms cubic-bezier(0.33, 1, 0.68, 1);
 
   p {
     margin: 0;

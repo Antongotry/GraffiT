@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 if (! defined('GRAFFIT_THEME_VERSION')) {
-    define('GRAFFIT_THEME_VERSION', '0.1.426');
+    define('GRAFFIT_THEME_VERSION', '0.1.427');
 }
 
 /**
@@ -359,6 +359,38 @@ function graffit_services_process_image_mobile_url(): string
 }
 
 /**
+ * Mobile honeycomb composite for the reusable hex reasons section.
+ */
+function graffit_hex_reasons_mobile_composite_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/phonemob_result.webp';
+}
+
+/**
+ * Mobile enterprise stack logos strip for the reusable hex reasons section.
+ */
+function graffit_hex_reasons_mobile_stack_logos_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/Frame-2087325633_result.webp';
+}
+
+/**
+ * Mobile bottom photo hex for the reusable hex reasons section.
+ */
+function graffit_hex_reasons_mobile_photo_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/06/Polygon-26.png';
+}
+
+/**
+ * Fallback photo for the mobile bottom photo hex.
+ */
+function graffit_hex_reasons_mobile_photo_fallback_url(): string
+{
+    return 'https://lavenderblush-bat-855084.hostingersite.com/wp-content/uploads/2026/04/Polygon-110_result.webp';
+}
+
+/**
  * Header logo URL.
  */
 function graffit_logo_url(): string
@@ -388,6 +420,8 @@ function graffit_preload_services_hero(): void
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_services_experience_image_url()) . '">' . "\n";
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_services_automation_image_url()) . '">' . "\n";
     echo '<link rel="preload" as="image" href="' . esc_url(graffit_services_outsourcing_image_url()) . '">' . "\n";
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_hex_reasons_mobile_composite_url()) . '" media="(max-width: 1024px)">' . "\n";
+    echo '<link rel="preload" as="image" href="' . esc_url(graffit_hex_reasons_mobile_photo_url()) . '" media="(max-width: 1024px)">' . "\n";
 }
 add_action('wp_head', 'graffit_preload_services_hero', 3);
 
