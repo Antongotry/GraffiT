@@ -1573,7 +1573,6 @@
   z-index: 70;
   margin-top: 0;
   overflow: hidden;
-  overflow-anchor: none;
   isolation: isolate;
   background: #000102;
   clip-path: none;
@@ -1681,7 +1680,6 @@
   margin-top: #{mixins.vw(64px)};
   text-align: left;
   align-items: start;
-  overflow-anchor: none;
 
   @include mixins.mobile {
     grid-template-columns: 1fr;
@@ -1697,7 +1695,6 @@
   align-self: start;
   width: 100%;
   min-width: 0;
-  overflow-anchor: none;
 
   @include mixins.mobile {
     gap: #{mixins.mvw(12px)};
@@ -1709,7 +1706,6 @@
   border: 1px solid #0073e6;
   background: #000102;
   overflow: hidden;
-  overflow-anchor: none;
   box-sizing: border-box;
 
   @include mixins.mobile {

@@ -65,7 +65,7 @@ $faq_right = [
                             <span class="mediahub-faq__question-text"><?php echo esc_html($item['question']); ?></span>
                             <span class="mediahub-faq__chevron" aria-hidden="true"></span>
                         </summary>
-                        <div class="mediahub-faq__answer js-faq-answer">
+                        <div class="mediahub-faq__answer">
                             <p><?php echo esc_html($item['answer']); ?></p>
                         </div>
                     </details>
@@ -79,7 +79,7 @@ $faq_right = [
                             <span class="mediahub-faq__question-text"><?php echo esc_html($item['question']); ?></span>
                             <span class="mediahub-faq__chevron" aria-hidden="true"></span>
                         </summary>
-                        <div class="mediahub-faq__answer js-faq-answer">
+                        <div class="mediahub-faq__answer">
                             <p><?php echo esc_html($item['answer']); ?></p>
                         </div>
                     </details>

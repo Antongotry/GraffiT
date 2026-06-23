@@ -3419,12 +3419,17 @@
   }
 
   function initFaqAccordion() {
-    var items = document.querySelectorAll('.js-faq-item');
+    var items = document.querySelectorAll('.js-faq-item:not([data-faq-init])');
 
     items.forEach(function (details) {
       var summary = details.querySelector('summary');
-      var answer = details.querySelector('.home-faq__answer, .js-faq-answer');
-      if (!summary || !answer) return;
+      var answer = details.querySelector('.home-faq__answer, .mediahub-faq__answer, .js-faq-answer');
+
+      if (!summary || !answer) {
+        return;
+      }
+
+      details.setAttribute('data-faq-init', 'true');
 
       var isAnimating = false;
 
@@ -3451,78 +3456,6 @@
         });
       }
 
-      function noop() {}
-
-      function currentScrollTop() {
-        var lenis = window.__graffitLenis;
-
-        if (lenis && typeof lenis.scroll === 'number') {
-          return lenis.scroll;
-        }
-
-        return window.scrollY || document.documentElement.scrollTop || 0;
-      }
-
-      function setScrollTop(value) {
-        var lenis = window.__graffitLenis;
-
-        if (lenis && typeof lenis.scrollTo === 'function') {
-          lenis.scrollTo(value, { immediate: true });
-          return;
-        }
-
-        window.scrollTo(window.scrollX || 0, value);
-      }
-
-      function createFaqScrollLock(anchor) {
-        if (!anchor || !details.closest('.mediahub-faq')) {
-          return {
-            sync: noop,
-            stop: noop
-          };
-        }
-
-        var lockedTop = anchor.getBoundingClientRect().top;
-        var isLocked = true;
-        var frameId = 0;
-
-        function sync() {
-          if (!isLocked) {
-            return;
-          }
-
-          var delta = anchor.getBoundingClientRect().top - lockedTop;
-
-          if (Math.abs(delta) < 0.5) {
-            return;
-          }
-
-          setScrollTop(currentScrollTop() + delta);
-        }
-
-        function tick() {
-          sync();
-
-          if (isLocked) {
-            frameId = window.requestAnimationFrame(tick);
-          }
-        }
-
-        frameId = window.requestAnimationFrame(tick);
-
-        return {
-          sync: sync,
-          stop: function () {
-            sync();
-            isLocked = false;
-
-            if (frameId) {
-              window.cancelAnimationFrame(frameId);
-            }
-          }
-        };
-      }
-
       function finishAnimation() {
         answer.style.removeProperty('transition');
         answer.style.removeProperty('max-height');
@@ -3543,7 +3476,7 @@
         return height;
       }
 
-      function closeAnswer(scrollLock) {
+      function closeAnswer() {
         var paddingBottom = getFaqPaddingBottom();
         var closeTimer;
         var didClose = false;
@@ -3556,12 +3489,10 @@
         answer.style.maxHeight = currentHeight + 'px';
         forceAnswerLayout();
         answer.style.removeProperty('transition');
-        scrollLock.sync();
 
         requestAnimationFrame(function () {
           answer.style.paddingBottom = '0px';
           answer.style.maxHeight = '0px';
-          scrollLock.sync();
         });
 
         function completeClose() {
@@ -3573,7 +3504,6 @@
           window.clearTimeout(closeTimer);
           details.open = false;
           finishAnimation();
-          scrollLock.stop();
           refreshFaqLayout();
           answer.removeEventListener('transitionend', onClose);
         }
@@ -3587,7 +3517,7 @@
         closeTimer = window.setTimeout(completeClose, 500);
       }
 
-      function openAnswer(scrollLock) {
+      function openAnswer() {
         var paddingBottom = getFaqPaddingBottom();
         var openTimer;
         var didOpen = false;
@@ -3599,12 +3529,10 @@
         answer.style.maxHeight = '0px';
         answer.style.paddingBottom = '0px';
         forceAnswerLayout();
-        scrollLock.sync();
 
         requestAnimationFrame(function () {
           answer.style.paddingBottom = paddingBottom;
           answer.style.maxHeight = targetHeight + 'px';
-          scrollLock.sync();
         });
 
         function completeOpen() {
@@ -3619,7 +3547,6 @@
           answer.style.removeProperty('padding-bottom');
           details.classList.remove('is-faq-animating');
           isAnimating = false;
-          scrollLock.stop();
           refreshFaqLayout();
         }
 
@@ -3634,16 +3561,17 @@
 
       summary.addEventListener('click', function (e) {
         e.preventDefault();
-        if (isAnimating) return;
 
-        var scrollLock = createFaqScrollLock(summary);
-
-        if (details.open) {
-          closeAnswer(scrollLock);
+        if (isAnimating) {
           return;
         }
 
-        openAnswer(scrollLock);
+        if (details.open) {
+          closeAnswer();
+          return;
+        }
+
+        openAnswer();
       });
     });
   }
