@@ -1064,7 +1064,7 @@
   @include mixins.mobile {
     .services-process__container {
       width: min(100% - #{mixins.mvw(32px)}, 100%);
-      padding: #{mixins.mvw(72px)} 0 #{mixins.mvw(24px)};
+      padding: #{mixins.mvw(40px)} 0 #{mixins.mvw(8px)};
     }
 
     .services-process__layout {
@@ -1197,7 +1197,7 @@
     .services-projects__viewport {
       display: block;
       min-height: 0;
-      padding: #{mixins.mvw(24px)} 0 #{mixins.mvw(56px)};
+      padding: #{mixins.mvw(8px)} 0 #{mixins.mvw(56px)};
     }
 
     .services-projects__container {
