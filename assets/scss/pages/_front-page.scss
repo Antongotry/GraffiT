@@ -302,7 +302,7 @@
   .home-hex-projects-flow #services-projects .services-projects__viewport {
     display: block;
     min-height: 0;
-    padding: #{mixins.mvw(8px)} 0 #{mixins.mvw(56px)};
+    padding: #{mixins.mvw(24px)} 0 #{mixins.mvw(56px)};
   }
 
   .home-hex-projects-flow #services-projects .services-projects__container {
@@ -432,7 +432,7 @@
   }
 
   .home-hex-projects-flow #services-projects.services-projects:has(.services-projects__bg) .services-projects__container {
-    margin-top: 0;
+    margin-top: #{mixins.mvw(72px)};
   }
 }
 
